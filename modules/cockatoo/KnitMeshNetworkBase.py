@@ -17,6 +17,10 @@ class KnitMeshNetworkBase(nx.Graph):
     # REPRESENTATION OF NETWORK ------------------------------------------------
 
     def ToString(self):
+        """
+        Return a textual description of the network.
+        """
+
         name = "KnitMeshNetworkBase"
         nn = len(self.nodes())
         ce = len(self.ContourEdges)
@@ -114,6 +118,7 @@ class KnitMeshNetworkBase(nx.Graph):
                                  fontsize=nodeFontSize,
                                  margin=0.0001)
 
+        # ad all edges to the render graph
         for edge in kmn_edges:
             padding = "  "
             if edge[2]["weft"]:
@@ -138,6 +143,32 @@ class KnitMeshNetworkBase(nx.Graph):
                                  arrowsize=arrowSize)
 
         return RenderGraph
+
+    # NODE CREATION ------------------------------------------------------------
+
+    def NodeFromPoint3d(self, node_index, pt, position=None, num=None, leaf=False, end=False, segment=None):
+        """
+        Creates a network node from a Rhino Point3d and attributes.
+        """
+
+        # extract node coordinates
+        nodeX = pt.X
+        nodeY = pt.Y
+        nodeZ = pt.Z
+
+        # compile node attributes
+        node_attributes = {"x": nodeX,
+                           "y": nodeY,
+                           "z": nodeZ,
+                           "position": position,
+                           "num": num,
+                           "leaf": leaf,
+                           "end": end,
+                           "segment": segment,
+                           "geo": pt}
+
+        # add the node to the network instance
+        self.add_node(node_index, node_attributes)
 
     # PROPERTIES ---------------------------------------------------------------
 
@@ -275,7 +306,7 @@ class KnitMeshNetworkBase(nx.Graph):
             contour.Dispose()
         return (longestPosition, longestContour, longestLength)
 
-    # EDGE METHODS -------------------------------------------------------------
+    # EDGE CREATION METHODS ----------------------------------------------------
 
     def CreateContourEdge(self, From, To):
         """

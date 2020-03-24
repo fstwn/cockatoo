@@ -24,6 +24,10 @@ class KnitMeshNetwork(KnitMeshNetworkBase):
     # REPRESENTATION OF NETWORK ------------------------------------------------
 
     def ToString(self):
+        """
+        Return a textual description of the network.
+        """
+
         name = "KnitMeshNetwork"
         nn = len(self.nodes())
         ce = len(self.ContourEdges)
