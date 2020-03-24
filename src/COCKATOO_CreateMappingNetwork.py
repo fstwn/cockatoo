@@ -30,7 +30,7 @@ import cockatoo
 ghenv.Component.Name = "CreateMappingNetwork"
 ghenv.Component.NickName ="CMN"
 ghenv.Component.Category = "COCKATOO"
-ghenv.Component.SubCategory = "9 Utilities"
+ghenv.Component.SubCategory = "6 KnitMeshNetwork"
 
 class CreateMappingNetwork(component):
     

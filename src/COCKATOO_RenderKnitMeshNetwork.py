@@ -24,7 +24,7 @@ from cockatoo import KnitMeshNetwork
 ghenv.Component.Name = "RenderKnitMeshNetwork"
 ghenv.Component.NickName ="RKMN"
 ghenv.Component.Category = "COCKATOO"
-ghenv.Component.SubCategory = "9 Utilities"
+ghenv.Component.SubCategory = "7 Visualisation"
 
 class RenderKnitMeshNetwork(component):
     

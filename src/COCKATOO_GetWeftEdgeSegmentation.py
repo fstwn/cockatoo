@@ -30,7 +30,7 @@ from mbe.component import addRuntimeWarning
 ghenv.Component.Name = "GetWeftEdgeSegmentation"
 ghenv.Component.NickName ="GWES"
 ghenv.Component.Category = "COCKATOO"
-ghenv.Component.SubCategory = "9 Utilities"
+ghenv.Component.SubCategory = "6 KnitMeshNetwork"
 
 class GetWeftEdgeSegmentation(component):
     

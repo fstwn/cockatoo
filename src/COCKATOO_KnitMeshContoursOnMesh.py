@@ -40,7 +40,7 @@ from mbe.component import customDisplay
 ghenv.Component.Name = "KnitMeshContoursOnMesh"
 ghenv.Component.NickName ="KMCOM"
 ghenv.Component.Category = "COCKATOO"
-ghenv.Component.SubCategory = "9 Utilities"
+ghenv.Component.SubCategory = "5 Contouring"
 
 class KnitMeshContoursOnMesh(component):
     

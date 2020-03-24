@@ -42,7 +42,7 @@ import mbe.component as ct
 ghenv.Component.Name = "ExtractKnitMeshConstraintsFromMesh"
 ghenv.Component.NickName ="EKMCFM"
 ghenv.Component.Category = "COCKATOO"
-ghenv.Component.SubCategory = "9 Utilities"
+ghenv.Component.SubCategory = "4 Constraint Extraction"
 
 class ExtractKnitMeshConstraintsFromMesh(component):
     

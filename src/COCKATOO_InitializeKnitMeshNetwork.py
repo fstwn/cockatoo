@@ -26,7 +26,7 @@ import cockatoo
 ghenv.Component.Name = "InitializeKnitMeshNetwork"
 ghenv.Component.NickName ="IKMN"
 ghenv.Component.Category = "COCKATOO"
-ghenv.Component.SubCategory = "9 Utilities"
+ghenv.Component.SubCategory = "6 KnitMeshNetwork"
 
 class InitializeKnitMeshNetwork(component):
     

@@ -29,7 +29,7 @@ import cockatoo
 ghenv.Component.Name = "MakeRenderGraph"
 ghenv.Component.NickName ="MRG"
 ghenv.Component.Category = "COCKATOO"
-ghenv.Component.SubCategory = "9 Utilities"
+ghenv.Component.SubCategory = "7 Visualisation"
 
 class MakeRenderGraph(component):
     

@@ -28,7 +28,7 @@ import cockatoo
 ghenv.Component.Name = "CreateWeftConnections"
 ghenv.Component.NickName ="CWC"
 ghenv.Component.Category = "COCKATOO"
-ghenv.Component.SubCategory = "9 Utilities"
+ghenv.Component.SubCategory = "6 KnitMeshNetwork"
 
 class CreateWeftConnections(component):
     
