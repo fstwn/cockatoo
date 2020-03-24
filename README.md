@@ -1,6 +1,6 @@
 # COCKATOO
 
-- This is a set of open-source UserObjects for [Grasshopper](https://www.rhino3d.com/6/new/grasshopper).
+- Cockatoo is a set of open-source UserObjects for [Grasshopper](https://www.rhino3d.com/6/new/grasshopper).
 - Grasshopper is a Plugin for the popular CAD-System [McNeel Rhinoceros 6](https://www.rhino3d.com/).
 - All code here is written in IronPython 2.7.8.0 as this is the interpreter Rhino & Grasshopper use internally.
 
