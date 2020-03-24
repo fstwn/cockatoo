@@ -33,7 +33,6 @@ class InitializeKnitMeshNetwork(component):
     def RunScript(self, KnitMeshContours, CourseHeight):
         
         if KnitMeshContours and CourseHeight:
-            
             # DECLARE OUTPUTS ------------------------------------------------------
             
             # create KnitMeshNetwork (subclass of nx.Graph)
@@ -56,45 +55,34 @@ class InitializeKnitMeshNetwork(component):
                 # loop through all vertices on the current contour
                 for j, vertex in enumerate(dpts):
                     # declare node attributes
-                    vx = vertex.X
-                    vy = vertex.Y
-                    vz = vertex.Z
                     vpos = i
                     vnum = j
                     if j == 0 or j == len(dpts) - 1:
                         vleaf = True
                     else:
                         vleaf = False
-                    vend = False
-                    vsegment = None
                     
-                    # define attribute dictionary
-                    vertex_attrs = {"x": vx,
-                                    "y": vy,
-                                    "z": vz,
-                                    "position": vpos,
-                                    "num": vnum,
-                                    "leaf": vleaf,
-                                    "end": vend,
-                                    "segment": vsegment,
-                                    "geo": vertex}
+                    KMN.NodeFromPoint3d(nodenum,
+                                        vertex,
+                                        vpos,
+                                        vnum,
+                                        vleaf,
+                                        False,
+                                        None)
                     
-                    # add nodes to the network
-                    KMN.add_node(nodenum, vertex_attrs)
                     # increment counter
                     nodenum += 1
             
             # INITIALIZE CONTOUR EDGES ---------------------------------------------
             
-            KMN.InitializeContourEdges()
+            KMN.InitializePositionContourEdges()
             
             # MAKE LEAF VERTEX CONNECTIONS -----------------------------------------
             
             KMN.CreateLeafConnections()
         
         else:
-            
-            KMN = Grasshopper.DataTree[object]()
+            return Grasshopper.DataTree[object]()
         
         # return outputs if you have them; here I try it for you:
         return KMN

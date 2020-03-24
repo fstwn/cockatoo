@@ -13,9 +13,6 @@ TODO: Update docstring!
         Version: 200324
 """
 
-# PYTHON LIBRARY IMPORTS
-from __future__ import division
-
 # GPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
 import Grasshopper, GhPython
@@ -63,9 +60,9 @@ class GetWeftEdgeSegmentation(component):
                         vStr = vStr.format(node[0])
                         addRuntimeWarning(self, vStr)
         elif not Toggle and KMN:
-            KMN = KMN = cockatoo.KnitMeshNetwork(KMN)
+            return KMN
         else:
-            KMN = Grasshopper.DataTree[object]()
+            return Grasshopper.DataTree[object]()
         
         # return outputs if you have them; here I try it for you:
         return KMN

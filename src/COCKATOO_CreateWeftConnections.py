@@ -45,10 +45,10 @@ class CreateWeftConnections(component):
             KMN.CreateWeftConnections(startIndex=SplittingIndex,
                                       precise=Precise,
                                       verbose=False)
+            
         elif not Toggle and KMN:
-            KMN = cockatoo.KnitMeshNetwork(KMN)
+            return KMN
         else:
-            KMN = Grasshopper.DataTree[object]()
+            return Grasshopper.DataTree[object]()
         
-        # return outputs if you have them; here I try it for you:
         return KMN

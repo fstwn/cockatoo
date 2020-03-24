@@ -36,7 +36,7 @@ class MakeRenderGraph(component):
     def RunScript(self, Toggle, KMN):
         
         if Toggle and KMN:
-            RenderGraph = cockatoo.KnitMeshNetwork(KMN).ToRenderGraph()
+            RenderGraph = cockatoo.KnitMeshNetwork(KMN).MakeRenderGraph(True)
         else:
             RenderGraph = Grasshopper.DataTree[object]()
         
