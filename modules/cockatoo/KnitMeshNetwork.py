@@ -1217,3 +1217,44 @@ class KnitMeshNetwork(nx.Graph):
          warp_storage + contour_storage]
 
     # CREATE MAPPING EDGES -----------------------------------------------------
+
+    def CreateMappingNetwork(self):
+        """
+        Creates a mapping network from a KnitMeshNetwork with fully assigned
+        'weft' edge segmentation. Returns a new KnitMeshNetwork which
+        constitutes the mapping network.
+        """
+
+        # copy the input network to not mess with previous components
+        MappingNetwork = KnitMeshNetwork()
+
+        # get all edges by segment
+        WeftEdges = sorted(self.WeftEdges, key=lambda x: x[2]["segment"])
+        WarpEdges = self.WarpEdges
+
+        segment_ids = deque()
+        for edge in WeftEdges:
+            segment_id = edge[2]["segment"]
+            if not segment_id in segment_ids:
+                segment_ids.append(segment_id)
+
+        for id in segment_ids:
+            segment_edges = [e for e in WeftEdges if e[2]["segment"] == id]
+            segment_edges.sort(key=lambda x: x[0])
+
+            startNode = (id[0], self.node[id[0]])
+            endNode = (id[1], self.node[id[1]])
+
+            segment_geo = [e[2]["geo"] for e in segment_edges]
+
+            res = MappingNetwork.CreateMappingEdge(startNode,
+                                                   endNode,
+                                                   segment_geo)
+
+            # half-assed bug checking
+            if not res:
+                print id
+
+        [MappingNetwork.add_edge(e[0], e[1], e[2]) for e in WarpEdges]
+
+        return MappingNetwork
