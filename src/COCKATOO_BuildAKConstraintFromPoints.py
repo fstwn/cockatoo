@@ -23,7 +23,7 @@ import rhinoscriptsyntax as rs
 import scriptcontext
 
 # Library imports
-from cockatoo import autoknit as cak
+from Cockatoo import Autoknit as cak
 
 ghenv.Component.Name = "BuildAKConstraintFromPoints"
 ghenv.Component.NickName ="BAKCFP"

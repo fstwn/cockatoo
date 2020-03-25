@@ -3,13 +3,13 @@ Creates a mapping network from segmented weft edges.
 TODO: Update docstring!
     Inputs:
         Toggle: Set to true to activate {item, boolean}
-        KnitMeshNetwork: An initialized KnitMeshNetwork. {item, KnitMeshNetwork}
+        KnitNetwork: An initialized KnitNetwork. {item, KnitNetwork}
     Output:
-        MappingNetwork: The KnitMeshNetwork with 'weft' connections created. {item, polyline}
+        MappingNetwork: The KnitNetwork with 'weft' connections created. {item, polyline}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200324
+        Version: 200325
 """
 
 # GPYTHON SDK IMPORTS
@@ -20,19 +20,19 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # CUSTOM MODULE IMPORTS
-import cockatoo
+import Cockatoo
 
 ghenv.Component.Name = "CreateMappingNetwork"
 ghenv.Component.NickName ="CMN"
 ghenv.Component.Category = "COCKATOO"
-ghenv.Component.SubCategory = "6 KnitMeshNetwork"
+ghenv.Component.SubCategory = "6 KnitNetwork"
 
 class CreateMappingNetwork(component):
     
-    def RunScript(self, Toggle, KMN):
+    def RunScript(self, Toggle, KN):
         
-        if Toggle and KMN:
-            MappingNetwork = KMN.CreateMappingNetwork()
+        if Toggle and KN:
+            MappingNetwork = KN.CreateMappingNetwork()
         else:
             MappingNetwork = Grasshopper.DataTree[object]()
         

@@ -34,7 +34,7 @@ import rhinoscriptsyntax as rs
 from scriptcontext import sticky as st
 
 # CUSTOM MODULE IMPORTS
-from cockatoo import autoknit as cak
+from Cockatoo import Autoknit as cak
 
 ghenv.Component.Name = "RunAKFromFiles"
 ghenv.Component.NickName ="RAKFF"

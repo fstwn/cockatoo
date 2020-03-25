@@ -11,15 +11,15 @@ import Rhino
 import networkx as nx
 
 # SUBMODULE IMPORTS
-from KnitMeshNetworkBase import KnitMeshNetworkBase
+from KnitNetworkBase import KnitNetworkBase
 
-class KnitMeshMappingNetwork(KnitMeshNetworkBase):
+class KnitMappingNetwork(KnitNetworkBase):
 
     """
     Class for representing a mapping network that facilitates the automatic
     generation of knitting patterns based on Rhino geometry.
     This is intended only to be instanced by a fully segmented instance of
-    KnitMeshNetwork.
+    KnitNetwork.
     """
 
     def ToString(self):
@@ -27,7 +27,7 @@ class KnitMeshMappingNetwork(KnitMeshNetworkBase):
         Return a textual description of the network.
         """
 
-        name = "KnitMeshMappingNetwork"
+        name = "KnitMappingNetwork"
         nn = len(self.nodes())
         ce = len(self.ContourEdges)
         wee = len(self.WeftEdges)

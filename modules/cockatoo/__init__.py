@@ -1,8 +1,8 @@
 # AUTOKNIT SUBMODULE
-import autoknit
+import Autoknit
 
 # KNITMESHNETWORK CLASSES
-from KnitMeshNetworkBase import KnitMeshNetworkBase
+from KnitNetworkBase import KnitNetworkBase
 
-from KnitMeshNetwork import KnitMeshNetwork
-from KnitMeshMappingNetwork import KnitMeshMappingNetwork
+from KnitNetwork import KnitNetwork
+from KnitMappingNetwork import KnitMappingNetwork

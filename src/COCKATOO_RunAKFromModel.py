@@ -32,7 +32,7 @@ import rhinoscriptsyntax as rs
 from scriptcontext import sticky as st
 
 # CUSTOM MODULE IMPORTS
-from cockatoo import autoknit as cak
+from Cockatoo import Autoknit as cak
 
 ghenv.Component.Name = "RunAKFromModel"
 ghenv.Component.NickName ="RAKFM"

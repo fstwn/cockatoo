@@ -4,13 +4,13 @@ to 'weft' edges and vertices.
 TODO: Update docstring!
     Inputs:
         Toggle: {item, boolean}
-        KnitMeshNetwork: An initialized KnitMeshNetwork. {item, KnitMeshNetwork}
+        KnitNetwork: An initialized KnitNetwork. {item, KnitNetwork}
     Output:
-        RenderGraph: The KnitMeshNetwork with 'weft' connections created. {item, polyline}
+        RenderGraph: The KnitNetwork with 'weft' connections created. {item, polyline}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200324
+        Version: 200325
 """
 
 # PYTHON LIBRARY IMPORTS
@@ -24,7 +24,7 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # CUSTOM MODULE IMPORTS
-import cockatoo
+import Cockatoo
 
 ghenv.Component.Name = "MakeRenderGraph"
 ghenv.Component.NickName ="MRG"
@@ -33,10 +33,10 @@ ghenv.Component.SubCategory = "7 Visualisation"
 
 class MakeRenderGraph(component):
     
-    def RunScript(self, Toggle, KMN):
+    def RunScript(self, Toggle, KN):
         
-        if Toggle and KMN:
-            RenderGraph = cockatoo.KnitMeshNetwork(KMN).MakeRenderGraph(True)
+        if Toggle and KN:
+            RenderGraph = Cockatoo.KnitNetwork(KN).MakeRenderGraph(True)
         else:
             RenderGraph = Grasshopper.DataTree[object]()
         

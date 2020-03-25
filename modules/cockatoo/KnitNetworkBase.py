@@ -7,7 +7,7 @@ import Rhino
 # CUSTOM MODULE IMPORTS
 import networkx as nx
 
-class KnitMeshNetworkBase(nx.Graph):
+class KnitNetworkBase(nx.Graph):
 
     """
     Base class for representing a network that facilitates the automatic
@@ -21,7 +21,7 @@ class KnitMeshNetworkBase(nx.Graph):
         Return a textual description of the network.
         """
 
-        name = "KnitMeshNetworkBase"
+        name = "KnitNetworkBase"
         nn = len(self.nodes())
         ce = len(self.ContourEdges)
         wee = len(self.WeftEdges)

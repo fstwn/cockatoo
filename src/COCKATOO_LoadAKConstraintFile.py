@@ -25,7 +25,7 @@ import rhinoscriptsyntax as rs
 import scriptcontext
 
 from mbe.helpers import escapeFilePath
-from cockatoo.autoknit import AKFileIO, AKStoredConstraint
+from Cockatoo.Autoknit import AKFileIO, AKStoredConstraint
 
 ghenv.Component.Name = "LoadAKConstraintFile"
 ghenv.Component.NickName ="LAKCF"

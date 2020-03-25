@@ -4,13 +4,13 @@ to 'weft' edges and vertices.
 TODO: Update docstring!
     Inputs:
         Toggle: Set to true to activate {item, boolean}
-        KnitMeshNetwork: An initialized KnitMeshNetwork. {item, KnitMeshNetwork}
+        KnitNetwork: An initialized KnitNetwork. {item, KnitNetwork}
     Output:
-        KnitMeshNetwork: The KnitMeshNetwork with 'weft' connections created. {item, polyline}
+        KnitNetwork: The KnitNetwork with 'weft' connections created. {item, polyline}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200324
+        Version: 200325
 """
 
 # GPYTHON SDK IMPORTS
@@ -21,29 +21,29 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # CUSTOM MODULE IMPORTS
-import cockatoo
+import Cockatoo
 from mbe.component import addRuntimeWarning
 
 ghenv.Component.Name = "GetWeftEdgeSegmentation"
 ghenv.Component.NickName ="GWES"
 ghenv.Component.Category = "COCKATOO"
-ghenv.Component.SubCategory = "6 KnitMeshNetwork"
+ghenv.Component.SubCategory = "6 KnitNetwork"
 
 class GetWeftEdgeSegmentation(component):
     
-    def RunScript(self, Toggle, KMN):
+    def RunScript(self, Toggle, KN):
         
-        if Toggle and KMN:
+        if Toggle and KN:
             # copy the input network to not mess with previous components
-            KMN = cockatoo.KnitMeshNetwork(KMN)
+            KN = Cockatoo.KnitNetwork(KN)
             
             # GET SEGMENTATION -------------------------------------------------
             
-            KMN.GetWeftEdgeSegmentation()
+            KN.GetWeftEdgeSegmentation()
             
             # CHECK THE RESULTS ------------------------------------------------
             
-            for edge in KMN.edges(data=True):
+            for edge in KN.edges(data=True):
                 s = edge[2]["segment"]
                 w = edge[2]["weft"]
                 if w and not s:
@@ -51,7 +51,7 @@ class GetWeftEdgeSegmentation(component):
                     vStr = vStr.format((edge[0], edge[1]))
                     addRuntimeWarning(self, vStr)
             
-            for node in KMN.nodes(data=True):
+            for node in KN.nodes(data=True):
                 e = node[1]["end"]
                 s = node[1]["segment"]
                 if not s:
@@ -59,10 +59,10 @@ class GetWeftEdgeSegmentation(component):
                         vStr = "node {} has no segment value!"
                         vStr = vStr.format(node[0])
                         addRuntimeWarning(self, vStr)
-        elif not Toggle and KMN:
-            return KMN
+        elif not Toggle and KN:
+            return KN
         else:
             return Grasshopper.DataTree[object]()
         
         # return outputs if you have them; here I try it for you:
-        return KMN
+        return KN

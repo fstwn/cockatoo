@@ -21,7 +21,7 @@ import Rhino
 import rhinoscriptsyntax as rs
 import scriptcontext
 
-from cockatoo import autoknit as cak
+from Cockatoo import Autoknit as cak
 
 ghenv.Component.Name = "BuildAKModel"
 ghenv.Component.NickName ="BAKM"

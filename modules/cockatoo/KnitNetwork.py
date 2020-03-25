@@ -11,10 +11,10 @@ import Rhino
 import networkx as nx
 
 # SUBMODULE IMPORTS
-from KnitMeshNetworkBase import KnitMeshNetworkBase
-from KnitMeshMappingNetwork import KnitMeshMappingNetwork
+from KnitNetworkBase import KnitNetworkBase
+from KnitMappingNetwork import KnitMappingNetwork
 
-class KnitMeshNetwork(KnitMeshNetworkBase):
+class KnitNetwork(KnitNetworkBase):
 
     """
     Class for representing a network that facilitates the automatic generation
@@ -28,7 +28,7 @@ class KnitMeshNetwork(KnitMeshNetworkBase):
         Return a textual description of the network.
         """
 
-        name = "KnitMeshNetwork"
+        name = "KnitNetwork"
         nn = len(self.nodes())
         ce = len(self.ContourEdges)
         wee = len(self.WeftEdges)
@@ -794,12 +794,12 @@ class KnitMeshNetwork(KnitMeshNetworkBase):
 
     def CreateMappingNetwork(self):
         """
-        Creates a KnitMeshMappingNetwork from a KnitMeshNetwork with fully
+        Creates a KnitMappingNetwork from a KnitNetwork with fully
         assigned 'weft' edge segmentation.
         """
 
         # copy the input network to not mess with previous components
-        MappingNetwork = KnitMeshMappingNetwork()
+        MappingNetwork = KnitMappingNetwork()
 
         # get all edges by segment
         WeftEdges = sorted(self.WeftEdges, key=lambda x: x[2]["segment"])
