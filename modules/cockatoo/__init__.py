@@ -1,7 +1,7 @@
 # AUTOKNIT SUBMODULE
 import Autoknit
 
-# KNITMESHNETWORK CLASSES
+# KNITNETWORK CLASSES
 from KnitNetworkBase import KnitNetworkBase
 
 from KnitNetwork import KnitNetwork
