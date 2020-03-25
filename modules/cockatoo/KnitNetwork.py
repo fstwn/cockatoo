@@ -644,16 +644,6 @@ class KnitNetwork(KnitNetworkBase):
 
     # SEGMENTATION FOR LOOP GENERATION -----------------------------------------
 
-    def _traverse_edge(self, startNode, connectedEdge):
-        """
-        Traverse an edge from a start node and return the other node.
-        """
-
-        if startNode != connectedEdge[0]:
-            return (connectedEdge[0], self.node[connectedEdge[0]])
-        elif startNode != connectedEdge[1]:
-            return (connectedEdge[1], self.node[connectedEdge[1]])
-
     def _traverse_edge_until_end(self, startEndNode, startNode, wayNodes=None, wayEdges=None, endNodes=None):
         """
         Private method for traversing a path of 'weft' edges until another
@@ -686,7 +676,7 @@ class KnitNetwork(KnitNetworkBase):
         elif len(filtered_weft_edges) == 1:
             fwec = filtered_weft_edges[0]
 
-            connected_node = self._traverse_edge(startNode[0],
+            connected_node = self.TraverseEdge(startNode[0],
                                                  fwec)
 
             # if the connected node is an end node, the segment is finished
@@ -702,12 +692,14 @@ class KnitNetwork(KnitNetworkBase):
                 endNodes.append(connected_node[0])
                 wayEdges.append(fwec)
 
+                # TODO: implement third value in tuple for index of segment
                 for waynode in wayNodes:
                     self.node[waynode]["segment"] = (segStart, segEnd)
                 for wayedge in wayEdges:
                     self[wayedge[0]][wayedge[1]]["segment"] = (segStart, segEnd)
 
             else:
+                # TODO: implement third value in tuple for index of segment
                 # set the initial segment attribute to the node
                 self.node[connected_node[0]]["segment"] = (startEndNode, None)
 
@@ -736,13 +728,14 @@ class KnitNetwork(KnitNetworkBase):
         weft_connections = self.edges(node[0], data=True)
 
         # loop through all connected weft edges
+        seen_segments = []
         for cwe in weft_connections:
             if cwe[2]["segment"]:
                 continue
 
             # check the next connected node. if it is an end vertex,
             # set the respective keys
-            connected_node = self._traverse_edge(node[0], cwe)
+            connected_node = self.TraverseEdge(node[0], cwe)
 
             if connected_node[1]["end"]:
                 if node[0] > connected_node[0]:
@@ -753,6 +746,9 @@ class KnitNetwork(KnitNetworkBase):
                     segEnd = connected_node[0]
 
                 # set the final segment attribute to the edge
+                # TODO: segment attribute needs a third value as index to cope
+                # with the special edge case <====> (two segments have the
+                # same start and end)
                 self[cwe[0]][cwe[1]]["segment"] = (segStart, segEnd)
 
             else:
@@ -782,15 +778,15 @@ class KnitNetwork(KnitNetworkBase):
 
         # loop through all 'end' vertices
         for position in all_ends_by_position:
-            for node in position:
-                self._get_segmentation_for_end_node(node)
+            for endnode in position:
+                self._get_segmentation_for_end_node(endnode)
 
         # add all previously removed edges back into the network
 
         [self.add_edge(edge[0], edge[1], edge[2]) for edge in \
          warp_storage + contour_storage]
 
-    # CREATE MAPPING EDGES -----------------------------------------------------
+    # CREATE MAPPING NETWORK ---------------------------------------------------
 
     def CreateMappingNetwork(self):
         """
@@ -820,9 +816,9 @@ class KnitNetwork(KnitNetworkBase):
 
             segment_geo = [e[2]["geo"] for e in segment_edges]
 
-            res = MappingNetwork.CreateMappingEdge(startNode,
-                                                   endNode,
-                                                   segment_geo)
+            res = MappingNetwork.CreateSegmentContourEdge(startNode,
+                                                          endNode,
+                                                          segment_geo)
 
             # half-assed bug checking
             if not res:
