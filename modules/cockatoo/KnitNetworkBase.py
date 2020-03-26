@@ -63,7 +63,10 @@ class KnitNetworkBase(nx.Graph):
 
         font = "Lato"
 
-        RenderGraph = nx.DiGraph()
+        if isinstance(self, nx.MultiGraph):
+            RenderGraph = nx.MultiDiGraph()
+        else:
+            RenderGraph = nx.DiGraph()
 
         kmn_nodes = self.nodes(data=True)
         kmn_edges = self.edges(data=True)
@@ -168,7 +171,7 @@ class KnitNetworkBase(nx.Graph):
                            "geo": pt}
 
         # add the node to the network instance
-        self.add_node(node_index, node_attributes)
+        self.add_node(node_index, attr_dict=node_attributes)
 
     # PROPERTIES ---------------------------------------------------------------
 
@@ -331,7 +334,7 @@ class KnitNetworkBase(nx.Graph):
                      "segment": None,
                      "geo": edgeGeo}
 
-        self.add_edge(fromNode, toNode, edgeAttrs)
+        self.add_edge(fromNode, toNode, attr_dict=edgeAttrs)
 
         return True
 
@@ -358,7 +361,7 @@ class KnitNetworkBase(nx.Graph):
                      "segment": segment,
                      "geo": edgeGeo}
 
-        self.add_edge(fromNode, toNode, edgeAttrs)
+        self.add_edge(fromNode, toNode, attr_dict=edgeAttrs)
 
         return True
 
@@ -385,11 +388,11 @@ class KnitNetworkBase(nx.Graph):
                      "segment": None,
                      "geo": edgeGeo}
 
-        self.add_edge(fromNode, toNode, edgeAttrs)
+        self.add_edge(fromNode, toNode, attr_dict=edgeAttrs)
 
         return True
 
-    def CreateSegmentContourEdge(self, From, To, segmentGeo):
+    def CreateSegmentContourEdge(self, From, To, segmentValue, segmentGeo):
         """
         Creates a mapping edge between two 'end' nodes in the network. The
         geometry of this edge will be a polyline built from all the given
@@ -418,12 +421,12 @@ class KnitNetworkBase(nx.Graph):
         # create edge attribute
         edgeAttrs = {"warp": False,
                      "weft": False,
-                     "segment": (fromNode, toNode),
+                     "segment": segmentValue,
                      "geo": edgeGeo}
 
-        self.add_node(fromNode, From[1])
-        self.add_node(toNode, To[1])
-        self.add_edge(fromNode, toNode, edgeAttrs)
+        self.add_node(fromNode, attr_dict=From[1])
+        self.add_node(toNode, attr_dict=To[1])
+        self.add_edge(fromNode, toNode, attr_dict=edgeAttrs)
 
         return True
 
@@ -473,28 +476,27 @@ class KnitNetworkBase(nx.Graph):
         Gets the 'weft' edges connected to the given node.
         """
 
-        if data:
-            WeftEdges = [(s, e, d) for s, e, d in \
-                         self.edges_iter(node, data=True) if d["weft"]]
-        else:
-            WeftEdges = [(s, e) for s, e, d in \
-                         self.edges_iter(node, data=True) if d["weft"]]
+        WeftEdges = [(s, e, d) for s, e, d in \
+                     self.edges_iter(node, data=True) if d["weft"]]
 
-        return WeftEdges
+        if data:
+            return WeftEdges
+        else:
+            return [(e[0], e[1]) for e in WeftEdges]
 
     def NodeWarpEdges(self, node, data=False):
         """
         Gets the 'warp' edges connected to the given node.
         """
 
-        if data:
-            WarpEdges = [(s, e, d) for s, e, d in \
-                         self.edges_iter(node, data=True) if d["warp"]]
-        else:
-            WarpEdges = [(s, e) for s, e, d in \
-                         self.edges_iter(node, data=True) if d["warp"]]
+        WarpEdges = [(s, e, d) for s, e, d in \
+                     self.edges_iter(node, data=True) if d["warp"]]
 
-        return WarpEdges
+        if data:
+            return WarpEdges
+        else:
+            return [(e[0], e[1]) for e in WarpEdges]
+
 
     def NodeContourEdges(self, node, data=False):
         """
@@ -502,16 +504,14 @@ class KnitNetworkBase(nx.Graph):
         given node.
         """
 
-        if data:
-            ContourEdges = [(s, e, d) for s, e, d in \
-                            self.edges_iter(node, data=True) \
-                            if not d["warp"] and not d["weft"]]
-        else:
-            ContourEdges = [(s, e) for s, e, d in \
-                            self.edges_iter(node, data=True) \
-                            if not d["warp"] and not d["weft"]]
+        ContourEdges = [(s, e, d) for s, e, d in \
+                        self.edges_iter(node, data=True) \
+                        if not d["warp"] and not d["weft"]]
 
-        return ContourEdges
+        if data:
+            return ContourEdges
+        else:
+            return [(e[0], e[1]) for e in ContourEdges]
 
     # EDGE TRAVERSAL -----------------------------------------------------------
 

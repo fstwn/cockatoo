@@ -77,14 +77,45 @@ class KnitNetwork(KnitNetworkBase):
 
     # WEFT CONNECTION CREATION -------------------------------------------------
 
-    def _create_initial_weft_connections(self, contourSet, precise=False, verbose=False):
+    def _attempt_weft_connection_to_candidate(self, node, candidate, contour_nodes, verbose=False):
+        """
+        Private method for attempting a 'weft' connection to a candidate
+        node.
+        """
+
+        connecting_neighbours = self[candidate[0]]
+        if len(connecting_neighbours) < 4:
+            isConnected = False
+            for cn in connecting_neighbours:
+                if cn in [v[0] for v in contour_nodes]:
+                    isConnected = True
+                    # print info on verbose setting
+                    if verbose:
+                        vStr = ("Candidate node {} is " +
+                                "already connected! " +
+                                "Skipping to next " +
+                                "node...")
+                        vStr = vStr.format(candidate[0])
+                        print(vStr)
+                    break
+            if not isConnected:
+                # print info on verbose setting
+                if verbose:
+                    vStr = ("Connecting node {} to best " +
+                            "candidate {}.")
+                    vStr = vStr.format(node[0], candidate[0])
+                    print(vStr)
+
+                self.CreateWeftEdge(node, candidate)
+
+    def _create_initial_weft_connections(self, contour_set, precise=False, verbose=False):
         """
         Private method for creating initial 'weft' connections for the supplied
         set of contours, starting from the first contour in the set and
         propagating to the last contour in the set.
         """
 
-        if len(contourSet) < 2:
+        if len(contour_set) < 2:
             if verbose:
                 print("Not enough contours in contour set!")
             return
@@ -94,40 +125,47 @@ class KnitNetwork(KnitNetworkBase):
             print("Creating initial 'weft' connections for contour set...")
 
         # loop over all vertices of positions (list of lists of tuples)
-        for i, pos in enumerate(contourSet):
+        for i, pos in enumerate(contour_set):
             # pos is a list of tuples (nodes)
-            if i < len(contourSet):
+            if i < len(contour_set):
                 j = i + 1
-                if j == len(contourSet):
+                if j == len(contour_set):
                     break
                 # get initial and target vertices without 'leaf' nodes
-                initial_vertices = contourSet[i][1:-1]
-                target_vertices = contourSet[j][1:-1]
+                initial_nodes = contour_set[i][1:-1]
+                target_nodes = contour_set[j][1:-1]
+
+                # skip if one of the contours has no nodes
+                if len(initial_nodes) == 0 or len(target_nodes) == 0:
+                    continue
 
                 # loop through all nodes on the current position
-                for k, node in enumerate(initial_vertices):
-                    # find four closest vertices on target
-                    thisPt = node[1]["geo"]
-
+                for k, node in enumerate(initial_nodes):
                     # print info on verbose setting
                     if verbose:
                         vStr = "Processing node {} on position {}:"
                         vStr = vStr.format(node[0], node[1]["position"])
                         print(vStr)
 
+                    # get the geometry for the current node
+                    thisPt = node[1]["geo"]
+
                     # get four closest verts on adjacent contour
                     if precise:
                         allDists = [thisPt.DistanceTo(tv[1]["geo"]) \
-                                    for tv in target_vertices]
+                                    for tv in target_nodes]
                     else:
                         allDists = [thisPt.DistanceToSquared(tv[1]["geo"]) \
-                                    for tv in target_vertices]
-                    allDists, sorted_target_vertices = zip(
-                                *sorted(zip(allDists,
-                                            target_vertices),
-                                            key = operator.itemgetter(0)))
-                    possible_connections = sorted_target_vertices[:4]
+                                    for tv in target_nodes]
 
+                    # sort the target nodes by distance to current node
+                    allDists, sorted_target_nodes = zip(
+                                *sorted(zip(allDists,
+                                            target_nodes),
+                                            key = operator.itemgetter(0)))
+
+                    # the four closest nodes are the possible connections
+                    possible_connections = sorted_target_nodes[:4]
                     # print info on verbose setting
                     if verbose:
                         vStr = "Possible connections: {}"
@@ -135,33 +173,45 @@ class KnitNetwork(KnitNetworkBase):
                                            possible_connections])
                         print(vStr)
 
+                    # handle edge case where there is no possible
+                    # connection or just one
+                    if len(possible_connections) == 0:
+                        # skip if there are no possible connections
+                        continue
+                    elif len(possible_connections) == 1:
+                        # attempt to connect to only possible candidate
+                        fCand = possible_connections[0]
+                        self._attempt_weft_connection_to_candidate(
+                                            node, fCand, initial_nodes, verbose)
+                        continue
+
                     # get the contours current direction
-                    if k < len(initial_vertices)-1:
+                    if k < len(initial_nodes)-1:
                         contourDir = Rhino.Geometry.Line(thisPt,
-                                 initial_vertices[k+1][1]["geo"]).Direction
-                    elif k == len(initial_vertices)-1:
+                                         initial_nodes[k+1][1]["geo"]).Direction
+                    elif k == len(initial_nodes)-1:
                         contourDir = Rhino.Geometry.Line(
-                         initial_vertices[k-1][1]["geo"], thisPt).Direction
+                                 initial_nodes[k-1][1]["geo"], thisPt).Direction
                     contourDir.Unitize()
 
                     # get the directions of the possible connections
                     candidatePoints = [pc[1]["geo"] \
                                        for pc in possible_connections]
                     candidateDirections = [Rhino.Geometry.Line(
-                            thisPt, cp).Direction for cp in candidatePoints]
+                                thisPt, cp).Direction for cp in candidatePoints]
                     [cd.Unitize() for cd in candidateDirections]
 
-                    # get the angles between contour dir and possible dir
+                    # get the angles between contour dir and possible conn dir
                     normals = [Rhino.Geometry.Vector3d.CrossProduct(
-                              contourDir, cd) for cd in candidateDirections]
+                                  contourDir, cd) for cd in candidateDirections]
                     angles = [Rhino.Geometry.Vector3d.VectorAngle(
                               contourDir, cd, n) for cd, n in zip(
-                                              candidateDirections, normals)]
+                              candidateDirections, normals)]
 
                     # compute deltas as a mesaure of perpendicularity
                     deltas = [abs(a - (0.5 * math.pi)) for a in angles]
 
-                    # sort possible connections by delta and distance
+                    # sort possible connections by distance, then by delta
                     allDists, deltas, angles, most_perpendicular = zip(
                             *sorted(zip(allDists,
                                         deltas,
@@ -175,7 +225,7 @@ class KnitNetwork(KnitNetworkBase):
                     # compute angle difference
                     aDelta = angles[0] - angles[1]
 
-                    # CONNECTION FOR LEAST ANGLE CHANGE --------------------
+                    # CONNECTION FOR LEAST ANGLE CHANGE ------------------------
                     if len(nNeighbours) > 2 and aDelta < math.radians(6.0):
                         # print info on verbose setting
                         if verbose:
@@ -183,12 +233,11 @@ class KnitNetwork(KnitNetworkBase):
                                   "change connection...")
 
                         # get previous pos verts, indices and connections
-                        prevPos = contourSet[i-1]
+                        prevPos = contour_set[i-1]
                         prevIndices = [n[0] for n in prevPos]
 
                         # get previous connected edge and its direction
                         prevEdges = self.NodeWeftEdges(node[0], data=True)
-
                         if len(prevEdges) > 1:
                             raise RuntimeError("More than one previous " +
                                   "weft connection! This was unexpected...")
@@ -201,53 +250,35 @@ class KnitNetwork(KnitNetworkBase):
                         mpA = most_perpendicular[0]
                         mpB = most_perpendicular[1]
                         dirA = Rhino.Geometry.Line(
-                                            thisPt, mpA[1]["geo"]).Direction
-                        dirA.Unitize()
+                                                thisPt, mpA[1]["geo"]).Direction
                         dirB = Rhino.Geometry.Line(
-                                            thisPt, mpB[1]["geo"]).Direction
+                                                thisPt, mpB[1]["geo"]).Direction
+                        dirA.Unitize()
                         dirB.Unitize()
 
                         # get normals for angle measurement
-                        normalA = Rhino.Geometry.Vector3d.CrossProduct(
-                                                              prevDir, dirA)
-                        normalB = Rhino.Geometry.Vector3d.CrossProduct(
-                                                              prevDir, dirB)
+                        normalA = Rhino.Geometry.Vector3d.CrossProduct(prevDir,
+                                                                       dirA)
+                        normalB = Rhino.Geometry.Vector3d.CrossProduct(prevDir,
+                                                                       dirB)
 
                         # measure the angles
-                        angleA = Rhino.Geometry.Vector3d.VectorAngle(
-                                                     prevDir, dirA, normalA)
-                        angleB = Rhino.Geometry.Vector3d.VectorAngle(
-                                                     prevDir, dirB, normalB)
+                        angleA = Rhino.Geometry.Vector3d.VectorAngle(prevDir,
+                                                                     dirA,
+                                                                     normalA)
+                        angleB = Rhino.Geometry.Vector3d.VectorAngle(prevDir,
+                                                                     dirB,
+                                                                     normalB)
 
-                        # select final candidate for connection
+                        # select final candidate for connection by angle
                         if angleA < angleB:
                             fCand = mpA
                         else:
                             fCand = mpB
 
-                        # connect to final candidate
-                        connecting_neighbours = self[fCand[0]]
-                        if len(connecting_neighbours) < 4:
-                            isConnected = False
-                            for cn in connecting_neighbours:
-                                if cn in [v[0] for v in initial_vertices]:
-                                    isConnected = True
-                                    # print info on verbose setting
-                                    if verbose:
-                                        vStr = ("Candidate node {} is " +
-                                                "already connected! " +
-                                                "Skipping to next " +
-                                                "node...")
-                                        vStr = vStr.format(fCand[0])
-                                        print(vStr)
-                            if not isConnected:
-                                # print info on verbose setting
-                                if verbose:
-                                    vStr = ("Connecting node {} to best " +
-                                            "candidate {}.")
-                                    vStr = vStr.format(node[0], fCand[0])
-                                    print(vStr)
-                                self.CreateWeftEdge(node, fCand)
+                        # attempt to connect to final candidate
+                        self._attempt_weft_connection_to_candidate(
+                                            node, fCand, initial_nodes, verbose)
 
                     # CONNECTION FOR MOST PERPENDICULAR --------------------
                     else:
@@ -255,39 +286,20 @@ class KnitNetwork(KnitNetworkBase):
                         if verbose:
                             print("Using procedure for most " +
                                   "perpendicular connection...")
+                        # define final candidate
                         fCand = most_perpendicular[0]
-                        connecting_neighbours = self[fCand[0]]
-                        if len(connecting_neighbours) < 4:
-                            isConnected = False
-                            for cn in connecting_neighbours:
-                                if cn in [v[0] for v in initial_vertices]:
-                                    isConnected = True
-                                    # print info on verbose setting
-                                    if verbose:
-                                        vStr = ("Candidate node {} is " +
-                                                "already connected! " +
-                                                "Skipping to next " +
-                                                "node...")
-                                        vStr = vStr.format(fCand[0])
-                                        print(vStr)
-                            if not isConnected:
-                                fCand = most_perpendicular[0]
-                                if verbose:
-                                    vStr = ("Connecting node {} to best " +
-                                            "candidate {}.")
-                                    vStr = vStr.format(node[0], fCand[0])
-                                    print(vStr)
-                                self.CreateWeftEdge(node, fCand)
+                        # attempt to connect to final candidate node
+                        self._attempt_weft_connection_to_candidate(
+                                            node, fCand, initial_nodes, verbose)
 
-    def _create_second_pass_weft_connections(self, contourSet, precise=False, verbose=False):
+    def _create_second_pass_weft_connections(self, contour_set, least_connected=False, precise=False, verbose=False):
         """
         Private method for creating second pass 'weft' connections for the
         given set of contours.
         """
 
         # TODO: check if its better to connect to the least connected node in window!
-
-        if len(contourSet) < 2:
+        if len(contour_set) < 2:
             if verbose:
                 print("Not enough contours in contour set!")
             return
@@ -301,26 +313,26 @@ class KnitNetwork(KnitNetworkBase):
         num_attributes = nx.get_node_attributes(self, "num")
 
         # loop over all vertices of positions (list of lists of tuples)
-        for i, pos in enumerate(contourSet):
+        for i, pos in enumerate(contour_set):
             j = i + 1
 
             # get initial vertices without 'leaf' nodes
-            initial_vertices = contourSet[i]
+            initial_nodes = contour_set[i]
 
             # get target position candidates
-            if (i > 0 and i < len(contourSet)-1 and \
-                i != 0 and i != len(contourSet)-1):
-                target_positionA = contourSet[i-1][0][1]["position"]
-                target_positionB = contourSet[i+1][0][1]["position"]
+            if (i > 0 and i < len(contour_set)-1 and \
+                i != 0 and i != len(contour_set)-1):
+                target_positionA = contour_set[i-1][0][1]["position"]
+                target_positionB = contour_set[i+1][0][1]["position"]
             elif i == 0:
                 target_positionA = None
-                target_positionB = contourSet[i+1][0][1]["position"]
-            elif i == len(contourSet)-1:
-                target_positionA = contourSet[i-1][0][1]["position"]
+                target_positionB = contour_set[i+1][0][1]["position"]
+            elif i == len(contour_set)-1:
+                target_positionA = contour_set[i-1][0][1]["position"]
                 target_positionB = None
 
             # loop through all nodes on current position
-            for k, node in enumerate(initial_vertices):
+            for k, node in enumerate(initial_nodes):
                 # print info on verbose setting
                 if verbose:
                     vStr = "Processing node {} on position {}:"
@@ -392,7 +404,7 @@ class KnitNetwork(KnitNetworkBase):
                 # only proceed if there is a target position
                 for target_position in target_positions:
                     # get target vertices
-                    target_vertices = self.NodesOnPosition(target_position,
+                    target_nodes = self.NodesOnPosition(target_position,
                                                            True)
 
                     # get the point geo of this node
@@ -403,9 +415,8 @@ class KnitNetwork(KnitNetworkBase):
                     # connected to target position, then propagating along
                     # the target position to the next node that is connected
                     # to this position. these two nodes will define the window
-
                     # NOTE: the current vertex should never have a connection
-                    # to target position (theoertically), otherwise it should
+                    # to target position (theoretically!), otherwise it should
                     # have fallen through the checks by now
 
                     # print info on verbose setting
@@ -415,7 +426,7 @@ class KnitNetwork(KnitNetworkBase):
                         print(vStr)
 
                     # get the previous node on this contour
-                    prevNode = initial_vertices[k-1]
+                    prevNode = initial_nodes[k-1]
 
                     # assume that the previous node has a connection
                     prevCon = self.NodeWeftEdges(prevNode[0], data=True)
@@ -433,7 +444,7 @@ class KnitNetwork(KnitNetworkBase):
                             prevNodeTargetIndex = num_attributes[edgeTo]
                         if prevNodeTargetPos == target_position:
                             possible_connections.append(
-                                           target_vertices[prevNodeTargetIndex])
+                                           target_nodes[prevNodeTargetIndex])
 
                     # the farthest connection of the previous node is the first
                     # point for our window
@@ -451,16 +462,14 @@ class KnitNetwork(KnitNetworkBase):
 
                     # get the next node on this pos that is
                     # connected to target position
-                    if k < len(initial_vertices)-1:
-                        future_nodes = initial_vertices[k+1:]
+                    if k < len(initial_nodes)-1:
+                        future_nodes = initial_nodes[k+1:]
                         for futurenode in future_nodes:
                             filteredWeftEdges = []
                             futureWeftEdges = self.NodeWeftEdges(futurenode[0],
                                                                  data=True)
                             for futureweft in futureWeftEdges:
                                 fwn = (futureweft[1], self.node[futureweft[1]])
-                                # NOTE: OLD VERSION BELOW
-                                # fwn = self.nodes(data=True)[futureweft[1]]
                                 if (fwn[1]["position"] == target_position and
                                     fwn[1]["num"] >= start_of_window[1]["num"]):
                                     filteredWeftEdges.append(futureweft)
@@ -475,9 +484,7 @@ class KnitNetwork(KnitNetworkBase):
 
                             end_of_window = (filteredWeftEdges[0][1],
                                              self.node[filteredWeftEdges[0][1]])
-                            # NOTE: OLD VERSION BELOW
-                            # end_of_window = self.nodes(
-                            #                 data=True)[filteredWeftEdges[0][1]]
+
                             break
                     else:
                         end_of_window = None
@@ -514,7 +521,7 @@ class KnitNetwork(KnitNetworkBase):
                             vStr = vStr.format([w[0] for w in window])
                             print(vStr)
 
-                        # get four closest verts on adjacent contour
+                        # sort nodes in window by distance
                         if precise:
                             allDists = [thisPt.DistanceTo(pc[1]["geo"]) \
                                         for pc in window]
@@ -524,74 +531,82 @@ class KnitNetwork(KnitNetworkBase):
                         allDists, window = zip(*sorted(zip(allDists, window),
                                                key = operator.itemgetter(0)))
 
-                        # get the contours current direction
-                        if k < len(initial_vertices)-1:
-                            contourDir = Rhino.Geometry.Line(
-                                    thisPt,
-                                    initial_vertices[k+1][1]["geo"]).Direction
-                        elif k == len(initial_vertices)-1:
-                            contourDir = Rhino.Geometry.Line(
-                                    initial_vertices[k-1][1]["geo"],
-                                    thisPt).Direction
-                        contourDir.Unitize()
+                        if least_connected:
+                            wn_count = [len(self[n[0]]) for n in window]
+                            wn_count, allDists, window = zip(
+                                    *sorted(zip(allDists, wn_count, window),
+                                            key = operator.itemgetter(0, 1)))
+                            # set final candidate node
+                            fCand = window[0]
+                        else:
+                            # get the contours current direction
+                            if k < len(initial_nodes)-1:
+                                contourDir = Rhino.Geometry.Line(
+                                        thisPt,
+                                        initial_nodes[k+1][1]["geo"]).Direction
+                            elif k == len(initial_nodes)-1:
+                                contourDir = Rhino.Geometry.Line(
+                                        initial_nodes[k-1][1]["geo"],
+                                        thisPt).Direction
+                            contourDir.Unitize()
 
-                        # get the directions of the possible connections
-                        candidatePoints = [pc[1]["geo"] \
-                                           for pc in window]
-                        candidateDirections = [Rhino.Geometry.Line(
-                                                thisPt, cp).Direction \
-                                                for cp in candidatePoints]
-                        [cd.Unitize() for cd in candidateDirections]
+                            # get the directions of the possible connections
+                            candidatePoints = [pc[1]["geo"] \
+                                               for pc in window]
+                            candidateDirections = [Rhino.Geometry.Line(
+                                                    thisPt, cp).Direction \
+                                                    for cp in candidatePoints]
+                            [cd.Unitize() for cd in candidateDirections]
 
-                        # get the angles between contour dir and possible dir
-                        normals = [Rhino.Geometry.Vector3d.CrossProduct(
-                                   contourDir, cd) \
-                                   for cd in candidateDirections]
-                        angles = [Rhino.Geometry.Vector3d.VectorAngle(
-                                  contourDir, cd, n) for cd, n in zip(
+                            # get the angles between contour dir and window dir
+                            normals = [Rhino.Geometry.Vector3d.CrossProduct(
+                                       contourDir, cd) \
+                                       for cd in candidateDirections]
+                            angles = [Rhino.Geometry.Vector3d.VectorAngle(
+                                      contourDir, cd, n) for cd, n in zip(
                                                 candidateDirections, normals)]
 
-                        # compute deltas as a mesaure of perpendicularity
-                        deltas = [abs(a - (0.5 * math.pi)) for a in angles]
+                            # compute deltas as a mesaure of perpendicularity
+                            deltas = [abs(a - (0.5 * math.pi)) for a in angles]
 
-                        # sort possible connections by delta
-                        allDists, deltas, angles, most_perpendicular = zip(
-                                *sorted(zip(allDists,
+                            # sort window by distance, then by delta
+                            allDists, deltas, most_perpendicular = zip(*sorted(
+                                        zip(allDists,
                                             deltas,
-                                            angles,
                                             window),
                                             key = operator.itemgetter(0, 1)))
+                            # set final candidate node for connection
+                            fCand = most_perpendicular[0]
 
                         # print info on verbose setting
                         if verbose:
                             vStr = ("Connecting to node {} on " +
                                     "position {}...")
-                            vStr = vStr.format(most_perpendicular[0][0],
-                                        most_perpendicular[0][1]["position"])
+                            vStr = vStr.format(fCand[0],
+                                               fCand[1]["position"])
                             print(vStr)
 
                         # connect weft edge to best target
-                        self.CreateWeftEdge(node, most_perpendicular[0])
+                        self.CreateWeftEdge(node, fCand)
 
-    def _create_initial_warp_connections(self, contourSet, verbose=False):
+    def _create_initial_warp_connections(self, contour_set, verbose=False):
         """
         Private method for initializing first 'warp' connections once
         all 'weft' connections are made.
         """
 
-        for i, pos in enumerate(contourSet):
+        # loop through all positions in the set of contours
+        for i, pos in enumerate(contour_set):
             # get all vertices on current contour
-            initial_vertices = contourSet[i]
+            initial_nodes = contour_set[i]
 
             # loop through all nodes on this contour
-            for k, node in enumerate(initial_vertices):
+            for k, node in enumerate(initial_nodes):
                 connected_edges = self.edges(node[0], data=True)
                 numweft = len(self.NodeWeftEdges(node[0]))
-                if len(connected_edges) > 4 or numweft > 2 or i == 0 or i == len(contourSet)-1:
+                if len(connected_edges) > 4 or numweft > 2 or i == 0 or i == len(contour_set)-1:
                     # set 'end' attribute for this node
                     self.node[node[0]]["end"] = True
-                    # NOTE: OLD VERSION BELOW
-                    # self.nodes(data=True)[node[0]][1]["end"] = True
 
                     # loop through all candidate edges
                     for j, edge in enumerate(connected_edges):
@@ -601,12 +616,10 @@ class KnitNetwork(KnitNetworkBase):
                             connected_node = edge[1]
                             # set 'end' attribute to conneted node
                             self.node[connected_node]["end"] = True
-                            # NOTE: OLD VERSION BELOW
-                            # self.nodes(data=True)[connected_node][1]["end"] = True
                             # set 'warp' attribute to current edge
                             self[edge[0]][edge[1]]["warp"] = True
 
-    def CreateWeftConnections(self, startIndex=None, precise=False, verbose=False):
+    def CreateWeftConnections(self, start_index=None, least_connected=False,precise=False, verbose=False):
         """
         Attempts to create all the 'weft' connections for the network.
         """
@@ -614,16 +627,16 @@ class KnitNetwork(KnitNetworkBase):
         # get all the positions / contours
         AllPositions = self.AllNodesByPosition(True)
 
-        if startIndex == None:
+        if start_index == None:
             # get index of longest contour
-            startIndex = self.LongestPositionContour()[0]
-        elif startIndex >= len(AllPositions):
+            start_index = self.LongestPositionContour()[0]
+        elif start_index >= len(AllPositions):
             raise RuntimeError("Supplied splitting index is too high!")
 
         # split position list into two sets based on start index
-        leftContours = AllPositions[0:startIndex+1]
+        leftContours = AllPositions[0:start_index+1]
         leftContours.reverse()
-        rightContours = AllPositions[startIndex:]
+        rightContours = AllPositions[start_index:]
 
         # create the initial weft connections
         self._create_initial_weft_connections(leftContours, precise, verbose)
@@ -631,9 +644,11 @@ class KnitNetwork(KnitNetworkBase):
 
         # create second pass weft connections
         self._create_second_pass_weft_connections(leftContours,
+                                                  least_connected,
                                                   precise,
                                                   verbose)
         self._create_second_pass_weft_connections(rightContours,
+                                                  least_connected,
                                                   precise,
                                                   verbose)
 
@@ -644,7 +659,7 @@ class KnitNetwork(KnitNetworkBase):
 
     # SEGMENTATION FOR LOOP GENERATION -----------------------------------------
 
-    def _traverse_edge_until_end(self, startEndNode, startNode, wayNodes=None, wayEdges=None, endNodes=None):
+    def _traverse_edge_until_end(self, startEndNode, startNode, seenSegments, wayNodes=None, wayEdges=None, endNodes=None):
         """
         Private method for traversing a path of 'weft' edges until another
         'end' node is discoverd.
@@ -688,34 +703,40 @@ class KnitNetwork(KnitNetworkBase):
                 else:
                     segStart = startEndNode
                     segEnd = connected_node[0]
+                if (segStart, segEnd) in seenSegments:
+                    segIndex = len([s for s in seenSegments if s == (segStart, segEnd)])
+                else:
+                    segIndex = 0
 
                 endNodes.append(connected_node[0])
                 wayEdges.append(fwec)
+                seenSegments.append((segStart, segEnd))
 
-                # TODO: implement third value in tuple for index of segment
                 for waynode in wayNodes:
-                    self.node[waynode]["segment"] = (segStart, segEnd)
+                    self.node[waynode]["segment"] = (segStart, segEnd, segIndex)
                 for wayedge in wayEdges:
-                    self[wayedge[0]][wayedge[1]]["segment"] = (segStart, segEnd)
+                    self[wayedge[0]][wayedge[1]]["segment"] = (segStart, segEnd, segIndex)
+
+                return seenSegments
 
             else:
-                # TODO: implement third value in tuple for index of segment
                 # set the initial segment attribute to the node
-                self.node[connected_node[0]]["segment"] = (startEndNode, None)
+                self.node[connected_node[0]]["segment"] = (startEndNode, None, None)
 
                 # set the initial segment attribute to the edge
-                self[fwec[0]][fwec[1]]["segment"] = (startEndNode, None)
+                self[fwec[0]][fwec[1]]["segment"] = (startEndNode, None, None)
 
                 wayNodes.append(connected_node[0])
                 wayEdges.append(fwec)
 
-                self._traverse_edge_until_end(startEndNode,
-                                              connected_node,
-                                              wayNodes,
-                                              wayEdges,
-                                              endNodes)
+                return self._traverse_edge_until_end(startEndNode,
+                                                     connected_node,
+                                                     seenSegments,
+                                                     wayNodes,
+                                                     wayEdges,
+                                                     endNodes)
         else:
-            return None
+            return seenSegments
 
     def _get_segmentation_for_end_node(self, node):
         """
@@ -744,17 +765,19 @@ class KnitNetwork(KnitNetworkBase):
                 else:
                     segStart = node[0]
                     segEnd = connected_node[0]
-
+                if (segStart, segEnd) in seen_segments:
+                    segIndex = len([s for s in seen_segments if s == (segStart, segEnd)])
+                else:
+                    segIndex = 0
                 # set the final segment attribute to the edge
-                # TODO: segment attribute needs a third value as index to cope
-                # with the special edge case <====> (two segments have the
-                # same start and end)
-                self[cwe[0]][cwe[1]]["segment"] = (segStart, segEnd)
+                self[cwe[0]][cwe[1]]["segment"] = (segStart, segEnd, segIndex)
+                seen_segments.append((segStart, segEnd))
 
             else:
-                self._traverse_edge_until_end(node[0],
-                                              connected_node,
-                                              wayEdges=[cwe])
+                seen_segments = self._traverse_edge_until_end(node[0],
+                                                              connected_node,
+                                                              seen_segments,
+                                                              wayEdges=[cwe])
 
     def GetWeftEdgeSegmentation(self):
         """
@@ -783,7 +806,7 @@ class KnitNetwork(KnitNetworkBase):
 
         # add all previously removed edges back into the network
 
-        [self.add_edge(edge[0], edge[1], edge[2]) for edge in \
+        [self.add_edge(edge[0], edge[1], attr_dict=edge[2]) for edge in \
          warp_storage + contour_storage]
 
     # CREATE MAPPING NETWORK ---------------------------------------------------
@@ -808,6 +831,7 @@ class KnitNetwork(KnitNetworkBase):
                 segment_ids.append(segment_id)
 
         for id in segment_ids:
+
             segment_edges = [e for e in WeftEdges if e[2]["segment"] == id]
             segment_edges.sort(key=lambda x: x[0])
 
@@ -818,12 +842,14 @@ class KnitNetwork(KnitNetworkBase):
 
             res = MappingNetwork.CreateSegmentContourEdge(startNode,
                                                           endNode,
+                                                          id,
                                                           segment_geo)
+
 
             # half-assed bug checking
             if not res:
                 print id
 
-        [MappingNetwork.add_edge(e[0], e[1], e[2]) for e in WarpEdges]
+        [MappingNetwork.add_edge(e[0], e[1], attr_dict=e[2]) for e in WarpEdges]
 
         return MappingNetwork
