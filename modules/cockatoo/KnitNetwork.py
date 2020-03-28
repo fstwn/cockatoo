@@ -1,11 +1,12 @@
 # PYTHON LIBRARY IMPORTS
 from __future__ import division
 import math
-import operator
+from operator import itemgetter
 from collections import deque
 
 # RHINO IMPORTS
-import Rhino
+from Rhino.Geometry import Line as RGLine
+from Rhino.Geometry import Vector3d as RGVector3d
 
 # CUSTOM MODULE IMPORTS
 import networkx as nx
@@ -80,7 +81,7 @@ class KnitNetwork(KnitNetworkBase):
     def _attempt_weft_connection_to_candidate(self, node, candidate, contour_nodes, verbose=False):
         """
         Private method for attempting a 'weft' connection to a candidate
-        node.
+        node. Returns True if the connection has been made, otherwise false.
         """
 
         connecting_neighbours = self[candidate[0]]
@@ -105,8 +106,12 @@ class KnitNetwork(KnitNetworkBase):
                             "candidate {}.")
                     vStr = vStr.format(node[0], candidate[0])
                     print(vStr)
-
                 self.CreateWeftEdge(node, candidate)
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def _create_initial_weft_connections(self, contour_set, precise=False, verbose=False):
         """
@@ -114,6 +119,12 @@ class KnitNetwork(KnitNetworkBase):
         set of contours, starting from the first contour in the set and
         propagating to the last contour in the set.
         """
+
+        # namespace mapping for performance gains
+        mathPi = math.pi
+        mathRadians = math.radians
+        selfAttemptWeftConnection = self._attempt_weft_connection_to_candidate
+        selfNodeWeftEdges = self.NodeWeftEdges
 
         if len(contour_set) < 2:
             if verbose:
@@ -139,6 +150,9 @@ class KnitNetwork(KnitNetworkBase):
                 if len(initial_nodes) == 0 or len(target_nodes) == 0:
                     continue
 
+                # define forbidden node index
+                forbidden_node = -1
+
                 # loop through all nodes on the current position
                 for k, node in enumerate(initial_nodes):
                     # print info on verbose setting
@@ -149,6 +163,12 @@ class KnitNetwork(KnitNetworkBase):
 
                     # get the geometry for the current node
                     thisPt = node[1]["geo"]
+
+                    # filtering according to forbidden nodes
+                    target_nodes = [tn for tn in target_nodes \
+                                    if tn[0] >= forbidden_node]
+                    if len(target_nodes) == 0:
+                        continue
 
                     # get four closest verts on adjacent contour
                     if precise:
@@ -162,7 +182,7 @@ class KnitNetwork(KnitNetworkBase):
                     allDists, sorted_target_nodes = zip(
                                 *sorted(zip(allDists,
                                             target_nodes),
-                                            key = operator.itemgetter(0)))
+                                            key = itemgetter(0)))
 
                     # the four closest nodes are the possible connections
                     possible_connections = sorted_target_nodes[:4]
@@ -181,35 +201,40 @@ class KnitNetwork(KnitNetworkBase):
                     elif len(possible_connections) == 1:
                         # attempt to connect to only possible candidate
                         fCand = possible_connections[0]
-                        self._attempt_weft_connection_to_candidate(
-                                            node, fCand, initial_nodes, verbose)
+                        res = selfAttemptWeftConnection(node,
+                                                        fCand,
+                                                        initial_nodes,
+                                                        verbose)
+                        # set forbidden node
+                        if res:
+                            forbidden_node = fCand[0]
                         continue
 
                     # get the contours current direction
                     if k < len(initial_nodes)-1:
-                        contourDir = Rhino.Geometry.Line(thisPt,
+                        contourDir = RGLine(thisPt,
                                          initial_nodes[k+1][1]["geo"]).Direction
                     elif k == len(initial_nodes)-1:
-                        contourDir = Rhino.Geometry.Line(
+                        contourDir = RGLine(
                                  initial_nodes[k-1][1]["geo"], thisPt).Direction
                     contourDir.Unitize()
 
                     # get the directions of the possible connections
                     candidatePoints = [pc[1]["geo"] \
                                        for pc in possible_connections]
-                    candidateDirections = [Rhino.Geometry.Line(
+                    candidateDirections = [RGLine(
                                 thisPt, cp).Direction for cp in candidatePoints]
                     [cd.Unitize() for cd in candidateDirections]
 
                     # get the angles between contour dir and possible conn dir
-                    normals = [Rhino.Geometry.Vector3d.CrossProduct(
+                    normals = [RGVector3d.CrossProduct(
                                   contourDir, cd) for cd in candidateDirections]
-                    angles = [Rhino.Geometry.Vector3d.VectorAngle(
+                    angles = [RGVector3d.VectorAngle(
                               contourDir, cd, n) for cd, n in zip(
                               candidateDirections, normals)]
 
                     # compute deltas as a mesaure of perpendicularity
-                    deltas = [abs(a - (0.5 * math.pi)) for a in angles]
+                    deltas = [abs(a - (0.5 * mathPi)) for a in angles]
 
                     # sort possible connections by distance, then by delta
                     allDists, deltas, angles, most_perpendicular = zip(
@@ -217,7 +242,7 @@ class KnitNetwork(KnitNetworkBase):
                                         deltas,
                                         angles,
                                         possible_connections[:]),
-                                        key = operator.itemgetter(0, 1)))
+                                        key = itemgetter(0, 1)))
 
                     # get node neighbours
                     nNeighbours = self[node[0]]
@@ -226,7 +251,7 @@ class KnitNetwork(KnitNetworkBase):
                     aDelta = angles[0] - angles[1]
 
                     # CONNECTION FOR LEAST ANGLE CHANGE ------------------------
-                    if len(nNeighbours) > 2 and aDelta < math.radians(6.0):
+                    if len(nNeighbours) > 2 and aDelta < mathRadians(6.0):
                         # print info on verbose setting
                         if verbose:
                             print("Using procedure for least angle " +
@@ -237,7 +262,7 @@ class KnitNetwork(KnitNetworkBase):
                         prevIndices = [n[0] for n in prevPos]
 
                         # get previous connected edge and its direction
-                        prevEdges = self.NodeWeftEdges(node[0], data=True)
+                        prevEdges = selfNodeWeftEdges(node[0], data=True)
                         if len(prevEdges) > 1:
                             raise RuntimeError("More than one previous " +
                                   "weft connection! This was unexpected...")
@@ -249,26 +274,18 @@ class KnitNetwork(KnitNetworkBase):
                         # get directions for the best two candidates
                         mpA = most_perpendicular[0]
                         mpB = most_perpendicular[1]
-                        dirA = Rhino.Geometry.Line(
-                                                thisPt, mpA[1]["geo"]).Direction
-                        dirB = Rhino.Geometry.Line(
-                                                thisPt, mpB[1]["geo"]).Direction
+                        dirA = RGLine(thisPt, mpA[1]["geo"]).Direction
+                        dirB = RGLine(thisPt, mpB[1]["geo"]).Direction
                         dirA.Unitize()
                         dirB.Unitize()
 
                         # get normals for angle measurement
-                        normalA = Rhino.Geometry.Vector3d.CrossProduct(prevDir,
-                                                                       dirA)
-                        normalB = Rhino.Geometry.Vector3d.CrossProduct(prevDir,
-                                                                       dirB)
+                        normalA = RGVector3d.CrossProduct(prevDir, dirA)
+                        normalB = RGVector3d.CrossProduct(prevDir, dirB)
 
                         # measure the angles
-                        angleA = Rhino.Geometry.Vector3d.VectorAngle(prevDir,
-                                                                     dirA,
-                                                                     normalA)
-                        angleB = Rhino.Geometry.Vector3d.VectorAngle(prevDir,
-                                                                     dirB,
-                                                                     normalB)
+                        angleA = RGVector3d.VectorAngle(prevDir, dirA, normalA)
+                        angleB = RGVector3d.VectorAngle(prevDir, dirB, normalB)
 
                         # select final candidate for connection by angle
                         if angleA < angleB:
@@ -277,8 +294,13 @@ class KnitNetwork(KnitNetworkBase):
                             fCand = mpB
 
                         # attempt to connect to final candidate
-                        self._attempt_weft_connection_to_candidate(
-                                            node, fCand, initial_nodes, verbose)
+                        res = selfAttemptWeftConnection(node,
+                                                        fCand,
+                                                        initial_nodes,
+                                                        verbose)
+                        # set forbidden node for next pass
+                        if res:
+                            forbidden_node = fCand[0]
 
                     # CONNECTION FOR MOST PERPENDICULAR --------------------
                     else:
@@ -288,17 +310,33 @@ class KnitNetwork(KnitNetworkBase):
                                   "perpendicular connection...")
                         # define final candidate
                         fCand = most_perpendicular[0]
-                        # attempt to connect to final candidate node
-                        self._attempt_weft_connection_to_candidate(
-                                            node, fCand, initial_nodes, verbose)
 
-    def _create_second_pass_weft_connections(self, contour_set, least_connected=False, precise=False, verbose=False):
+                        # attempt to connect to final candidate node
+                        res = selfAttemptWeftConnection(node,
+                                                        fCand,
+                                                        initial_nodes,
+                                                        verbose)
+                        # set forbidden node if connection has been made
+                        if res:
+                            forbidden_node = fCand[0]
+
+    def _create_second_pass_weft_connections(self, contour_set, include_leaves=False, least_connected=False, precise=False, verbose=False):
         """
         Private method for creating second pass 'weft' connections for the
         given set of contours.
         """
 
-        # TODO: check if its better to connect to the least connected node in window!
+        # namespace mapping for performance gains
+        mathPi = math.pi
+        selfNode = self.node
+        selfNodeWeftEdges = self.NodeWeftEdges
+        selfNodesOnPosition = self.NodesOnPosition
+        selfCreateWeftEdge= self.CreateWeftEdge
+
+        # get attributes only once
+        position_attributes = nx.get_node_attributes(self, "position")
+        num_attributes = nx.get_node_attributes(self, "num")
+
         if len(contour_set) < 2:
             if verbose:
                 print("Not enough contours in contour set!")
@@ -308,16 +346,15 @@ class KnitNetwork(KnitNetworkBase):
         if verbose:
             print("Creating second pass 'weft' connections for contour set...")
 
-        # get attributes only once
-        position_attributes = nx.get_node_attributes(self, "position")
-        num_attributes = nx.get_node_attributes(self, "num")
-
         # loop over all vertices of positions (list of lists of tuples)
         for i, pos in enumerate(contour_set):
             j = i + 1
 
             # get initial vertices without 'leaf' nodes
-            initial_nodes = contour_set[i]
+            if include_leaves:
+                initial_nodes = contour_set[i]
+            else:
+                initial_nodes = contour_set[i][1:-1]
 
             # get target position candidates
             if (i > 0 and i < len(contour_set)-1 and \
@@ -340,7 +377,7 @@ class KnitNetwork(KnitNetworkBase):
                     print(vStr)
 
                 # get connecting edges on target position
-                conWeftEdges = self.NodeWeftEdges(node[0], data=True)
+                conWeftEdges = selfNodeWeftEdges(node[0], data=True)
                 conPos = []
                 if len(conWeftEdges) == 0 and verbose:
                     # print info on verbose setting
@@ -404,8 +441,7 @@ class KnitNetwork(KnitNetworkBase):
                 # only proceed if there is a target position
                 for target_position in target_positions:
                     # get target vertices
-                    target_nodes = self.NodesOnPosition(target_position,
-                                                           True)
+                    target_nodes = selfNodesOnPosition(target_position, True)
 
                     # get the point geo of this node
                     thisPt = node[1]["geo"]
@@ -415,6 +451,7 @@ class KnitNetwork(KnitNetworkBase):
                     # connected to target position, then propagating along
                     # the target position to the next node that is connected
                     # to this position. these two nodes will define the window
+
                     # NOTE: the current vertex should never have a connection
                     # to target position (theoretically!), otherwise it should
                     # have fallen through the checks by now
@@ -429,7 +466,7 @@ class KnitNetwork(KnitNetworkBase):
                     prevNode = initial_nodes[k-1]
 
                     # assume that the previous node has a connection
-                    prevCon = self.NodeWeftEdges(prevNode[0], data=True)
+                    prevCon = selfNodeWeftEdges(prevNode[0], data=True)
 
                     # get possible connections from previous connection
                     possible_connections = []
@@ -466,10 +503,10 @@ class KnitNetwork(KnitNetworkBase):
                         future_nodes = initial_nodes[k+1:]
                         for futurenode in future_nodes:
                             filteredWeftEdges = []
-                            futureWeftEdges = self.NodeWeftEdges(futurenode[0],
+                            futureWeftEdges = selfNodeWeftEdges(futurenode[0],
                                                                  data=True)
                             for futureweft in futureWeftEdges:
-                                fwn = (futureweft[1], self.node[futureweft[1]])
+                                fwn = (futureweft[1], selfNode[futureweft[1]])
                                 if (fwn[1]["position"] == target_position and
                                     fwn[1]["num"] >= start_of_window[1]["num"]):
                                     filteredWeftEdges.append(futureweft)
@@ -483,7 +520,7 @@ class KnitNetwork(KnitNetworkBase):
                             # the target position
 
                             end_of_window = (filteredWeftEdges[0][1],
-                                             self.node[filteredWeftEdges[0][1]])
+                                             selfNode[filteredWeftEdges[0][1]])
 
                             break
                     else:
@@ -495,8 +532,10 @@ class KnitNetwork(KnitNetworkBase):
                     elif end_of_window == start_of_window:
                         window = [start_of_window]
                     else:
-                        window = self.nodes(
-                               data=True)[start_of_window[0]:end_of_window[0]+1]
+                        window = [(n, d) for n, d \
+                                  in self.nodes_iter(data=True) \
+                                  if n >= start_of_window[0] \
+                                  and n <= end_of_window[0]]
 
                     if len(window) == 0:
                         # print info on verbose setting
@@ -513,7 +552,7 @@ class KnitNetwork(KnitNetworkBase):
                             print(vStr)
 
                         # connect weft edge
-                        self.CreateWeftEdge(node, window[0])
+                        selfCreateWeftEdge(node, window[0])
                     else:
                         # print info on verbose setting
                         if verbose:
@@ -529,23 +568,23 @@ class KnitNetwork(KnitNetworkBase):
                             allDists = [thisPt.DistanceToSquared(pc[1]["geo"]) \
                                         for pc in window]
                         allDists, window = zip(*sorted(zip(allDists, window),
-                                               key = operator.itemgetter(0)))
+                                               key = itemgetter(0)))
 
                         if least_connected:
                             wn_count = [len(self[n[0]]) for n in window]
                             wn_count, allDists, window = zip(
                                     *sorted(zip(allDists, wn_count, window),
-                                            key = operator.itemgetter(0, 1)))
+                                            key = itemgetter(0, 1)))
                             # set final candidate node
                             fCand = window[0]
                         else:
                             # get the contours current direction
                             if k < len(initial_nodes)-1:
-                                contourDir = Rhino.Geometry.Line(
+                                contourDir = RGLine(
                                         thisPt,
                                         initial_nodes[k+1][1]["geo"]).Direction
                             elif k == len(initial_nodes)-1:
-                                contourDir = Rhino.Geometry.Line(
+                                contourDir = RGLine(
                                         initial_nodes[k-1][1]["geo"],
                                         thisPt).Direction
                             contourDir.Unitize()
@@ -553,28 +592,28 @@ class KnitNetwork(KnitNetworkBase):
                             # get the directions of the possible connections
                             candidatePoints = [pc[1]["geo"] \
                                                for pc in window]
-                            candidateDirections = [Rhino.Geometry.Line(
+                            candidateDirections = [RGLine(
                                                     thisPt, cp).Direction \
                                                     for cp in candidatePoints]
                             [cd.Unitize() for cd in candidateDirections]
 
                             # get the angles between contour dir and window dir
-                            normals = [Rhino.Geometry.Vector3d.CrossProduct(
+                            normals = [RGVector3d.CrossProduct(
                                        contourDir, cd) \
                                        for cd in candidateDirections]
-                            angles = [Rhino.Geometry.Vector3d.VectorAngle(
+                            angles = [RGVector3d.VectorAngle(
                                       contourDir, cd, n) for cd, n in zip(
                                                 candidateDirections, normals)]
 
                             # compute deltas as a mesaure of perpendicularity
-                            deltas = [abs(a - (0.5 * math.pi)) for a in angles]
+                            deltas = [abs(a - (0.5 * mathPi)) for a in angles]
 
                             # sort window by distance, then by delta
                             allDists, deltas, most_perpendicular = zip(*sorted(
                                         zip(allDists,
                                             deltas,
                                             window),
-                                            key = operator.itemgetter(0, 1)))
+                                            key = itemgetter(0, 1)))
                             # set final candidate node for connection
                             fCand = most_perpendicular[0]
 
@@ -587,13 +626,18 @@ class KnitNetwork(KnitNetworkBase):
                             print(vStr)
 
                         # connect weft edge to best target
-                        self.CreateWeftEdge(node, fCand)
+                        selfCreateWeftEdge(node, fCand)
 
     def _create_initial_warp_connections(self, contour_set, verbose=False):
         """
         Private method for initializing first 'warp' connections once
         all 'weft' connections are made.
         """
+
+        # namespace mapping for performance gains
+        selfEdges = self.edges
+        selfNode = self.node
+        selfNodeWeftEdges = self.NodeWeftEdges
 
         # loop through all positions in the set of contours
         for i, pos in enumerate(contour_set):
@@ -602,24 +646,24 @@ class KnitNetwork(KnitNetworkBase):
 
             # loop through all nodes on this contour
             for k, node in enumerate(initial_nodes):
-                connected_edges = self.edges(node[0], data=True)
-                numweft = len(self.NodeWeftEdges(node[0]))
-                if len(connected_edges) > 4 or numweft > 2 or i == 0 or i == len(contour_set)-1:
+                connected_edges = selfEdges(node[0], data=True)
+                numweft = len(selfNodeWeftEdges(node[0]))
+                if (len(connected_edges) > 4 or numweft > 2 \
+                    or i == 0 or i == len(contour_set)-1):
                     # set 'end' attribute for this node
-                    self.node[node[0]]["end"] = True
+                    selfNode[node[0]]["end"] = True
 
                     # loop through all candidate edges
                     for j, edge in enumerate(connected_edges):
-
                         # if it's not a 'weft' edge, assign attributes
                         if not edge[2]["weft"]:
                             connected_node = edge[1]
                             # set 'end' attribute to conneted node
-                            self.node[connected_node]["end"] = True
+                            selfNode[connected_node]["end"] = True
                             # set 'warp' attribute to current edge
                             self[edge[0]][edge[1]]["warp"] = True
 
-    def CreateWeftConnections(self, start_index=None, least_connected=False,precise=False, verbose=False):
+    def CreateWeftConnections(self, start_index=None, include_leaves=False, least_connected=False, precise=False, verbose=False):
         """
         Attempts to create all the 'weft' connections for the network.
         """
@@ -644,10 +688,12 @@ class KnitNetwork(KnitNetworkBase):
 
         # create second pass weft connections
         self._create_second_pass_weft_connections(leftContours,
+                                                  include_leaves,
                                                   least_connected,
                                                   precise,
                                                   verbose)
         self._create_second_pass_weft_connections(rightContours,
+                                                  include_leaves,
                                                   least_connected,
                                                   precise,
                                                   verbose)
@@ -690,9 +736,7 @@ class KnitNetwork(KnitNetworkBase):
             print("More than one filtered candidate weft edge!")
         elif len(filtered_weft_edges) == 1:
             fwec = filtered_weft_edges[0]
-
-            connected_node = self.TraverseEdge(startNode[0],
-                                                 fwec)
+            connected_node = (fwec[1], self.node[fwec[1]])
 
             # if the connected node is an end node, the segment is finished
             if connected_node[1]["end"]:
@@ -742,11 +786,12 @@ class KnitNetwork(KnitNetworkBase):
         """
         Traverse a path of 'weft' edges starting from an 'end' node until
         another 'end' node is discovered. Set 'segment' attributes to nodes
-        and egdes on the way.
+        and egdes along the way.
         """
 
-        # get connected weft edges
+        # get connected weft edges and sort them by their connected node
         weft_connections = self.edges(node[0], data=True)
+        weft_connections.sort(key=lambda x: x[1])
 
         # loop through all connected weft edges
         seen_segments = []
@@ -754,9 +799,9 @@ class KnitNetwork(KnitNetworkBase):
             if cwe[2]["segment"]:
                 continue
 
-            # check the next connected node. if it is an end vertex,
+            # check the connected node. if it is an end vertex,
             # set the respective keys
-            connected_node = self.TraverseEdge(node[0], cwe)
+            connected_node = (cwe[1], self.node[cwe[1]])
 
             if connected_node[1]["end"]:
                 if node[0] > connected_node[0]:

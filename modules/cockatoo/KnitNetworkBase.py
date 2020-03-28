@@ -2,7 +2,11 @@
 from __future__ import division
 
 # RHINO IMPORTS
-import Rhino
+from Rhino.Geometry import Line as RGLine
+from Rhino.Geometry import LineCurve as RGLineCurve
+from Rhino.Geometry import Curve as RGCurve
+from Rhino.Geometry import Polyline as RGPolyline
+from Rhino.Geometry import PolylineCurve as RGPolylineCurve
 
 # CUSTOM MODULE IMPORTS
 import networkx as nx
@@ -286,7 +290,7 @@ class KnitNetworkBase(nx.Graph):
         """
 
         points = [d["geo"] for n, d in self.NodesOnPosition(pos, True)]
-        Contour = Rhino.Geometry.Polyline(points)
+        Contour = RGPolyline(points)
         if asCrv:
             Contour = Contour.ToPolylineCurve()
         return Contour
@@ -326,7 +330,7 @@ class KnitNetworkBase(nx.Graph):
         toGeo = To[1]["geo"]
 
         # create edge geometry
-        edgeGeo = Rhino.Geometry.Line(fromGeo, toGeo)
+        edgeGeo = RGLine(fromGeo, toGeo)
 
         # create edge attribute
         edgeAttrs = {"warp": False,
@@ -353,7 +357,7 @@ class KnitNetworkBase(nx.Graph):
         toGeo = To[1]["geo"]
 
         # create edge geometry
-        edgeGeo = Rhino.Geometry.Line(fromGeo, toGeo)
+        edgeGeo = RGLine(fromGeo, toGeo)
 
         # create edge attribute
         edgeAttrs = {"warp": False,
@@ -380,7 +384,7 @@ class KnitNetworkBase(nx.Graph):
         toGeo = To[1]["geo"]
 
         # create edge geometry
-        edgeGeo = Rhino.Geometry.Line(fromGeo, toGeo)
+        edgeGeo = RGLine(fromGeo, toGeo)
 
         # create edge attribute
         edgeAttrs = {"warp": True,
@@ -405,8 +409,8 @@ class KnitNetworkBase(nx.Graph):
         toNode = To[0]
 
         # join geo together
-        segmentGeo = [Rhino.Geometry.LineCurve(l) for l in segmentGeo]
-        edgeGeo = Rhino.Geometry.Curve.JoinCurves(segmentGeo)
+        segmentGeo = [RGLineCurve(l) for l in segmentGeo]
+        edgeGeo = RGCurve.JoinCurves(segmentGeo)
         if len(edgeGeo) > 1:
             print segmentGeo
             print edgeGeo
@@ -496,7 +500,6 @@ class KnitNetworkBase(nx.Graph):
             return WarpEdges
         else:
             return [(e[0], e[1]) for e in WarpEdges]
-
 
     def NodeContourEdges(self, node, data=False):
         """
