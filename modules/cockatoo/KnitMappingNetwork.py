@@ -108,7 +108,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
         return anbs
 
-    def EndNodeSegmentsByStart(self, node):
+    def EndNodeSegmentsByStart(self, node, data=False):
         """
         Get all the segments which share a given 'end' node at the start
         and sort them by their 'segment' value
@@ -124,9 +124,12 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
         connected_segments.sort(key=lambda x: x[2]["segment"])
 
-        return connected_segments
+        if data:
+            return connected_segments
+        else:
+            return [(cs[0], cs[1]) for cs in connected_segments]
 
-    def EndNodeSegmentsByEnd(self, node):
+    def EndNodeSegmentsByEnd(self, node, data=False):
         """
         Get all the segments which share a given 'end' node at the end
         and sort them by their 'segment' value
@@ -142,7 +145,10 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
         connected_segments.sort(key=lambda x: x[2]["segment"])
 
-        return connected_segments
+        if data:
+            return connected_segments
+        else:
+            return [(cs[0], cs[1]) for cs in connected_segments]
 
     # SAMPLING OF SEGMENT CONTOURS ---------------------------------------------
 
@@ -152,7 +158,9 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         stitch width. Add the resulting points as nodes to the network.
         """
 
+        # namespace mapping for performance gains
         selfNodeFromPoint3d = self.NodeFromPoint3d
+        selfNode = self.node
 
         # get the highest index of all the nodes in the network
         maxNode = max(self.nodes())
@@ -164,24 +172,34 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         nodeindex = maxNode + 1
         newPts = []
         for i, seg in enumerate(segment_contours):
+            # get the geometry of the contour and reparametreize its domain
             geo = seg[2]["geo"]
             geo = geo.ToPolylineCurve()
             geo.Domain = RGInterval(0.0, 1.0)
 
+            # compute the division points
             crvlen = geo.GetLength()
             density = int(round(crvlen / stitch_width))
             if density == 0:
                 continue
             divT = geo.DivideByCount(density, False)
             divPts = [geo.PointAt(t) for t in divT]
+
+            # set leaf attribute
+            if selfNode[seg[0]]["leaf"] and selfNode[seg[1]]["leaf"]:
+                nodeLeaf = True
+            else:
+                nodeLeaf = False
+
             # add all the nodes to the network
             for j, pt in enumerate(divPts):
                 # add node to network
+
                 selfNodeFromPoint3d(nodeindex,
                                     pt,
                                     position = None,
                                     num = j,
-                                    leaf = False,
+                                    leaf = nodeLeaf,
                                     end = False,
                                     segment = seg[2]["segment"])
                 # increment node index
@@ -280,8 +298,8 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             print("Creating initial 'warp' connections for contour set...")
 
         # get initial and target vertices without 'end' nodes
-        initial_nodes = segment_pair[0][1:-1]
-        target_nodes = segment_pair[1][1:-1]
+        initial_nodes = segment_pair[0]
+        target_nodes = segment_pair[1]
 
         # do nothing if one of the sets is empty
         if len(initial_nodes) == 0 or len(target_nodes) == 0:
@@ -490,7 +508,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
             # get the segment that is connected to the first node either by
             # sharing this node or being connected through a 'warp' edge
-            connected_segments = selfEndNodeSegmentsByStart(firstNode[0])
+            connected_segments = selfEndNodeSegmentsByStart(firstNode[0], True)
             connected_segments = [cs for cs in connected_segments \
                                   if cs[2]["segment"] > segval]
 
@@ -539,7 +557,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 # define start of target segment
                 next_segment_start = (conwarpedge[1], selfNode[conwarpedge[1]])
                 next_connected_segments = selfEndNodeSegmentsByStart(
-                                                          next_segment_start[0])
+                                                          next_segment_start[0], True)
 
                 # NOTE: only consider segments whose id is greater, neded here?
                 #next_connected_segments = [ncs for ncs in next_connected_segments \
@@ -674,15 +692,54 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                         # to find some more nodes
                         pass
 
-
-
-    def _traverse_segment_until_warp_down(self, segment_edge, wayNodes=None, wayEdges=None, endNodes=None):
+    def _traverse_segment_until_warp(self, waySegments, down=False):
         """
         Private method for traversing a path of 'segment' edges until a 'warp'
-        edge is discovered which points to the previous segment
+        edge is discovered which points to the previous or the next segment.
+        Returns the ids of the segment array
         """
-        pass
 
+        segment_list = waySegments
+        flag = False
+        i = 0
+        while flag == False and i < 100:
+            # set the current segment
+            current_segment = segment_list[-1]
+
+            # get all connected segments at the last point of the segment
+            connected_segments_at_end = self.EndNodeSegmentsByStart(current_segment[1])
+
+            # from these, only get the segment with the lowest id
+            if len(connected_segments_at_end) > 0:
+                if down:
+                    candidate_segment = connected_segments_at_end[0]
+                else:
+                    candidate_segment = connected_segments_at_end[-1]
+                print(candidate_segment)
+                # append the segment to the segment_list
+                segment_list.append(candidate_segment)
+            else:
+                break
+
+            # check that segment for a 'warp' edge
+            warp_edges_at_end = self.NodeWarpEdges(candidate_segment[1])
+            if down:
+                filtered_warp_edges = [we for we in warp_edges_at_end \
+                                       if we[1] == candidate_segment[1]-1]
+            else:
+                filtered_warp_edges = [we for we in warp_edges_at_end \
+                                       if we[1] == candidate_segment[1]+1]
+
+            print(filtered_warp_edges)
+
+            # if there is a warp edge at the end, return the segment_list
+            if len(filtered_warp_edges) != 0 or (len(warp_edges_at_end) == 1 and self.node[candidate_segment[1]]["leaf"]):
+                flag = True
+                break
+
+            i += 1
+
+        return segment_list
 
     def CreateWarpConnections_v2(self, max_connections=4, precise=False, verbose=False):
         """
@@ -730,8 +787,6 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             # if not, we have to travel along the segement until we find this
             # weft edge to build the current segment chain
 
-            # TODO: Check guessed targets if they really connect to the source!
-
             # CASE 1 - ENCLOSED SHORT ROW <=====> ------------------------------
 
             print("Processing Segment {} ...".format(segval))
@@ -747,9 +802,8 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
                 # we have successfully verified our target segment and
                 # can create some warp edges!
-                target_nodes = [firstNode] + SegmentDict[target_guess][1]
-                target_nodes = target_nodes + [targetLastNode]
-                current_nodes = [firstNode] + segment + [lastNode]
+                target_nodes = SegmentDict[target_guess][1]
+                current_nodes = segment
                 segment_pair = [current_nodes, target_nodes]
                 selfCreateWarpConnections(segment_pair,
                                           max_connections=max_connections,
@@ -770,9 +824,8 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
                 # we have successfully verified our target segment and
                 # can create some warp edges!
-                target_nodes = [firstNode] + SegmentDict[target_guess][1]
-                target_nodes = target_nodes + [targetLastNode]
-                current_nodes = [firstNode] + segment + [lastNode]
+                target_nodes = SegmentDict[target_guess][1]
+                current_nodes = segment
                 segment_pair = [current_nodes, target_nodes]
                 selfCreateWarpConnections(segment_pair,
                                           max_connections=max_connections,
@@ -794,9 +847,8 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
                 # we have successfully verified our target segment and
                 # can create some warp edges!
-                target_nodes = [targetFirstNode] + SegmentDict[target_guess][1]
-                target_nodes = target_nodes + [targetLastNode]
-                current_nodes = [firstNode] + segment + [lastNode]
+                target_nodes = SegmentDict[target_guess][1]
+                current_nodes = segment
                 segment_pair = [current_nodes, target_nodes]
                 selfCreateWarpConnections(segment_pair,
                                           max_connections=max_connections,
@@ -809,18 +861,24 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             # define our educated guess for the target
             target_guess = (segval[0]+1, segval[1]+1, segval[2])
             if target_guess in SegmentDict:
-                # if this condition is True, we have found out target!
+                # if this condition is True, we have found out target but need
+                # to verify it geometrically to avoid weird connections
                 target_segment = SegmentDict[target_guess][0]
                 targetFirstNode = target_segment[2]["segment"][0]
                 targetLastNode = target_segment[2]["segment"][1]
+
+                # check if firstNode and targetFirstNode are connected via a
+                # 'warp' edge to verify
+                if not targetFirstNode in self[firstNode[0]]:
+                    print("No real connection for /=====/. Skipping...")
+                    continue
 
                 print("/=====/ detected. Connecting to segment {} ...".format(target_guess))
 
                 # we have successfully verified our target segment and
                 # can create some warp edges!
-                target_nodes = [targetFirstNode] + SegmentDict[target_guess][1]
-                target_nodes = target_nodes + [targetLastNode]
-                current_nodes = [firstNode] + segment + [lastNode]
+                target_nodes = SegmentDict[target_guess][1]
+                current_nodes = segment
                 segment_pair = [current_nodes, target_nodes]
                 selfCreateWarpConnections(segment_pair,
                                           max_connections=max_connections,
@@ -836,45 +894,62 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             # at the end whose target node index is exactly +1 (...=====/)
             warp_up_at_end = [nwe for nwe in selfNodeWarpEdges(lastNode[0]) \
                               if nwe[1] == lastNode[0]+1]
-            wupFlag = len(warp_up_at_end) > 0
+            if len(warp_up_at_end) > 0 or lastNode[1]["leaf"]:
+                wupFlag = True
+            else:
+                wupFalg = False
 
             print("WUP: ", wupFlag)
 
             # then we need to check if the current segment shares a start point
             # with any other segents (<=====...)
-            shared_start_node = [seg for seg in SegmentContourEdges \
-                                 if seg[0] == firstNode[0] \
-                                 and seg[2]["segment"] != segval]
-            ssnFlag = len(shared_start_node) > 0
+            shared_start_node_segments = [seg for seg in SegmentContourEdges \
+                                          if seg[0] == firstNode[0] \
+                                          and seg[2]["segment"] != segval]
+            ssnFlag = len(shared_start_node_segments) > 0
             if ssnFlag:
-                shared_start_node.sort(key=lambda x: x[2]["segment"])
+                shared_start_node_segments.sort(key=lambda x: x[2]["segment"])
 
             print("SSN: ", ssnFlag)
 
-            continue
-
             if wupFlag == True:
-                # if there is a 'weft' edge up at the end of this segment, our
+                # if there is a 'warp' edge up at the end of this segment, our
                 # current segment is verified but we defintely need to traverse
                 # our target
                 current_nodes = [firstNode] + segment + [lastNode]
             else:
-                # if there is no 'weft' edge up at the en of the segment, we need
+                # if there is no 'warp' edge up at the en of the segment, we need
                 # to traverse this segment until we find one.
 
-                #current_nodes = self._traverse_segment_until_warp_up(current_segment)
-                pass
+                print("Traversing current segment...")
+
+                current_segment = (SegmentContourEdges[i][0], SegmentContourEdges[i][1])
+                current_segment_array = self._traverse_segment_until_warp([current_segment], False)
+
+                if len(current_segment_array) > 0:
+                    print("Segment array: ", current_segment_array)
+                else:
+                    print("Segment array is empty....?!")
 
             if ssnFlag == True:
                 # if this segment shares a start node with any other segment,
                 # the segment with the lowest id of these is our candidate
-                target_segment = shared_start_node[0]
+                target_segment = (shared_start_node_segments[0][0],
+                                  shared_start_node_segments[0][1])
+
                 if wupFlag:
                     # if the flag is set, we need to traverse the target segment
                     # until we find a downwards 'warp' edge
 
-                    #target_nodes = self._traverse_segment_until_warp_down(target_segment)
-                    pass
+                    print("Traversing target segment with shared start node...")
+
+                    target_segment_array = self._traverse_segment_until_warp([target_segment], True)
+
+                    if len(target_segment_array) > 0:
+                        print("Segment array: ", target_segment_array)
+                    else:
+                        print("Segment array is empty....?!")
+
                 else:
                     # if no flag is set, we have our target nodes ...?
                     target_nodes = []
