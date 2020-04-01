@@ -11,7 +11,7 @@ The purpose of this project is to enable Rhino and Grasshopper to automatically 
 ## Pecularities
 
 - The Rhino Python and Grasshopper GHPython development environments are [very](https://developer.rhino3d.com/guides/rhinopython/what-is-rhinopython/), [very](https://developer.rhino3d.com/guides/rhinopython/ghpython-component/) special. I am not going to write in-depth about this here. Everybody who is working with these tools on a regular basis should have come accross their oddities. If not - most of the information about these topics is available in the [Rhino Developer Docs](https://developer.rhino3d.com/)
-- Cockatoo uses an older version of NetworkX. To be more specific, [NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/) is used for ... well, reasons.
+- To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more specific, an older version - [NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/) is used for... well, [reasons](https://www.grasshopper3d.com/forum/topics/ghpython-ironpython-engine-frames). To prevent problems with dead links and for reasons of simplicity, this specific networkx module is bundled with Cockatoo.
 
 ## Further Work and Feature Ideas
 
@@ -24,7 +24,7 @@ The purpose of this project is to enable Rhino and Grasshopper to automatically 
 - Go to [releases](https://github.com/fstwn/pyembroideryGH/releases) and download the newest release
 - Unzip the downloaded archive. You should get two folders `pyembroidery`, `pyembroideryGH` and a text-file.
 
-### 2. Install ironpyembroidery
+### 2. Install python modules
 
 - Open the scripts folder of Rhino 6 by opening explorer and navigating to
   
