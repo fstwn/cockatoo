@@ -542,7 +542,6 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         # TODO 3: store all connections that were made as a mapping for the
         #         second pass loop.
 
-
         # namespace mapping for performance gains
         selfNode = self.node
         selfEndNodeSegmentsByStart = self.EndNodeSegmentsByStart
