@@ -8,6 +8,15 @@
 
 The purpose of this project is to enable Rhino and Grasshopper to automatically derive knitting patterns for computerized knitting machines from NURBS Surfaces and 3D Meshes.
 
+## Pecularities
+
+- The Rhino Python and Grasshopper GHPython development environments are [very](https://developer.rhino3d.com/guides/rhinopython/what-is-rhinopython/), [very](https://developer.rhino3d.com/guides/rhinopython/ghpython-component/) special. I am not going to write in-depth about this here. Everybody who is working with these tools on a regular basis should have come accross their oddities. If not - most of the information about these topics is available in the [Rhino Developer Docs](https://developer.rhino3d.com/)
+- Cockatoo uses an older version of NetworkX. To be more specific, [NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/) is used for ... well, reasons.
+
+## Further Work and Feature Ideas
+
+- Provide versions of the core functionality compatible to the [COMPAS framework](https://github.com/compas-dev/compas).
+
 ## Installation & Usage
 
 ### 1. Download release files
@@ -22,7 +31,7 @@ The purpose of this project is to enable Rhino and Grasshopper to automatically 
   `C:\Users\%USERNAME%\AppData\Roaming\McNeel\Rhinoceros\6.0\scripts`
 - Move the whole `pyembroidery` directory to the scripts folder.
 
-### 3. Install pyembroideryGH UserObjects
+### 3. Install Cockatoo UserObjects
 
 - Navigate to the Grasshopper UserObjects folder. This can be done in two ways:
   - *Either* open explorer and go to
@@ -31,7 +40,7 @@ The purpose of this project is to enable Rhino and Grasshopper to automatically 
   - *Or* open Rhino & Grasshopper and in the Grasshopper Window click on
 
     `File >> Special Folders >> User Object Folder`
-- Move the whole `pyembroideryGH` directory to the UserObjects folder.
+- Move the whole `Cockatoo` directory to the UserObjects folder.
 
 ### 4. Unblock the new UserObjects!
 
