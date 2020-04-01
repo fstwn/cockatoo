@@ -530,6 +530,12 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         None
         """
 
+        # TODO: Still some unsolved cases and first solving approach was
+        #       yielding duplicate segments and "reverse" connections.
+        #       New idea: split the dicts and lists in source and target chains,
+        #       only loop through source chains and only search in target
+        #       chains?
+
         # TODO 2: include 'end' nodes between segments in a chain of segments
         #         in the current and target nodes for 'warp' edge creation
 
@@ -568,52 +574,53 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             # get the connected segments at the start and traverse them until
             # a 'warp' edge up is hit to build the segment chains
             warpStart = warp_edge[0]
-            warpStartLeafFlag = selfNode[warp_edge[0]]["leaf"]
+            warpStartLeafFlag = False #selfNode[warp_edge[0]]["leaf"]
             connected_start_segments = selfEndNodeSegmentsByStart(warpStart,
                                                                   data=True)
 
             # traverse segments from start node of 'warp' edge
-            start_pass_chains = []
+            source_chains = []
             if len(connected_start_segments) > 0:
                 for j, cs in enumerate(connected_start_segments):
-                    # if this is a 'leaf' node, first travel the segments until
-                    # a 'downwards' connection is found
-                    if warpStartLeafFlag:
-                        segment_chain = self_traverse_segment_until_warp(
-                                                            [cs[2]["segment"]],
-                                                            down=True)
-                        index = len([c for c in start_pass_chains \
-                                     if c[0][0][0] == segment_chain[0][0] \
-                                     and c[0][-1][1] == segment_chain[-1][1]])
-                        chain_value = (segment_chain[0][0],
-                                       segment_chain[-1][1],
-                                       index)
-                        chain_tuple = (segment_chain, chain_value)
-                        start_pass_chains.append(chain_tuple)
-
                     # travel the connected segments until a 'upwards'
                     # connection is found
                     segment_chain = self_traverse_segment_until_warp(
                                                             [cs[2]["segment"]],
                                                             down=False)
-                    index = len([c for c in start_pass_chains \
+                    index = len([c for c in source_chains \
                                  if c[0][0][0] == segment_chain[0][0] \
                                  and c[0][-1][1] == segment_chain[-1][1]])
                     chain_value = (segment_chain[0][0],
                                    segment_chain[-1][1],
                                    index)
                     chain_tuple = (segment_chain, chain_value)
-                    start_pass_chains.append(chain_tuple)
+                    all_found_chains.append(chain_tuple)
+
+                    # if this is a 'leaf' node, also travel the segments until
+                    # a 'downwards' connection is found
+                    if warpStartLeafFlag:
+                        segment_chain = self_traverse_segment_until_warp(
+                                                            [cs[2]["segment"]],
+                                                            down=True)
+                        index = len([c for c in source_chains \
+                                     if c[0][0][0] == segment_chain[0][0] \
+                                     and c[0][-1][1] == segment_chain[-1][1]])
+                        chain_value = (segment_chain[0][0],
+                                       segment_chain[-1][1],
+                                       index)
+                        chain_tuple = (segment_chain, chain_value)
+                        all_found_chains.append(chain_tuple)
+
 
             # get the connected segments at the end and traverse them until
             # a 'warp' edge down is hit to build the segment chain
             warpEnd = warp_edge[1]
-            warpEndLeafFlag = selfNode[warp_edge[1]]["leaf"]
+            warpEndLeafFlag = False #selfNode[warp_edge[1]]["leaf"]
             connected_end_segments = selfEndNodeSegmentsByStart(warpEnd,
                                                                 data=True)
 
             # traverse segments from end node of 'warp' edge
-            end_pass_chains = []
+            target_chains = []
             if len(connected_end_segments) > 0:
                 for j, cs in enumerate(connected_end_segments):
                     # if this is a 'leaf' node, first travel the segments until
@@ -622,31 +629,31 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                         segment_chain = self_traverse_segment_until_warp(
                                                             [cs[2]["segment"]],
                                                             down=False)
-                        index = len([c for c in end_pass_chains \
+                        index = len([c for c in target_chains \
                                      if c[0][0][0] == segment_chain[0][0] \
                                      and c[0][-1][1] == segment_chain[-1][1]])
                         chain_value = (segment_chain[0][0],
                                        segment_chain[-1][1],
                                        index)
                         chain_tuple = (segment_chain, chain_value)
-                        end_pass_chains.append(chain_tuple)
+                        all_found_chains.append(chain_tuple)
 
                     # travel the connected segments until a 'downwards'
                     # connection is found
                     segment_chain = self_traverse_segment_until_warp(
                                                              [cs[2]["segment"]],
                                                              down=True)
-                    index = len([c for c in end_pass_chains \
+                    index = len([c for c in target_chains \
                                  if c[0][0][0] == segment_chain[0][0] \
                                  and c[0][-1][1] == segment_chain[-1][1]])
                     chain_value = (segment_chain[0][0],
                                    segment_chain[-1][1],
                                    index)
                     chain_tuple = (segment_chain, chain_value)
-                    end_pass_chains.append(chain_tuple)
+                    all_found_chains.append(chain_tuple)
 
             # join the list of found chains and add them to the collection
-            all_found_chains = start_pass_chains + end_pass_chains
+            all_found_chains = source_chains + target_chains
             for chain in all_found_chains:
                 if chain[1] not in segment_chain_dict:
                     segment_chains.append(chain)
