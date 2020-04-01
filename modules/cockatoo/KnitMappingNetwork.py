@@ -205,7 +205,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 # increment node index
                 nodeindex += 1
 
-    # CREATION OF WEFT EDGES ---------------------------------------------------
+    # CREATION OF WEFT CONNECTIONS ---------------------------------------------
 
     def CreateWeftConnections(self):
         """
@@ -243,7 +243,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     elif j == len(segment)-1:
                         selfCreateWeftEdge(node, lastNode, segval)
 
-    # CREATION OF WARP EDGES ---------------------------------------------------
+    # CREATION OF WARP CONNECTIONS ---------------------------------------------
 
     def _attempt_warp_connection_to_candidate(self, node, candidate, segment_nodes, max_connections=4, verbose=False):
         """
@@ -279,9 +279,12 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
     def _create_warp_connections(self, segment_pair, max_connections=4, precise=False, verbose=False):
         """
         Private method for creating initial 'warp' connections for the supplied
-        set of segment contours, starting from the first segment contour in the
-        set and propagating to the last contour in the set.
+        pair of segment chains.
+        The pairs are only defined as a set of nodes
         """
+
+        # TODO: use forbidden node setting to avoid crossing connections!
+        # see _create_initial_weft_connections for reference
 
         # namespace mapping for performance gains
         mathPi = math.pi
@@ -498,17 +501,34 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
         return segment_list
 
-    def CreateWarpConnections(self, max_connections=4, precise=False, verbose=False):
+    def CreateWarpConnections(self, max_connections=4, include_end_nodes=True, precise=False, verbose=False):
         """
-        Loop through all the segment contours and create all 'warp' connections
-        for this network.
-        """
+        Create the final 'warp' connection by looping through all initial 'warp'
+        edges of the mapping network. Traverse all connected segment contour
+        edges to build chains of segment contour edges.
+        Loop through all the found chains and find a target chain to connect
+        to using an 'educated guessing' strategy. This means that the possible
+        ids of the target segment chain are guessed by using known topology
+        facts about the network. and its special 'end' nodes.
 
-        # TODO 1: compensate for special case at leaf vertices - if weft edge
-        #         has a 'leaf' node at the end, also travel it for the next
-        #         'upwards' warp edge and append the resulting segment
-        #         also do this the reverse way to catch special cases at the
-        #         start
+        Parameters
+        ----------
+        max_connections : integer
+            The number of maximum previous connections a candidate node for a
+            'warp' connection is allowed to have.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        None
+
+        Examples
+        --------
+        None
+        """
 
         # TODO 2: include 'end' nodes between segments in a chain of segments
         #         in the current and target nodes for 'warp' edge creation
@@ -519,36 +539,63 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
         # namespace mapping for performance gains
         selfNode = self.node
-        self_create_warp_connections = self._create_warp_connections
         selfEndNodeSegmentsByStart = self.EndNodeSegmentsByStart
-        selfNodeWarpEdges = self.NodeWarpEdges
-        selfNodesOnSegment = self.NodesOnSegment
+        self_traverse_segment_until_warp = self._traverse_segment_until_warp
+        self_create_warp_connections = self._create_warp_connections
 
-        # get all nodes by segment
-        SegmentValues, AllNodesBySegment, SegmentContourEdges = zip(*self.AllNodesBySegment(data=True, edges=True))
+        # get all segment ids, nodes per segment and edges
+        SegmentValues, AllNodesBySegment, SegmentContourEdges = zip(
+                                 *self.AllNodesBySegment(data=True, edges=True))
 
         # build a dictionary of the segments by their index
-        SegmentDict = dict(zip(SegmentValues, zip(SegmentContourEdges, AllNodesBySegment)))
+        SegmentDict = dict(zip(SegmentValues,
+                               zip(SegmentContourEdges, AllNodesBySegment)))
+
+        # initialize list and dictionary for storage of chains
+        segment_chains = []
+        segment_chain_dict = dict()
+
+        # initialize deque for mapping of segment chains
+        segment_mapping = deque()
+
+        # BUILD SEGMENT CHAINS BY LOOPING THROUGH 'WARP' EDGES -----------------
 
         # get all warp edges of the mappingnetwork
         AllWarpEdges = self.WarpEdges
-
-        # initialize list and dictionary for storage
-        segment_chains = []
-        segment_chain_dict = dict()
 
         # loop through all warp edges and build segment chains
         for i, warp_edge in enumerate(AllWarpEdges):
             # get the connected segments at the start and traverse them until
             # a 'warp' edge up is hit to build the segment chains
             warpStart = warp_edge[0]
+            warpStartLeafFlag = selfNode[warp_edge[0]]["leaf"]
             connected_start_segments = selfEndNodeSegmentsByStart(warpStart,
                                                                   data=True)
+
+            # traverse segments from start node of 'warp' edge
             start_pass_chains = []
             if len(connected_start_segments) > 0:
                 for j, cs in enumerate(connected_start_segments):
-                    segment_chain = self._traverse_segment_until_warp(
-                                                      [cs[2]["segment"]], False)
+                    # if this is a 'leaf' node, first travel the segments until
+                    # a 'downwards' connection is found
+                    if warpStartLeafFlag:
+                        segment_chain = self_traverse_segment_until_warp(
+                                                            [cs[2]["segment"]],
+                                                            down=True)
+                        index = len([c for c in start_pass_chains \
+                                     if c[0][0][0] == segment_chain[0][0] \
+                                     and c[0][-1][1] == segment_chain[-1][1]])
+                        chain_value = (segment_chain[0][0],
+                                       segment_chain[-1][1],
+                                       index)
+                        chain_tuple = (segment_chain, chain_value)
+                        start_pass_chains.append(chain_tuple)
+
+                    # travel the connected segments until a 'upwards'
+                    # connection is found
+                    segment_chain = self_traverse_segment_until_warp(
+                                                            [cs[2]["segment"]],
+                                                            down=False)
                     index = len([c for c in start_pass_chains \
                                  if c[0][0][0] == segment_chain[0][0] \
                                  and c[0][-1][1] == segment_chain[-1][1]])
@@ -558,16 +605,37 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     chain_tuple = (segment_chain, chain_value)
                     start_pass_chains.append(chain_tuple)
 
-            # get the connected segments at the start and traverse them until
+            # get the connected segments at the end and traverse them until
             # a 'warp' edge down is hit to build the segment chain
             warpEnd = warp_edge[1]
+            warpEndLeafFlag = selfNode[warp_edge[1]]["leaf"]
             connected_end_segments = selfEndNodeSegmentsByStart(warpEnd,
                                                                 data=True)
+
+            # traverse segments from end node of 'warp' edge
             end_pass_chains = []
             if len(connected_end_segments) > 0:
                 for j, cs in enumerate(connected_end_segments):
-                    segment_chain = self._traverse_segment_until_warp(
-                                                       [cs[2]["segment"]], True)
+                    # if this is a 'leaf' node, first travel the segments until
+                    # a 'upwards' connection is found
+                    if warpEndLeafFlag:
+                        segment_chain = self_traverse_segment_until_warp(
+                                                            [cs[2]["segment"]],
+                                                            down=False)
+                        index = len([c for c in end_pass_chains \
+                                     if c[0][0][0] == segment_chain[0][0] \
+                                     and c[0][-1][1] == segment_chain[-1][1]])
+                        chain_value = (segment_chain[0][0],
+                                       segment_chain[-1][1],
+                                       index)
+                        chain_tuple = (segment_chain, chain_value)
+                        end_pass_chains.append(chain_tuple)
+
+                    # travel the connected segments until a 'downwards'
+                    # connection is found
+                    segment_chain = self_traverse_segment_until_warp(
+                                                             [cs[2]["segment"]],
+                                                             down=True)
                     index = len([c for c in end_pass_chains \
                                  if c[0][0][0] == segment_chain[0][0] \
                                  and c[0][-1][1] == segment_chain[-1][1]])
@@ -584,6 +652,8 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     segment_chains.append(chain)
                     segment_chain_dict[chain[1]] = chain[0]
 
+        # LOOPING THROUGH FOUND SEGMENT CHAINS ---------------------------------
+
         # loop through the set of chains and search targets using educated
         # guess strategy
         for i, segment_chain in enumerate(segment_chains):
@@ -598,10 +668,9 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             current_ids = segment_chain[0]
             # retrieve the current nodes from the segment dictionary by id
             current_nodes = [SegmentDict[id][1] for id in current_ids]
-            current_nodes = [node for segment in current_nodes for node in segment]
+            current_nodes = [n for seg in current_nodes for n in seg]
 
             print("Processing segment chain {} ...".format(segment_chain))
-
 
             # CASE 1 - ENCLOSED SHORT ROW <=====> ------------------------------
 
@@ -614,7 +683,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 target_ids = [seg for seg in target_chain]
                 # retrieve the target nodes from the segment dictionary by id
                 target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [node for segment in target_nodes for node in segment]
+                target_nodes = [n for seg in target_nodes for n in seg]
 
                 print("<=====> detected. Connecting to segment chain {} ...".format(target_guess))
 
@@ -638,7 +707,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 target_ids = [seg for seg in target_chain]
                 # retrieve the target nodes from the segment dictionary by id
                 target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [node for segment in target_nodes for node in segment]
+                target_nodes = [n for seg in target_nodes for n in seg]
 
                 targetFirstNode = target_ids[0][0]
                 targetLastNode = target_ids[-1][1]
@@ -672,7 +741,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 target_ids = [seg for seg in target_chain]
                 # retrieve the target nodes from the segment dictionary by id
                 target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [node for segment in target_nodes for node in segment]
+                target_nodes = [n for seg in target_nodes for n in seg]
 
                 targetFirstNode = target_ids[0][0]
                 targetLastNode = target_ids[-1][1]
@@ -706,13 +775,13 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 target_ids = [seg for seg in target_chain]
                 # retrieve the target nodes from the segment dictionary by id
                 target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [node for segment in target_nodes for node in segment]
+                target_nodes = [n for seg in target_nodes for n in seg]
 
                 targetFirstNode = target_ids[0][0]
                 targetLastNode = target_ids[-1][1]
 
-                # check if firstNode and targetFirstNode are connected via a
-                # 'warp' edge to verify
+                # check if firstNode and is connected to targetFirstNode via
+                # a 'warp' edge and if lastNode equals targetLastNode
                 if (not targetFirstNode in self[firstNode[0]] \
                     and not targetLastNode == lastNode[0]):
                     print("No real connection for /=====/. Skipping...")
@@ -740,13 +809,13 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 target_ids = [seg for seg in target_chain]
                 # retrieve the target nodes from the segment dictionary by id
                 target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [node for segment in target_nodes for node in segment]
+                target_nodes = [n for seg in target_nodes for n in seg]
 
                 targetFirstNode = target_ids[0][0]
                 targetLastNode = target_ids[-1][1]
 
-                # check if firstNode and targetFirstNode are connected via a
-                # 'warp' edge to verify
+                # check if firstNode and is connected to targetFirstNode via
+                # a 'warp' edge and if lastNode equals targetLastNode
                 if (not targetFirstNode in self[firstNode[0]] \
                     and not targetLastNode == lastNode[0]):
                     print("No real connection for /=====/. Skipping...")
@@ -774,8 +843,9 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 target_ids = [seg for seg in target_chain]
                 # retrieve the target nodes from the segment dictionary by id
                 target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [node for segment in target_nodes for node in segment]
+                target_nodes = [n for seg in target_nodes for n in seg]
 
+                # set target first and last node ('end' nodes)
                 targetFirstNode = target_ids[0][0]
                 targetLastNode = target_ids[-1][1]
 
@@ -799,7 +869,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
             # CASE 7 - STANDARD ROW /=====/ SPECIAL CASE -----------------------
 
-            # define out educated guess for the target
+            # define out educated guess for the target id
             target_guess = (chain_value[0]+1, chain_value[1]+1, chain_value[2]-1)
             if target_guess in segment_chain_dict:
                 # get the guessed target chai from the chain dictionary
@@ -808,8 +878,9 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 target_ids = [seg for seg in target_chain]
                 # retrieve the target nodes from the segment dictionary by id
                 target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [node for segment in target_nodes for node in segment]
+                target_nodes = [n for seg in target_nodes for n in seg]
 
+                # set target first and last node ('end' nodes)
                 targetFirstNode = target_ids[0][0]
                 targetLastNode = target_ids[-1][1]
 
