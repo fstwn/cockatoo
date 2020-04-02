@@ -151,6 +151,82 @@ class KnitNetworkBase(nx.Graph):
 
         return RenderGraph
 
+    def MakeGephiGraph(self):
+        """
+        Creates a new graph with attributes for visualising this networkx
+        using GraphViz.
+
+        Based on code by Anders Holden Deleuran
+        """
+
+        # colors
+        black = "black"
+        white = "white"
+        blue = "blue"
+        red = "red"
+        green = "green"
+        orange = "orange"
+
+        # node shapes
+        circle = "circle"
+
+        if isinstance(self, nx.MultiGraph):
+            GephiGraph = nx.MultiDiGraph()
+        else:
+            GephiGraph = nx.DiGraph()
+
+        kmn_nodes = self.nodes(data=True)
+        kmn_edges = self.edges(data=True)
+
+        # add all nodes to the render graph
+        for node in kmn_nodes:
+            if node[1]["end"] and not node[1]["leaf"]:
+                nType = "end"
+                nCol = red
+                nodeShape = circle
+
+            elif node[1]["leaf"] and not node[1]["end"]:
+                nType = "leaf"
+                nCol = green
+                nodeShape = circle
+
+            elif node[1]["leaf"] and node[1]["end"]:
+                nType = "end leaf"
+                nCol = orange
+                nodeShape = circle
+
+            else:
+                nType = "regular"
+                nCol = black
+                nodeShape = circle
+
+            nodeAttrs = {"color": nCol,
+                         "shape": nodeShape,
+                         "type": nType}
+
+            GephiGraph.add_node(node[0], attr_dict=nodeAttrs)
+
+        # ad all edges to the render graph
+        for edge in kmn_edges:
+            if edge[2]["weft"]:
+                eType = "weft"
+                eWeight = 1
+                eCol = blue
+            elif edge[2]["warp"]:
+                eType = "warp"
+                eWeight = 10
+                eCol = red
+            elif not edge[2]["weft"] and not edge[2]["warp"]:
+                continue
+
+            edgeAttrs = {"weight": eWeight,
+                         "color": eCol,
+                         "type": eType}
+
+            GephiGraph.add_edge(edge[0], edge[1], attr_dict=edgeAttrs)
+
+        return GephiGraph
+
     # NODE CREATION ------------------------------------------------------------
 
     def NodeFromPoint3d(self, node_index, pt, position=None, num=None, leaf=False, end=False, segment=None):
