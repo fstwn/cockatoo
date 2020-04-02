@@ -593,7 +593,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                                    segment_chain[-1][1],
                                    index)
                     chain_tuple = (segment_chain, chain_value)
-                    all_found_chains.append(chain_tuple)
+                    source_chains.append(chain_tuple)
 
                     # if this is a 'leaf' node, also travel the segments until
                     # a 'downwards' connection is found
@@ -608,7 +608,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                                        segment_chain[-1][1],
                                        index)
                         chain_tuple = (segment_chain, chain_value)
-                        all_found_chains.append(chain_tuple)
+                        source_chains.append(chain_tuple)
 
 
             # get the connected segments at the end and traverse them until
@@ -635,7 +635,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                                        segment_chain[-1][1],
                                        index)
                         chain_tuple = (segment_chain, chain_value)
-                        all_found_chains.append(chain_tuple)
+                        target_chains.append(chain_tuple)
 
                     # travel the connected segments until a 'downwards'
                     # connection is found
@@ -649,7 +649,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                                    segment_chain[-1][1],
                                    index)
                     chain_tuple = (segment_chain, chain_value)
-                    all_found_chains.append(chain_tuple)
+                    target_chains.append(chain_tuple)
 
             # join the list of found chains and add them to the collection
             all_found_chains = source_chains + target_chains
