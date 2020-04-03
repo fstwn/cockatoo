@@ -1,7 +1,9 @@
 """
 Finds approximate geodesics on a mesh by relaxing a polyline between two
 destinations points on the mesh using the Kangaroo2 solver.
-Based on an approach by Anders Holden Deleuran
+
+Based on an approach by Anders Holden Deleuran:
+https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
     Inputs:
         Run: Activate the component, if False the input will pass through.
              {item, boolean}
@@ -31,7 +33,7 @@ Based on an approach by Anders Holden Deleuran
     Remarks:
         Author: Max Eschenbach, based on an approach by Anders Holden Deleuran
         License: Apache License 2.0
-        Version: 200324
+        Version: 200328
 """
 
 # PYTHON LIBRARY IMPORTS
