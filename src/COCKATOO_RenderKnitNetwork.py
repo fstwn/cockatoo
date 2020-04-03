@@ -6,7 +6,7 @@ TODO: Update docstring!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200325
+        Version: 200403
 """
 
 # PYTHON LIBRARY IMPORTS
@@ -30,7 +30,7 @@ ghenv.Component.SubCategory = "7 Visualisation"
 
 class RenderKnitNetwork(component):
     
-    def RunScript(self, KN, RenderNodes, RenderNodeIndices, RenderNodeData, NodeTextPlane, NodeTextHeight, RenderContourEdges, RenderContourEdgeData, RenderWeftEdges, RenderWeftEdgeData, RenderWarpEdges, RenderWarpEdgeData, EdgeTextHeight, EdgeTextPlane):
+    def RunScript(self, Toggle, KN, RenderNodes, RenderNodeIndices, RenderNodeData, NodeTextPlane, NodeTextHeight, RenderContourEdges, RenderContourEdgeData, RenderWeftEdges, RenderWeftEdgeData, RenderWarpEdges, RenderWarpEdgeData, EdgeTextHeight, EdgeTextPlane):
         
         # SET DEFAULTS ---------------------------------------------------------
         if NodeTextHeight == None:
@@ -47,10 +47,10 @@ class RenderKnitNetwork(component):
         
         # RENDER ACCORDING TO SET PARAMETERS -----------------------------------
         
-        if KN and (RenderNodes or \
-                    RenderContourEdges or \
-                    RenderWeftEdges or \
-                    RenderWarpEdges):
+        if Toggle and KN and (RenderNodes or \
+                              RenderContourEdges or \
+                              RenderWeftEdges or \
+                              RenderWarpEdges):
             
             # create customdisplay
             viz = customDisplay(self, True)
@@ -150,7 +150,7 @@ class RenderKnitNetwork(component):
                     data = node[1]
                     if data["end"] == True:
                         if RenderNodes:
-                            viz.AddPoint(data["geo"], colEnd, psEnd, 2)
+                            viz.AddPoint(data["geo"], colEnd, psEnd, 3)
                     elif data["leaf"] == True:
                         if RenderNodes:
                             viz.AddPoint(data["geo"], colLeaf, psLeaf, 3)
