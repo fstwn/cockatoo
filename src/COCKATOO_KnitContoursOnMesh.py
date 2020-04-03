@@ -13,7 +13,7 @@ TODO: Update docstring
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200325
+        Version: 200328
 """
 
 # PYTHON LIBRARY IMPORTS
@@ -157,7 +157,7 @@ class KnitContoursOnMesh(component):
         
         return overall_length, seg_ratios
     
-    def CreateContours(self, KMCList, DensitySE, DensityLR, SamplingMode):
+    def CreateContours(self, KMCList, StartEndDensity, LeftRightDensity, StartEndMode, LeftRightMode):
         
         # unpack the kmclist
         StartCourse, EndCourse, LeftBoundary, RightBoundary = KMCList
@@ -176,17 +176,20 @@ class KnitContoursOnMesh(component):
         
         # SET SAMPLING DENSITY -------------------------------------------------
         
-        if SamplingMode == 0:
-            DensityLR = int(DensityLR)
-            DensitySE = int(DensitySE)
-        elif SamplingMode == 1:
-            DensityLR = int(round(max([ltLen, rtLen])/DensityLR))
-            DensitySE = int(round(max([stLen, etLen])/DensitySE))
+        if StartEndMode == 0:
+            StartEndDensity = int(StartEndDensity)
+        elif StartEndMode == 1:
+            StartEndDensity = int(round(max([stLen, etLen])/StartEndDensity))
+        
+        if LeftRightMode == 0:
+            LeftRightDensity = int(LeftRightDensity)
+        elif LeftRightMode == 1:
+            LeftRightDensity = int(round(max([ltLen, rtLen])/LeftRightDensity))
         
         # COMPUTE DIVISIONS FOR LEFT AND RIGHT BOUNDARY SEGMENTS ---------------
         
         # get left boundary divisions
-        lbDiv = [int(round(rat*int(DensityLR))) for rat in lbRat]
+        lbDiv = [int(round(rat*int(LeftRightDensity))) for rat in lbRat]
         lbSum = sum(lbDiv)
         if 0 in lbDiv:
             for i, val in enumerate(lbDiv):
@@ -194,15 +197,15 @@ class KnitContoursOnMesh(component):
                     lbDiv[i] += 1
                 if val == max(lbDiv):
                     lbDiv[i] -= 1
-        if lbSum != DensityLR:
-            dlt = int(DensityLR - lbSum)
+        if lbSum != LeftRightDensity:
+            dlt = int(LeftRightDensity - lbSum)
             for i, val in enumerate(lbDiv):
                 if val == max(lbDiv):
                     lbDiv[i] += dlt
                     break
         
         # get right boundary divisions
-        rbDiv = [int(round(rat*int(DensityLR))) for rat in rbRat]
+        rbDiv = [int(round(rat*int(LeftRightDensity))) for rat in rbRat]
         rbSum = sum(rbDiv)
         if 0 in rbDiv:
             for i, val in enumerate(rbDiv):
@@ -210,20 +213,20 @@ class KnitContoursOnMesh(component):
                     rbDiv[i] += 1
                 if val == max(rbDiv):
                     rbDiv[i] -= 1
-        if rbSum != DensityLR:
-            dlt = int(DensityLR - rbSum)
+        if rbSum != LeftRightDensity:
+            dlt = int(LeftRightDensity - rbSum)
             for i, val in enumerate(rbDiv):
                 if val == max(rbDiv):
                     rbDiv[i] += dlt
                     break
         
         # raise errors if input is wrong
-        if not sum(lbDiv) == sum(rbDiv) == DensityLR:
-            if SamplingMode == 0:
+        if not sum(lbDiv) == sum(rbDiv) == LeftRightDensity:
+            if LeftRightMode == 0:
                 raise ValueError("Sampling density for left and right is too " +
                                  "low for number of left or right segments! " +
                                  "Try increasing the density.")
-            elif SamplingMode == 1:
+            elif LeftRightMode == 1:
                 raise ValueError("Sampling distance for left and right is " +
                                  "too high for number of left or right " +
                                  "segments! Try decreasing the distance.")
@@ -247,7 +250,7 @@ class KnitContoursOnMesh(component):
         # GET SEGMENTATION RATIOS FOR START AND END BOUNDARY -------------------
         
         # get start boundary divisions
-        sDiv = [int(round(rat*int(DensitySE))) for rat in sRat]
+        sDiv = [int(round(rat*int(StartEndDensity))) for rat in sRat]
         sSum = sum(sDiv)
         if 0 in sDiv:
             for i, val in enumerate(sDiv):
@@ -255,15 +258,15 @@ class KnitContoursOnMesh(component):
                     sDiv[i] += 1
                 if val == max(sDiv):
                     sDiv[i] -= 1
-        if sSum != DensitySE:
-            dlt = int(DensitySE - sSum)
+        if sSum != StartEndDensity:
+            dlt = int(StartEndDensity - sSum)
             for i, val in enumerate(sDiv):
                 if val == max(sDiv):
                     sDiv[i] += dlt
                     break
         
         # get end boundary divisions
-        eDiv = [int(round(rat*int(DensitySE))) for rat in eRat]
+        eDiv = [int(round(rat*int(StartEndDensity))) for rat in eRat]
         eSum = sum(eDiv)
         if 0 in eDiv:
             for i, val in enumerate(eDiv):
@@ -271,20 +274,20 @@ class KnitContoursOnMesh(component):
                     eDiv[i] += 1
                 if val == max(eDiv):
                     eDiv[i] -= 1
-        if eSum != DensitySE:
-            dlt = int(DensityLR - eSum)
+        if eSum != StartEndDensity:
+            dlt = int(LeftRightDensity - eSum)
             for i, val in enumerate(eDiv):
                 if val == max(eDiv):
                     eDiv[i] += dlt
                     break
         
         # raise errors if input is wrong
-        if not sum(sDiv) == sum(eDiv) == DensitySE:
-            if SamplingMode == 0:
+        if not sum(sDiv) == sum(eDiv) == StartEndDensity:
+            if StartEndMode == 0:
                 raise ValueError("Sampling density for start and end is too " +
                                  "low for number of start or end segments! " +
                                  "Try increasing the density.")
-            elif SamplingMode == 1:
+            elif StartEndMode == 1:
                 raise ValueError("Sampling distance for start and end is too " +
                                  "high for number of start or end segments! " +
                                  "Try decreasing the distance.")
@@ -318,7 +321,7 @@ class KnitContoursOnMesh(component):
         # sample destination lines
         for i, d in enumerate(destinations):
             d.Domain = Rhino.Geometry.Interval(0, 1)
-            dt = d.DivideByCount(DensityLR, True)
+            dt = d.DivideByCount(LeftRightDensity, True)
             dpts = [d.PointAt(t) for t in dt]
             destinations[i] = Rhino.Geometry.PolylineCurve(dpts)
         
@@ -332,15 +335,20 @@ class KnitContoursOnMesh(component):
         
         return Contours
     
-    def RunScript(self, Run, Mesh, KnitConstraints, SamplingDensitySE, SamplingDensityLR, SamplingMode, MaxIterations, Tolerance, Threshold, VizContours):
+    def RunScript(self, Run, Mesh, KnitConstraints, StartEndDensity, StartEndMode, LeftRightDensity, LeftRightMode, MaxIterations, Tolerance, Threshold, VizContours):
         
         # INITIALIZATION -------------------------------------------------------
         
         # sanitize samplingmode input
-        if SamplingMode < 0:
-            SamplingMode = 0
-        elif SamplingMode > 1:
-            SamplingMode = 1
+        if StartEndMode < 0:
+            StartEndMode = 0
+        elif StartEndMode > 1:
+            StartEndMode = 1
+        
+        if LeftRightMode < 0:
+            LeftRightMode = 0
+        elif LeftRightMode > 1:
+            LeftRightMode = 1
         
         # set default for maximum iterations
         if MaxIterations == None:
@@ -377,9 +385,10 @@ class KnitContoursOnMesh(component):
         # SAMPLE INPUT AND CREATE CONTOURS -------------------------------------
         
         Contours = self.CreateContours(KMCList,
-                                       SamplingDensitySE,
-                                       SamplingDensityLR,
-                                       SamplingMode)
+                                       StartEndDensity,
+                                       LeftRightDensity,
+                                       StartEndMode,
+                                       LeftRightMode)
         
         # RELAX CONTOUR CURVES ON THE MESH -------------------------------------
         
