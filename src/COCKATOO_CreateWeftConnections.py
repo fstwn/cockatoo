@@ -42,9 +42,11 @@ class CreateWeftConnections(component):
                 SplittingIndex = None
             
             # create weft connections on the copy of the network
-            KN.CreateWeftConnections(startIndex=SplittingIndex,
-                                      precise=Precise,
-                                      verbose=False)
+            KN.CreateWeftConnections(start_index=SplittingIndex,
+                                     include_leaves=True,
+                                     least_connected=False,
+                                     precise=Precise,
+                                     verbose=False)
             
         elif not Toggle and KN:
             return KN
