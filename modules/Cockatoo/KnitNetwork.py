@@ -452,7 +452,7 @@ class KnitNetwork(KnitNetworkBase):
                     # the target position to the next node that is connected
                     # to this position. these two nodes will define the window
 
-                    # NOTE: the current vertex should never have a connection
+                    # NOTE: the current node should never have a connection
                     # to target position (theoretically!), otherwise it should
                     # have fallen through the checks by now
 
