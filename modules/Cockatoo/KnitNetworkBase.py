@@ -154,7 +154,7 @@ class KnitNetworkBase(nx.Graph):
     def MakeGephiGraph(self):
         """
         Creates a new graph with attributes for visualising this networkx
-        using GraphViz.
+        using Gephi.
 
         Based on code by Anders Holden Deleuran
         """
