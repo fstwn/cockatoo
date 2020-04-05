@@ -56,6 +56,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                                   d["segment"] != None]
 
         # sort them by their 'segment' attributes value
+        # SegmentContourEdges.sort(key=lambda x: x[2]["segment"])
         SegmentContourEdges.sort(key=lambda x: x[2]["segment"])
 
         return SegmentContourEdges
@@ -210,7 +211,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
     def CreateWeftConnections(self):
         """
         Loop through all the segment contours and create all 'weft' connections
-        for this network.
+        for this mapping network.
         """
 
         # namespace mapping for performance gains
@@ -278,9 +279,10 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
     def _create_warp_connections(self, segment_pair, max_connections=4, precise=False, verbose=False):
         """
-        Private method for creating initial 'warp' connections for the supplied
-        pair of segment chains.
-        The pairs are only defined as a set of nodes
+        Private method for creating first pass 'warp' connections for the
+        supplied pair of segment chains.
+        The pair is only defined as a list of nodes, the nodes have to be
+        supplied with their attribute data!
         """
 
         # TODO: use forbidden node setting to avoid crossing connections!
@@ -455,7 +457,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                                           max_connections=max_connections,
                                           verbose=verbose)
 
-    def _traverse_segment_until_warp(self, waySegments, down=False):
+    def _traverse_segment_until_warp(self, waySegments, down=False, by_end=False):
         """
         Private method for traversing a path of 'segment' edges until a 'warp'
         edge is discovered which points to the previous or the next segment.
@@ -469,35 +471,55 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             # set the current segment
             current_segment = segment_list[-1]
 
-            # check that segment for a 'warp' edge
-            warp_edges_at_end = self.NodeWarpEdges(current_segment[1])
-            if down:
-                filtered_warp_edges = [we for we in warp_edges_at_end \
-                                       if we[1] == current_segment[1]-1]
+            if by_end:
+                # check that segment for 'warp' edges at the start
+                warp_edges_at_start = self.NodeWarpEdges(current_segment[0])
+                if down:
+                    filtered_warp_edges = [we for we in warp_edges_at_start \
+                                           if we[1] == current_segment[0]-1]
+                else:
+                    filtered_warp_edges = [we for we in warp_edges_at_start \
+                                           if we[1] == current_segment[0]+1]
             else:
-                filtered_warp_edges = [we for we in warp_edges_at_end \
-                                       if we[1] == current_segment[1]+1]
+                # check that segment for 'warp' edges at the end
+                warp_edges_at_end = self.NodeWarpEdges(current_segment[1])
+                if down:
+                    filtered_warp_edges = [we for we in warp_edges_at_end \
+                                           if we[1] == current_segment[1]-1]
+                else:
+                    filtered_warp_edges = [we for we in warp_edges_at_end \
+                                           if we[1] == current_segment[1]+1]
 
             # if there is a warp edge at the end, return the segment_list
-            if len(filtered_warp_edges) != 0 or (len(warp_edges_at_end) == 1 and self.node[current_segment[1]]["leaf"]):
+            if by_end and (len(filtered_warp_edges) != 0 or (len(warp_edges_at_start) == 1 and self.node[current_segment[0]]["leaf"])):
+                flag = True
+                break
+            elif not by_end and (len(filtered_warp_edges) != 0 or (len(warp_edges_at_end) == 1 and self.node[current_segment[1]]["leaf"])):
                 flag = True
                 break
 
             # get all connected segments at the last point of the segment
-            connected_segments_at_end = self.EndNodeSegmentsByStart(current_segment[1], data=True)
+            if by_end:
+                connected_segments = self.EndNodeSegmentsByEnd(current_segment[0], data=True)
+            else:
+                connected_segments = self.EndNodeSegmentsByStart(current_segment[1], data=True)
 
             # from these, only get the segment with the lowest id
-            if len(connected_segments_at_end) > 0:
-                if down:
-                    candidate_segment = connected_segments_at_end[0]
-                else:
-                    candidate_segment = connected_segments_at_end[-1]
+            if len(connected_segments) > 0:
+                candidate_segment = connected_segments[0]
+                # if down:
+                #     candidate_segment = connected_segments_at_end[0]
+                # else:
+                #     candidate_segment = connected_segments_at_end[-1]
                 # append the segment to the segment_list
                 segment_list.append(candidate_segment[2]["segment"])
             else:
                 break
 
             i += 1
+
+        if by_end:
+            segment_list.reverse()
 
         return segment_list
 
@@ -535,6 +557,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         #       New idea: split the dicts and lists in source and target chains,
         #       only loop through source chains and only search in target
         #       chains?
+        #       ---> Works definitely better but still leads to some errors...
 
         # TODO 2: include 'end' nodes between segments in a chain of segments
         #         in the current and target nodes for 'warp' edge creation
@@ -556,9 +579,12 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         SegmentDict = dict(zip(SegmentValues,
                                zip(SegmentContourEdges, AllNodesBySegment)))
 
-        # initialize list and dictionary for storage of chains
-        segment_chains = []
-        segment_chain_dict = dict()
+        # initialize lists and dictionaries for storage of chains
+        source_chains = []
+        source_chain_dict = dict()
+
+        target_chains = []
+        target_chain_dict = dict()
 
         # initialize deque for mapping of segment chains
         segment_mapping = deque()
@@ -570,99 +596,111 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
         # loop through all warp edges and build segment chains
         for i, warp_edge in enumerate(AllWarpEdges):
-            # get the connected segments at the start and traverse them until
-            # a 'warp' edge up is hit to build the segment chains
+
+            # initialize temporary lists for source and target chains
+            source_pass_chains = []
+            target_pass_chains = []
+
+            # START OF 'WARP' EDGE ---------------------------------------------
+
+            # get the connected segments at the start of the 'warp edge'
             warpStart = warp_edge[0]
-            warpStartLeafFlag = False #selfNode[warp_edge[0]]["leaf"]
+            warpStartLeafFlag = selfNode[warp_edge[0]]["leaf"]
             connected_start_segments = selfEndNodeSegmentsByStart(warpStart,
                                                                   data=True)
 
             # traverse segments from start node of 'warp' edge
-            source_chains = []
             if len(connected_start_segments) > 0:
                 for j, cs in enumerate(connected_start_segments):
-                    # travel the connected segments until a 'upwards'
-                    # connection is found
+                    # travel the connected segments at the start of the 'warp'
+                    # edge until a 'upwards' connection is found and append
+                    # it to the source chains of this pass
                     segment_chain = self_traverse_segment_until_warp(
                                                             [cs[2]["segment"]],
                                                             down=False)
-                    index = len([c for c in source_chains \
+                    index = len([c for c in source_pass_chains \
                                  if c[0][0][0] == segment_chain[0][0] \
                                  and c[0][-1][1] == segment_chain[-1][1]])
                     chain_value = (segment_chain[0][0],
                                    segment_chain[-1][1],
                                    index)
                     chain_tuple = (segment_chain, chain_value)
-                    source_chains.append(chain_tuple)
+                    source_pass_chains.append(chain_tuple)
 
                     # if this is a 'leaf' node, also travel the segments until
-                    # a 'downwards' connection is found
+                    # a 'downwards' connection is found and append this to the
+                    # target (!) chains of this pass
                     if warpStartLeafFlag:
                         segment_chain = self_traverse_segment_until_warp(
                                                             [cs[2]["segment"]],
                                                             down=True)
-                        index = len([c for c in source_chains \
+                        index = len([c for c in target_pass_chains \
                                      if c[0][0][0] == segment_chain[0][0] \
                                      and c[0][-1][1] == segment_chain[-1][1]])
                         chain_value = (segment_chain[0][0],
                                        segment_chain[-1][1],
                                        index)
                         chain_tuple = (segment_chain, chain_value)
-                        source_chains.append(chain_tuple)
+                        target_pass_chains.append(chain_tuple)
 
+            # END OF 'WARP' EDGE -----------------------------------------------
 
-            # get the connected segments at the end and traverse them until
-            # a 'warp' edge down is hit to build the segment chain
+            # get the connected segments at the end
             warpEnd = warp_edge[1]
-            warpEndLeafFlag = False #selfNode[warp_edge[1]]["leaf"]
+            warpEndLeafFlag = selfNode[warp_edge[1]]["leaf"]
             connected_end_segments = selfEndNodeSegmentsByStart(warpEnd,
                                                                 data=True)
 
             # traverse segments from end node of 'warp' edge
-            target_chains = []
             if len(connected_end_segments) > 0:
                 for j, cs in enumerate(connected_end_segments):
                     # if this is a 'leaf' node, first travel the segments until
-                    # a 'upwards' connection is found
+                    # a 'upwards' connection is found and append this to the
+                    # source (!) chains of this pass
                     if warpEndLeafFlag:
                         segment_chain = self_traverse_segment_until_warp(
                                                             [cs[2]["segment"]],
                                                             down=False)
-                        index = len([c for c in target_chains \
+                        index = len([c for c in source_pass_chains \
                                      if c[0][0][0] == segment_chain[0][0] \
                                      and c[0][-1][1] == segment_chain[-1][1]])
                         chain_value = (segment_chain[0][0],
                                        segment_chain[-1][1],
                                        index)
                         chain_tuple = (segment_chain, chain_value)
-                        target_chains.append(chain_tuple)
+                        source_pass_chains.append(chain_tuple)
 
                     # travel the connected segments until a 'downwards'
                     # connection is found
                     segment_chain = self_traverse_segment_until_warp(
                                                              [cs[2]["segment"]],
                                                              down=True)
-                    index = len([c for c in target_chains \
+                    index = len([c for c in target_pass_chains \
                                  if c[0][0][0] == segment_chain[0][0] \
                                  and c[0][-1][1] == segment_chain[-1][1]])
                     chain_value = (segment_chain[0][0],
                                    segment_chain[-1][1],
                                    index)
                     chain_tuple = (segment_chain, chain_value)
-                    target_chains.append(chain_tuple)
+                    target_pass_chains.append(chain_tuple)
 
-            # join the list of found chains and add them to the collection
-            all_found_chains = source_chains + target_chains
-            for chain in all_found_chains:
-                if chain[1] not in segment_chain_dict:
-                    segment_chains.append(chain)
-                    segment_chain_dict[chain[1]] = chain[0]
+            # append the source pass chains to the source collection
+            for chain in source_pass_chains:
+                if chain[1] not in source_chain_dict:
+                    source_chains.append(chain)
+                    source_chain_dict[chain[1]] = chain[0]
+
+            # append the target pass chains to the target collection
+            for chain in target_pass_chains:
+                if chain[1] not in target_chain_dict:
+                    target_chains.append(chain)
+                    target_chain_dict[chain[1]] = chain[0]
 
         # LOOPING THROUGH FOUND SEGMENT CHAINS ---------------------------------
 
-        # loop through the set of chains and search targets using educated
-        # guess strategy
-        for i, segment_chain in enumerate(segment_chains):
+        # loop through all source chains and find targets in target chains
+        # using an 'educated guess strategy'
+        for i, segment_chain in enumerate(source_chains):
             # get the first and last node ('end' nodes)
             firstNode = (segment_chain[0][0][0],
                          selfNode[segment_chain[0][0][0]])
@@ -678,37 +716,68 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
             print("Processing segment chain {} ...".format(segment_chain))
 
-            # CASE 1 - ENCLOSED SHORT ROW <=====> ------------------------------
+            # CASE 1 - ENCLOSED SHORT ROW <====> STANDARD CASE -----------------
 
             # define our educated guess for the target
             target_guess = (chain_value[0], chain_value[1], chain_value[2]+1)
-            if target_guess in segment_chain_dict:
-                # get the guessed target chai from the chain dictionary
-                target_chain = segment_chain_dict[target_guess]
+            if target_guess in target_chain_dict:
+                # get the guessed target chain from the chain dictionary
+                target_chain = target_chain_dict[target_guess]
                 # extract the ids for node retrieval
                 target_ids = [seg for seg in target_chain]
                 # retrieve the target nodes from the segment dictionary by id
                 target_nodes = [SegmentDict[id][1] for id in target_ids]
                 target_nodes = [n for seg in target_nodes for n in seg]
 
-                print("<=====> detected. Connecting to segment chain {} ...".format(target_guess))
+                # try to verify using mean of node indices
+                source_node_mean = current_nodes[0][0] + current_nodes[-1][0]
+                target_node_mean = target_nodes[0][0] + target_nodes[-1][0]
 
-                # we have successfully verified our target segment and
-                # can create some warp edges!
-                segment_pair = [current_nodes, target_nodes]
-                self_create_warp_connections(segment_pair,
-                                             max_connections=max_connections,
-                                             precise=precise,
-                                             verbose=verbose)
-                continue
+                if target_node_mean > source_node_mean:
+                    print("<=====> detected. Connecting to segment chain {} ...".format(target_guess))
+                    # we have successfully verified our target segment and
+                    # can create some warp edges!
+                    segment_pair = [current_nodes, target_nodes]
+                    self_create_warp_connections(segment_pair,
+                                                 max_connections=max_connections,
+                                                 precise=precise,
+                                                 verbose=verbose)
+                    continue
 
-            # CASE 2 - SHORT ROW TO THE RIGHT <=====/ --------------------------
+            # CASE 1.1 - ENCLOSED SHORT ROW <====> !!SPECIAL CASE!! ------------
+
+            target_guess = (chain_value[0], chain_value[1], chain_value[2])
+            if target_guess in target_chain_dict:
+                # get the guessed target chain from the chain dictionary
+                target_chain = target_chain_dict[target_guess]
+                # extract the ids for node retrieval
+                target_ids = [seg for seg in target_chain]
+                # retrieve the target nodes from the segment dictionary by id
+                target_nodes = [SegmentDict[id][1] for id in target_ids]
+                target_nodes = [n for seg in target_nodes for n in seg]
+
+                # try to verify using mean of node indices
+                source_node_mean = current_nodes[0][0] + current_nodes[-1][0]
+                target_node_mean = target_nodes[0][0] + target_nodes[-1][0]
+
+                if target_node_mean > source_node_mean:
+                    print("<=====> detected. Connecting to segment chain {} ...".format(target_guess))
+                    # we have successfully verified our target segment and
+                    # can create some warp edges!
+                    segment_pair = [current_nodes, target_nodes]
+                    self_create_warp_connections(segment_pair,
+                                                 max_connections=max_connections,
+                                                 precise=precise,
+                                                 verbose=verbose)
+                    continue
+
+            # CASE 2 - SHORT ROW TO THE RIGHT <=====/ STANDARD CASE ------------
 
             # define out educated guess for the target
             target_guess = (chain_value[0], chain_value[1]+1, chain_value[2])
-            if target_guess in segment_chain_dict:
-                # get the guessed target chai from the chain dictionary
-                target_chain = segment_chain_dict[target_guess]
+            if target_guess in target_chain_dict:
+                # get the guessed target chain from the chain dictionary
+                target_chain = target_chain_dict[target_guess]
                 # extract the ids for node retrieval
                 target_ids = [seg for seg in target_chain]
                 # retrieve the target nodes from the segment dictionary by id
@@ -720,29 +789,27 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
                 # check if firstNode and targetFirstNode are connected via a
                 # 'warp' edge to verify
-                if (not targetFirstNode == firstNode[0] \
-                    and not targetLastNode in self[lastNode[0]]):
-                    print("No real connection for /=====/. Skipping...")
+                if (targetFirstNode == firstNode[0] \
+                    and targetLastNode in self[lastNode[0]]):
+                    print("<=====/ detected. Connecting to segment {} ...".format(target_guess))
+                    # we have successfully verified our target segment and
+                    # can create some warp edges!
+                    segment_pair = [current_nodes, target_nodes]
+                    self_create_warp_connections(segment_pair,
+                                                 max_connections=max_connections,
+                                                 precise=precise,
+                                                 verbose=verbose)
                     continue
+                else:
+                    print("No real connection for <=====/. Skipping guess...")
 
-                print("<=====/ detected. Connecting to segment {} ...".format(target_guess))
-
-                # we have successfully verified our target segment and
-                # can create some warp edges!
-                segment_pair = [current_nodes, target_nodes]
-                self_create_warp_connections(segment_pair,
-                                             max_connections=max_connections,
-                                             precise=precise,
-                                             verbose=verbose)
-                continue
-
-            # CASE 3 - SHORT ROW TO THE RIGHT <=====/ SPECIAL CASE -------------
+            # CASE 2.1 - SHORT ROW TO THE RIGHT <=====/ !!SPECIAL CASE!! -------
 
             # define out educated guess for the target
-            target_guess = (chain_value[0], chain_value[1]+1, chain_value[2]-1)
-            if target_guess in segment_chain_dict:
-                # get the guessed target chai from the chain dictionary
-                target_chain = segment_chain_dict[target_guess]
+            target_guess = (chain_value[0], chain_value[1]+1, 0)
+            if target_guess in target_chain_dict and chain_value[2] > 0:
+                # get the guessed target chain from the chain dictionary
+                target_chain = target_chain_dict[target_guess]
                 # extract the ids for node retrieval
                 target_ids = [seg for seg in target_chain]
                 # retrieve the target nodes from the segment dictionary by id
@@ -752,31 +819,34 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 targetFirstNode = target_ids[0][0]
                 targetLastNode = target_ids[-1][1]
 
+                # try to verify using mean of node indices
+                source_node_mean = current_nodes[0][0] + current_nodes[-1][0]
+                target_node_mean = target_nodes[0][0] + target_nodes[-1][0]
+
                 # check if firstNode and targetFirstNode are connected via a
                 # 'warp' edge to verify
-                if (not targetFirstNode == firstNode[0] \
-                    and not targetLastNode in self[lastNode[0]]):
-                    print("No real connection for /=====/. Skipping...")
+                if ((targetFirstNode == firstNode[0] \
+                    and targetLastNode in self[lastNode[0]])
+                    and target_node_mean > source_node_mean):
+                    print("<=====/ SPECIAL detected. Connecting to segment {} ...".format(target_guess))
+                    # we have successfully verified our target segment and
+                    # can create some warp edges!
+                    segment_pair = [current_nodes, target_nodes]
+                    self_create_warp_connections(segment_pair,
+                                                 max_connections=max_connections,
+                                                 precise=precise,
+                                                 verbose=verbose)
                     continue
+                else:
+                    print("No real connection for <=====/. Skipping guess...")
 
-                print("<=====/ detected. Connecting to segment {} ...".format(target_guess))
-
-                # we have successfully verified our target segment and
-                # can create some warp edges!
-                segment_pair = [current_nodes, target_nodes]
-                self_create_warp_connections(segment_pair,
-                                             max_connections=max_connections,
-                                             precise=precise,
-                                             verbose=verbose)
-                continue
-
-            # CASE 4 - SHORT ROW TO THE LEFT /====> ----------------------------
+            # CASE 3 - SHORT ROW TO THE LEFT /====> STANDARD CASE --------------
 
             # define out educated guess for the target
             target_guess = (chain_value[0]+1, chain_value[1], chain_value[2])
-            if target_guess in segment_chain_dict:
-                # get the guessed target chai from the chain dictionary
-                target_chain = segment_chain_dict[target_guess]
+            if target_guess in target_chain_dict:
+                # get the guessed target chain from the chain dictionary
+                target_chain = target_chain_dict[target_guess]
                 # extract the ids for node retrieval
                 target_ids = [seg for seg in target_chain]
                 # retrieve the target nodes from the segment dictionary by id
@@ -788,63 +858,27 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
                 # check if firstNode and is connected to targetFirstNode via
                 # a 'warp' edge and if lastNode equals targetLastNode
-                if (not targetFirstNode in self[firstNode[0]] \
-                    and not targetLastNode == lastNode[0]):
-                    print("No real connection for /=====/. Skipping...")
+                if (targetFirstNode in self[firstNode[0]] \
+                    and targetLastNode == lastNode[0]):
+                    print("/=====> detected. Connecting to segment {} ...".format(target_guess))
+                    # we have successfully verified our target segment and
+                    # can create some warp edges!
+                    segment_pair = [current_nodes, target_nodes]
+                    self_create_warp_connections(segment_pair,
+                                                 max_connections=max_connections,
+                                                 precise=precise,
+                                                 verbose=verbose)
                     continue
+                else:
+                    print("No real connection for /=====>. Skipping guess...")
 
-                print("/=====> detected. Connecting to segment {} ...".format(target_guess))
-
-                # we have successfully verified our target segment and
-                # can create some warp edges!
-                segment_pair = [current_nodes, target_nodes]
-                self_create_warp_connections(segment_pair,
-                                             max_connections=max_connections,
-                                             precise=precise,
-                                             verbose=verbose)
-                continue
-
-            # CASE 5 - SHORT ROW TO THE LEFT /====> SPECIAL CASE ---------------
-
-            # define out educated guess for the target
-            target_guess = (chain_value[0]+1, chain_value[1], chain_value[2]-1)
-            if target_guess in segment_chain_dict:
-                # get the guessed target chai from the chain dictionary
-                target_chain = segment_chain_dict[target_guess]
-                # extract the ids for node retrieval
-                target_ids = [seg for seg in target_chain]
-                # retrieve the target nodes from the segment dictionary by id
-                target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [n for seg in target_nodes for n in seg]
-
-                targetFirstNode = target_ids[0][0]
-                targetLastNode = target_ids[-1][1]
-
-                # check if firstNode and is connected to targetFirstNode via
-                # a 'warp' edge and if lastNode equals targetLastNode
-                if (not targetFirstNode in self[firstNode[0]] \
-                    and not targetLastNode == lastNode[0]):
-                    print("No real connection for /=====/. Skipping...")
-                    continue
-
-                print("/=====> detected. Connecting to segment {} ...".format(target_guess))
-
-                # we have successfully verified our target segment and
-                # can create some warp edges!
-                segment_pair = [current_nodes, target_nodes]
-                self_create_warp_connections(segment_pair,
-                                             max_connections=max_connections,
-                                             precise=precise,
-                                             verbose=verbose)
-                continue
-
-            # CASE 6 - STANDARD ROW /=====/ ------------------------------------
+            # CASE 4 - REGULAR ROW /=====/ STANDARD CASE -----------------------
 
             # define out educated guess for the target
             target_guess = (chain_value[0]+1, chain_value[1]+1, chain_value[2])
-            if target_guess in segment_chain_dict:
-                # get the guessed target chai from the chain dictionary
-                target_chain = segment_chain_dict[target_guess]
+            if target_guess in target_chain_dict:
+                # get the guessed target chain from the chain dictionary
+                target_chain = target_chain_dict[target_guess]
                 # extract the ids for node retrieval
                 target_ids = [seg for seg in target_chain]
                 # retrieve the target nodes from the segment dictionary by id
@@ -857,53 +891,217 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
                 # check if firstNode and targetFirstNode are connected via a
                 # 'warp' edge to verify
-                if (not targetFirstNode in self[firstNode[0]] \
-                    and not targetLastNode in self[lastNode[0]]):
-                    print("No real connection for /=====/. Skipping...")
+                if (targetFirstNode in self[firstNode[0]] \
+                    and targetLastNode in self[lastNode[0]]):
+                    print("/=====/ detected. Connecting to segment {} ...".format(target_guess))
+                    # we have successfully verified our target segment and
+                    # can create some warp edges!
+                    segment_pair = [current_nodes, target_nodes]
+                    self_create_warp_connections(segment_pair,
+                                                 max_connections=max_connections,
+                                                 precise=precise,
+                                                 verbose=verbose)
                     continue
+                else:
+                    print("No real connection for /=====/. Skipping guess ...")
 
-                print("/=====/ detected. Connecting to segment {} ...".format(target_guess))
+            # CASE 4.1 - REGULAR ROW /=====/ !!SPECIAL CASE!! ------------------
 
-                # we have successfully verified our target segment and
-                # can create some warp edges!
-                segment_pair = [current_nodes, target_nodes]
-                self_create_warp_connections(segment_pair,
-                                             max_connections=max_connections,
-                                             precise=precise,
-                                             verbose=verbose)
-                continue
+            # # define out educated guess for the target
+            # target_guess = (chain_value[0]+1, chain_value[1]+1, 0)
+            # if target_guess in target_chain_dict and chain_value[2] > 0:
+            #     # get the guessed target chain from the chain dictionary
+            #     target_chain = target_chain_dict[target_guess]
+            #     # extract the ids for node retrieval
+            #     target_ids = [seg for seg in target_chain]
+            #     # retrieve the target nodes from the segment dictionary by id
+            #     target_nodes = [SegmentDict[id][1] for id in target_ids]
+            #     target_nodes = [n for seg in target_nodes for n in seg]
+            #
+            #     # set target first and last node ('end' nodes) for verification
+            #     targetFirstNode = target_ids[0][0]
+            #     targetLastNode = target_ids[-1][1]
+            #
+            #     # try to verify using mean of node indices
+            #     source_node_mean = current_nodes[0][0] + current_nodes[-1][0]
+            #     target_node_mean = target_nodes[0][0] + target_nodes[-1][0]
+            #
+            #     # check if firstNode and targetFirstNode are connected via a
+            #     # 'warp' edge to verify
+            #     if ((targetFirstNode in self[firstNode[0]] \
+            #         and targetLastNode in self[lastNode[0]])
+            #         and target_node_mean > source_node_mean):
+            #         print("/=====/ SPECIAL detected. Connecting to segment {} ...".format(target_guess))
+            #         # we have successfully verified our target segment and
+            #         # can create some warp edges!
+            #         segment_pair = [current_nodes, target_nodes]
+            #         self_create_warp_connections(segment_pair,
+            #                                      max_connections=max_connections,
+            #                                      precise=precise,
+            #                                      verbose=verbose)
+            #         continue
+            #     else:
+            #         print("No real connection for /=====/. Skipping guess ...")
 
-            # CASE 7 - STANDARD ROW /=====/ SPECIAL CASE -----------------------
+    def CreateWarpConnections_v4(self, max_connections=4, include_end_nodes=True, precise=False, verbose=False):
+        """
+        Create the final 'warp' connection by looping through all initial 'warp'
+        edges of the mapping network. Traverse all connected segment contour
+        edges to build chains of segment contour edges.
+        Loop through all the found chains and find a target chain to connect
+        to using an 'educated guessing' strategy. This means that the possible
+        ids of the target segment chain are guessed by using known topology
+        facts about the network. and its special 'end' nodes.
 
-            # define out educated guess for the target id
-            target_guess = (chain_value[0]+1, chain_value[1]+1, chain_value[2]-1)
-            if target_guess in segment_chain_dict:
-                # get the guessed target chai from the chain dictionary
-                target_chain = segment_chain_dict[target_guess]
-                # extract the ids for node retrieval
-                target_ids = [seg for seg in target_chain]
-                # retrieve the target nodes from the segment dictionary by id
-                target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [n for seg in target_nodes for n in seg]
+        Parameters
+        ----------
+        max_connections : integer
+            The number of maximum previous connections a candidate node for a
+            'warp' connection is allowed to have.
 
-                # set target first and last node ('end' nodes)
-                targetFirstNode = target_ids[0][0]
-                targetLastNode = target_ids[-1][1]
+        Returns
+        -------
+        None
 
-                # check if firstNode and targetFirstNode are connected via a
-                # 'warp' edge to verify
-                if (not targetFirstNode in self[firstNode[0]] \
-                    and not targetLastNode in self[lastNode[0]]):
-                    print("No real connection for /=====/. Skipping...")
-                    continue
+        Notes
+        -----
+        None
 
-                print("/=====/ detected. Connecting to segment {} ...".format(target_guess))
+        Examples
+        --------
+        None
+        """
 
-                # we have successfully verified our target segment and
-                # can create some warp edges!
-                segment_pair = [current_nodes, target_nodes]
-                self_create_warp_connections(segment_pair,
-                                             max_connections=max_connections,
-                                             precise=precise,
-                                             verbose=verbose)
-                continue
+        # TODO 2: include 'end' nodes between segments in a chain of segments
+        #         in the current and target nodes for 'warp' edge creation
+
+        # TODO 3: store all connections that were made as a mapping for the
+        #         second pass loop.
+
+        # namespace mapping for performance gains
+        selfNode = self.node
+        selfEndNodeSegmentsByStart = self.EndNodeSegmentsByStart
+        self_traverse_segment_until_warp = self._traverse_segment_until_warp
+        self_create_warp_connections = self._create_warp_connections
+
+        # get all segment ids, nodes per segment and edges
+        SegmentValues, AllNodesBySegment, SegmentContourEdges = zip(
+                                 *self.AllNodesBySegment(data=True, edges=True))
+
+        # build a dictionary of the segments by their index
+        SegmentDict = dict(zip(SegmentValues,
+                               zip(SegmentContourEdges, AllNodesBySegment)))
+
+        # initialize lists and dictionaries for storage of chains
+        source_chains = []
+        source_chain_dict = dict()
+
+        # initialize deque for mapping of segment chains
+        segment_mapping = deque()
+
+        # BUILD SEGMENT CHAINS BY LOOPING THROUGH 'WARP' EDGES -----------------
+
+        # get all warp edges of the mappingnetwork
+        AllWarpEdges = self.WarpEdges
+
+        # loop through all warp edges and build source segment chains
+        for i, warp_edge in enumerate(AllWarpEdges):
+
+            # initialize temporary lists for source and target chains
+            source_pass_chains = []
+
+            # START OF 'WARP' EDGE ---------------------------------------------
+
+            # get the connected segments at the start of the 'warp edge'
+            warpStart = warp_edge[0]
+            warpStartLeafFlag = selfNode[warp_edge[0]]["leaf"]
+            connected_start_segments = selfEndNodeSegmentsByStart(warpStart,
+                                                                  data=True)
+
+            # traverse segments from start node of 'warp' edge
+            if len(connected_start_segments) > 0:
+                for j, cs in enumerate(connected_start_segments):
+                    # travel the connected segments at the start of the 'warp'
+                    # edge until a 'upwards' connection is found and append
+                    # it to the source chains of this pass
+                    segment_chain = self_traverse_segment_until_warp(
+                                                            [cs[2]["segment"]],
+                                                            down=False)
+                    index = len([c for c in source_pass_chains \
+                                 if c[0][0][0] == segment_chain[0][0] \
+                                 and c[0][-1][1] == segment_chain[-1][1]])
+                    chain_value = (segment_chain[0][0],
+                                   segment_chain[-1][1],
+                                   index)
+                    chain_tuple = (segment_chain, chain_value)
+                    source_pass_chains.append(chain_tuple)
+
+            # END OF 'WARP' EDGE -----------------------------------------------
+
+            # get the connected segments at the end
+            warpEnd = warp_edge[1]
+            warpEndLeafFlag = selfNode[warp_edge[1]]["leaf"]
+            connected_end_segments = selfEndNodeSegmentsByStart(warpEnd,
+                                                                data=True)
+
+            # traverse segments from end node of 'warp' edge
+            if len(connected_end_segments) > 0 and warpEndLeafFlag:
+                for j, cs in enumerate(connected_end_segments):
+                    # if this is a 'leaf' node, first travel the segments until
+                    # a 'upwards' connection is found and append this to the
+                    # source (!) chains of this pass
+                    segment_chain = self_traverse_segment_until_warp(
+                                                        [cs[2]["segment"]],
+                                                        down=False)
+                    index = len([c for c in source_pass_chains \
+                                 if c[0][0][0] == segment_chain[0][0] \
+                                 and c[0][-1][1] == segment_chain[-1][1]])
+                    chain_value = (segment_chain[0][0],
+                                   segment_chain[-1][1],
+                                   index)
+                    chain_tuple = (segment_chain, chain_value)
+                    source_pass_chains.append(chain_tuple)
+
+            # append the source pass chains to the source collection
+            for chain in source_pass_chains:
+                if chain[1] not in source_chain_dict:
+                    source_chains.append(chain)
+                    source_chain_dict[chain[1]] = chain[0]
+
+        # LOOPING THROUGH FOUND SEGMENT CHAINS ---------------------------------
+
+        # loop through all source chains and find targets in target chains
+        # using an 'educated guess strategy'
+        for i, segment_chain in enumerate(source_chains):
+            # get the first and last node ('end' nodes)
+            firstNode = (segment_chain[0][0][0],
+                         selfNode[segment_chain[0][0][0]])
+            lastNode = (segment_chain[0][-1][1],
+                        selfNode[segment_chain[0][-1][1]])
+            # get the chain value of the current chain
+            chain_value = segment_chain[1]
+            # extract the ids of the current chain
+            current_ids = segment_chain[0]
+            # retrieve the current nodes from the segment dictionary by id
+            current_nodes = [SegmentDict[id][1] for id in current_ids]
+            current_nodes = [n for seg in current_nodes for n in seg]
+
+            print("Processing segment chain {} ...".format(segment_chain))
+
+            # CHECK THE END NODE OF THE CHAIN FOR CONNECTED SEGMENTS BY END
+
+            # FILTER THESE SEGMENTS SO THAT WE NEEVER GET THE CURRENT SOURCE
+
+            # IF THERE ARE SEGMENTS LEFT, TRAVERSE THE ONE WITH THE "NEXT LOWEST" ID BY END UNTIL WARP DOWN
+
+            # ----> WE SHOULD HAVE A PAIR NOW
+
+            # IF NO SEGS ARE LEFT, CHECK IF THE END NODE HAS A 'WARP' EDGE UPWARDS
+
+            # IF NOT, CONTINUE
+
+            # IF YES, TRAVERSE THAT WARP EDGE
+
+            # TRAVERSE THE SEGMENT WITH THE "NEXT LOWEST" ID AT THAT WARP EDGES TARGET BY END UNTIL WARP DOWN
+
+            # ----> WE SHOULD HAVE A PAIR NOW
