@@ -705,9 +705,9 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             'warp' connection is allowed to have.
 
         include_end_nodes : boolean
-            If True, 'end' nodes between adjacent segment contours in a chain
-            will be included in the first pass of connecting 'warp' edges.
-            Defaults to False.
+            If True, 'end' nodes between adjacent segment contours in a source
+            chain will be included in the first pass of connecting 'warp' edges.
+            Defaults to True.
 
         precise : boolean
             If True, the distance between nodes will be calculated using the
@@ -721,9 +721,6 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             analysis.
             Defaults to False.
         """
-
-        # TODO 2: include 'end' nodes between segments in a chain of segments
-        #         in the current and target nodes for 'warp' edge creation
 
         # TODO 3: store all connections that were made as a mapping for the
         #         second pass
@@ -766,9 +763,15 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             current_chain_geo = RGCurve.JoinCurves([ccg.ToPolylineCurve() \
                                           for ccg in current_chain_geo_list])[0]
             current_chain_spt = current_chain_geo.PointAtNormalizedLength(0.5)
-            # retrieve the current nodes from the segment dictionary by id
-            current_nodes = [SegmentDict[id][1] for id in current_ids]
-            current_nodes = [n for seg in current_nodes for n in seg]
+            # retrieve the current segments from the segment dictionary by id
+            current_segment_nodes = [SegmentDict[id][1] for id in current_ids]
+            # retrieve the current nodes from the list of current segments
+            current_nodes = []
+            for j, csn in enumerate(current_segment_nodes):
+                if include_end_nodes and j > 0:
+                    current_nodes.append((current_ids[j][0],
+                                          selfNode[current_ids[j][0]]))
+                [current_nodes.append(n) for n in csn]
 
             # reset the target key
             target_key = None
@@ -904,7 +907,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 # check if firstNode and targetFirstNode are connected via a
                 # 'warp' edge to verify
                 if (targetFirstNode == firstNode[0] \
-                    and targetLastNode in self[lastNode[0]]):
+                and targetLastNode in self[lastNode[0]]):
                     # print info on verbose setting
                     if verbose:
                         vStr = "<=====/ detected. Connecting to segment {}."
@@ -978,7 +981,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 # check if firstNode and targetFirstNode are connected via a
                 # 'warp' edge to verify
                 if (targetFirstNode in self[firstNode[0]] \
-                    and targetLastNode == lastNode[0]):
+                and targetLastNode == lastNode[0]):
                     # print info on verbose setting
                     if verbose:
                         vStr = "/=====> detected. Connecting to segment {}."
@@ -1053,7 +1056,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 # check if firstNode and targetFirstNode are connected via a
                 # 'warp' edge to verify
                 if (targetFirstNode in self[firstNode[0]] \
-                    and targetLastNode in self[lastNode[0]]):
+                and targetLastNode in self[lastNode[0]]):
                     # print info on verbose setting
                     if verbose:
                         vStr = "/=====/ detected. Connecting to segment {}."
