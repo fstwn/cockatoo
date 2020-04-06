@@ -16,9 +16,12 @@ The purpose of this project is to enable Rhino and Grasshopper to automatically 
 
 - Provide versions of the core functionality compatible to the [COMPAS framework](https://github.com/compas-dev/compas).
 
-## Testing & Contributions
+## Testing & Contributing
 
 ### You are invited to participate (yes, you!)
+
+- Contributing is as easy as trying Cockatoo for yourself. Whether you are a designer, student, teacher or scientist working with CNC-knitting - just find out what Cockatoo can do for you. In order to make Cockatoo better, we need real-world testing!
+- If Cockatoo doesn't do the things you expected it to do or simply does not work for you: Tell me about it by submitting an issue!
 
 ## Installation & Usage
 
