@@ -80,7 +80,7 @@ class KnitNetwork(KnitNetworkBase):
 
     # INITIALIZATION OF PRELIMINARY 'WEFT' EDGES -------------------------------
 
-    def AttemptWeftConnectionToCandidate(self, node, candidate, contour_nodes, max_connections=4, verbose=False):
+    def AttemptWeftConnectionToCandidate(self, node, candidate, source_nodes, max_connections=4, verbose=False):
         """
         Method for attempting a 'weft' connection to a candidate
         node. Returns True if the connection has been made, otherwise false.
