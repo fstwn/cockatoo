@@ -90,10 +90,10 @@ class KnitNetwork(KnitNetworkBase):
         # only do something if the maximum is not reached
         if len(connecting_neighbours) < max_connections:
             # determine if the node is already connected to a node from
-            # the input contour nodes
+            # the input source nodes
             isConnected = False
             for cn in connecting_neighbours:
-                if cn in [v[0] for v in contour_nodes]:
+                if cn in [v[0] for v in source_nodes]:
                     isConnected = True
                     # print info on verbose setting
                     if verbose:

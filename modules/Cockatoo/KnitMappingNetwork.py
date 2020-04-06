@@ -152,7 +152,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         else:
             return [(cs[0], cs[1]) for cs in connected_segments]
 
-    # SAMPLING OF SEGMENT CONTOURS ---------------------------------------------
+    # SEGMENT CONTOUR METHODS --------------------------------------------------
 
     def SampleSegmentContours(self, stitch_width):
         """
@@ -213,47 +213,6 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                                     segment = seg[2]["segment"])
                 # increment node index
                 nodeindex += 1
-
-    # CREATION OF FINAL 'WEFT' CONNECTIONS -------------------------------------
-
-    def CreateFinalWeftConnections(self):
-        """
-        Loop through all the segment contour edges and create all 'weft'
-        connections for this mapping network.
-        """
-
-        # namespace mapping for performance gains
-        selfNode = self.node
-        selfCreateWeftEdge = self.CreateWeftEdge
-
-        # get all nodes by segment contour
-        SegmentValues, AllNodesBySegment = zip(*self.AllNodesBySegment(True))
-
-        # loop through all the segment contours
-        for i, segment in enumerate(AllNodesBySegment):
-            segval = SegmentValues[i]
-            firstNode = (segval[0], selfNode[segval[0]])
-            lastNode = (segval[1], selfNode[segval[1]])
-
-            if len(segment) == 0:
-                print("Segment is empty!")
-                selfCreateWeftEdge(firstNode, lastNode, segval)
-            elif len(segment) == 1:
-                selfCreateWeftEdge(firstNode, segment[0], segval)
-                selfCreateWeftEdge(segment[0], lastNode, segval)
-            else:
-                # loop through all nodes on the current segment and create
-                # the final 'weft' edges
-                for j, node in enumerate(segment):
-                    if j == 0:
-                        selfCreateWeftEdge(firstNode, node, segval)
-                        selfCreateWeftEdge(node, segment[j+1], segval)
-                    elif j < len(segment)-1:
-                        selfCreateWeftEdge(node, segment[j+1], segval)
-                    elif j == len(segment)-1:
-                        selfCreateWeftEdge(node, lastNode, segval)
-
-    # CREATION OF FINAL 'WARP' CONNECTIONS -------------------------------------
 
     def TraverseSegmentUntilWarp(self, way_segments, down=False, by_end=False):
         """
@@ -328,6 +287,83 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             segment_list.reverse()
 
         return segment_list
+
+    # CREATION OF FINAL 'WEFT' CONNECTIONS -------------------------------------
+
+    def CreateFinalWeftConnections(self):
+        """
+        Loop through all the segment contour edges and create all 'weft'
+        connections for this mapping network.
+        """
+
+        # namespace mapping for performance gains
+        selfNode = self.node
+        selfCreateWeftEdge = self.CreateWeftEdge
+
+        # get all nodes by segment contour
+        SegmentValues, AllNodesBySegment = zip(*self.AllNodesBySegment(True))
+
+        # loop through all the segment contours
+        for i, segment in enumerate(AllNodesBySegment):
+            segval = SegmentValues[i]
+            firstNode = (segval[0], selfNode[segval[0]])
+            lastNode = (segval[1], selfNode[segval[1]])
+
+            if len(segment) == 0:
+                print("Segment is empty!")
+                selfCreateWeftEdge(firstNode, lastNode, segval)
+            elif len(segment) == 1:
+                selfCreateWeftEdge(firstNode, segment[0], segval)
+                selfCreateWeftEdge(segment[0], lastNode, segval)
+            else:
+                # loop through all nodes on the current segment and create
+                # the final 'weft' edges
+                for j, node in enumerate(segment):
+                    if j == 0:
+                        selfCreateWeftEdge(firstNode, node, segval)
+                        selfCreateWeftEdge(node, segment[j+1], segval)
+                    elif j < len(segment)-1:
+                        selfCreateWeftEdge(node, segment[j+1], segval)
+                    elif j == len(segment)-1:
+                        selfCreateWeftEdge(node, lastNode, segval)
+
+    # CREATION OF FINAL 'WARP' CONNECTIONS -------------------------------------
+
+    def AttemptWarpConnectionToCandidate(self, node, candidate, source_nodes, max_connections=4, verbose=False):
+        """
+        Private method for attempting a 'warp' connection to a candidate
+        node. Returns True if the connection has been made, otherwise false.
+        """
+
+        connecting_neighbours = self[candidate[0]]
+        if len(connecting_neighbours) < max_connections:
+            isConnected = False
+            for cn in connecting_neighbours:
+                if cn in [v[0] for v in source_nodes]:
+                    isConnected = True
+                    # print info on verbose setting
+                    if verbose:
+                        vStr = ("Candidate node {} is " +
+                                "already connected! " +
+                                "Skipping to next " +
+                                "node...")
+                        vStr = vStr.format(candidate[0])
+                        print(vStr)
+                    break
+            if not isConnected:
+                # print info on verbose setting
+                if verbose:
+                    vStr = ("Connecting node {} to best " +
+                            "candidate {}.")
+                    vStr = vStr.format(node[0], candidate[0])
+                    print(vStr)
+                # finally create the warp edge for good
+                self.CreateWarpEdge(node, candidate)
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def _build_source_and_target_chains(self):
         """
@@ -450,42 +486,6 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
         return (source_chains, target_chain_dict)
 
-    def _attempt_warp_connection_to_candidate(self, node, candidate, segment_nodes, max_connections=4, verbose=False):
-        """
-        Private method for attempting a 'warp' connection to a candidate
-        node. Returns True if the connection has been made, otherwise false.
-        """
-
-        connecting_neighbours = self[candidate[0]]
-        if len(connecting_neighbours) < max_connections:
-            isConnected = False
-            for cn in connecting_neighbours:
-                if cn in [v[0] for v in segment_nodes]:
-                    isConnected = True
-                    # print info on verbose setting
-                    if verbose:
-                        vStr = ("Candidate node {} is " +
-                                "already connected! " +
-                                "Skipping to next " +
-                                "node...")
-                        vStr = vStr.format(candidate[0])
-                        print(vStr)
-                    break
-            if not isConnected:
-                # print info on verbose setting
-                if verbose:
-                    vStr = ("Connecting node {} to best " +
-                            "candidate {}.")
-                    vStr = vStr.format(node[0], candidate[0])
-                    print(vStr)
-                # finally create the warp edge for good
-                self.CreateWarpEdge(node, candidate)
-                return True
-            else:
-                return False
-        else:
-            return False
-
     def _create_initial_warp_connections(self, segment_pair, max_connections=4, precise=False, verbose=False):
         """
         Private method for creating first pass 'warp' connections for the
@@ -497,7 +497,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         # namespace mapping for performance gains
         mathPi = math.pi
         mathRadians = math.radians
-        selfAttemptWarpConnection = self._attempt_warp_connection_to_candidate
+        selfAttemptWarpConnection = self.AttemptWarpConnectionToCandidate
 
         if len(segment_pair) < 2:
             if verbose:
