@@ -76,7 +76,7 @@ class KnitNetwork(KnitNetworkBase):
                 self.CreateWeftEdge(startLeaf, nextStart)
                 self.CreateWeftEdge(endLeaf, nextEnd)
 
-    # WEFT CONNECTION CREATION -------------------------------------------------
+    # CREATE WEFT CONNECTIONS --------------------------------------------------
 
     def _attempt_weft_connection_to_candidate(self, node, candidate, contour_nodes, verbose=False):
         """
