@@ -743,6 +743,9 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         # initialize container dict for connected chains
         connected_chains = dict()
 
+        # initialize segment mapping dictionary
+        chain_mapping = dict()
+
         # LOOPING THROUGH SOURCE SEGMENT CHAINS --------------------------------
 
         # loop through all source chains and find targets in target chains
@@ -1074,3 +1077,6 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 else:
                     if verbose:
                         print("No real connection for /=====/. No cases match.")
+
+        # invoke second pass of chaining
+        print chain_mapping
