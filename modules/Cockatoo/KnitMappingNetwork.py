@@ -219,6 +219,15 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         Private method for traversing a path of 'segment' edges until a 'warp'
         edge is discovered which points to the previous or the next segment.
         Returns the ids of the segment array
+
+        Parameters
+        ----------
+        way_segments : list
+            list of way segments
+
+        down : bool
+
+        by_end : bool
         """
 
         # namespace mapping for performance gains
