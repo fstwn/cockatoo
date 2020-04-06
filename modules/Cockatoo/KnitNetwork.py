@@ -869,27 +869,29 @@ class KnitNetwork(KnitNetworkBase):
         WeftEdges = sorted(self.WeftEdges, key=lambda x: x[2]["segment"])
         WarpEdges = self.WarpEdges
 
+        # initialize deque container for segment ids
         segment_ids = deque()
+        # loop through all 'weft' edges and fill container with unique ids
         for edge in WeftEdges:
             segment_id = edge[2]["segment"]
             if not segment_id in segment_ids:
                 segment_ids.append(segment_id)
 
+        # loop through all unique segment ids
         for id in segment_ids:
-
+            # get the corresponding edges for this id and sort them
             segment_edges = [e for e in WeftEdges if e[2]["segment"] == id]
             segment_edges.sort(key=lambda x: x[0])
-
+            # extract start and end nodes
             startNode = (id[0], self.node[id[0]])
             endNode = (id[1], self.node[id[1]])
-
+            # get all the geometry of the individual edges
             segment_geo = [e[2]["geo"] for e in segment_edges]
-
+            # create a segment contour edge in the mapping network
             res = MappingNetwork.CreateSegmentContourEdge(startNode,
                                                           endNode,
                                                           id,
                                                           segment_geo)
-
 
             # half-assed bug checking
             if not res:

@@ -156,8 +156,16 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
     def SampleSegmentContours(self, stitch_width):
         """
-        Sample the segment contours of the mapping network with the given
-        stitch width. Add the resulting points as nodes to the network.
+        Samples the segment contours of the mapping network with the given
+        stitch width. The resulting points are added to the network as nodes
+        and a 'segment' attribute is assigned to them based on their origin
+        segment contour edge.
+
+        Parameters
+        ----------
+
+        stitch_width : float
+            The width of a single stitch inside the knit.
         """
 
         # namespace mapping for performance gains
@@ -196,7 +204,6 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             # add all the nodes to the network
             for j, pt in enumerate(divPts):
                 # add node to network
-
                 selfNodeFromPoint3d(nodeindex,
                                     pt,
                                     position = None,
@@ -209,10 +216,10 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
     # CREATION OF WEFT CONNECTIONS ---------------------------------------------
 
-    def CreateWeftConnections(self):
+    def CreateFinalWeftConnections(self):
         """
-        Loop through all the segment contours and create all 'weft' connections
-        for this mapping network.
+        Loop through all the segment contour edges and create all 'weft'
+        connections for this mapping network.
         """
 
         # namespace mapping for performance gains
@@ -675,15 +682,15 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 if res:
                     forbidden_node = fCand[0]
 
-    def CreateWarpConnections(self, max_connections=4, include_end_nodes=True, precise=False, verbose=False):
+    def CreateFinalWarpConnections(self, max_connections=4, include_end_nodes=True, precise=False, verbose=False):
         """
-        Create the final 'warp' connection by looping through all initial 'warp'
-        edges of the mapping network. Traverse all connected segment contour
-        edges to build chains of segment contour edges.
-        Loop through all the found chains and find a target chain to connect
-        to using an 'educated guessing' strategy. This means that the possible
-        ids of the target segment chain are guessed by using known topology
-        facts about the network. and its special 'end' nodes.
+        Create the final 'warp' connections by building chains of segment
+        contour edges and connecting them.
+
+        For each source chain, a target chain is found using an
+        'educated guessing' strategy. This means that the possible target chains
+        are guessed by leveraging known topology facts about the network and its
+        special 'end' nodes.
 
         Parameters
         ----------
@@ -691,24 +698,29 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             The number of maximum previous connections a candidate node for a
             'warp' connection is allowed to have.
 
-        Returns
-        -------
-        None
+        include_end_nodes : boolean
+            If True, 'end' nodes between adjacent segment contours in a chain
+            will be included in the first pass of connecting 'warp' edges.
+            Defaults to False.
 
-        Notes
-        -----
-        None
+        precise : boolean
+            If True, the distance between nodes will be calculated using the
+            Rhino.Geometry.Point3d.DistanceTo method, otherwise the much faster
+            Rhino.Geometry.Point3d.DistanceToSquared method is used.
+            Defaults to False.
 
-        Examples
-        --------
-        None
+        verbose : boolean
+            If True, this routine and all its subroutines will print messages
+            about what is happening to the console. Great for debugging and
+            analysis.
+            Defaults to False.
         """
 
         # TODO 2: include 'end' nodes between segments in a chain of segments
         #         in the current and target nodes for 'warp' edge creation
 
         # TODO 3: store all connections that were made as a mapping for the
-        #         second pass loop.
+        #         second pass
 
         # namespace mapping for performance gains
         selfNode = self.node
@@ -724,6 +736,9 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
         # build source and target chains
         source_chains, target_chain_dict = self._build_source_and_target_chains()
+
+        # initialize container dict for connected chains
+        connected_chains = dict()
 
         # LOOPING THROUGH SOURCE SEGMENT CHAINS --------------------------------
 
