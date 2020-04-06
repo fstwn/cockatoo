@@ -16,6 +16,10 @@ The purpose of this project is to enable Rhino and Grasshopper to automatically 
 
 - Provide versions of the core functionality compatible to the [COMPAS framework](https://github.com/compas-dev/compas).
 
+## Testing & Contributions
+
+### You are invited to participate (yes, you!)
+
 ## Installation & Usage
 
 ### 1. Download release files
