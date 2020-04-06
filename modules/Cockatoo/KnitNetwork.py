@@ -38,7 +38,7 @@ class KnitNetwork(KnitNetworkBase):
         data = data.format(nn, ce, wee, wae)
         return name + data
 
-    # INITIAL CONNECTION METHODS -----------------------------------------------
+    # INITIALIZATION OF POSITION CONTOUR EDGES ---------------------------------
 
     def InitializePositionContourEdges(self):
         """
@@ -54,7 +54,9 @@ class KnitNetwork(KnitNetworkBase):
                 if k < len(pos):
                     self.CreateContourEdge(node, pos[k])
 
-    def CreateLeafConnections(self):
+    # INITIALIZATION OF 'WEFT' EDGES BETWEEN 'LEAF' NODES ----------------------
+
+    def InitializeLeafConnections(self):
         """
         Creates all initial connections of the 'leaf' nodes.
         """
@@ -76,16 +78,19 @@ class KnitNetwork(KnitNetworkBase):
                 self.CreateWeftEdge(startLeaf, nextStart)
                 self.CreateWeftEdge(endLeaf, nextEnd)
 
-    # CREATE WEFT CONNECTIONS --------------------------------------------------
+    # INITIALIZATION OF PRELIMINARY 'WEFT' EDGES -------------------------------
 
-    def _attempt_weft_connection_to_candidate(self, node, candidate, contour_nodes, verbose=False):
+    def AttemptWeftConnectionToCandidate(self, node, candidate, contour_nodes, max_connections=4, verbose=False):
         """
-        Private method for attempting a 'weft' connection to a candidate
+        Method for attempting a 'weft' connection to a candidate
         node. Returns True if the connection has been made, otherwise false.
         """
-
+        # get connected neighbours
         connecting_neighbours = self[candidate[0]]
-        if len(connecting_neighbours) < 4:
+        # only do something if the maximum is not reached
+        if len(connecting_neighbours) < max_connections:
+            # determine if the node is already connected to a node from
+            # the input contour nodes
             isConnected = False
             for cn in connecting_neighbours:
                 if cn in [v[0] for v in contour_nodes]:
@@ -99,6 +104,7 @@ class KnitNetwork(KnitNetworkBase):
                         vStr = vStr.format(candidate[0])
                         print(vStr)
                     break
+            # check the flag and act accordingly
             if not isConnected:
                 # print info on verbose setting
                 if verbose:
@@ -106,6 +112,7 @@ class KnitNetwork(KnitNetworkBase):
                             "candidate {}.")
                     vStr = vStr.format(node[0], candidate[0])
                     print(vStr)
+                # if all conditions are met, make the 'weft' connection
                 self.CreateWeftEdge(node, candidate)
                 return True
             else:
@@ -113,7 +120,7 @@ class KnitNetwork(KnitNetworkBase):
         else:
             return False
 
-    def _create_initial_weft_connections(self, contour_set, precise=False, verbose=False):
+    def _create_initial_weft_connections(self, contour_set, max_connections=4, precise=False, verbose=False):
         """
         Private method for creating initial 'weft' connections for the supplied
         set of contours, starting from the first contour in the set and
@@ -123,7 +130,7 @@ class KnitNetwork(KnitNetworkBase):
         # namespace mapping for performance gains
         mathPi = math.pi
         mathRadians = math.radians
-        selfAttemptWeftConnection = self._attempt_weft_connection_to_candidate
+        selfAttemptWeftConnection = self.AttemptWeftConnectionToCandidate
         selfNodeWeftEdges = self.NodeWeftEdges
 
         if len(contour_set) < 2:
@@ -202,9 +209,10 @@ class KnitNetwork(KnitNetworkBase):
                         # attempt to connect to only possible candidate
                         fCand = possible_connections[0]
                         res = selfAttemptWeftConnection(node,
-                                                        fCand,
-                                                        initial_nodes,
-                                                        verbose)
+                                                fCand,
+                                                initial_nodes,
+                                                max_connections=max_connections,
+                                                verbose=verbose)
                         # set forbidden node
                         if res:
                             forbidden_node = fCand[0]
@@ -295,9 +303,10 @@ class KnitNetwork(KnitNetworkBase):
 
                         # attempt to connect to final candidate
                         res = selfAttemptWeftConnection(node,
-                                                        fCand,
-                                                        initial_nodes,
-                                                        verbose)
+                                                fCand,
+                                                initial_nodes,
+                                                max_connections=max_connections,
+                                                verbose=verbose)
                         # set forbidden node for next pass
                         if res:
                             forbidden_node = fCand[0]
@@ -313,9 +322,10 @@ class KnitNetwork(KnitNetworkBase):
 
                         # attempt to connect to final candidate node
                         res = selfAttemptWeftConnection(node,
-                                                        fCand,
-                                                        initial_nodes,
-                                                        verbose)
+                                                fCand,
+                                                initial_nodes,
+                                                max_connections=max_connections,
+                                                verbose=verbose)
                         # set forbidden node if connection has been made
                         if res:
                             forbidden_node = fCand[0]
@@ -628,9 +638,83 @@ class KnitNetwork(KnitNetworkBase):
                         # connect weft edge to best target
                         selfCreateWeftEdge(node, fCand)
 
-    def _create_initial_warp_connections(self, contour_set, verbose=False):
+    def InitializeWeftEdges(self, start_index=None, include_leaves=False, max_connections=4, least_connected=False, precise=False, verbose=False):
         """
-        Private method for initializing first 'warp' connections once
+        Attempts to create all the preliminary 'weft' connections for the
+        network.
+
+        Parameters
+        ----------
+        start_index : int
+            The starting index
+
+        include_leaves : bool
+            If 'leaf' nodes should be included
+
+        max_connections : int
+            The maximum connections a node is allowed to have to be considered
+            for an additional 'weft' connection.
+            Defaults to 4.
+
+        least_connected : bool
+            If True, uses the least connected node from the found candidates
+
+        precise : bool
+            If True, the distance between nodes will be calculated using the
+            Rhino.Geometry.Point3d.DistanceTo method, otherwise the much faster
+            Rhino.Geometry.Point3d.DistanceToSquared method is used.
+            Defaults to False.
+
+        verbose : boolean
+            If True, this routine and all its subroutines will print messages
+            about what is happening to the console. Great for debugging and
+            analysis.
+            Defaults to False.
+        """
+
+        # get all the positions / contours
+        AllPositions = self.AllNodesByPosition(True)
+
+        if start_index == None:
+            # get index of longest contour
+            start_index = self.LongestPositionContour()[0]
+        elif start_index >= len(AllPositions):
+            raise RuntimeError("Supplied splitting index is too high!")
+
+        # split position list into two sets based on start index
+        leftContours = AllPositions[0:start_index+1]
+        leftContours.reverse()
+        rightContours = AllPositions[start_index:]
+
+        # create the initial weft connections
+        self._create_initial_weft_connections(leftContours,
+                                              max_connections=max_connections,
+                                              precise=precise,
+                                              verbose=verbose)
+        self._create_initial_weft_connections(rightContours,
+                                              max_connections=max_connections,
+                                              precise=precise,
+                                              verbose=verbose)
+
+        # create second pass weft connections
+        self._create_second_pass_weft_connections(leftContours,
+                                                  include_leaves,
+                                                  least_connected,
+                                                  precise=precise,
+                                                  verbose=verbose)
+        self._create_second_pass_weft_connections(rightContours,
+                                                  include_leaves,
+                                                  least_connected,
+                                                  precise=precise,
+                                                  verbose=verbose)
+
+        return True
+
+    # INITIALIZATION OF PRELIMINARY 'WARP' EDGES -------------------------------
+
+    def InitializeWarpEdges(self, contour_set=None, verbose=False):
+        """
+        Method for initializing first 'warp' connections once
         all 'weft' connections are made.
         """
 
@@ -638,6 +722,10 @@ class KnitNetwork(KnitNetworkBase):
         selfEdges = self.edges
         selfNode = self.node
         selfNodeWeftEdges = self.NodeWeftEdges
+
+        # if no contour set is provided, use all contours of this network
+        if contour_set == None:
+            contour_set = self.AllNodesByPosition(True)
 
         # loop through all positions in the set of contours
         for i, pos in enumerate(contour_set):
@@ -663,71 +751,33 @@ class KnitNetwork(KnitNetworkBase):
                             # set 'warp' attribute to current edge
                             self[edge[0]][edge[1]]["warp"] = True
 
-    def CreateWeftConnections(self, start_index=None, include_leaves=False, least_connected=False, precise=False, verbose=False):
+    # ASSIGNING OF 'SEGMENT' ATTRIBUTES FOR LOOP GENERATION --------------------
+
+    def TraverseEdgeUntilEnd(self, start_end_node, start_node, seen_segments, way_nodes=None, way_edges=None, end_nodes=None):
         """
-        Attempts to create all the 'weft' connections for the network.
-        """
-
-        # get all the positions / contours
-        AllPositions = self.AllNodesByPosition(True)
-
-        if start_index == None:
-            # get index of longest contour
-            start_index = self.LongestPositionContour()[0]
-        elif start_index >= len(AllPositions):
-            raise RuntimeError("Supplied splitting index is too high!")
-
-        # split position list into two sets based on start index
-        leftContours = AllPositions[0:start_index+1]
-        leftContours.reverse()
-        rightContours = AllPositions[start_index:]
-
-        # create the initial weft connections
-        self._create_initial_weft_connections(leftContours, precise, verbose)
-        self._create_initial_weft_connections(rightContours, precise, verbose)
-
-        # create second pass weft connections
-        self._create_second_pass_weft_connections(leftContours,
-                                                  include_leaves,
-                                                  least_connected,
-                                                  precise,
-                                                  verbose)
-        self._create_second_pass_weft_connections(rightContours,
-                                                  include_leaves,
-                                                  least_connected,
-                                                  precise,
-                                                  verbose)
-
-        # initialize first warp connections once all weft connections are made
-        self._create_initial_warp_connections(AllPositions)
-
-        return True
-
-    # SEGMENTATION FOR LOOP GENERATION -----------------------------------------
-
-    def _traverse_edge_until_end(self, startEndNode, startNode, seenSegments, wayNodes=None, wayEdges=None, endNodes=None):
-        """
-        Private method for traversing a path of 'weft' edges until another
+        Method for traversing a path of 'weft' edges until another
         'end' node is discoverd.
         """
 
         # initialize output lists
-        if wayNodes == None:
-            wayNodes = deque()
-            wayNodes.append(startNode[0])
-        if wayEdges == None:
-            wayEdges = deque()
-        if endNodes == None:
-            endNodes = deque()
+        if way_nodes == None:
+            way_nodes = deque()
+            way_nodes.append(start_node[0])
+        if way_edges == None:
+            way_edges = deque()
+        if end_nodes == None:
+            end_nodes = deque()
 
-        connected_weft_edges = self.edges(startNode[0], data=True)
+        # get the connected edges and filter them, sort out the ones that
+        # already have a 'segment' attribute assigned
+        connected_weft_edges = self.edges(start_node[0], data=True)
         filtered_weft_edges = []
         for cwe in connected_weft_edges:
             if cwe[2]["segment"] != None:
                 continue
-            if cwe in wayEdges:
+            if cwe in way_edges:
                 continue
-            elif (cwe[1], cwe[0], cwe[2]) in wayEdges:
+            elif (cwe[1], cwe[0], cwe[2]) in way_edges:
                 continue
             filtered_weft_edges.append(cwe)
 
@@ -741,48 +791,57 @@ class KnitNetwork(KnitNetworkBase):
             # if the connected node is an end node, the segment is finished
             if connected_node[1]["end"]:
                 # find out which order to set segment attributes
-                if startEndNode > connected_node[0]:
+                if start_end_node > connected_node[0]:
                     segStart = connected_node[0]
-                    segEnd = startEndNode
+                    segEnd = start_end_node
                 else:
-                    segStart = startEndNode
+                    segStart = start_end_node
                     segEnd = connected_node[0]
-                if (segStart, segEnd) in seenSegments:
-                    segIndex = len([s for s in seenSegments if s == (segStart, segEnd)])
+                if (segStart, segEnd) in seen_segments:
+                    segIndex = len([s for s in seen_segments \
+                                    if s == (segStart, segEnd)])
                 else:
                     segIndex = 0
-
-                endNodes.append(connected_node[0])
-                wayEdges.append(fwec)
-                seenSegments.append((segStart, segEnd))
-
-                for waynode in wayNodes:
-                    self.node[waynode]["segment"] = (segStart, segEnd, segIndex)
-                for wayedge in wayEdges:
-                    self[wayedge[0]][wayedge[1]]["segment"] = (segStart, segEnd, segIndex)
-
-                return seenSegments
-
+                # append the relevant data to the lists
+                end_nodes.append(connected_node[0])
+                way_edges.append(fwec)
+                seen_segments.append((segStart, segEnd))
+                # set final 'segment' attributes to all the way nodes
+                for waynode in way_nodes:
+                    self.node[waynode]["segment"] = (segStart,
+                                                     segEnd,
+                                                     segIndex)
+                # set final 'segment' attributes to all the way edges
+                for wayedge in way_edges:
+                    self[wayedge[0]][wayedge[1]]["segment"] = (segStart,
+                                                               segEnd,
+                                                               segIndex)
+                # return the seen segments
+                return seen_segments
             else:
                 # set the initial segment attribute to the node
-                self.node[connected_node[0]]["segment"] = (startEndNode, None, None)
+                self.node[connected_node[0]]["segment"] = (start_end_node,
+                                                           None,
+                                                           None)
 
                 # set the initial segment attribute to the edge
-                self[fwec[0]][fwec[1]]["segment"] = (startEndNode, None, None)
-
-                wayNodes.append(connected_node[0])
-                wayEdges.append(fwec)
-
-                return self._traverse_edge_until_end(startEndNode,
-                                                     connected_node,
-                                                     seenSegments,
-                                                     wayNodes,
-                                                     wayEdges,
-                                                     endNodes)
+                self[fwec[0]][fwec[1]]["segment"] = (start_end_node,
+                                                     None,
+                                                     None)
+                # append the relevant data to the lists
+                way_nodes.append(connected_node[0])
+                way_edges.append(fwec)
+                # call this method recursively until a 'end' node is found
+                return self.TraverseEdgeUntilEnd(start_end_node,
+                                                 connected_node,
+                                                 seen_segments,
+                                                 way_nodes,
+                                                 way_edges,
+                                                 end_nodes)
         else:
-            return seenSegments
+            return seen_segments
 
-    def _get_segmentation_for_end_node(self, node):
+    def TraverseWeftEdgesAndSetAttributes(self, start_end_node):
         """
         Traverse a path of 'weft' edges starting from an 'end' node until
         another 'end' node is discovered. Set 'segment' attributes to nodes
@@ -790,7 +849,7 @@ class KnitNetwork(KnitNetworkBase):
         """
 
         # get connected weft edges and sort them by their connected node
-        weft_connections = self.edges(node[0], data=True)
+        weft_connections = self.edges(start_end_node[0], data=True)
         weft_connections.sort(key=lambda x: x[1])
 
         # loop through all connected weft edges
@@ -804,14 +863,15 @@ class KnitNetwork(KnitNetworkBase):
             connected_node = (cwe[1], self.node[cwe[1]])
 
             if connected_node[1]["end"]:
-                if node[0] > connected_node[0]:
+                if start_end_node[0] > connected_node[0]:
                     segStart = connected_node[0]
-                    segEnd = node[0]
+                    segEnd = start_end_node[0]
                 else:
-                    segStart = node[0]
+                    segStart = start_end_node[0]
                     segEnd = connected_node[0]
                 if (segStart, segEnd) in seen_segments:
-                    segIndex = len([s for s in seen_segments if s == (segStart, segEnd)])
+                    segIndex = len([s for s in seen_segments \
+                                    if s == (segStart, segEnd)])
                 else:
                     segIndex = 0
                 # set the final segment attribute to the edge
@@ -819,12 +879,12 @@ class KnitNetwork(KnitNetworkBase):
                 seen_segments.append((segStart, segEnd))
 
             else:
-                seen_segments = self._traverse_edge_until_end(node[0],
-                                                              connected_node,
-                                                              seen_segments,
-                                                              wayEdges=[cwe])
+                seen_segments = self.TraverseEdgeUntilEnd(start_end_node[0],
+                                                          connected_node,
+                                                          seen_segments,
+                                                          way_edges=[cwe])
 
-    def GetWeftEdgeSegmentation(self):
+    def AssignSegmentAttributes(self):
         """
         Get the segmentation for loop generation and assign 'segment' attributes
         to 'weft' edges and nodes.
@@ -841,20 +901,19 @@ class KnitNetwork(KnitNetworkBase):
                     contour_storage.append(edge)
                 self.remove_edge(edge[0], edge[1])
 
-        # get all 'end' vertices ordered by poition
+        # get all 'end' vertices ordered by their 'position' attribute
         all_ends_by_position = self.AllEndsByPosition(data=True)
 
         # loop through all 'end' vertices
         for position in all_ends_by_position:
             for endnode in position:
-                self._get_segmentation_for_end_node(endnode)
+                self.TraverseWeftEdgesAndSetAttributes(endnode)
 
         # add all previously removed edges back into the network
+        [self.add_edge(edge[0], edge[1], attr_dict=edge[2]) \
+         for edge in warp_storage + contour_storage]
 
-        [self.add_edge(edge[0], edge[1], attr_dict=edge[2]) for edge in \
-         warp_storage + contour_storage]
-
-    # CREATE MAPPING NETWORK ---------------------------------------------------
+    # TRANSLATION TO MAPPING NETWORK -------------------------------------------
 
     def CreateMappingNetwork(self):
         """
@@ -883,12 +942,12 @@ class KnitNetwork(KnitNetworkBase):
             segment_edges = [e for e in WeftEdges if e[2]["segment"] == id]
             segment_edges.sort(key=lambda x: x[0])
             # extract start and end nodes
-            startNode = (id[0], self.node[id[0]])
+            start_node = (id[0], self.node[id[0]])
             endNode = (id[1], self.node[id[1]])
             # get all the geometry of the individual edges
             segment_geo = [e[2]["geo"] for e in segment_edges]
             # create a segment contour edge in the mapping network
-            res = MappingNetwork.CreateSegmentContourEdge(startNode,
+            res = MappingNetwork.CreateSegmentContourEdge(start_node,
                                                           endNode,
                                                           id,
                                                           segment_geo)

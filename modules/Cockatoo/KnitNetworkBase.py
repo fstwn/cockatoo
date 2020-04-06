@@ -256,12 +256,12 @@ class KnitNetworkBase(nx.Graph):
             underlying contour edge of the network.
             Defaults to None.
 
-        leaf : boolean
+        leaf : bool
             The 'leaf' attribute of the node identifying it as a node on the
             first or last course of the knitting pattern.
             Defaults to False.
 
-        end : boolean
+        end : bool
             The 'end' attribute of the node identifying it as the start or end
             of a segment contour.
             Defaults to False.
@@ -295,21 +295,30 @@ class KnitNetworkBase(nx.Graph):
 
     def _get_total_positions(self):
         """
-        Gets the number of total positions (contours) inside the network.
+        Gets the number of total positions (i.e. contours) inside the network.
         """
 
         total = max([d["position"] for n, d in self.nodes_iter(data=True)])+1
         return total
 
     TotalPositions = property(_get_total_positions, None, None,
-                              "The total number of positions (contours) " +
+                              "The total number of positions (i.e. contours) " +
                               "inside the network")
 
     # NODE ORDERING AND SORTING METHODS ----------------------------------------
 
     def NodesOnPosition(self, pos, data=False):
         """
-        Returns the nodes on a given position.
+        Returns the nodes on a given position (i.e. contour).
+
+        Parameters
+        ----------
+        pos : int
+            The index of the position
+
+        data : bool
+            If True, found nodes will be returned with their attribute data.
+            Defaults to False.
         """
 
         nodes = [(n, d) for n, d in self.nodes_iter(data=True) \
@@ -342,7 +351,7 @@ class KnitNetworkBase(nx.Graph):
 
     def LeavesOnPosition(self, pos, data=False):
         """
-        Gets 'leaf' vertices on a given position.
+        Gets all 'leaf' vertices on a given position.
         """
 
         leaves = [(n, d) for n, d in self.NodesOnPosition(pos, data=True) \
@@ -398,14 +407,14 @@ class KnitNetworkBase(nx.Graph):
 
     # POSITION CONTOUR METHODS -------------------------------------------------
 
-    def GeometryAtPositionContour(self, pos, asCrv=False):
+    def GeometryAtPositionContour(self, pos, as_crv=False):
         """
         Gets the contour polyline at a given position.
         """
 
         points = [d["geo"] for n, d in self.NodesOnPosition(pos, True)]
         Contour = RGPolyline(points)
-        if asCrv:
+        if as_crv:
             Contour = Contour.ToPolylineCurve()
         return Contour
 
@@ -510,7 +519,7 @@ class KnitNetworkBase(nx.Graph):
 
         return True
 
-    def CreateSegmentContourEdge(self, From, To, segmentValue, segmentGeo):
+    def CreateSegmentContourEdge(self, From, To, segment_value, segment_geo):
         """
         Creates a mapping edge between two 'end' nodes in the network. The
         geometry of this edge will be a polyline built from all the given
@@ -523,10 +532,10 @@ class KnitNetworkBase(nx.Graph):
         toNode = To[0]
 
         # join geo together
-        segmentGeo = [RGLineCurve(l) for l in segmentGeo]
-        edgeGeo = RGCurve.JoinCurves(segmentGeo)
+        segment_geo = [RGLineCurve(l) for l in segment_geo]
+        edgeGeo = RGCurve.JoinCurves(segment_geo)
         if len(edgeGeo) > 1:
-            print segmentGeo
+            print segment_geo
             print edgeGeo
             return False
             #raise RuntimeError("Segment geometry could not be joined into " +
@@ -539,7 +548,7 @@ class KnitNetworkBase(nx.Graph):
         # create edge attribute
         edgeAttrs = {"warp": False,
                      "weft": False,
-                     "segment": segmentValue,
+                     "segment": segment_value,
                      "geo": edgeGeo}
 
         self.add_node(fromNode, attr_dict=From[1])
@@ -629,15 +638,3 @@ class KnitNetworkBase(nx.Graph):
             return ContourEdges
         else:
             return [(e[0], e[1]) for e in ContourEdges]
-
-    # EDGE TRAVERSAL -----------------------------------------------------------
-
-    def TraverseEdge(self, startNode, connectedEdge):
-        """
-        Traverse an edge from a start node and return the other node.
-        """
-
-        if startNode != connectedEdge[0]:
-            return (connectedEdge[0], self.node[connectedEdge[0]])
-        elif startNode != connectedEdge[1]:
-            return (connectedEdge[1], self.node[connectedEdge[1]])
