@@ -23,6 +23,11 @@ class KnitNetworkBase(nx.Graph):
     def ToString(self):
         """
         Return a textual description of the network.
+
+        Returns
+        -------
+        string
+            String describing the contents of the network.
         """
 
         name = "KnitNetworkBase"
@@ -232,6 +237,39 @@ class KnitNetworkBase(nx.Graph):
     def NodeFromPoint3d(self, node_index, pt, position=None, num=None, leaf=False, end=False, segment=None):
         """
         Creates a network node from a Rhino Point3d and attributes.
+
+        Parameters
+        ----------
+        node_index : int
+            The index of the node in the network. Usually an integer is used.
+
+        pt : :class:`Rhino.Geometry.Point3d`
+            A RhinoCommon Point3d object.
+
+        position : int
+            The 'position' attribute of the node identifying the underlying
+            contour edge of the network.
+            Defaults to None.
+
+        num : int
+            The 'num' attribute of the node representing its index in the
+            underlying contour edge of the network.
+            Defaults to None.
+
+        leaf : boolean
+            The 'leaf' attribute of the node identifying it as a node on the
+            first or last course of the knitting pattern.
+            Defaults to False.
+
+        end : boolean
+            The 'end' attribute of the node identifying it as the start or end
+            of a segment contour.
+            Defaults to False.
+
+        segment : :obj:`tuple` of :obj:`int`
+            The 'segment' attribute of the node identifying its position between
+            two 'end' nodes.
+            Defaults to None.
         """
 
         # extract node coordinates
