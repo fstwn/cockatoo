@@ -525,6 +525,24 @@ class KnitNetworkBase(nx.Graph):
         geometry of this edge will be a polyline built from all the given
         former 'weft' edges. returns True if the edge has been successfully
         created.
+
+        Parameters
+        ----------
+        From : node
+            source node of the edge
+
+        To : node
+            target node of the edge
+
+        segment_value : 3-tuple of :obj:`int`
+            the segment attribute value of the edge
+
+        segment_geo : list of :class:`Rhino.Geometry.Line`
+            the geometry of all 'weft' edges that make this segment contour edge
+
+        Returns
+        -------
+            True on success, False otherwise.
         """
 
         # get node indices
