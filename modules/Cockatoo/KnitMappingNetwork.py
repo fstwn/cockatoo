@@ -942,10 +942,11 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     target_to_source[target_ids] = current_ids
 
                 connected_chains[target_key] = True
-                self_create_initial_warp_connections(segment_pair,
-                                             max_connections=max_connections,
-                                             precise=precise,
-                                             verbose=verbose)
+                self_create_initial_warp_connections(
+                                            segment_pair,
+                                            max_connections=max_connections,
+                                            precise=precise,
+                                            verbose=verbose)
                 continue
 
             # CASE 2 - SHORT ROW TO THE RIGHT <=====/ ALL CASES ----------------
@@ -1020,7 +1021,8 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     if target_ids not in target_to_source:
                         target_to_source[target_ids] = current_ids
 
-                    self_create_initial_warp_connections(segment_pair,
+                    self_create_initial_warp_connections(
+                                                segment_pair,
                                                 max_connections=max_connections,
                                                 precise=precise,
                                                 verbose=verbose)
@@ -1183,7 +1185,8 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     if target_ids not in target_to_source:
                         target_to_source[target_ids] = current_ids
 
-                    self_create_initial_warp_connections(segment_pair,
+                    self_create_initial_warp_connections(
+                                                segment_pair,
                                                 max_connections=max_connections,
                                                 precise=precise,
                                                 verbose=verbose)
@@ -1265,15 +1268,17 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                         if end_of_window == len(target_chain_nodes)-1:
                             window = target_chain_nodes[start_of_window:]
                         else:
-                            window = target_chain_nodes[start_of_window:end_of_window+1]
+                            window = target_chain_nodes[start_of_window: \
+                                                        end_of_window+1]
 
                     print("End of window: {}".format(end_of_window))
 
-                    self._create_second_pass_warp_connection(current_chain_nodes,
-                                                             k,
-                                                             window,
-                                                             precise=False,
-                                                             verbose=True)
+                    self._create_second_pass_warp_connection(
+                                                        current_chain_nodes,
+                                                        k,
+                                                        window,
+                                                        precise=False,
+                                                        verbose=True)
 
         # INVOKE SECOND PASS FOR TARGET ---> SOURCE ----------------------------
         for i, current_chain in enumerate(target_to_source):
@@ -1346,11 +1351,13 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                         if end_of_window == len(target_chain_nodes)-1:
                             window = target_chain_nodes[start_of_window:]
                         else:
-                            window = target_chain_nodes[start_of_window:end_of_window+1]
+                            window = target_chain_nodes[start_of_window: \
+                                                        end_of_window+1]
 
                     print("End of window: {}".format(end_of_window))
-                    self._create_second_pass_warp_connection(current_chain_nodes,
-                                                             k,
-                                                             window,
-                                                             precise=False,
-                                                             verbose=False)
+                    self._create_second_pass_warp_connection(
+                                                        current_chain_nodes,
+                                                        k,
+                                                        window,
+                                                        precise=False,
+                                                        verbose=False)
