@@ -890,6 +890,15 @@ class KnitNetwork(KnitNetworkBase):
         to 'weft' edges and nodes.
         """
 
+        if len(self.WeftEdges) == 0:
+            errMsg = ("No 'weft' edges in KnitNetwork! Segmentation " +
+                      "is impossible.")
+            raise RuntimeError(errMsg)
+        if len(self.EndNodes) == 0:
+            errMsg = ("No 'end' nodes in KnitNetwork! Segmentation " +
+                      "is impossible.")
+            raise RuntimeError(errMsg)
+
         # remove contour and 'warp' edges and store them
         warp_storage = []
         contour_storage = []
@@ -935,6 +944,14 @@ class KnitNetwork(KnitNetworkBase):
             segment_id = edge[2]["segment"]
             if not segment_id in segment_ids:
                 segment_ids.append(segment_id)
+
+        if len(segment_ids) == 0:
+            errMsg = ("The network contains no 'weft' edges with a 'segment' " +
+                      "attribute assigned to them. A KnitMappingNetwork can " +
+                      "only be created from a KnitNetwork with initialized "+
+                      "'weft' edges for courses and corresponding 'warp' " +
+                      "edges connecting their 'end' nodes.")
+            raise RuntimeError(errMsg)
 
         # loop through all unique segment ids
         for id in segment_ids:

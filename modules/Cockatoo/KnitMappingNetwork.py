@@ -691,11 +691,89 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 if res:
                     forbidden_node = fCand[0]
 
-    def _create_second_pass_warp_connections(self, precise=False, verbose=False):
+    def _create_second_pass_warp_connection(self, source_nodes, source_index, window, precise=False, verbose=False):
         """
-        Private method for creating second pass 'warp' connections.
+        Private method for creating second pass 'warp' connections for the
+        given set of contours.
         """
-        pass
+
+        if len(window) == 0:
+            # print info on verbose setting
+            if verbose:
+                print("Length of window is 0, skipping...")
+        elif len(window) == 1:
+            # print info on verbose setting
+            if verbose:
+                print("Window has only one node.")
+                vStr = ("Connecting to node {}.")
+                vStr = vStr.format(window[0][0])
+                print(vStr)
+
+            # connect 'warp' edge
+            self.CreateWarpEdge(source_nodes[source_index], window[0])
+        else:
+            # retrive the point of the current source node
+            thisPt = source_nodes[source_index][1]["geo"]
+
+            # print info on verbose setting
+            if verbose:
+                vStr = "Processing window nodes: {}"
+                vStr = vStr.format([w[0] for w in window])
+                print(vStr)
+
+            # sort nodes in window by distance
+            if precise:
+                allDists = [thisPt.DistanceTo(pc[1]["geo"]) \
+                            for pc in window]
+            else:
+                allDists = [thisPt.DistanceToSquared(pc[1]["geo"]) \
+                            for pc in window]
+            allDists, window = zip(*sorted(zip(allDists, window),
+                                   key = itemgetter(0)))
+
+            # get the contours current direction
+            if source_index < len(source_nodes)-1:
+                sourceDir = RGLine(thisPt,
+                                   source_nodes[source_index+1][1]["geo"]).Direction
+            elif source_index == len(initial_nodes)-1:
+                sourceDir = RGLine(source_nodes[source_index-1][1]["geo"],
+                                   thisPt).Direction
+            sourceDir.Unitize()
+
+            # get the directions of the possible connections
+            candidatePoints = [pc[1]["geo"] for pc in window]
+            candidateDirections = [RGLine(thisPt, cp).Direction for cp \
+                                   in candidatePoints]
+            [cd.Unitize() for cd in candidateDirections]
+
+            # get the angles between contour dir and window dir
+            normals = [RGVector3d.CrossProduct(sourceDir, cd) \
+                       for cd in candidateDirections]
+            angles = [RGVector3d.VectorAngle(sourceDir, cd, n) for cd, n \
+                      in zip(candidateDirections, normals)]
+
+            # compute deltas as a mesaure of perpendicularity
+            deltas = [abs(a - (0.5 * math.pi)) for a in angles]
+
+            # sort window by distance, then by delta
+            allDists, deltas, most_perpendicular = zip(*sorted(
+                                                    zip(allDists,
+                                                        deltas,
+                                                        window),
+                                                        key = itemgetter(0, 1)))
+            # set final candidate node for connection
+            fCand = most_perpendicular[0]
+
+            # print info on verbose setting
+            if verbose:
+                vStr = ("Connecting to node {} on " +
+                        "position {}...")
+                vStr = vStr.format(fCand[0],
+                                   fCand[1]["position"])
+                print(vStr)
+
+            # connect weft edge to best target
+            self.CreateWarpEdge(source_nodes[source_index], fCand)
 
     def CreateFinalWarpConnections(self, max_connections=4, include_end_nodes=True, precise=False, verbose=False):
         """
@@ -713,18 +791,18 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             The number of maximum previous connections a candidate node for a
             'warp' connection is allowed to have.
 
-        include_end_nodes : boolean
+        include_end_nodes : bool
             If True, 'end' nodes between adjacent segment contours in a source
             chain will be included in the first pass of connecting 'warp' edges.
             Defaults to True.
 
-        precise : boolean
+        precise : bool
             If True, the distance between nodes will be calculated using the
             Rhino.Geometry.Point3d.DistanceTo method, otherwise the much faster
             Rhino.Geometry.Point3d.DistanceToSquared method is used.
             Defaults to False.
 
-        verbose : boolean
+        verbose : bool
             If True, this routine and all its subroutines will print messages
             about what is happening to the console. Great for debugging and
             analysis.
@@ -755,6 +833,8 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         # initialize segment mapping dictionary
         chain_mapping = dict()
 
+        source_to_target = dict()
+        target_to_source = dict()
         # LOOPING THROUGH SOURCE SEGMENT CHAINS --------------------------------
 
         # loop through all source chains and find targets in target chains
@@ -768,7 +848,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             # get the chain value of the current chain
             chain_value = source_chain[1]
             # extract the ids of the current chain
-            current_ids = source_chain[0]
+            current_ids = tuple(source_chain[0])
             # extract the current chains geometry
             current_chain_geo_list = [SegmentDict[id][0][2]["geo"] \
                                       for id in current_ids]
@@ -844,7 +924,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 # get the guessed target chain from the chain dictionary
                 target_chain = target_chain_dict[target_key]
                 # extract the ids for node retrieval
-                target_ids = [seg for seg in target_chain]
+                target_ids = tuple([seg for seg in target_chain])
                 # retrieve the target nodes from the segment dictionary by id
                 target_nodes = [SegmentDict[id][1] for id in target_ids]
                 target_nodes = [n for seg in target_nodes for n in seg]
@@ -857,6 +937,13 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 # we have successfully verified our target segment and
                 # can create some warp edges!
                 segment_pair = [current_nodes, target_nodes]
+
+                # fill mapping dictionaries
+                if current_ids not in source_to_target:
+                    source_to_target[current_ids] = target_ids
+                if target_ids not in target_to_source:
+                    target_to_source[target_ids] = current_ids
+
                 connected_chains[target_key] = True
                 self_create_initial_warp_connections(segment_pair,
                                              max_connections=max_connections,
@@ -908,7 +995,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 # get the guessed target chain from the chain dictionary
                 target_chain = target_chain_dict[target_key]
                 # extract the ids for node retrieval
-                target_ids = [seg for seg in target_chain]
+                target_ids = tuple([seg for seg in target_chain])
                 # retrieve the target nodes from the segment dictionary by id
                 target_nodes = [SegmentDict[id][1] for id in target_ids]
                 target_nodes = [n for seg in target_nodes for n in seg]
@@ -929,6 +1016,13 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     # can create some warp edges!
                     segment_pair = [current_nodes, target_nodes]
                     connected_chains[target_key] = True
+
+                    # fill mapping dictionaries
+                    if current_ids not in source_to_target:
+                        source_to_target[current_ids] = target_ids
+                    if target_ids not in target_to_source:
+                        target_to_source[target_ids] = current_ids
+
                     self_create_initial_warp_connections(segment_pair,
                                                 max_connections=max_connections,
                                                 precise=precise,
@@ -982,7 +1076,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 # get the guessed target chain from the chain dictionary
                 target_chain = target_chain_dict[target_key]
                 # extract the ids for node retrieval
-                target_ids = [seg for seg in target_chain]
+                target_ids = tuple([seg for seg in target_chain])
                 # retrieve the target nodes from the segment dictionary by id
                 target_nodes = [SegmentDict[id][1] for id in target_ids]
                 target_nodes = [n for seg in target_nodes for n in seg]
@@ -1003,6 +1097,13 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     # can create some warp edges!
                     segment_pair = [current_nodes, target_nodes]
                     connected_chains[target_key] = True
+
+                    # fill mapping dictionaries
+                    if current_ids not in source_to_target:
+                        source_to_target[current_ids] = target_ids
+                    if target_ids not in target_to_source:
+                        target_to_source[target_ids] = current_ids
+
                     self_create_initial_warp_connections(segment_pair,
                                                 max_connections=max_connections,
                                                 precise=precise,
@@ -1056,7 +1157,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                 # get the guessed target chain from the chain dictionary
                 target_chain = target_chain_dict[target_key]
                 # extract the ids for node retrieval
-                target_ids = [seg for seg in target_chain]
+                target_ids = tuple([seg for seg in target_chain])
                 # retrieve the target nodes from the segment dictionary by id
                 target_nodes = [SegmentDict[id][1] for id in target_ids]
                 target_nodes = [n for seg in target_nodes for n in seg]
@@ -1078,6 +1179,13 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     # can create some warp edges!
                     segment_pair = [current_nodes, target_nodes]
                     connected_chains[target_key] = True
+
+                    # fill mapping dictionaries
+                    if current_ids not in source_to_target:
+                        source_to_target[current_ids] = target_ids
+                    if target_ids not in target_to_source:
+                        target_to_source[target_ids] = current_ids
+
                     self_create_initial_warp_connections(segment_pair,
                                                 max_connections=max_connections,
                                                 precise=precise,
@@ -1087,5 +1195,165 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     if verbose:
                         print("No real connection for /=====/. No cases match.")
 
-        # invoke second pass of chaining
-        print chain_mapping
+        # SECOND PASS SKETCHING ------------------------------------------------
+
+        # INVOKE SECOND PASS FOR SOURCE ---> TARGET ----------------------------
+        for i, current_chain in enumerate(source_to_target):
+            # build a list of nodes containing all nodes in the current chain
+            # including all 'end' nodes
+            current_chain_nodes = []
+            for j, ccid in enumerate(current_chain):
+                current_chain_nodes.append((ccid[0], selfNode[ccid[0]]))
+                [current_chain_nodes.append(n) for n in SegmentDict[ccid][1]]
+            current_chain_nodes.append((current_chain[-1][1],
+                                        selfNode[current_chain[-1][1]]))
+
+            # retrieve target chain from the source to target mapping
+            target_chain = source_to_target[current_chain]
+
+            # build a list of nodes containing all nodes in the target chain
+            # including all 'end' nodes
+            target_chain_nodes = []
+            for j, tcid in enumerate(target_chain):
+                target_chain_nodes.append((tcid[0], selfNode[tcid[0]]))
+                [target_chain_nodes.append(n) for n in SegmentDict[tcid][1]]
+            target_chain_nodes.append((target_chain[-1][1],
+                                       selfNode[target_chain[-1][1]]))
+
+            # initialize start of window marker
+            start_of_window = -1
+
+            # loop through all nodes on the current chain
+            for k, node in enumerate(current_chain_nodes):
+                # find out if the current node is already principally connected
+                node_neighbours = self[node[0]]
+                node_connected = False
+                if k == 0 or k == len(current_chain_nodes)-1:
+                    node_connected = True
+
+                # find out if the current node is already connected to the
+                # target chain
+                node_warp_edges = self.NodeWarpEdges(node[0], data=False)
+                warp_edge_targets = [we[1] for we in node_warp_edges]
+                for wet in warp_edge_targets:
+                    for n, tcn in enumerate(target_chain_nodes):
+                        if wet == tcn[0]:
+                            start_of_window = n
+                            node_connected = True
+
+                # if the node is not connected to the target chain, we
+                # need to find the end of the window
+                if not node_connected:
+                    print("Node: {}".format(node[0]))
+                    print("Start of window: {}".format(start_of_window))
+
+                    end_of_window = None
+                    for n, tcn in enumerate(target_chain_nodes):
+                        if n > start_of_window:
+                            if tcn[0] == current_chain_nodes[-1][0]:
+                                end_of_window = n
+                            tcn_warp_edges = self.NodeWarpEdges(tcn[0],
+                                                                data=False)
+                            tcn_warp_edge_targets = [we[1] for we \
+                                                     in tcn_warp_edges]
+                            for twet in tcn_warp_edge_targets:
+                                if (twet in [cn[0] for cn \
+                                             in current_chain_nodes]):
+                                    end_of_window = n
+                                    break
+                        if end_of_window:
+                            break
+
+                    if start_of_window != -1 and end_of_window != None:
+                        if end_of_window == len(target_chain_nodes)-1:
+                            window = target_chain_nodes[start_of_window:]
+                        else:
+                            window = target_chain_nodes[start_of_window:end_of_window+1]
+
+                    print("End of window: {}".format(end_of_window))
+
+                    self._create_second_pass_warp_connection(current_chain_nodes,
+                                                             k,
+                                                             window,
+                                                             precise=False,
+                                                             verbose=True)
+
+        # INVOKE SECOND PASS FOR TARGET ---> SOURCE ----------------------------
+        for i, current_chain in enumerate(target_to_source):
+            # build a list of nodes containing all nodes in the current chain
+            # including all 'end' nodes
+            current_chain_nodes = []
+            for j, ccid in enumerate(current_chain):
+                current_chain_nodes.append((ccid[0], selfNode[ccid[0]]))
+                [current_chain_nodes.append(n) for n in SegmentDict[ccid][1]]
+            current_chain_nodes.append((current_chain[-1][1],
+                                        selfNode[current_chain[-1][1]]))
+
+            # retrieve target chain from the source to target mapping
+            target_chain = target_to_source[current_chain]
+
+            # build a list of nodes containing all nodes in the target chain
+            # including all 'end' nodes
+            target_chain_nodes = []
+            for j, tcid in enumerate(target_chain):
+                target_chain_nodes.append((tcid[0], selfNode[tcid[0]]))
+                [target_chain_nodes.append(n) for n in SegmentDict[tcid][1]]
+            target_chain_nodes.append((target_chain[-1][1],
+                                       selfNode[target_chain[-1][1]]))
+
+            # initialize start of window marker
+            start_of_window = -1
+
+            # loop through all nodes on the current chain
+            for k, node in enumerate(current_chain_nodes):
+                # find out if the current node is already principally connected
+                node_neighbours = self[node[0]]
+                node_connected = False
+                if k == 0 or k == len(current_chain_nodes)-1:
+                    node_connected = True
+
+                # find out if the current node is already connected to the
+                # target chain
+                node_warp_edges = self.NodeWarpEdges(node[0], data=False)
+                warp_edge_targets = [we[1] for we in node_warp_edges]
+                for wet in warp_edge_targets:
+                    for n, tcn in enumerate(target_chain_nodes):
+                        if wet == tcn[0]:
+                            start_of_window = n
+                            node_connected = True
+
+                # if the node is not connected to the target chain, we
+                # need to find the end of the window
+                if not node_connected:
+                    print("Node: {}".format(node[0]))
+                    print("Start of window: {}".format(start_of_window))
+
+                    end_of_window = None
+                    for n, tcn in enumerate(target_chain_nodes):
+                        if n > start_of_window:
+                            if tcn[0] == current_chain_nodes[-1][0]:
+                                end_of_window = n
+                            tcn_warp_edges = self.NodeWarpEdges(tcn[0],
+                                                                data=False)
+                            tcn_warp_edge_targets = [we[1] for we \
+                                                     in tcn_warp_edges]
+                            for twet in tcn_warp_edge_targets:
+                                if (twet in [cn[0] for cn \
+                                             in current_chain_nodes]):
+                                    end_of_window = n
+                                    break
+                        if end_of_window:
+                            break
+
+                    if start_of_window != -1 and end_of_window != None:
+                        if end_of_window == len(target_chain_nodes)-1:
+                            window = target_chain_nodes[start_of_window:]
+                        else:
+                            window = target_chain_nodes[start_of_window:end_of_window+1]
+
+                    print("End of window: {}".format(end_of_window))
+                    self._create_second_pass_warp_connection(current_chain_nodes,
+                                                             k,
+                                                             window,
+                                                             precise=False,
+                                                             verbose=False)

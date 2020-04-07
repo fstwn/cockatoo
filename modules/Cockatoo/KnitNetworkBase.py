@@ -349,6 +349,19 @@ class KnitNetworkBase(nx.Graph):
 
     # LEAF NODES ---------------------------------------------------------------
 
+    def _get_leaf_nodes(self):
+        """
+        Gets all 'leaf' nodes of the network.
+        """
+
+        leaves = [(n, d) for n, d in self.nodes_iter(data=True) \
+                  if d["leaf"] == True]
+
+        return leaves
+
+    LeafNodes = property(_get_leaf_nodes, None, None,
+                         "All 'leaf' nodes of the network.")
+
     def LeavesOnPosition(self, pos, data=False):
         """
         Gets all 'leaf' vertices on a given position.
@@ -362,7 +375,7 @@ class KnitNetworkBase(nx.Graph):
 
     def AllLeavesByPosition(self, data=False):
         """
-        Gets all 'leaf' vertices on all positions ordered by position.
+        Gets all 'leaf' nodes ordered by 'position' attribute.
         """
 
         albp = []
@@ -378,9 +391,22 @@ class KnitNetworkBase(nx.Graph):
 
     # END NODES ----------------------------------------------------------------
 
+    def _get_end_nodes(self):
+        """
+        Gets all 'end' nodes of the network.
+        """
+
+        ends = [(n, d) for n, d in self.nodes_iter(data=True) \
+                if d["end"] == True]
+
+        return ends
+
+    EndNodes = property(_get_end_nodes, None, None,
+                        "All 'end' nodes of the network")
+
     def EndsOnPosition(self, pos, data=False):
         """
-        Gets 'end' vertices on a given position.
+        Gets 'end' nodes on a given position.
         """
 
         ends = [(n, d) for n, d in self.NodesOnPosition(pos, data=True) \
