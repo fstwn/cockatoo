@@ -809,9 +809,6 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             Defaults to False.
         """
 
-        # TODO 3: store all connections that were made as a mapping for the
-        #         second pass
-
         # namespace mapping for performance gains
         selfNode = self.node
         self_create_initial_warp_connections = self._create_initial_warp_connections
