@@ -20,13 +20,28 @@ class KnitNetworkBase(nx.Graph):
 
     # REPRESENTATION OF NETWORK ------------------------------------------------
 
+    def __str__(self):
+        """
+        Return the graph name if it is set, otherwise return a textual
+        description of the network.
+
+        Returns
+        -------
+        name : str
+            The name of the graph or a textual description of the network.
+        """
+        if self.name != '':
+            return self.name
+        else:
+            return self.ToString()
+
     def ToString(self):
         """
         Return a textual description of the network.
 
         Returns
         -------
-        string
+        stringrep : str
             String describing the contents of the network.
         """
 
@@ -305,7 +320,7 @@ class KnitNetworkBase(nx.Graph):
                               "The total number of positions (i.e. contours) " +
                               "inside the network")
 
-    # NODE ORDERING AND SORTING METHODS ----------------------------------------
+    # NODES ON POSITION CONTOURS -----------------------------------------------
 
     def NodesOnPosition(self, pos, data=False):
         """
@@ -346,6 +361,23 @@ class KnitNetworkBase(nx.Graph):
                 anbp.append([pn[0] for pn in posnodes])
 
         return anbp
+
+    # NODES ON SEGMENT CONTOURS ------------------------------------------------
+
+    def NodesOnSegment(self, segment, data=False):
+        """
+        Returns all nodes on a given segment ordered by 'num' attribute.
+        """
+
+        nodes = [(n, d) for n, d in self.nodes_iter(data=True) \
+                 if d["segment"] == segment]
+
+        nodes.sort(key=lambda x: x[1]["num"])
+
+        if data:
+            return nodes
+        else:
+            return [n[0] for n in nodes]
 
     # LEAF NODES ---------------------------------------------------------------
 
@@ -610,6 +642,9 @@ class KnitNetworkBase(nx.Graph):
 
         ContourEdges = [(f, t, d) for f, t, d in self.edges_iter(data=True) \
                         if d["weft"] == False and d["warp"] == False]
+        for i, ce in enumerate(ContourEdges):
+            if ce[0] > ce[1]:
+                ContourEdges[i] = (ce[1], ce[0], ce[2])
         return ContourEdges
 
     ContourEdges = property(_get_contour_edges, None, None,
@@ -623,6 +658,9 @@ class KnitNetworkBase(nx.Graph):
 
         WeftEdges = [(f, t, d) for f, t, d in self.edges_iter(data=True) \
                      if d["weft"] == True and d["warp"] == False]
+        for i, we in enumerate(WeftEdges):
+            if we[0] > we[1]:
+                WeftEdges[i] = (we[1], we[0], we[2])
         return WeftEdges
 
     WeftEdges = property(_get_weft_edges, None, None,
@@ -635,12 +673,42 @@ class KnitNetworkBase(nx.Graph):
 
         WarpEdges = [(f, t, d) for f, t, d in self.edges_iter(data=True) \
                      if d["weft"] == False and d["warp"] == True]
+        for i, we in enumerate(WarpEdges):
+            if we[0] > we[1]:
+                WarpEdges[i] = (we[1], we[0], we[2])
         return WarpEdges
 
     WarpEdges = property(_get_warp_edges, None, None,
                          "The edges of the network marked 'warp'.")
 
-    # EDGE METHODS -------------------------------------------------------------
+    def _get_segment_contour_edges(self):
+        """
+        Get all contour edges of the network marked neither 'warp' nor 'weft'
+        that have a 'segment' attribute assigned sorted by the 'segment'
+        attribute.
+        """
+
+        # get all the edges
+        SegmentContourEdges = [(f, t, d) for f, t, d \
+                               in self.edges_iter(data=True) \
+                               if d["weft"] == False and \
+                                  d["warp"] == False and \
+                                  d["segment"] != None]
+        for i, sce in enumerate(SegmentContourEdges):
+            if sce[0] > sce[1]:
+                SegmentContourEdges[i] = (sce[1], sce[0], sce[2])
+        # sort them by their 'segment' attributes value
+        # SegmentContourEdges.sort(key=lambda x: x[2]["segment"])
+        SegmentContourEdges.sort(key=lambda x: x[2]["segment"])
+
+        return SegmentContourEdges
+
+    SegmentContourEdges = property(_get_segment_contour_edges, None, None,
+                         "The edges of the network marked neither 'warp' "+
+                         "nor 'weft' and which have a 'segment' attribute "+
+                         "assigned to them.")
+
+    # NODE EDGE METHODS --------------------------------------------------------
 
     def NodeWeftEdges(self, node, data=False):
         """
@@ -682,3 +750,47 @@ class KnitNetworkBase(nx.Graph):
             return ContourEdges
         else:
             return [(e[0], e[1]) for e in ContourEdges]
+
+    # SEGMENT CONTOUR END NODE METHODS -----------------------------------------
+
+    def EndNodeSegmentsByStart(self, node, data=False):
+        """
+        Get all the segments which share a given 'end' node at the start
+        and sort them by their 'segment' value
+        """
+
+        connected_segments = [(s, e, d) for s, e, d \
+                              in self.edges_iter(node, data=True) if
+                              not d["warp"] and not d["weft"]]
+        connected_segments = [cs for cs in connected_segments \
+                              if cs[2]["segment"] != None]
+        connected_segments = [cs for cs in connected_segments \
+                              if cs[2]["segment"][0] == node]
+
+        connected_segments.sort(key=lambda x: x[2]["segment"])
+
+        if data:
+            return connected_segments
+        else:
+            return [(cs[0], cs[1]) for cs in connected_segments]
+
+    def EndNodeSegmentsByEnd(self, node, data=False):
+        """
+        Get all the segments which share a given 'end' node at the end
+        and sort them by their 'segment' value
+        """
+
+        connected_segments = [(s, e, d) for s, e, d \
+                              in self.edges_iter(node, data=True) if
+                              not d["warp"] and not d["weft"]]
+        connected_segments = [cs for cs in connected_segments \
+                              if cs[2]["segment"] != None]
+        connected_segments = [cs for cs in connected_segments \
+                              if cs[2]["segment"][1] == node]
+
+        connected_segments.sort(key=lambda x: x[2]["segment"])
+
+        if data:
+            return connected_segments
+        else:
+            return [(cs[0], cs[1]) for cs in connected_segments]
