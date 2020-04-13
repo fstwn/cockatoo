@@ -1,16 +1,20 @@
 """
-Creates a mapping network from segmented weft edges.
+Get the segmentation for loop generation and assign segment attributes
+to 'weft' edges and vertices.
 TODO: Update docstring!
     Inputs:
-        Toggle: Set to true to activate {item, boolean}
+        Toggle: {item, boolean}
         KnitNetwork: An initialized KnitNetwork. {item, KnitNetwork}
     Output:
-        MappingNetwork: The KnitNetwork with 'weft' connections created. {item, polyline}
+        RenderGraph: The KnitNetwork with 'weft' connections created. {item, polyline}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200325
+        Version: 200404
 """
+
+# PYTHON LIBRARY IMPORTS
+from __future__ import division
 
 # GPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
@@ -21,20 +25,21 @@ import rhinoscriptsyntax as rs
 
 # CUSTOM MODULE IMPORTS
 import Cockatoo
+reload(Cockatoo)
 
-ghenv.Component.Name = "CreateMappingNetwork"
-ghenv.Component.NickName ="CMN"
+ghenv.Component.Name = "MakeGephiGraph"
+ghenv.Component.NickName ="MGG"
 ghenv.Component.Category = "COCKATOO"
-ghenv.Component.SubCategory = "6 KnitNetwork"
+ghenv.Component.SubCategory = "7 Visualisation"
 
-class CreateMappingNetwork(component):
+class MakeGephiGraph(component):
     
     def RunScript(self, Toggle, KN):
         
         if Toggle and KN:
-            MappingNetwork = KN.CreateMappingNetwork()
+            GephiGraph = KN.MakeGephiGraph()
         else:
-            MappingNetwork = Grasshopper.DataTree[object]()
+            GephiGraph = Grasshopper.DataTree[object]()
         
         # return outputs if you have them; here I try it for you:
-        return MappingNetwork
+        return GephiGraph

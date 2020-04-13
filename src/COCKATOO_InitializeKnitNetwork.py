@@ -7,7 +7,7 @@
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200325
+        Version: 200413
 """
 
 # PYTHON LIBRARY IMPORTS
@@ -76,10 +76,6 @@ class InitializeKnitNetwork(component):
             # INITIALIZE CONTOUR EDGES ---------------------------------------------
             
             KN.InitializePositionContourEdges()
-            
-            # MAKE LEAF VERTEX CONNECTIONS -----------------------------------------
-            
-            KN.CreateLeafConnections()
         
         else:
             return Grasshopper.DataTree[object]()

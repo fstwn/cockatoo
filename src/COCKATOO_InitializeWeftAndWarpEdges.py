@@ -1,4 +1,5 @@
-"""Creates 'weft' edges in a given initialized KnitNetwork.
+"""Create preliminary 'weft' connections and first 'warp' connections
+for a given initialized KnitNetwork.
     Inputs:
         Toggle: Set to True to activate the component {item, boolean}
         KnitNetwork: An initialized KnitNetwork. {item, KnitNetwork}
@@ -9,7 +10,7 @@
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200325
+        Version: 200413
 """
 
 # PYTHON LIBRARY IMPORTS
@@ -25,12 +26,12 @@ import rhinoscriptsyntax as rs
 # CUSTOM MODULE IMPORTS
 import Cockatoo
 
-ghenv.Component.Name = "CreateWeftConnections"
-ghenv.Component.NickName ="CWC"
+ghenv.Component.Name = "InitializeWeftAndWarpEdges"
+ghenv.Component.NickName ="IWAWE"
 ghenv.Component.Category = "COCKATOO"
 ghenv.Component.SubCategory = "6 KnitNetwork"
 
-class CreateWeftConnections(component):
+class InitializeWeftAndWarpEdges(component):
     
     def RunScript(self, Toggle, KN, SplittingIndex, Precise=False):
         
@@ -41,12 +42,20 @@ class CreateWeftConnections(component):
             if SplittingIndex < 0:
                 SplittingIndex = None
             
-            # create weft connections on the copy of the network
-            KN.CreateWeftConnections(start_index=SplittingIndex,
-                                     include_leaves=True,
-                                     least_connected=False,
-                                     precise=Precise,
-                                     verbose=False)
+            # initialize 'weft' edges between 'leaf' nodes
+            KN.InitializeLeafConnections()
+            
+            # create preliminary 'weft' connections on the copy of the network
+            KN.InitializeWeftEdges(start_index=SplittingIndex,
+                                   include_leaves=True,
+                                   max_connections=4,
+                                   least_connected=False,
+                                   precise=Precise,
+                                   verbose=False)
+            
+            # initialize first 'warp' connections
+            KN.InitializeWarpEdges(contour_set=None,
+                                   verbose=False)
             
         elif not Toggle and KN:
             return KN

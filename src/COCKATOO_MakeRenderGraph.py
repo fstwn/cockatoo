@@ -10,7 +10,7 @@ TODO: Update docstring!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200403
+        Version: 200404
 """
 
 # PYTHON LIBRARY IMPORTS
@@ -25,19 +25,18 @@ import rhinoscriptsyntax as rs
 
 # CUSTOM MODULE IMPORTS
 import Cockatoo
-reload(Cockatoo)
 
 ghenv.Component.Name = "MakeRenderGraph"
 ghenv.Component.NickName ="MRG"
 ghenv.Component.Category = "COCKATOO"
 ghenv.Component.SubCategory = "7 Visualisation"
 
-class MakeGephiGraph(component):
+class MakeRenderGraph(component):
     
     def RunScript(self, Toggle, KN):
         
         if Toggle and KN:
-            RenderGraph = KN.MakeGephiGraph()
+            RenderGraph = KN.MakeRenderGraph(True)
         else:
             RenderGraph = Grasshopper.DataTree[object]()
         

@@ -1,6 +1,7 @@
 """
-Get the segmentation for loop generation and assign segment attributes
-to 'weft' edges and vertices.
+Assign 'segment' attributes to nodes and 'weft' edges based on their position
+between two 'end' nodes and build a mapping network used for loop generation
+from that data.
 TODO: Update docstring!
     Inputs:
         Toggle: Set to true to activate {item, boolean}
@@ -10,7 +11,7 @@ TODO: Update docstring!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200325
+        Version: 200413
 """
 
 # GPYTHON SDK IMPORTS
@@ -24,12 +25,12 @@ import rhinoscriptsyntax as rs
 import Cockatoo
 from mbe.component import addRuntimeWarning
 
-ghenv.Component.Name = "GetWeftEdgeSegmentation"
-ghenv.Component.NickName ="GWES"
+ghenv.Component.Name = "BuildMappingNetwork"
+ghenv.Component.NickName ="BMN"
 ghenv.Component.Category = "COCKATOO"
 ghenv.Component.SubCategory = "6 KnitNetwork"
 
-class GetWeftEdgeSegmentation(component):
+class BuildMappingNetwork(component):
     
     def RunScript(self, Toggle, KN):
         
@@ -37,9 +38,9 @@ class GetWeftEdgeSegmentation(component):
             # copy the input network to not mess with previous components
             KN = Cockatoo.KnitNetwork(KN)
             
-            # GET SEGMENTATION -------------------------------------------------
+            # CREATE SEGMENTATION AND ASSIGN ATTRIBUTES ------------------------
             
-            KN.GetWeftEdgeSegmentation()
+            KN.AssignSegmentAttributes()
             
             # CHECK THE RESULTS ------------------------------------------------
             
@@ -59,10 +60,15 @@ class GetWeftEdgeSegmentation(component):
                         vStr = "node {} has no segment value!"
                         vStr = vStr.format(node[0])
                         addRuntimeWarning(self, vStr)
+            
+            # CREATE MAPPING NETWORK -------------------------------------------
+            
+            KN.CreateMappingNetwork()
+            
         elif not Toggle and KN:
             return KN
         else:
             return Grasshopper.DataTree[object]()
         
         # return outputs if you have them; here I try it for you:
-        return KN
+        return KN, KN.MappingNetwork
