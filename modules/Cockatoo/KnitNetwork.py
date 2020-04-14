@@ -2016,6 +2016,8 @@ class KnitNetwork(KnitNetworkBase):
         # INVOKE SECOND PASS FOR SOURCE ---> TARGET ----------------------------
 
         for i, current_chain in enumerate(source_to_target):
+            print("-----------------------------------------------------------")
+            print("S>T Current Chain: {}".format(current_chain))
             # build a list of nodes containing all nodes in the current chain
             # including all 'end' nodes
             current_chain_nodes = []
@@ -2050,10 +2052,6 @@ class KnitNetwork(KnitNetworkBase):
 
                 # find out if the current node is already connected to the
                 # target chain
-
-                # TODO: FIX CROSSING EDGES! Take the node with the highest 'num'
-                #       attribute as start of the chain --> flawed
-
                 # get node warp edges and their target nodes
                 node_warp_edges = self.NodeWarpEdges(node[0], data=False)
                 warp_edge_targets = [we[1] for we in node_warp_edges]
@@ -2061,7 +2059,8 @@ class KnitNetwork(KnitNetworkBase):
                 for wet in warp_edge_targets:
                     for n, tcn in enumerate(target_chain_nodes):
                         if wet == tcn[0]:
-                            start_of_window = n
+                            if n > start_of_window:
+                                start_of_window = n
                             node_connected = True
 
                 # if the node is not connected to the target chain, we
@@ -2069,9 +2068,6 @@ class KnitNetwork(KnitNetworkBase):
                 if not node_connected:
                     print("Node: {}".format(node[0]))
                     print("Start of window: {}".format(start_of_window))
-
-                    # TODO: FIX CROSSING EDGES! Take the node with the lowest
-                    #       'num' attribute as start of the chain
 
                     end_of_window = None
                     for n, tcn in enumerate(target_chain_nodes):
@@ -2110,6 +2106,8 @@ class KnitNetwork(KnitNetworkBase):
         # INVOKE SECOND PASS FOR TARGET ---> SOURCE ----------------------------
 
         for i, current_chain in enumerate(target_to_source):
+            print("-----------------------------------------------------------")
+            print("T>S Current Chain: {}".format(current_chain))
             # build a list of nodes containing all nodes in the current chain
             # including all 'end' nodes
             current_chain_nodes = []
@@ -2142,9 +2140,6 @@ class KnitNetwork(KnitNetworkBase):
                 if k == 0 or k == len(current_chain_nodes)-1:
                     node_connected = True
 
-                # TODO: FIX CROSSING EDGES! Take the node with the highest 'num'
-                #       attribute as start of the chain
-
                 # find out if the current node is already connected to the
                 # target chain
                 node_warp_edges = self.NodeWarpEdges(node[0], data=False)
@@ -2152,7 +2147,8 @@ class KnitNetwork(KnitNetworkBase):
                 for wet in warp_edge_targets:
                     for n, tcn in enumerate(target_chain_nodes):
                         if wet == tcn[0]:
-                            start_of_window = n
+                            if n > start_of_window:
+                                start_of_window = n
                             node_connected = True
 
                 # if the node is not connected to the target chain, we
@@ -2160,9 +2156,6 @@ class KnitNetwork(KnitNetworkBase):
                 if not node_connected:
                     print("Node: {}".format(node[0]))
                     print("Start of window: {}".format(start_of_window))
-
-                    # TODO: FIX CROSSING EDGES! Take the node with the lowest
-                    #       'num' attribute as start of the chain
 
                     end_of_window = None
                     for n, tcn in enumerate(target_chain_nodes):
