@@ -1,22 +1,23 @@
-# PYTHON LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
+from __future__ import absolute_import
 from __future__ import division
 import math
 from operator import itemgetter
 from collections import deque, OrderedDict
 
 # RHINO IMPORTS
-from Rhino.Geometry import Line as RGLine
 from Rhino.Geometry import Curve as RGCurve
-from Rhino.Geometry import Vector3d as RGVector3d
+from Rhino.Geometry import Line as RGLine
 from Rhino.Geometry import Interval as RGInterval
+from Rhino.Geometry import Vector3d as RGVector3d
 
-# CUSTOM MODULE IMPORTS
+# THIRD PARTY MODULE IMPORTS
 import networkx as nx
 
-# SUBMODULE IMPORTS
-from KnitNetworkBase import KnitNetworkBase
-from KnitMappingNetwork import KnitMappingNetwork
-from CockatooExceptions import KnitNetworkError, MappingNetworkError
+# LOCAL MODULE IMPORTS
+from Cockatoo.Exceptions import *
+from .KnitNetworkBase import KnitNetworkBase
+from .KnitMappingNetwork import KnitMappingNetwork
 
 class KnitNetwork(KnitNetworkBase):
 
@@ -957,11 +958,11 @@ class KnitNetwork(KnitNetworkBase):
         if len(self.WeftEdges) == 0:
             errMsg = ("No 'weft' edges in KnitNetwork! Segmentation " +
                       "is impossible.")
-            raise RuntimeError(errMsg)
+            raise NoWeftEdgesError(errMsg)
         if len(self.EndNodes) == 0:
             errMsg = ("No 'end' nodes in KnitNetwork! Segmentation " +
                       "is impossible.")
-            raise RuntimeError(errMsg)
+            raise NoEndNodesError(errMsg)
 
         # remove contour and 'warp' edges and store them
         warp_storage = []
@@ -1023,7 +1024,7 @@ class KnitNetwork(KnitNetworkBase):
                       "only be created from a KnitNetwork with initialized "+
                       "'weft' edges for courses and corresponding 'warp' " +
                       "edges connecting their 'end' nodes.")
-            raise RuntimeError(errMsg)
+            raise NoWeftEdgesError(errMsg)
 
         # loop through all unique segment ids
         for id in segment_ids:

@@ -1,18 +1,18 @@
-# PYTHON LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
+from __future__ import absolute_import
 from __future__ import division
 
 # RHINO IMPORTS
+from Rhino.Geometry import Curve as RGCurve
 from Rhino.Geometry import Line as RGLine
 from Rhino.Geometry import LineCurve as RGLineCurve
-from Rhino.Geometry import Curve as RGCurve
 from Rhino.Geometry import Polyline as RGPolyline
 from Rhino.Geometry import PolylineCurve as RGPolylineCurve
 
-# CUSTOM MODULE IMPORTS
+# THIRD PARTY MODULE IMPORTS
 import networkx as nx
 
 class KnitNetworkBase(nx.Graph):
-
     """
     Base class for representing a network that facilitates the automatic
     generation of knitting patterns based on Rhino geometry.

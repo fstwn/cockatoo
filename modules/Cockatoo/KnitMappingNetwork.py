@@ -1,14 +1,15 @@
 # PYTHON LIBRARY IMPORTS
+from __future__ import absolute_import
 from __future__ import division
+from collections import deque
 import math
 from operator import itemgetter
-from collections import deque
 
-# CUSTOM MODULE IMPORTS
+# THIRD PARTY MODULE IMPORTS
 import networkx as nx
 
-# SUBMODULE IMPORTS
-from KnitNetworkBase import KnitNetworkBase
+# LOCAL MODULE IMPORTS
+from .KnitNetworkBase import KnitNetworkBase
 
 class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 

@@ -2,7 +2,6 @@
 Custom Exceptions for Cockatoo modules.
 """
 
-
 class CockatooException(Exception):
     """Base class for exceptions in Cockatoo."""
 

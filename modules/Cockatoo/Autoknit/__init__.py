@@ -1,12 +1,15 @@
-# SUBMODULE IMPORTS ------------------------------------------------------------
+# PYTHON STANDARD LIBRARY IMPORTS
+from __future__ import absolute_import
 
-import AKFileIO
-import AKStructs
-import AKUtility
-import AKEngine
+# LOCAL MODULE IMPORTS
+from . import Engine
+from . import FileIO
+from . import Structs
+from . import Utility
 
-from AKModel import AKModel
+from .Constraint import Constraint
+from .EmbeddedConstraint import EmbeddedConstraint
+from .Model import Model
+from .StoredConstraint import StoredConstraint
 
-from AKStoredConstraint import AKStoredConstraint
-from AKConstraint import AKConstraint
-from AKEmbeddedConstraint import AKEmbeddedConstraint
+__all__ = [name for name in dir() if not name.startswith('_')]
