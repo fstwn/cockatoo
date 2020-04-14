@@ -10,10 +10,10 @@ TODO: Update docstring!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200404
+        Version: 200414
 """
 
-# PYTHON LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 
 # GPYTHON SDK IMPORTS
@@ -23,10 +23,10 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
-# CUSTOM MODULE IMPORTS
+# LOCAL MODULE IMPORTS
 import Cockatoo
-reload(Cockatoo)
 
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "MakeGephiGraph"
 ghenv.Component.NickName ="MGG"
 ghenv.Component.Category = "COCKATOO"

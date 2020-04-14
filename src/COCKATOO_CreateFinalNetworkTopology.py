@@ -11,10 +11,10 @@ TODO: Update docstring!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200413
+        Version: 200414
 """
 
-# PYTHON LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 
 # GPYTHON SDK IMPORTS
@@ -24,9 +24,10 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
-# CUSTOM MODULE IMPORTS
+# LOCAL MODULE IMPORTS
 import Cockatoo
 
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "CreateFinalNetworkTopology"
 ghenv.Component.NickName ="CFNT"
 ghenv.Component.Category = "COCKATOO"

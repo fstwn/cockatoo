@@ -7,18 +7,23 @@ Load a model from an *.obj file and create a Mesh out of it.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200324
+        Version: 200414
 """
+
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 
+# GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
 import Grasshopper, GhPython
 import System
 import Rhino
 import rhinoscriptsyntax as rs
 
+# LOCAL MODULE IMPORTS
 from mbe.io import loadOBJ, escapeFilePath
 
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "LoadOBJAsMesh"
 ghenv.Component.NickName ="LOAM"
 ghenv.Component.Category = "COCKATOO"

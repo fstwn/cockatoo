@@ -6,10 +6,10 @@ TODO: Update docstring!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200403
+        Version: 200414
 """
 
-# PYTHON LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 
 # GHPYTHON SDK IMPORTS
@@ -19,10 +19,11 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
-# CUSTOM MODULE IMPORTS
+# LOCAL MODULE IMPORTS
 from mbe.component import customDisplay
 from Cockatoo import KnitNetwork
 
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "RenderKnitNetwork"
 ghenv.Component.NickName ="RKN"
 ghenv.Component.Category = "COCKATOO"

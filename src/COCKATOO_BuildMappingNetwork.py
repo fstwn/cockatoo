@@ -21,10 +21,11 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
-# CUSTOM MODULE IMPORTS
+# LOCAL MODULE IMPORTS
 import Cockatoo
 from mbe.component import addRuntimeWarning
 
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "BuildMappingNetwork"
 ghenv.Component.NickName ="BMN"
 ghenv.Component.Category = "COCKATOO"

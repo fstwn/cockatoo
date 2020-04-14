@@ -7,19 +7,23 @@ Saves a mesh as an *.obj file on trigger.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200324
+        Version: 200414
 """
 
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 
+# GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
 import Grasshopper, GhPython
 import System
 import Rhino
 import rhinoscriptsyntax as rs
 
+# LOCAL MODULE IMPORTS
 from mbe.io import saveOBJ
 
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "SaveMeshAsOBJ"
 ghenv.Component.NickName ="SMAO"
 ghenv.Component.Category = "COCKATOO"

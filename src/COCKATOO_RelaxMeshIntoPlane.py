@@ -14,13 +14,13 @@ TODO: UPDATE DOCSTRING, MODE SELECTOR
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200312
+        Version: 200414
 """
 
-# PYTHON LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
-import math
 import clr
+import math
 
 # GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
@@ -30,10 +30,11 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # CUSTOM RHINO IMPORTS
+from ghpythonlib import treehelpers as th
 from scriptcontext import escape_test
 from scriptcontext import sticky as st
-from ghpythonlib import treehelpers as th
 
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "RelaxMeshIntoPlane"
 ghenv.Component.NickName ="RMIP"
 ghenv.Component.Category = "COCKATOO"

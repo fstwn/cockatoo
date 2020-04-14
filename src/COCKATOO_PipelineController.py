@@ -14,21 +14,21 @@ Provides an interface to work with interactive geometry pipelines.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200315
+        Version: 200414
 """
 
-# PYTHON MODULE IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 import time
 
-# GHPYTHON COMPONENT MODE IMPORTS
+# GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
 import Grasshopper, GhPython
 import System
 import Rhino
 import rhinoscriptsyntax as rs
 
-# RHINO IMPORTS
+# CUSTOM RHINO IMPORTS
 import rhinoscriptsyntax as rs
 import scriptcontext as sc
 from scriptcontext import sticky as st
@@ -36,7 +36,7 @@ from scriptcontext import sticky as st
 # ADDITIONAL IMPORTS
 from System.Drawing import Color
 
-# SET COMPONENT PROPERTIES
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "PipelineController"
 ghenv.Component.NickName = "PC"
 ghenv.Component.Category = "COCKATOO"

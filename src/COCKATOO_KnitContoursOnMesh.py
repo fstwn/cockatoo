@@ -13,10 +13,10 @@ TODO: Update docstring
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200328
+        Version: 200414
 """
 
-# PYTHON LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 import clr
 
@@ -32,11 +32,12 @@ clr.AddReferenceToFile("KangarooSolver.dll")
 import KangarooSolver as ks
 from System.Collections.Generic import List
 
-# CUSTOM MODULE IMPORTS
+# LOCAL MODULE IMPORTS
 from mbe.geometry import BreakPolyline
 from mbe.helpers import mapValuesAsColors
 from mbe.component import customDisplay
 
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "KnitContoursOnMesh"
 ghenv.Component.NickName ="KCOM"
 ghenv.Component.Category = "COCKATOO"

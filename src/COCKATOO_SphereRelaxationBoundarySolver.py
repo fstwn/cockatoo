@@ -13,10 +13,10 @@
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200324
+        Version: 200414
 """
 
-# PYTHON MODULES IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 
 # GHPYTHON SDK IMPORTS
@@ -29,6 +29,7 @@ import rhinoscriptsyntax as rs
 # CUSTOM RHINO IMPORTS
 import scriptcontext as sc
 
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "SphereRelaxationBoundarySolver"
 ghenv.Component.NickName ="SRBS"
 ghenv.Component.Category = "COCKATOO"

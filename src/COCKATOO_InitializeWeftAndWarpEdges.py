@@ -10,10 +10,10 @@ for a given initialized KnitNetwork.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200413
+        Version: 200414
 """
 
-# PYTHON LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 
 # GPYTHON SDK IMPORTS
@@ -23,9 +23,10 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
-# CUSTOM MODULE IMPORTS
+# LOCAL MODULE IMPORTS
 import Cockatoo
 
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "InitializeWeftAndWarpEdges"
 ghenv.Component.NickName ="IWAWE"
 ghenv.Component.Category = "COCKATOO"

@@ -1,4 +1,4 @@
-"""Extracts constraint from a mesh to derive a knitting pattern.
+"""Extracts constraints from a mesh to derive a knitting pattern.
 TODO: Update docstring, multiple start and end indices?, edge case for touching s and e
     Inputs:
         Mesh:{item, mesh}
@@ -13,10 +13,10 @@ TODO: Update docstring, multiple start and end indices?, edge case for touching 
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200325
+        Version: 200414
 """
 
-# PYTHON LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 from collections import deque
 import math
@@ -32,13 +32,12 @@ import rhinoscriptsyntax as rs
 import scriptcontext
 from ghpythonlib import treehelpers as th
 
-# CUSTOM MODULE IMPORTS
-import mbe.geometry
-reload(mbe.geometry)
+# LOCAL MODULE IMPORTS
 from mbe.geometry import BreakPolyline
 from mbe.helpers import mapValuesAsColors
 import mbe.component as ct
 
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "ExtractKnitConstraintsFromMesh"
 ghenv.Component.NickName ="EKCFM"
 ghenv.Component.Category = "COCKATOO"

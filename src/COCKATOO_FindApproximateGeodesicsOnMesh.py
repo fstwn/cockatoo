@@ -33,10 +33,10 @@ https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
     Remarks:
         Author: Max Eschenbach, based on an approach by Anders Holden Deleuran
         License: Apache License 2.0
-        Version: 200328
+        Version: 200414
 """
 
-# PYTHON LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 import clr
 import math
@@ -50,12 +50,13 @@ import rhinoscriptsyntax as rs
 
 # CUSTOM RHINO IMPORTS
 import scriptcontext as sc
-
-# CUSTOM IMPORTS
 clr.AddReferenceToFile("KangarooSolver.dll")
 import KangarooSolver as ks
+
+# ADDITIONAL IMPORTS
 from System.Collections.Generic import List
 
+# GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "FindApproximateGeodesicsOnMesh"
 ghenv.Component.NickName ="FAGOM"
 ghenv.Component.Category = "COCKATOO"
