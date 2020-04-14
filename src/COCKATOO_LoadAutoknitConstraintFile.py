@@ -6,33 +6,35 @@ Load an Autoknit *.cons file and interpret the constraints in it.
         V: The vertices from the constraint file as tuples {list, tuple}
         P: The vertices from the constraint file as points {list, point}
         C: The constraints from the constraint file as tuples {list, tuple}
-        AKC: The constraints from the constraint file as AKConstraint objects {list, AKSavedConstraint}
+        AKC: The constraints from the constraint file as Autoknit Constraint objects {list, SavedConstraint}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200324
+        Version: 200414
 """
 
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 from string import join
-import importlib
 
+# GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
 import Grasshopper, GhPython
 import System
 import Rhino
 import rhinoscriptsyntax as rs
-import scriptcontext
 
-from mbe.helpers import escapeFilePath
-from Cockatoo.Autoknit import AKFileIO, AKStoredConstraint
+# LOCAL MODULE IMPORTS
+from Cockatoo.Autoknit.Utility import escapeFilePath
+from Cockatoo.Autoknit import FileIO, StoredConstraint
 
-ghenv.Component.Name = "LoadAKConstraintFile"
-ghenv.Component.NickName ="LAKCF"
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "LoadAutoknitConstraintFile"
+ghenv.Component.NickName ="LACF"
 ghenv.Component.Category = "COCKATOO"
 ghenv.Component.SubCategory = "8 Autoknit Pipeline"
 
-class LoadAKConstraintFile(component):
+class LoadAutoknitConstraintFile(component):
     
     def RunScript(self, FP):
         # define outputs so they're never empty
@@ -60,7 +62,7 @@ class LoadAKConstraintFile(component):
         self.AddRuntimeMessage(rml, msg)
         
         # load the constraints
-        result = AKFileIO.LoadConstraints(filepath)
+        result = FileIO.LoadConstraints(filepath)
         if result[0] == False:
             rml = self.RuntimeMessageLevel.Error
             msg = "Error Loading constraints! " + str(result[1])
@@ -70,9 +72,9 @@ class LoadAKConstraintFile(component):
             R, V, C = result
             P = [Rhino.Geometry.Point3d(v[0], v[1], v[2]) for v in V]
         
-        AKSC = [AKStoredConstraint(c[0], c[1], c[2]) for c in C]
+        AKSC = [StoredConstraint(c[0], c[1], c[2]) for c in C]
         
-        AKC = AKFileIO.InterpretStoredConstraints(V, AKSC)
+        AKC = FileIO.InterpretStoredConstraints(V, AKSC)
         
         # return outputs if you have them; here I try it for you:
         return (V, P, C, AKC)

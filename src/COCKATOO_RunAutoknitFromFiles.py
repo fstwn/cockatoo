@@ -2,23 +2,22 @@
 Run Autoknit as a threaded subprocess from specified files.
     Inputs:
         Run: Connect a button and set to true to start the autoknit instance {item, boolean}
-        AKPATH: Path to the autoknit installation (the folder in which interface.exe lies) {item, str}
-        OBJ: Path to the *.obj file to read the model from {item, str}
-        CONS: Path to the *.cons file to read the constraints from {item, str}
-        TRACED: Path where the traced file (*.st) should be saved when peeling is finished {item, str}
+        obj: Path to the *.obj file to read the model from {item, str}
+        constraints: Path to the *.cons file to read the constraints from {item, str}
         obj_scale: {item, float}
         stitch_width: {item, float}
         stitch_height: {item, float}
+        save_traced: Path where the traced file (*.st) should be saved when peeling is finished {item, str}
         peel_step: {item, int}
     Outputs:
         R: Boolean identifying if this autoknit instance is currently running or not {item, bpolean}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200324
+        Version: 200414
 """
 
-# PYTHON MODULE IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 import subprocess
 import threading
@@ -33,21 +32,22 @@ import rhinoscriptsyntax as rs
 # CUSTOM RHINO IMPORTS
 from scriptcontext import sticky as st
 
-# CUSTOM MODULE IMPORTS
+# LOCAL MODULE IMPORTS
 from Cockatoo import Autoknit as cak
 
-ghenv.Component.Name = "RunAKFromFiles"
-ghenv.Component.NickName ="RAKFF"
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "RunAutoknitFromFiles"
+ghenv.Component.NickName ="RAFF"
 ghenv.Component.Category = "COCKATOO"
 ghenv.Component.SubCategory = "8 Autoknit Pipeline"
 
-class AKRunFromFiles(component):
+class RunAutoknitFromFiles(component):
     
     def RunScript(self, Run, obj, constraints, obj_scale, stitch_width, stitch_height, save_traced, peel_step):
         
         # SETUP CODE -----------------------------------------------------------
         
-        running_key, reset_key = cak.AKEngine.InitializeComponentInterface(self)
+        running_key, reset_key = cak.Engine.InitializeComponentInterface(self)
         
         if running_key not in st:
             st[running_key] = False
@@ -67,13 +67,13 @@ class AKRunFromFiles(component):
         
         # COMMAND COMPILATION --------------------------------------------------
         
-        Command = cak.AKEngine.CompileCommand(obj,
-                                              constraints,
-                                              obj_scale,
-                                              stitch_width,
-                                              stitch_height,
-                                              save_traced,
-                                              peel_step)
+        Command = cak.Engine.CompileCommand(obj,
+                                            constraints,
+                                            obj_scale,
+                                            stitch_width,
+                                            stitch_height,
+                                            save_traced,
+                                            peel_step)
         
         # START AUTOKNIT THREAD ------------------------------------------------
         

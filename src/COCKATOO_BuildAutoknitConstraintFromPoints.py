@@ -9,34 +9,35 @@ and a time value.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200124
+        Version: 200414
 """
-# Python module imports
+
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 
-# Rhino imports
+# GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
 import Grasshopper, GhPython
 import System
 import Rhino
 import rhinoscriptsyntax as rs
-import scriptcontext
 
-# Library imports
+# LOCAL MODULE IMPORTS
 from Cockatoo import Autoknit as cak
 
-ghenv.Component.Name = "BuildAKConstraintFromPoints"
-ghenv.Component.NickName ="BAKCFP"
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "BuildAutoknitConstraintFromPoints"
+ghenv.Component.NickName ="BACFP"
 ghenv.Component.Category = "COCKATOO"
 ghenv.Component.SubCategory = "8 Autoknit Pipeline"
 
-class BuildAKConstraintFromPoints(component):
+class BuildAutoknitConstraintFromPoints(component):
     
     def RunScript(self, P, V):
         # define outputs so they're never empty
         AKConstraint = None
         
-        AKConstraint = cak.AKConstraint(-1, P, V, 0)
+        AKConstraint = cak.Constraint(-1, P, V, 0)
         
         
         # return outputs if you have them; here I try it for you:
