@@ -1,12 +1,7 @@
-# PYTHON MODULE IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 import heapq
 import string
-
-# ENVIRONMENT VARIABLES --------------------------------------------------------
-
-# PATH TO COMPILED AUTOKNIT FOLDER (WHERE INTERFACE.EXE IS LOCATED!)
-_AK_RAW_PATH_ = r"C:\Users\EFESTWIN\Documents\01_kh_kassel\01_semester\17_ws19_20\01_KNIT_RELAXATION\02_Software\01_repos\autoknit\dist"
 
 # UTILITY CLASSES --------------------------------------------------------------
 
@@ -123,11 +118,15 @@ def get_nearest(kd_node, point, dim, dist_func, return_distances=False, i=0, bes
 # FILE PATHS -------------------------------------------------------------------
 
 def escapeFilePath(fp):
-    """Escapes a Grasshopper File Path to make it compatible with Python"""
+    """
+    Escapes a Grasshopper File Path to make it compatible with Python
+    """
     return string.join(fp.split("\\"), "\\\\")
 
 def removeTrailingNewlines(s):
-    """Removes trailing newlines from a string (most of the time a filepath)."""
+    """
+    Removes trailing newlines from a string (most of the time a filepath).
+    """
     if not s:
         return None
     elif s.endswith("\n"):
@@ -135,8 +134,3 @@ def removeTrailingNewlines(s):
     elif s.endswith("\r"):
         s = removeTrailingNewlines(s[:-1])
     return s
-
-# MORE ENVIRONMENT VARIABLES (DON'T CHANGE THIS!) ------------------------------
-
-_AK_PATH_ = escapeFilePath(_AK_RAW_PATH_)
-_AK_INTERFACE_ = escapeFilePath(_AK_PATH_ + r"\interface")

@@ -1,10 +1,10 @@
-# PYTHON MODULE IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 
 # RHINO IMPORTS
 from Rhino.Geometry import Point3d, Polyline, PolylineCurve
 
-class AKConstraint(object):
+class Constraint(object):
     """Class for representing autoknit constraints separate from the model.
     The chain is stored as vertex coordinates."""
 
@@ -16,7 +16,7 @@ class AKConstraint(object):
         self._set_radius(radius)
 
     def ToString(self):
-        name = "AKConstraint"
+        name = "Autoknit Constraint"
         data = "({}, {}, {}, {})".format(self.Id,
                                          self.Vertices,
                                          self.Value,
@@ -25,7 +25,7 @@ class AKConstraint(object):
 
     @classmethod
     def FromPolyline(cls, polyline):
-        """Make AKConstraint from a Rhino Polyline"""
+        """Make Constraint from a Rhino Polyline"""
         raise NotImplementedError("This has not been implemented yet!")
 
     # BASE PROPERTIES ----------------------------------------------------------

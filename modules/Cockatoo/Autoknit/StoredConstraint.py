@@ -1,10 +1,10 @@
-# PYTHON MODULE IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 
-# LIBRARY IMPORTS
-import AKStructs
+# LOCAL MODULE IMPORTS
+from . import Structs
 
-class AKStoredConstraint(object):
+class StoredConstraint(object):
     """Class for representing a stored autoknit Constraint."""
 
     # INITIALIZATION -----------------------------------------------------------
@@ -16,7 +16,7 @@ class AKStoredConstraint(object):
         self._set_radius(radius)
 
     def ToString(self):
-        name = "AKStoredConstraint"
+        name = "Autoknit StoredConstraint"
         data = "({}, {}, {})".format(self.Count, self.Value, self.Radius)
         return name + data
 
@@ -96,9 +96,9 @@ class AKStoredConstraint(object):
     # BYTES FOR WRITING FILES --------------------------------------------------
 
     def _get_bytes(self):
-        return AKStructs.STRUCT_STOREDCONSTRAINT.pack(self.Count,
-                                                      self.Value,
-                                                      self.Radius)
+        return Structs.STRUCT_STOREDCONSTRAINT.pack(self.Count,
+                                                    self.Value,
+                                                    self.Radius)
 
     Bytes = property(_get_bytes, None, None,
                      "The bytecode representation of this Constraint.")

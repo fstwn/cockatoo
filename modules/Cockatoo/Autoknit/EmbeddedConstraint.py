@@ -1,10 +1,10 @@
-# PYTHON MODULE IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 
-# LIBRARY IMPORTS
-from AKStoredConstraint import AKStoredConstraint
+# LOCAL MODULE IMPORTS
+from .StoredConstraint import StoredConstraint
 
-class AKEmbeddedConstraint(object):
+class EmbeddedConstraint(object):
     """
     Class for representing an autoknit constraint in relation to the model.
     The chain is only stored as vertex indices.
@@ -17,7 +17,7 @@ class AKEmbeddedConstraint(object):
         self._set_radius(radius)
 
     def ToString(self):
-        name = "AKEmbeddedConstraint"
+        name = "Autoknit EmbeddedConstraint"
         data = "({}, {}, {})".format(self.Chain, self.Value, self.Radius)
         return name + data
 

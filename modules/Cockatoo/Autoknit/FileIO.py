@@ -2,9 +2,9 @@
 Static functions for loading and writing autoknit constraints from and to
 *.cons files aswell as reading and writing *.obj files.
 Author: Max Eschenbach
-Version: 200315
+Version: 200414
 """
-# PYTHON MODULE IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 from collections import deque
 import itertools
@@ -13,10 +13,10 @@ import itertools
 import Rhino as rc
 import scriptcontext
 
-# LIBRARY IMPORTS
-import AKStructs
-from AKConstraint import AKConstraint
-from AKUtility import escapeFilePath, removeTrailingNewlines
+# LOCAL MODULE IMPORTS
+from . import Structs
+from .Constraint import Constraint
+from .Utility import escapeFilePath, removeTrailingNewlines
 
 # READ AND WRITE FUNCTIONS (PRIVATE) -------------------------------------------
 
@@ -25,8 +25,8 @@ from AKUtility import escapeFilePath, removeTrailingNewlines
 def _read_scalar(instream, name):
     """Reads a scalar from the stream and returns it as an integer."""
     try:
-        s = instream.read(AKStructs.STRUCT_SCALAR.size)
-        scalar = AKStructs.STRUCT_SCALAR.unpack(s)[0]
+        s = instream.read(Structs.STRUCT_SCALAR.size)
+        scalar = Structs.STRUCT_SCALAR.unpack(s)[0]
         return scalar
     except Exception, e:
         raise RuntimeError("Failed to read scalar " + \
@@ -35,7 +35,7 @@ def _read_scalar(instream, name):
 def _write_scalar(outstream, scalar, name):
     """Writes a scalar to the output stream."""
     try:
-        s = AKStructs.STRUCT_SCALAR.pack(scalar)
+        s = Structs.STRUCT_SCALAR.pack(scalar)
         outstream.write(s)
         return True
     except Exception, e:
@@ -96,9 +96,9 @@ def LoadConstraints(filepath):
     """Loads autoknit constraints from a binary *.cons file."""
     with open(filepath, "rb") as f:
         try:
-            vertices = _read_vector_sequence(f, AKStructs.STRUCT_VERTEX,
+            vertices = _read_vector_sequence(f, Structs.STRUCT_VERTEX,
                                              "vertices")
-            constraints = _read_vector_sequence(f, AKStructs.STRUCT_STOREDCONSTRAINT,
+            constraints = _read_vector_sequence(f, Structs.STRUCT_STOREDCONSTRAINT,
                                                 "constraints")
             return True, vertices, constraints
         except Exception, e:
@@ -110,10 +110,10 @@ def SaveConstraints(filepath, vertices, constraints):
     try:
         with open(filepath, "wb") as f:
             vertices = list(itertools.chain.from_iterable(vertices))
-            _write_vector_sequence(f, vertices, AKStructs.STRUCT_VERTEX, "vertices")
+            _write_vector_sequence(f, vertices, Structs.STRUCT_VERTEX, "vertices")
 
             constraints = [c.Storable for c in constraints]
-            _write_vector_sequence(f, constraints, AKStructs.STRUCT_STOREDCONSTRAINT, "constraints")
+            _write_vector_sequence(f, constraints, Structs.STRUCT_STOREDCONSTRAINT, "constraints")
     except Exception, e:
         print e
         raise RuntimeError("Could not write constraints file!")
@@ -123,12 +123,12 @@ def SaveConstraints(filepath, vertices, constraints):
 
 def InterpretStoredConstraints(points, storedconstraints):
     """Interprets the results of loading a *.cons file and builds
-    AKConstraints from them."""
+    Autoknit Constraints from them."""
     points = deque(points)
     constraints = []
     for i, c in enumerate(storedconstraints):
         vertices = [points.popleft() for x in range(c.Count)]
-        constraints.append(AKConstraint(i, vertices, c.Value, c.Radius))
+        constraints.append(Constraint(i, vertices, c.Value, c.Radius))
     return constraints
 
 # LOADING AND SAVING OF MODELS (OBJ FILES) -------------------------------------

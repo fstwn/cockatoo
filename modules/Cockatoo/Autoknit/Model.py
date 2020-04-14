@@ -1,18 +1,17 @@
-# PYTHON MODULE IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 
 # RHINO IMPORTS
 import Rhino
 
-# LIBRARY IMPORTS
-from AKEmbeddedConstraint import AKEmbeddedConstraint
-from AKStoredConstraint import AKStoredConstraint
-from AKConstraint import AKConstraint
+# LOCAL MODULE IMPORTS
+from .EmbeddedConstraint import EmbeddedConstraint
+from .StoredConstraint import StoredConstraint
+from .Constraint import Constraint
+from .FileIO import LoadConstraints, SaveConstraints, SaveObj, LoadObj
+from .Utility import AttributeList, make_kd_tree, get_nearest
 
-from AKFileIO import LoadConstraints, SaveConstraints, SaveObj, LoadObj
-from AKUtility import AttributeList, make_kd_tree, get_nearest
-
-class AKModel(object):
+class Model(object):
     """Class for representing a constrained Model."""
 
     # INITIALIZATION -----------------------------------------------------------
@@ -26,7 +25,7 @@ class AKModel(object):
             self._set_constraints(constraints)
 
     def ToString(self):
-        name = "AKModel"
+        name = "Autoknit Model"
         mv = self.Mesh.Vertices.Count
         mf = self.Mesh.Faces.Count
         mesh = "Mesh (V:{} F:{})".format(mv, mf)
@@ -62,7 +61,7 @@ class AKModel(object):
         except:
             raise ValueError("Could not set the constraints. \
                               Check if all supplied constraints are valid \
-                              AKConstraint instances.")
+                              Constraint instances.")
         for i, cons in enumerate(constraints):
             if cons.Id == -1:
                 noid.append(cons)
@@ -104,7 +103,7 @@ class AKModel(object):
 
     def _embed_constraint(self, constraint, tolerance):
         """Embeds a constraint within the model and returns an
-        AKEmbeddedConstraint object"""
+        Autoknit EmbeddedConstraint object"""
         # get all the vertices of the mesh embedded within the model
         mv = [AttributeList([p.X, p.Y, p.Z], idx=i) for i, p in \
                         enumerate(list(self.Mesh.Vertices.ToPoint3dArray()))]
@@ -131,7 +130,7 @@ class AKModel(object):
         # build an embedded constraint from the indices, value and radius
         value = constraint.Value
         radius = constraint.Radius
-        ec = AKEmbeddedConstraint(chain_indices, value, radius)
+        ec = EmbeddedConstraint(chain_indices, value, radius)
         return ec
 
     # ORDERING OF CONSTRAINTS BASED ON TIME VALUES -----------------------------

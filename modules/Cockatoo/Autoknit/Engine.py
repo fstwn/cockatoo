@@ -1,20 +1,20 @@
-# PYTHON MODULE IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 import datetime
 
 # RHINO IMPORTS
 from scriptcontext import sticky as st
 
-# LIBRARY IMPORTS
-from AKUtility import _AK_PATH_, \
-                      _AK_INTERFACE_, \
-                      escapeFilePath, \
-                      removeTrailingNewlines
-
-from AKFileIO import SaveObj, SaveConstraints
+# LOCAL MODULE IMPORTS
+from .Environment import _AK_PATH_, _AK_INTERFACE_
+from .Utility import escapeFilePath, removeTrailingNewlines
+from .FileIO import SaveObj, SaveConstraints
 
 def InitializeComponentInterface(component):
-    """Initializes the necessary things in the Rhino sticky."""
+    """
+    Initializes the necessary things in the Rhino sticky.
+    """
+
     ig = str(component.InstanceGuid)
     running_key = ig + "___AKRUNNING"
     reset_key = ig + "___RESET"
@@ -27,7 +27,10 @@ def InitializeComponentInterface(component):
     return (running_key, reset_key)
 
 def TempFilePaths(filedir):
-    """Creates filepaths for temporary autoknit files"""
+    """
+    Creates filepaths for temporary autoknit files.
+    """
+
     # create timestamp
     n = datetime.datetime.now()
     yy = str(n.year)[-2:]
@@ -45,7 +48,10 @@ def TempFilePaths(filedir):
     return (temp_modelfile, temp_consfile)
 
 def CompileCommand(obj, constraints, obj_scale = None, stitch_width = None, stitch_height = None, save_traced = None, peel_step = None):
-    """Compiles a command with arguments for running autoknit."""
+    """
+    Compiles a command with arguments for running autoknit.
+    """
+
     if not obj or not constraints:
         raise ValueError("Expected *.obj and *.cons file," + \
                          "received {} and {}." + \
@@ -109,6 +115,8 @@ def CompileCommand(obj, constraints, obj_scale = None, stitch_width = None, stit
     return Command
 
 def WriteTempFiles(model, obj_file, cons_file):
-    """Writes temporary files for starting autoknit from an AKModel instance."""
+    """
+    Writes temporary files for starting autoknit.
+    """
     SaveObj(obj_file, model.Mesh)
     SaveConstraints(cons_file, model.ConstraintCoordinates, model.Constraints)
