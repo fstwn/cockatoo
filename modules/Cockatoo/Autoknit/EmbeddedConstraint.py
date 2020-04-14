@@ -1,7 +1,8 @@
-# PYTHON STANDARD LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
+from __future__ import absolute_import
 from __future__ import division
 
-# LOCAL MODULE IMPORTS
+# LOCAL MODULE IMPORTS ---------------------------------------------------------
 from .StoredConstraint import StoredConstraint
 
 # ALL DICTIONARY ---------------------------------------------------------------

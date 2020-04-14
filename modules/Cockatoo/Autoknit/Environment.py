@@ -1,3 +1,6 @@
+# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
+from __future__ import absolute_import
+
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from .Utility import escapeFilePath
 

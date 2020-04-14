@@ -1,4 +1,5 @@
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
+from __future__ import absolute_import
 import struct
 
 # ALL DICTIONARY ---------------------------------------------------------------
