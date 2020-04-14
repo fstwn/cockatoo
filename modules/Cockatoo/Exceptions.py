@@ -2,11 +2,26 @@
 Custom Exceptions for Cockatoo modules.
 """
 
+# COCKATOO BASE EXCEPTION ------------------------------------------------------
+
 class CockatooException(Exception):
     """Base class for exceptions in Cockatoo."""
 
+# DEPENDENCY EXCEPTIONS --------------------------------------------------------
+
+class RhinoNotPresentError(CockatooException):
+    """Exception raised when import of Rhino fails."""
+
+class KangarooNotPresentError(CockatooException):
+    """Exception raised when import of Kangaroo fails."""
+
+# KNITNETWORK EXCEPTIONS -------------------------------------------------------
+
 class KnitNetworkError(CockatooException):
-    """Exception for a serious error in Cockatoo."""
+    """Exception for a serious error in a KnitNetwork of Cockatoo."""
+
+class NetworkXNotPresentError(KnitNetworkError):
+    """Exception raised when import of NetworkX fails."""
 
 class MappingNetworkError(KnitNetworkError):
     """

@@ -2,10 +2,16 @@
 from __future__ import absolute_import
 
 # LOCAL MODULE IMPORTS
-import Cockatoo.Autoknit
-import Cockatoo.Exceptions
-from Cockatoo.KnitNetworkBase import KnitNetworkBase
-from Cockatoo.KnitNetwork import KnitNetwork
-from Cockatoo.KnitMappingNetwork import KnitMappingNetwork
+from . import Autoknit
+from . import Exceptions
+from .KnitNetworkBase import KnitNetworkBase
+from .KnitNetwork import KnitNetwork
+from .KnitMappingNetwork import KnitMappingNetwork
 
-__all__ = [name for name in dir() if not name.startswith('_')]
+__all__ = [
+    "Autoknit",
+    "Exceptions",
+    "KnitNetworkBase",
+    "KnitNetwork",
+    "KnitMappingNetwork"
+]

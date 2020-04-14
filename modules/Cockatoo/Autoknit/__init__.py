@@ -12,4 +12,13 @@ from .EmbeddedConstraint import EmbeddedConstraint
 from .Model import Model
 from .StoredConstraint import StoredConstraint
 
-__all__ = [name for name in dir() if not name.startswith('_')]
+__all__ = [
+    "Engine",
+    "FileIO",
+    "Structs",
+    "Utility",
+    "Constraint",
+    "EmbeddedConstraint",
+    "Model",
+    "StoredConstraint"
+]
