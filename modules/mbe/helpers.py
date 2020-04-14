@@ -2,11 +2,14 @@
 Helper and utility functions for writing GHPython scripts / components.
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200122
+Version: 200414
 """
-# PYTHON MODULE IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
+from __future__ import absolute_import
 from __future__ import division
 import string
+
+# RHINO IMPORTS
 import Rhino
 
 def escapeFilePath(fp):
@@ -30,7 +33,6 @@ def removeTrailingNewlines(s):
     return s
 
 def mapValuesAsColors(values, srcMin, srcMax, targetMin = 0.0, targetMax = 0.7):
-
     """
     Make a list of HSL colors where the values are mapped onto a
     targetMin-targetMax hue domain. Meaning that low values will be red, medium

@@ -2,12 +2,13 @@
 Geometry tools for GHPython scripts
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200312
+Version: 200414
 """
-# PYTHON MODULE IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
+from __future__ import absolute_import
 from __future__ import division
-import math
 from collections import deque
+import math
 
 # RHINO IMPORTS
 import Rhino

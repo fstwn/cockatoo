@@ -2,11 +2,15 @@
 Component tools for GHPython scripts
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200315
+Version: 200414
 """
 
-from scriptcontext import sticky as st
+# PYTHON STANDARD LIBRARY IMPORTS
+from __future__ import absolute_import
+
+# RHINO IMPORTS
 import Rhino
+from scriptcontext import sticky as st
 
 def customDisplay(component, toggle):
     """

@@ -2,10 +2,11 @@
 Utility functions for writing GHPython scripts
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200122
+Version: 200414
 """
 
-# PYTHON MODULE IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS
+from __future__ import absolute_import
 from __future__ import division
 from collections import deque
 
@@ -13,7 +14,7 @@ from collections import deque
 import Rhino
 import scriptcontext
 
-from helpers import escapeFilePath, removeTrailingNewlines
+from .helpers import escapeFilePath, removeTrailingNewlines
 
 def loadOBJ(filepath):
     """Reads from an *.obj file and returns a Rhino mesh"""
