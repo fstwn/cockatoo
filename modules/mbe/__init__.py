@@ -11,7 +11,14 @@ Version: 200414
 from __future__ import absolute_import
 
 # LOCAL MODULE IMPORTS
-import mbe.component
-import mbe.geometry
-import mbe.helpers
-import mbe.io
+from . import component
+from . import geometry
+from . import helpers
+from . import io
+
+__all__ = [
+    "component",
+    "geometry",
+    "helpers",
+    "io"
+]
