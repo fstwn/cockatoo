@@ -1,18 +1,23 @@
-# PYTHON LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
 from collections import deque
 import math
 from operator import itemgetter
 
-# THIRD PARTY MODULE IMPORTS
+# THIRD PARTY MODULE IMPORTS ---------------------------------------------------
 import networkx as nx
 
-# LOCAL MODULE IMPORTS
+# LOCAL MODULE IMPORTS ---------------------------------------------------------
 from .KnitNetworkBase import KnitNetworkBase
 
-class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
+# ALL DICTIONARY ---------------------------------------------------------------
+__all__ = [
+    "KnitMappingNetwork"
+]
 
+# ACTUAL CLASS -----------------------------------------------------------------
+class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
     """
     Class for representing a mapping network that facilitates the automatic
     generation of knitting patterns based on Rhino geometry.
@@ -255,3 +260,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             ret_target = target_chains
 
         return (ret_source, ret_target)
+
+# MAIN -------------------------------------------------------------------------
+if __name__ == '__main__':
+    pass

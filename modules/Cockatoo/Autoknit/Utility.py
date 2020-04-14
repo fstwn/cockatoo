@@ -1,7 +1,16 @@
-# PYTHON STANDARD LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import division
 import heapq
 import string
+
+# ALL DICTIONARY ---------------------------------------------------------------
+__all__ = [
+    "make_kd_tree",
+    "get_knn",
+    "get_nearest",
+    "escapeFilePath",
+    "removeTrailingNewlines"
+]
 
 # UTILITY CLASSES --------------------------------------------------------------
 
@@ -134,3 +143,7 @@ def removeTrailingNewlines(s):
     elif s.endswith("\r"):
         s = removeTrailingNewlines(s[:-1])
     return s
+
+# MAIN -------------------------------------------------------------------------
+if __name__ == '__main__':
+    pass

@@ -4,19 +4,29 @@ Static functions for loading and writing autoknit constraints from and to
 Author: Max Eschenbach
 Version: 200414
 """
-# PYTHON STANDARD LIBRARY IMPORTS
+
+# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import division
 from collections import deque
 import itertools
 
-# RHINO IMPORTS
+# RHINO IMPORTS ----------------------------------------------------------------
 import Rhino as rc
 import scriptcontext
 
-# LOCAL MODULE IMPORTS
+# LOCAL MODULE IMPORTS ---------------------------------------------------------
 from . import Structs
 from .Constraint import Constraint
 from .Utility import escapeFilePath, removeTrailingNewlines
+
+# ALL DICTIONARY ---------------------------------------------------------------
+__all__ = [
+    "LoadConstraints",
+    "SaveConstraints",
+    "InterpretStoredConstraints",
+    "LoadObj",
+    "SaveObj"
+]
 
 # READ AND WRITE FUNCTIONS (PRIVATE) -------------------------------------------
 
@@ -117,7 +127,6 @@ def SaveConstraints(filepath, vertices, constraints):
     except Exception, e:
         print e
         raise RuntimeError("Could not write constraints file!")
-
 
 # INTERPRETATION OF SAVED CONSTRAINTS ------------------------------------------
 
@@ -226,3 +235,7 @@ def SaveObj(filepath, mesh):
         f.write("\n")
         f.write("# Mesh Faces\n")
         f.writelines(faces)
+
+# MAIN -------------------------------------------------------------------------
+if __name__ == '__main__':
+    pass

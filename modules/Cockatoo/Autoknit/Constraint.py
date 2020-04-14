@@ -1,9 +1,15 @@
-# PYTHON STANDARD LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import division
 
-# RHINO IMPORTS
+# RHINO IMPORTS ----------------------------------------------------------------
 from Rhino.Geometry import Point3d, Polyline, PolylineCurve
 
+# ALL DICTIONARY ---------------------------------------------------------------
+__all__ = [
+    "Constraint"
+]
+
+# ACTUAL CLASS -----------------------------------------------------------------
 class Constraint(object):
     """Class for representing autoknit constraints separate from the model.
     The chain is stored as vertex coordinates."""
@@ -116,3 +122,7 @@ class Constraint(object):
 
     IsValid = property(_get_valid, None, None,
                        "Identifier if this constraint is valid.")
+
+# MAIN -------------------------------------------------------------------------
+if __name__ == '__main__':
+    pass

@@ -1,5 +1,5 @@
 """
-Custom Exceptions for Cockatoo modules.
+Custom Exceptions for Cockatoo.
 """
 
 # COCKATOO BASE EXCEPTION ------------------------------------------------------
@@ -15,6 +15,9 @@ class RhinoNotPresentError(CockatooException):
 class KangarooNotPresentError(CockatooException):
     """Exception raised when import of Kangaroo fails."""
 
+class PlanktonNotPresentError(CockatooException):
+    """Exception raised when import of Plankton fails."""
+
 # KNITNETWORK EXCEPTIONS -------------------------------------------------------
 
 class KnitNetworkError(CockatooException):
@@ -22,6 +25,9 @@ class KnitNetworkError(CockatooException):
 
 class NetworkXNotPresentError(KnitNetworkError):
     """Exception raised when import of NetworkX fails."""
+
+class NetworkXVersionError(KnitNetworkError):
+    """Exception raised when NetworkX version is not 1.5."""
 
 class MappingNetworkError(KnitNetworkError):
     """
@@ -46,3 +52,7 @@ class NoEndNodesError(KnitNetworkError):
     Exception raised by methods relying on 'end' nodes if there are no 'end'
     nodes in the network.
     """
+
+# MAIN -------------------------------------------------------------------------
+if __name__ == '__main__':
+    pass

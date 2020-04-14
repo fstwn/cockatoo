@@ -1,17 +1,23 @@
-# PYTHON STANDARD LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
 
-# RHINO IMPORTS
+# RHINO IMPORTS ----------------------------------------------------------------
 from Rhino.Geometry import Curve as RGCurve
 from Rhino.Geometry import Line as RGLine
 from Rhino.Geometry import LineCurve as RGLineCurve
 from Rhino.Geometry import Polyline as RGPolyline
 from Rhino.Geometry import PolylineCurve as RGPolylineCurve
 
-# THIRD PARTY MODULE IMPORTS
+# THIRD PARTY MODULE IMPORTS ---------------------------------------------------
 import networkx as nx
 
+# ALL DICTIONARY ---------------------------------------------------------------
+__all__ = [
+    "KnitNetworkBase"
+]
+
+# ACTUAL CLASS -----------------------------------------------------------------
 class KnitNetworkBase(nx.Graph):
     """
     Base class for representing a network that facilitates the automatic
@@ -794,3 +800,7 @@ class KnitNetworkBase(nx.Graph):
             return connected_segments
         else:
             return [(cs[0], cs[1]) for cs in connected_segments]
+
+# MAIN -------------------------------------------------------------------------
+if __name__ == '__main__':
+    pass

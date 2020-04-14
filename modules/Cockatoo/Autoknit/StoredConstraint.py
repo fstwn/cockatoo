@@ -1,9 +1,15 @@
-# PYTHON STANDARD LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import division
 
-# LOCAL MODULE IMPORTS
+# LOCAL MODULE IMPORTS ---------------------------------------------------------
 from . import Structs
 
+# ALL DICTIONARY ---------------------------------------------------------------
+__all__ = [
+    "StoredConstraint"
+]
+
+# ACTUAL CLASS -----------------------------------------------------------------
 class StoredConstraint(object):
     """Class for representing a stored autoknit Constraint."""
 
@@ -102,3 +108,7 @@ class StoredConstraint(object):
 
     Bytes = property(_get_bytes, None, None,
                      "The bytecode representation of this Constraint.")
+
+# MAIN -------------------------------------------------------------------------
+if __name__ == '__main__':
+    pass

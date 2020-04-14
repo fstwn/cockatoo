@@ -4,6 +4,12 @@ from __future__ import division
 # LOCAL MODULE IMPORTS
 from .StoredConstraint import StoredConstraint
 
+# ALL DICTIONARY ---------------------------------------------------------------
+__all__ = [
+    "EmbeddedConstraint"
+]
+
+# ACTUAL CLASS -----------------------------------------------------------------
 class EmbeddedConstraint(object):
     """
     Class for representing an autoknit constraint in relation to the model.
@@ -79,3 +85,7 @@ class EmbeddedConstraint(object):
 
     Storable = property(_get_storable, None, None,
                         "A storable version of this constraint.")
+
+# MAIN -------------------------------------------------------------------------
+if __name__ == '__main__':
+    pass

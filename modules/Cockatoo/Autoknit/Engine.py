@@ -1,14 +1,22 @@
-# PYTHON STANDARD LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import division
 import datetime
 
-# RHINO IMPORTS
+# RHINO IMPORTS ----------------------------------------------------------------
 from scriptcontext import sticky as st
 
-# LOCAL MODULE IMPORTS
+# LOCAL MODULE IMPORTS ---------------------------------------------------------
 from .Environment import _AK_PATH_, _AK_INTERFACE_
 from .Utility import escapeFilePath, removeTrailingNewlines
 from .FileIO import SaveObj, SaveConstraints
+
+# ALL DICTIONARY ---------------------------------------------------------------
+__all__ = [
+    "InitializeComponentInterface",
+    "TempFilePaths",
+    "CompileCommand",
+    "WriteTempFiles"
+]
 
 def InitializeComponentInterface(component):
     """
@@ -120,3 +128,7 @@ def WriteTempFiles(model, obj_file, cons_file):
     """
     SaveObj(obj_file, model.Mesh)
     SaveConstraints(cons_file, model.ConstraintCoordinates, model.Constraints)
+
+# MAIN -------------------------------------------------------------------------
+if __name__ == '__main__':
+    pass

@@ -1,16 +1,22 @@
-# PYTHON STANDARD LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import division
 
-# RHINO IMPORTS
+# RHINO IMPORTS ----------------------------------------------------------------
 import Rhino
 
-# LOCAL MODULE IMPORTS
+# LOCAL MODULE IMPORTS ---------------------------------------------------------
 from .EmbeddedConstraint import EmbeddedConstraint
 from .StoredConstraint import StoredConstraint
 from .Constraint import Constraint
 from .FileIO import LoadConstraints, SaveConstraints, SaveObj, LoadObj
 from .Utility import AttributeList, make_kd_tree, get_nearest
 
+# ALL DICTIONARY ---------------------------------------------------------------
+__all__ = [
+    "Model"
+]
+
+# ACTUAL CLASS -----------------------------------------------------------------
 class Model(object):
     """Class for representing a constrained Model."""
 
@@ -150,3 +156,7 @@ class Model(object):
             return True
         except:
             return False
+
+# MAIN -------------------------------------------------------------------------
+if __name__ == '__main__':
+    pass

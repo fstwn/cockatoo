@@ -1,26 +1,31 @@
-# PYTHON STANDARD LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
 import math
 from operator import itemgetter
 from collections import deque, OrderedDict
 
-# RHINO IMPORTS
+# RHINO IMPORTS ----------------------------------------------------------------
 from Rhino.Geometry import Curve as RGCurve
 from Rhino.Geometry import Line as RGLine
 from Rhino.Geometry import Interval as RGInterval
 from Rhino.Geometry import Vector3d as RGVector3d
 
-# THIRD PARTY MODULE IMPORTS
+# THIRD PARTY MODULE IMPORTS ---------------------------------------------------
 import networkx as nx
 
-# LOCAL MODULE IMPORTS
-from Cockatoo.Exceptions import *
+# LOCAL MODULE IMPORTS ---------------------------------------------------------
+from .Exceptions import *
 from .KnitNetworkBase import KnitNetworkBase
 from .KnitMappingNetwork import KnitMappingNetwork
 
-class KnitNetwork(KnitNetworkBase):
+# ALL DICTIONARY ---------------------------------------------------------------
+__all__ = [
+    "KnitNetwork"
+]
 
+# ACTUAL CLASS -----------------------------------------------------------------
+class KnitNetwork(KnitNetworkBase):
     """
     Class for representing a network that facilitates the automatic generation
     of knitting patterns based on Rhino geometry.
@@ -2190,3 +2195,7 @@ class KnitNetwork(KnitNetworkBase):
                                                         window,
                                                         precise=False,
                                                         verbose=False)
+
+# MAIN -------------------------------------------------------------------------
+if __name__ == '__main__':
+    pass
