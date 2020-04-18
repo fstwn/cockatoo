@@ -4,7 +4,6 @@ from __future__ import division
 from collections import deque, OrderedDict
 import math
 from operator import itemgetter
-import threading
 
 # RHINO IMPORTS ----------------------------------------------------------------
 from Rhino.Geometry import Curve as RhinoCurve
