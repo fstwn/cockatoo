@@ -11,7 +11,7 @@ TODO: Update docstring!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200414
+        Version: 200418
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS

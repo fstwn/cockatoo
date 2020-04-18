@@ -21,7 +21,7 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # LOCAL MODULE IMPORTS
-from mbe.io import loadOBJ, escapeFilePath
+from mbe.io import loadOBJ
 
 # GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "LoadOBJAsMesh"
@@ -35,7 +35,7 @@ class LoadOBJ(component):
         # define output so it's never empty
         Model = None
         
-        Model = loadOBJ(escapeFilePath(FP))
+        Model = loadOBJ(FP)
         
         # return outputs if you have them; here I try it for you:
         return Model

@@ -29,8 +29,8 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # CUSTOM RHINO IMPORTS
-import scriptcontext
 from ghpythonlib import treehelpers as th
+import scriptcontext
 
 # LOCAL MODULE IMPORTS
 from mbe.geometry import BreakPolyline

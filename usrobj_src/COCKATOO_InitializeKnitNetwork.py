@@ -34,15 +34,12 @@ class InitializeKnitNetwork(component):
     def RunScript(self, KnitContours, CourseHeight):
         
         if KnitContours and CourseHeight:
-            # DECLARE OUTPUTS ------------------------------------------------------
+            # DECLARE OUTPUTS --------------------------------------------------
             
             # create KnitNetwork (inherits from nx.Graph)
             KN = Cockatoo.KnitNetwork()
             
-            # create datatree for vertices output
-            Vertices = Grasshopper.DataTree[object]()
-            
-            # LOOP THROUGH NODES AND FILL NETWORK ----------------------------------
+            # LOOP THROUGH CONTOURS AND FILL NETWORK ---------------------------
             nodenum = 0
             for i, plc in enumerate(KnitContours):
                 # get path and polylinecurve

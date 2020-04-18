@@ -1,5 +1,6 @@
 """
 Run Autoknit as a threaded subprocess from an Autoknit Model.
+TODO: update docstring
     Inputs:
         Run: Connect a button and set to true to start the autoknit instance {item, boolean}
         Model: 
@@ -13,7 +14,7 @@ Run Autoknit as a threaded subprocess from an Autoknit Model.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200414
+        Version: 200418
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS

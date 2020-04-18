@@ -31,45 +31,45 @@ ghenv.Component.Category = "COCKATOO"
 ghenv.Component.SubCategory = "3 Remeshing"
 
 class QuadReMesh(component):
-
+    
     def checkInputData(self, geo, tqc, aqc, aqs, dhe, gci, sa, pmaem):
         # check Geometry input
         if not geo or geo == None or geo == []:
             return None
-
+        
         # check TargetQuadCount input
-        if ((not tqc) or
-            (tqc == None) or
+        if ((not tqc) or 
+            (tqc == None) or 
             (tqc == [])):
             return None
-
+        
         # check AdaptiveQuadCount input
         if aqc == None or aqc == []:
             aqc = False
-
+        
         # check AdaptiveSize input
         if not aqs or aqs == None or aqs == []:
             aqs = 0
         elif aqs > 100:
             aqs = 100
-
+        
         # check DetectHardEdges input
         if dhe == None or dhe == []:
             dhe = False
-
+        
         # check GuideCurveInfluence input
         if ((not gci) or
-            (gci == None) or
+            (gci == None) or 
             (gci == [])):
             gci = 0
         elif gci > 2:
             gci = 2
-
+       
        # check SymmetryAxis input
-        if ((not sa) or
-            (sa == None) or
-            (sa == []) or
-            (sa == 0) or
+        if ((not sa) or 
+            (sa == None) or 
+            (sa == []) or 
+            (sa == 0) or 
             (sa > 4)):
                 sa = Rhino.Geometry.QuadRemeshSymmetryAxis.None
         elif sa == 1:
@@ -78,22 +78,22 @@ class QuadReMesh(component):
             sa = Rhino.Geometry.QuadRemeshSymmetryAxis.Y
         elif sa == 4:
             sa = Rhino.Geometry.QuadRemeshSymmetryAxis.Z
-
+        
         # check PreserveMeshArrayEdgesMode input
-        if ((not pmaem) or
+        if ((not pmaem) or 
             (pmaem == None) or
             (pmaem == []) or
             (pmaem < 0)):
                 pmaem = 0
         elif pmaem > 2:
             pmaem = 2
-
+        
         return (geo, tqc, aqc, aqs, dhe, gci, sa, pmaem)
-
+    
     def createRemeshParameters(self, tqc, aqc, aqs, dhe, gci, sa, pmaem):
         # create quad remesh parameters instance
         qrp = Rhino.Geometry.QuadRemeshParameters()
-
+        
         # fill instance with the parameters
         qrp.TargetQuadCount = tqc
         qrp.AdaptiveQuadCount = aqc
@@ -102,17 +102,17 @@ class QuadReMesh(component):
         qrp.GuideCurveInfluence = gci
         qrp.SymmetryAxis = sa
         qrp.PreserveMeshArrayEdgesMode = pmaem
-
+        
         # return the quad remesh parameters
         return qrp
-
+    
     def RunScript(self, Geometry, TargetQuadCount, AdaptiveQuadCount, AdaptiveSize, DetectHardEdges, GuideCurves, GuideCurveInfluence, SymmetryAxis, PreserveMeshArrayEdgesMode):
-
+        
         # define outputs so that they are never empty
         QuadMesh = []
-
+        
         # CHECK INPUTS ---------------------------------------------------------
-
+        
         result = self.checkInputData(Geometry,
                                      TargetQuadCount,
                                      AdaptiveQuadCount,
@@ -133,9 +133,9 @@ class QuadReMesh(component):
             GuideCurveInfluence,\
             SymmetryAxis,\
             PreserveMeshArrayEdgesMode = result
-
+        
         # CREATE PARAMETERS ----------------------------------------------------
-
+        
         # create QuadRemeshing Parameters based on input values
         ReParams = self.createRemeshParameters(TargetQuadCount,
                                                AdaptiveQuadCount,
@@ -144,28 +144,28 @@ class QuadReMesh(component):
                                                GuideCurveInfluence,
                                                SymmetryAxis,
                                                PreserveMeshArrayEdgesMode)
-
+        
         # TRIGGER REMESHING ----------------------------------------------------
-
+        
         # if guidecurves are supplied, supply them to the remesh routine
         if GuideCurves and GuideCurves != None and GuideCurves != []:
             # if a mesh is supplied as geometry, remesh this mesh
             if type(Geometry) == Rhino.Geometry.Mesh:
                 QuadMesh = Geometry.QuadRemesh(ReParams,
                                                GuideCurves)
-
+            
             # if a brep is supplied, create a new quadmesh from this brep
             elif type(Geometry) == Rhino.Geometry.Brep:
                 QuadMesh = Rhino.Geometry.Mesh.QuadRemeshBrep(Geometry,
                                                               ReParams,
                                                               GuideCurves)
-
+        
         # if no guidecurves are supplied, don't add them to the routine
         else:
             # if a mesh is supplied as geometry, remesh this mesh
             if type(Geometry) == Rhino.Geometry.Mesh:
                 QuadMesh = Geometry.QuadRemesh(ReParams)
-
+                
             # if a brep is supplied, create a new quadmesh from this brep
             elif type(Geometry) == Rhino.Geometry.Brep:
                 QuadMesh = Rhino.Geometry.Mesh.QuadRemeshBrep(Geometry,

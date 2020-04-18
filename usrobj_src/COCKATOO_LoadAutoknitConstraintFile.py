@@ -1,5 +1,6 @@
 """
 Load an Autoknit *.cons file and interpret the constraints in it.
+TODO: update docstring
     Inputs:
         FP: The File Path of the constraint file {item, str}
     Outputs:
@@ -10,7 +11,7 @@ Load an Autoknit *.cons file and interpret the constraints in it.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200414
+        Version: 200418
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -25,7 +26,6 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # LOCAL MODULE IMPORTS
-from Cockatoo.Autoknit.Utility import escapeFilePath
 from Cockatoo.Autoknit import FileIO, StoredConstraint
 
 # GHENV COMPONENT SETTINGS
@@ -42,9 +42,9 @@ class LoadAutoknitConstraintFile(component):
         P = []
         C = []
         
-        # if theres no filepath, don't even try ;-)
+        # if theres no filepath, don't even try ;)
         if FP:
-            filepath = escapeFilePath(FP)
+            filepath = FP
         else:
             rml = self.RuntimeMessageLevel.Warning
             msg = "No File Path specified!"

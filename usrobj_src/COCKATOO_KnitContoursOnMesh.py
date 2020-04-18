@@ -1,10 +1,11 @@
 """Constructs contours for deriving a knitting pattern from a mesh.
 TODO: Update docstring
     Inputs:
+        Run: {item, boolean}
         Mesh:{item, mesh}
-        BreakAngle: {item, float}
-        StartIndex: {item, integer}
-        EndIndex: {item, integer}
+        KnitConstraints: {item, float}
+        ContourDensity: {item, integer}
+        ContourMode: {item, integer}
     Output:
         StartCourse: {item, polyline}
         EndCourse: {item, polyline}
@@ -13,12 +14,15 @@ TODO: Update docstring
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200414
+        Version: 200418
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 import clr
+
+# .NET IMPORTS
+from System.Collections.Generic import List
 
 # GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
@@ -30,12 +34,9 @@ import rhinoscriptsyntax as rs
 # CUSTOM RHINO IMPORTS
 clr.AddReferenceToFile("KangarooSolver.dll")
 import KangarooSolver as ks
-from System.Collections.Generic import List
 
 # LOCAL MODULE IMPORTS
 from mbe.geometry import BreakPolyline
-from mbe.helpers import mapValuesAsColors
-from mbe.component import customDisplay
 
 # GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "KnitContoursOnMesh"
@@ -45,7 +46,7 @@ ghenv.Component.SubCategory = "5 Contouring"
 
 class KnitContoursOnMesh(component):
     
-    def RelaxContoursOnMesh(self, polylines, mesh, kLineLength, kEqualize, kOnMesh, thres, iMax, tol):
+    def RelaxContoursOnMesh(self, polylines, mesh, kLineLengthA, kLineLengthB, kEqualize, kOnMesh, thres, iMax, tol):
         """
         Relax a bunch of contour lines on a mesh.
         Based on an approach by Anders Holden Deleuran.
@@ -91,21 +92,21 @@ class KnitContoursOnMesh(component):
                     goals.append(ks.Goals.Spring(seg.From,
                                                  seg.To,
                                                  0.00,
-                                                 kLineLength))
+                                                 kLineLengthA))
                     
                     if nextsegs:
                         goals.append(ks.Goals.Spring(seg.From,
                                                      nextsegs[j].From,
                                                      0.00,
-                                                     kLineLength))
-                        
-                        # create the equal length line
-                        eqln = Rhino.Geometry.LineCurve(seg.From,
-                                                        nextsegs[j].From)
-                        if EQMODE == 0:
-                            eqLines.Add(eqln)
-                        elif EQMODE == 1:
-                            eqLines[0].Add(eqln)
+                                                     kLineLengthB))
+                        if kEqualize:
+                            # create the equal length line
+                            eqln = Rhino.Geometry.LineCurve(seg.From,
+                                                            nextsegs[j].From)
+                            if EQMODE == 0:
+                                eqLines.Add(eqln)
+                            elif EQMODE == 1:
+                                eqLines[0].Add(eqln)
                 
                 # make onmesh goal with all points
                 anchorList = List[Rhino.Geometry.Point3d]()
@@ -158,7 +159,7 @@ class KnitContoursOnMesh(component):
         
         return overall_length, seg_ratios
     
-    def CreateContours(self, KMCList, StartEndDensity, LeftRightDensity, StartEndMode, LeftRightMode):
+    def CreateContours(self, KMCList, ContourDensity, ContourDivisionDensity, ContourMode, ContourDivisionMode):
         
         # unpack the kmclist
         StartCourse, EndCourse, LeftBoundary, RightBoundary = KMCList
@@ -177,20 +178,20 @@ class KnitContoursOnMesh(component):
         
         # SET SAMPLING DENSITY -------------------------------------------------
         
-        if StartEndMode == 0:
-            StartEndDensity = int(StartEndDensity)
-        elif StartEndMode == 1:
-            StartEndDensity = int(round(max([stLen, etLen])/StartEndDensity))
+        if ContourMode == 0:
+            ContourDensity = int(ContourDensity)
+        elif ContourMode == 1:
+            ContourDensity = int(round(max([stLen, etLen])/ContourDensity))
         
-        if LeftRightMode == 0:
-            LeftRightDensity = int(LeftRightDensity)
-        elif LeftRightMode == 1:
-            LeftRightDensity = int(round(max([ltLen, rtLen])/LeftRightDensity))
+        if ContourDivisionMode == 0:
+            ContourDivisionDensity = int(ContourDivisionDensity)
+        elif ContourDivisionMode == 1:
+            ContourDivisionDensity = int(round(max([ltLen, rtLen])/ContourDivisionDensity))
         
         # COMPUTE DIVISIONS FOR LEFT AND RIGHT BOUNDARY SEGMENTS ---------------
         
         # get left boundary divisions
-        lbDiv = [int(round(rat*int(LeftRightDensity))) for rat in lbRat]
+        lbDiv = [int(round(rat*int(ContourDivisionDensity))) for rat in lbRat]
         lbSum = sum(lbDiv)
         if 0 in lbDiv:
             for i, val in enumerate(lbDiv):
@@ -198,15 +199,15 @@ class KnitContoursOnMesh(component):
                     lbDiv[i] += 1
                 if val == max(lbDiv):
                     lbDiv[i] -= 1
-        if lbSum != LeftRightDensity:
-            dlt = int(LeftRightDensity - lbSum)
+        if lbSum != ContourDivisionDensity:
+            dlt = int(ContourDivisionDensity - lbSum)
             for i, val in enumerate(lbDiv):
                 if val == max(lbDiv):
                     lbDiv[i] += dlt
                     break
         
         # get right boundary divisions
-        rbDiv = [int(round(rat*int(LeftRightDensity))) for rat in rbRat]
+        rbDiv = [int(round(rat*int(ContourDivisionDensity))) for rat in rbRat]
         rbSum = sum(rbDiv)
         if 0 in rbDiv:
             for i, val in enumerate(rbDiv):
@@ -214,20 +215,20 @@ class KnitContoursOnMesh(component):
                     rbDiv[i] += 1
                 if val == max(rbDiv):
                     rbDiv[i] -= 1
-        if rbSum != LeftRightDensity:
-            dlt = int(LeftRightDensity - rbSum)
+        if rbSum != ContourDivisionDensity:
+            dlt = int(ContourDivisionDensity - rbSum)
             for i, val in enumerate(rbDiv):
                 if val == max(rbDiv):
                     rbDiv[i] += dlt
                     break
         
         # raise errors if input is wrong
-        if not sum(lbDiv) == sum(rbDiv) == LeftRightDensity:
-            if LeftRightMode == 0:
+        if not sum(lbDiv) == sum(rbDiv) == ContourDivisionDensity:
+            if ContourDivisionMode == 0:
                 raise ValueError("Sampling density for left and right is too " +
                                  "low for number of left or right segments! " +
                                  "Try increasing the density.")
-            elif LeftRightMode == 1:
+            elif ContourDivisionMode == 1:
                 raise ValueError("Sampling distance for left and right is " +
                                  "too high for number of left or right " +
                                  "segments! Try decreasing the distance.")
@@ -251,7 +252,7 @@ class KnitContoursOnMesh(component):
         # GET SEGMENTATION RATIOS FOR START AND END BOUNDARY -------------------
         
         # get start boundary divisions
-        sDiv = [int(round(rat*int(StartEndDensity))) for rat in sRat]
+        sDiv = [int(round(rat*int(ContourDensity))) for rat in sRat]
         sSum = sum(sDiv)
         if 0 in sDiv:
             for i, val in enumerate(sDiv):
@@ -259,15 +260,15 @@ class KnitContoursOnMesh(component):
                     sDiv[i] += 1
                 if val == max(sDiv):
                     sDiv[i] -= 1
-        if sSum != StartEndDensity:
-            dlt = int(StartEndDensity - sSum)
+        if sSum != ContourDensity:
+            dlt = int(ContourDensity - sSum)
             for i, val in enumerate(sDiv):
                 if val == max(sDiv):
                     sDiv[i] += dlt
                     break
         
         # get end boundary divisions
-        eDiv = [int(round(rat*int(StartEndDensity))) for rat in eRat]
+        eDiv = [int(round(rat*int(ContourDensity))) for rat in eRat]
         eSum = sum(eDiv)
         if 0 in eDiv:
             for i, val in enumerate(eDiv):
@@ -275,20 +276,20 @@ class KnitContoursOnMesh(component):
                     eDiv[i] += 1
                 if val == max(eDiv):
                     eDiv[i] -= 1
-        if eSum != StartEndDensity:
-            dlt = int(LeftRightDensity - eSum)
+        if eSum != ContourDensity:
+            dlt = int(ContourDivisionDensity - eSum)
             for i, val in enumerate(eDiv):
                 if val == max(eDiv):
                     eDiv[i] += dlt
                     break
         
         # raise errors if input is wrong
-        if not sum(sDiv) == sum(eDiv) == StartEndDensity:
-            if StartEndMode == 0:
+        if not sum(sDiv) == sum(eDiv) == ContourDensity:
+            if ContourMode == 0:
                 raise ValueError("Sampling density for start and end is too " +
                                  "low for number of start or end segments! " +
                                  "Try increasing the density.")
-            elif StartEndMode == 1:
+            elif ContourMode == 1:
                 raise ValueError("Sampling distance for start and end is too " +
                                  "high for number of start or end segments! " +
                                  "Try decreasing the distance.")
@@ -322,7 +323,7 @@ class KnitContoursOnMesh(component):
         # sample destination lines
         for i, d in enumerate(destinations):
             d.Domain = Rhino.Geometry.Interval(0, 1)
-            dt = d.DivideByCount(LeftRightDensity, True)
+            dt = d.DivideByCount(ContourDivisionDensity, True)
             dpts = [d.PointAt(t) for t in dt]
             destinations[i] = Rhino.Geometry.PolylineCurve(dpts)
         
@@ -336,20 +337,20 @@ class KnitContoursOnMesh(component):
         
         return Contours
     
-    def RunScript(self, Run, Mesh, KnitConstraints, StartEndDensity, StartEndMode, LeftRightDensity, LeftRightMode, MaxIterations, Tolerance, Threshold, VizContours):
+    def RunScript(self, Run, Mesh, KnitConstraints, ContourDensity, ContourMode, ContourDivisionDensity, ContourDivisionMode, GeodesicStrength, TweenStrength, MaxIterations, Tolerance, Threshold):
         
         # INITIALIZATION -------------------------------------------------------
         
         # sanitize samplingmode input
-        if StartEndMode < 0:
-            StartEndMode = 0
-        elif StartEndMode > 1:
-            StartEndMode = 1
+        if ContourMode < 0:
+            ContourMode = 0
+        elif ContourMode > 1:
+            ContourMode = 1
         
-        if LeftRightMode < 0:
-            LeftRightMode = 0
-        elif LeftRightMode > 1:
-            LeftRightMode = 1
+        if ContourDivisionMode < 0:
+            ContourDivisionMode = 0
+        elif ContourDivisionMode > 1:
+            ContourDivisionMode = 1
         
         # set default for maximum iterations
         if MaxIterations == None:
@@ -363,9 +364,14 @@ class KnitContoursOnMesh(component):
         if not Threshold:
             Threshold = 1e-14
         
-        LineStrength = 200
-        EqualizeStrength = 100
-        OnMeshStrength = 10000
+        if GeodesicStrength == None:
+            GeodesicStrength = 200
+        if TweenStrength == None:
+            TweenStrength = 1000
+        
+        EqualizeStrength = 0
+        OnMeshStrength = 20000
+        
         NullTree = Grasshopper.DataTree[object]()
         
         # DEACTIVATED CONDITION ------------------------------------------------
@@ -386,37 +392,23 @@ class KnitContoursOnMesh(component):
         # SAMPLE INPUT AND CREATE CONTOURS -------------------------------------
         
         Contours = self.CreateContours(KMCList,
-                                       StartEndDensity,
-                                       LeftRightDensity,
-                                       StartEndMode,
-                                       LeftRightMode)
+                                       ContourDensity,
+                                       ContourDivisionDensity,
+                                       ContourMode,
+                                       ContourDivisionMode)
         
         # RELAX CONTOUR CURVES ON THE MESH -------------------------------------
         
         Contours, Iterations = self.RelaxContoursOnMesh(Contours,
                                                         Mesh,
-                                                        LineStrength,
+                                                        GeodesicStrength,
+                                                        TweenStrength,
                                                         EqualizeStrength,
                                                         OnMeshStrength,
                                                         Threshold,
                                                         MaxIterations, 
                                                         Tolerance)
         Contours.reverse()
-        
-        # VISUALISATION OF CONTOURS USING CUSTOM DISPLAY -----------------------
-        
-        if VizContours:
-            # make customdisplay
-            viz = customDisplay(self, True)
-            for i, pl in enumerate(Contours):
-                segs = [Rhino.Geometry.LineCurve(s) for s in pl.GetSegments()]
-                numseg = len(segs)
-                ccols = mapValuesAsColors(range(numseg), 0, numseg, 0.0, 0.35)
-                for j, seg in enumerate(segs):
-                    viz.AddCurve(seg, ccols[j], 3)
-        else:
-            viz = customDisplay(self, False)
-        
         
         # SET COMPONENT MESSAGE ------------------------------------------------
         

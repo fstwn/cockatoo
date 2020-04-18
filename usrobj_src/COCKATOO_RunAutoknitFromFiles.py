@@ -1,5 +1,6 @@
 """
 Run Autoknit as a threaded subprocess from specified files.
+TODO: update docstring
     Inputs:
         Run: Connect a button and set to true to start the autoknit instance {item, boolean}
         obj: Path to the *.obj file to read the model from {item, str}
@@ -14,7 +15,7 @@ Run Autoknit as a threaded subprocess from specified files.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200414
+        Version: 200418
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS

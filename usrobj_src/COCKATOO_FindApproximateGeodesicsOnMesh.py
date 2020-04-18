@@ -41,6 +41,9 @@ from __future__ import division
 import clr
 import math
 
+# .NET IMPORTS
+from System.Collections.Generic import List
+
 # GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
 import Grasshopper, GhPython
@@ -49,12 +52,9 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # CUSTOM RHINO IMPORTS
-import scriptcontext as sc
 clr.AddReferenceToFile("KangarooSolver.dll")
 import KangarooSolver as ks
-
-# ADDITIONAL IMPORTS
-from System.Collections.Generic import List
+import scriptcontext as sc
 
 # GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "FindApproximateGeodesicsOnMesh"
