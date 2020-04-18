@@ -2035,9 +2035,11 @@ class KnitNetwork(KnitNetworkBase):
                 # get node warp edges and their target nodes
                 node_warp_edges = self.NodeWarpEdges(node[0], data=False)
                 warp_edge_targets = [we[1] for we in node_warp_edges]
-                # loop over warp edge targets
+                # loop over warp edge targets to get the start of the window
                 for wet in warp_edge_targets:
                     for n, tcn in enumerate(target_chain_nodes):
+                        # TODO: also set window if it's the first 'end'
+                        #       node and we've got a <=== situation
                         if wet == tcn[0]:
                             if n > start_of_window or start_of_window == -1:
                                 start_of_window = n
@@ -2059,6 +2061,8 @@ class KnitNetwork(KnitNetworkBase):
                             tcn_warp_edge_targets = [we[1] for we \
                                                      in tcn_warp_edges]
                             for twet in tcn_warp_edge_targets:
+                                # TODO: also set window if it's the last 'end'
+                                #       node and we've got a ===> situation
                                 if (twet in [cn[0] for cn \
                                              in current_chain_nodes]):
                                     end_of_window = n
@@ -2126,6 +2130,8 @@ class KnitNetwork(KnitNetworkBase):
                 warp_edge_targets = [we[1] for we in node_warp_edges]
                 for wet in warp_edge_targets:
                     for n, tcn in enumerate(target_chain_nodes):
+                        # TODO: also set window if it's the first 'end'
+                        #       node and we've got a <=== situation
                         if wet == tcn[0]:
                             if n > start_of_window or start_of_window == -1:
                                 start_of_window = n
@@ -2147,6 +2153,8 @@ class KnitNetwork(KnitNetworkBase):
                             tcn_warp_edge_targets = [we[1] for we \
                                                      in tcn_warp_edges]
                             for twet in tcn_warp_edge_targets:
+                                # TODO: also set window if it's the last 'end'
+                                #       node and we've got a ===> situation
                                 if (twet in [cn[0] for cn \
                                              in current_chain_nodes]):
                                     end_of_window = n
