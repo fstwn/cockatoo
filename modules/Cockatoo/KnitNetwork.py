@@ -1898,7 +1898,8 @@ class KnitNetwork(KnitNetworkBase):
                     if target_ids not in target_to_source:
                         target_to_source[target_ids] = current_ids
 
-                    self._create_initial_warp_connections(segment_pair,
+                    self._create_initial_warp_connections(
+                                                segment_pair,
                                                 max_connections=max_connections,
                                                 precise=precise,
                                                 verbose=verbose)
