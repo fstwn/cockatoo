@@ -12,13 +12,6 @@ import string
 # RHINO IMPORTS
 import Rhino
 
-def escapeFilePath(fp):
-    """
-    Escapes a Grasshopper File Path to make it compatible with Python.
-    """
-
-    return string.join(fp.split("\\"), "\\\\")
-
 def removeTrailingNewlines(s):
     """
     Removes trailing newlines from a string (most of the time a filepath).

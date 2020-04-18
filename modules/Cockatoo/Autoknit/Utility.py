@@ -9,7 +9,6 @@ __all__ = [
     "make_kd_tree",
     "get_knn",
     "get_nearest",
-    "escapeFilePath",
     "removeTrailingNewlines"
 ]
 
@@ -126,12 +125,6 @@ def get_nearest(kd_node, point, dim, dist_func, return_distances=False, i=0, bes
     return best if return_distances else best[1]
 
 # FILE PATHS -------------------------------------------------------------------
-
-def escapeFilePath(fp):
-    """
-    Escapes a Grasshopper File Path to make it compatible with Python
-    """
-    return string.join(fp.split("\\"), "\\\\")
 
 def removeTrailingNewlines(s):
     """

@@ -9,12 +9,13 @@ Version: 200414
 from __future__ import absolute_import
 from __future__ import division
 from collections import deque
+from os import path
 
 # RHINO IMPORTS
 import Rhino
 import scriptcontext
 
-from .helpers import escapeFilePath, removeTrailingNewlines
+from .helpers import removeTrailingNewlines
 
 def loadOBJ(filepath):
     """Reads from an *.obj file and returns a Rhino mesh"""
@@ -68,7 +69,7 @@ def saveOBJ(mesh, filepath):
         raise ValueError("Supplied filepath is not a valid filepath!")
 
     # remove trailing newlines from the filepath and check for file extension
-    filepath = escapeFilePath(removeTrailingNewlines(filepath))
+    filepath = path.normpath(removeTrailingNewlines(filepath))
     if not filepath.lower().endswith(".obj"):
         filepath = filepath + ".obj"
 

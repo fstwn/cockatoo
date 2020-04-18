@@ -2,13 +2,14 @@
 from __future__ import absolute_import
 from __future__ import division
 import datetime
+from os import path
 
 # RHINO IMPORTS ----------------------------------------------------------------
 from scriptcontext import sticky as st
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from .Environment import _AK_PATH_, _AK_INTERFACE_
-from .Utility import escapeFilePath, removeTrailingNewlines
+from .Utility import removeTrailingNewlines
 from .FileIO import SaveObj, SaveConstraints
 
 # ALL DICTIONARY ---------------------------------------------------------------
@@ -98,8 +99,7 @@ def CompileCommand(obj, constraints, obj_scale = None, stitch_width = None, stit
     # handle save-traced parameter ---------------------------------------------
     if save_traced:
         try:
-            save_traced = removeTrailingNewlines(
-                                escapeFilePath(save_traced))
+            save_traced = removeTrailingNewlines(path.normpath(save_traced))
             if not save_traced.endswith(".st"):
                 save_traced = save_traced + ".st"
             cmdargs.append("save-traced:{}".format(save_traced))

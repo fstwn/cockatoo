@@ -10,6 +10,7 @@ from __future__ import absolute_import
 from __future__ import division
 from collections import deque
 import itertools
+from os import path
 
 # RHINO IMPORTS ----------------------------------------------------------------
 import Rhino as rc
@@ -18,7 +19,7 @@ import scriptcontext
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from . import Structs
 from .Constraint import Constraint
-from .Utility import escapeFilePath, removeTrailingNewlines
+from .Utility import removeTrailingNewlines
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
@@ -195,7 +196,7 @@ def SaveObj(filepath, mesh):
         raise ValueError("Supplied filepath is not a valid filepath!")
 
     # remove trailing newlines from the filepath and check for file extension
-    filepath = escapeFilePath(removeTrailingNewlines(filepath))
+    filepath = path.normpath(removeTrailingNewlines(filepath))
     if not filepath.lower().endswith(".obj"):
         filepath = filepath + ".obj"
 
