@@ -3,11 +3,10 @@ from __future__ import absolute_import
 from __future__ import division
 
 # RHINO IMPORTS ----------------------------------------------------------------
-from Rhino.Geometry import Curve as RGCurve
-from Rhino.Geometry import Line as RGLine
-from Rhino.Geometry import LineCurve as RGLineCurve
-from Rhino.Geometry import Polyline as RGPolyline
-from Rhino.Geometry import PolylineCurve as RGPolylineCurve
+from Rhino.Geometry import Curve as RhinoCurve
+from Rhino.Geometry import Line as RhinoLine
+from Rhino.Geometry import LineCurve as RhinoLineCurve
+from Rhino.Geometry import Polyline as RhinoPolyline
 
 # THIRD PARTY MODULE IMPORTS ---------------------------------------------------
 import networkx as nx
@@ -477,7 +476,7 @@ class KnitNetworkBase(nx.Graph):
         """
 
         points = [d["geo"] for n, d in self.NodesOnPosition(pos, True)]
-        Contour = RGPolyline(points)
+        Contour = RhinoPolyline(points)
         if as_crv:
             Contour = Contour.ToPolylineCurve()
         return Contour
@@ -517,7 +516,7 @@ class KnitNetworkBase(nx.Graph):
         toGeo = To[1]["geo"]
 
         # create edge geometry
-        edgeGeo = RGLine(fromGeo, toGeo)
+        edgeGeo = RhinoLine(fromGeo, toGeo)
 
         # create edge attribute
         edgeAttrs = {"warp": False,
@@ -544,7 +543,7 @@ class KnitNetworkBase(nx.Graph):
         toGeo = To[1]["geo"]
 
         # create edge geometry
-        edgeGeo = RGLine(fromGeo, toGeo)
+        edgeGeo = RhinoLine(fromGeo, toGeo)
 
         # create edge attribute
         edgeAttrs = {"warp": False,
@@ -571,7 +570,7 @@ class KnitNetworkBase(nx.Graph):
         toGeo = To[1]["geo"]
 
         # create edge geometry
-        edgeGeo = RGLine(fromGeo, toGeo)
+        edgeGeo = RhinoLine(fromGeo, toGeo)
 
         # create edge attribute
         edgeAttrs = {"warp": True,
@@ -614,8 +613,8 @@ class KnitNetworkBase(nx.Graph):
         toNode = To[0]
 
         # join geo together
-        segment_geo = [RGLineCurve(l) for l in segment_geo]
-        edgeGeo = RGCurve.JoinCurves(segment_geo)
+        segment_geo = [RhinoLineCurve(l) for l in segment_geo]
+        edgeGeo = RhinoCurve.JoinCurves(segment_geo)
         if len(edgeGeo) > 1:
             print segment_geo
             print edgeGeo
