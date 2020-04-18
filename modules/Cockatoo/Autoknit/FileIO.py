@@ -8,12 +8,14 @@ Version: 200414
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
+from __future__ import print_function
 from collections import deque
 import itertools
 from os import path
 
 # RHINO IMPORTS ----------------------------------------------------------------
-import Rhino as rc
+from Rhino.Geometry import Mesh as RhinoMesh
+from Rhino.Geometry import Point3f as RhinoPoint3f
 import scriptcontext
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
@@ -114,7 +116,7 @@ def LoadConstraints(filepath):
                                                 "constraints")
             return True, vertices, constraints
         except Exception, e:
-            print e
+            print(e)
             return False, e
 
 def SaveConstraints(filepath, vertices, constraints):
@@ -127,7 +129,7 @@ def SaveConstraints(filepath, vertices, constraints):
             constraints = [c.Storable for c in constraints]
             _write_vector_sequence(f, constraints, Structs.STRUCT_STOREDCONSTRAINT, "constraints")
     except Exception, e:
-        print e
+        print(e)
         raise RuntimeError("Could not write constraints file!")
 
 # INTERPRETATION OF SAVED CONSTRAINTS ------------------------------------------
@@ -147,7 +149,7 @@ def InterpretStoredConstraints(points, storedconstraints):
 def LoadObj(filepath):
     """Reads from an *.obj file and returns a mesh"""
     # create a new, empty Rhino mesh
-    model = rc.Geometry.Mesh()
+    model = RhinoMesh()
     # read from the file in text mode
     with open(filepath, "rt") as f:
         while True:
@@ -171,7 +173,7 @@ def LoadObj(filepath):
             elif token == "v":
                 # add vertex
                 vx, vy, vz = [float(c) for c in data]
-                vertex = rc.Geometry.Point3f(vx, vy, vz)
+                vertex = RhinoPoint3f(vx, vy, vz)
                 model.Vertices.Add(vertex)
 
             # catch faces
@@ -190,7 +192,7 @@ def LoadObj(filepath):
 def SaveObj(filepath, mesh):
     """Saves a Rhino mesh as an *.obj file."""
     # run some checks on the input
-    if not mesh or type(mesh) is not rc.Geometry.Mesh:
+    if not mesh or type(mesh) is not RhinoMesh:
         raise ValueError("Supplied mesh is not a valid Rhino mesh!")
     if not filepath or type(filepath) is not str:
         raise ValueError("Supplied filepath is not a valid filepath!")

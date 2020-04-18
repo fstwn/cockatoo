@@ -1,6 +1,7 @@
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
+from __future__ import print_function
 from collections import deque, OrderedDict
 import math
 from operator import itemgetter
@@ -154,6 +155,7 @@ class KnitNetwork(KnitNetworkBase):
         result : bool
             True if the connection has been made, otherwise false.
         """
+
         # get connected neighbours
         connecting_neighbours = self[candidate[0]]
         # only do something if the maximum is not reached
@@ -755,6 +757,7 @@ class KnitNetwork(KnitNetworkBase):
                                               max_connections=max_connections,
                                               precise=precise,
                                               verbose=verbose)
+
         self._create_initial_weft_connections(rightContours,
                                               max_connections=max_connections,
                                               precise=precise,
@@ -766,6 +769,7 @@ class KnitNetwork(KnitNetworkBase):
                                                   least_connected,
                                                   precise=precise,
                                                   verbose=verbose)
+
         self._create_second_pass_weft_connections(rightContours,
                                                   include_leaves,
                                                   least_connected,
@@ -1048,7 +1052,6 @@ class KnitNetwork(KnitNetworkBase):
             else:
                 warp_from =  warp_edge[0]
                 warp_to = warp_edge[1]
-            print warp_from, warp_to
             MappingNetwork.add_edge(warp_from, warp_to, attr_dict=warp_edge[2])
 
         # set mapping network property for this instance
@@ -2035,7 +2038,7 @@ class KnitNetwork(KnitNetworkBase):
                 for wet in warp_edge_targets:
                     for n, tcn in enumerate(target_chain_nodes):
                         if wet == tcn[0]:
-                            if n > start_of_window:
+                            if n > start_of_window or start_of_window == -1:
                                 start_of_window = n
                             node_connected = True
 
@@ -2047,7 +2050,7 @@ class KnitNetwork(KnitNetworkBase):
 
                     end_of_window = None
                     for n, tcn in enumerate(target_chain_nodes):
-                        if n > start_of_window:
+                        if n >= start_of_window:
                             if tcn[0] == current_chain_nodes[-1][0]:
                                 end_of_window = n
                             tcn_warp_edges = self.NodeWarpEdges(tcn[0],
@@ -2069,14 +2072,14 @@ class KnitNetwork(KnitNetworkBase):
                             window = target_chain_nodes[start_of_window: \
                                                         end_of_window+1]
 
-                    print("End of window: {}".format(end_of_window))
+                        print("End of window: {}".format(end_of_window))
 
-                    self._create_second_pass_warp_connection(
-                                                        current_chain_nodes,
-                                                        k,
-                                                        window,
-                                                        precise=False,
-                                                        verbose=True)
+                        self._create_second_pass_warp_connection(
+                                                            current_chain_nodes,
+                                                            k,
+                                                            window,
+                                                            precise=False,
+                                                            verbose=True)
 
 
         # INVOKE SECOND PASS FOR TARGET ---> SOURCE ----------------------------
@@ -2123,7 +2126,7 @@ class KnitNetwork(KnitNetworkBase):
                 for wet in warp_edge_targets:
                     for n, tcn in enumerate(target_chain_nodes):
                         if wet == tcn[0]:
-                            if n > start_of_window:
+                            if n > start_of_window or start_of_window == -1:
                                 start_of_window = n
                             node_connected = True
 
@@ -2135,7 +2138,7 @@ class KnitNetwork(KnitNetworkBase):
 
                     end_of_window = None
                     for n, tcn in enumerate(target_chain_nodes):
-                        if n > start_of_window:
+                        if n >= start_of_window:
                             if tcn[0] == current_chain_nodes[-1][0]:
                                 end_of_window = n
                             tcn_warp_edges = self.NodeWarpEdges(tcn[0],
@@ -2157,13 +2160,13 @@ class KnitNetwork(KnitNetworkBase):
                             window = target_chain_nodes[start_of_window: \
                                                         end_of_window+1]
 
-                    print("End of window: {}".format(end_of_window))
-                    self._create_second_pass_warp_connection(
-                                                        current_chain_nodes,
-                                                        k,
-                                                        window,
-                                                        precise=False,
-                                                        verbose=False)
+                        print("End of window: {}".format(end_of_window))
+                        self._create_second_pass_warp_connection(
+                                                            current_chain_nodes,
+                                                            k,
+                                                            window,
+                                                            precise=False,
+                                                            verbose=False)
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':

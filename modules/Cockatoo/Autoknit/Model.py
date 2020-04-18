@@ -1,9 +1,10 @@
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
+from __future__ import print_function
 
 # RHINO IMPORTS ----------------------------------------------------------------
-import Rhino
+from Rhino.Geometry import Mesh as RhinoMesh
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from .EmbeddedConstraint import EmbeddedConstraint
@@ -46,7 +47,7 @@ class Model(object):
         return self._mesh
 
     def _set_mesh(self, mesh):
-        if type(mesh) != Rhino.Geometry.Mesh:
+        if type(mesh) != RhinoMesh:
             raise ValueError("Expected a Rhino Mesh!")
         self._mesh = mesh
 
@@ -127,7 +128,7 @@ class Model(object):
             if dist > tolerance:
 
                 #TODO: implement better handling if point is not within tol
-                print "too high!"
+                print("too high!")
                 continue
             chain.append(nv)
 

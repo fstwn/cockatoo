@@ -1,6 +1,7 @@
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
+from __future__ import print_function
 
 # RHINO IMPORTS ----------------------------------------------------------------
 from Rhino.Geometry import Curve as RhinoCurve
@@ -616,8 +617,8 @@ class KnitNetworkBase(nx.Graph):
         segment_geo = [RhinoLineCurve(l) for l in segment_geo]
         edgeGeo = RhinoCurve.JoinCurves(segment_geo)
         if len(edgeGeo) > 1:
-            print segment_geo
-            print edgeGeo
+            print(segment_geo)
+            print(edgeGeo)
             return False
             #raise RuntimeError("Segment geometry could not be joined into " +
             #                   "one single curve!")
