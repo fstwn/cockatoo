@@ -2,6 +2,7 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+from collections import OrderedDict
 
 # RHINO IMPORTS ----------------------------------------------------------------
 from Rhino.Geometry import Curve as RhinoCurve
@@ -11,6 +12,9 @@ from Rhino.Geometry import Polyline as RhinoPolyline
 
 # THIRD PARTY MODULE IMPORTS ---------------------------------------------------
 import networkx as nx
+
+# LOCAL MODULE IMPORTS ---------------------------------------------------------
+from .Exceptions import KnitNetworkGeometryError
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
@@ -357,10 +361,21 @@ class KnitNetworkBase(nx.Graph):
         Returns all the nodes of the network ordered by position.
         """
 
+        allPositionNodes = sorted(
+                            [(n, d) for n, d in self.nodes_iter(data=True) \
+                            if d["position"] != None],
+                            key=lambda x: x[1]["position"])
+
+        posdict = OrderedDict()
+        for n in allPositionNodes:
+            if n[1]["position"] not in posdict:
+                posdict[n[1]["position"]] = [n]
+            else:
+                posdict[n[1]["position"]].append(n)
+
         anbp = []
-        total = self.TotalPositions
-        for pos in range(total):
-            posnodes = self.NodesOnPosition(pos, True)
+        for key in posdict:
+            posnodes = sorted(posdict[key], key=lambda x: x[1]["num"])
             if data:
                 anbp.append(posnodes)
             else:
@@ -406,7 +421,7 @@ class KnitNetworkBase(nx.Graph):
         """
 
         leaves = [(n, d) for n, d in self.NodesOnPosition(pos, data=True) \
-                  if d["leaf"] == True]
+                  if d["leaf"]]
         if not data:
             leaves = [n[0] for n in leaves]
         return leaves
@@ -416,14 +431,25 @@ class KnitNetworkBase(nx.Graph):
         Gets all 'leaf' nodes ordered by 'position' attribute.
         """
 
-        albp = []
-        total = self.TotalPositions
-        for pos in range(total):
-            leaves = self.LeavesOnPosition(pos, True)
-            if data:
-                albp.append(leaves)
+        allPositionLeaves = sorted(
+                            [(n, d) for n, d in self.nodes_iter(data=True) \
+                            if d["position"] != None and d["leaf"]],
+                            key=lambda x: x[1]["position"])
+
+        posdict = OrderedDict()
+        for n in allPositionLeaves:
+            if n[1]["position"] not in posdict:
+                posdict[n[1]["position"]] = [n]
             else:
-                albp.append([pn[0] for pn in leaves])
+                posdict[n[1]["position"]].append(n)
+
+        albp = []
+        for key in posdict:
+            posleaves = sorted(posdict[key], key=lambda x: x[1]["num"])
+            if data:
+                albp.append(posleaves)
+            else:
+                albp.append([pl[0] for pl in posleaves])
 
         return albp
 
@@ -435,7 +461,7 @@ class KnitNetworkBase(nx.Graph):
         """
 
         ends = [(n, d) for n, d in self.nodes_iter(data=True) \
-                if d["end"] == True]
+                if d["end"]]
 
         return ends
 
@@ -448,9 +474,9 @@ class KnitNetworkBase(nx.Graph):
         """
 
         ends = [(n, d) for n, d in self.NodesOnPosition(pos, data=True) \
-                  if d["end"] == True]
+                if d["end"]]
         if not data:
-            ends = [n[0] for n in ends]
+            return [n[0] for n in ends]
         return ends
 
     def AllEndsByPosition(self, data=False):
@@ -617,11 +643,11 @@ class KnitNetworkBase(nx.Graph):
         segment_geo = [RhinoLineCurve(l) for l in segment_geo]
         edgeGeo = RhinoCurve.JoinCurves(segment_geo)
         if len(edgeGeo) > 1:
-            print(segment_geo)
-            print(edgeGeo)
+            errMsg = ("Segment geometry could not be joined into " +
+                      "one single curve for segment {}!".format(segment_value))
+            print(errMsg)
             return False
-            #raise RuntimeError("Segment geometry could not be joined into " +
-            #                   "one single curve!")
+            # raise KnitNetworkGeometryError(errMsg)
 
         edgeGeo = edgeGeo[0].ToPolyline()
         if not edgeGeo[0] == From[1]["geo"]:
@@ -647,7 +673,7 @@ class KnitNetworkBase(nx.Graph):
         """
 
         ContourEdges = [(f, t, d) for f, t, d in self.edges_iter(data=True) \
-                        if d["weft"] == False and d["warp"] == False]
+                        if not d["weft"] and not d["warp"]]
         for i, ce in enumerate(ContourEdges):
             if ce[0] > ce[1]:
                 ContourEdges[i] = (ce[1], ce[0], ce[2])
@@ -663,7 +689,7 @@ class KnitNetworkBase(nx.Graph):
         """
 
         WeftEdges = [(f, t, d) for f, t, d in self.edges_iter(data=True) \
-                     if d["weft"] == True and d["warp"] == False]
+                     if d["weft"] and not d["warp"]]
         for i, we in enumerate(WeftEdges):
             if we[0] > we[1]:
                 WeftEdges[i] = (we[1], we[0], we[2])
@@ -678,7 +704,7 @@ class KnitNetworkBase(nx.Graph):
         """
 
         WarpEdges = [(f, t, d) for f, t, d in self.edges_iter(data=True) \
-                     if d["weft"] == False and d["warp"] == True]
+                     if not d["weft"] and d["warp"]]
         for i, we in enumerate(WarpEdges):
             if we[0] > we[1]:
                 WarpEdges[i] = (we[1], we[0], we[2])
@@ -694,17 +720,18 @@ class KnitNetworkBase(nx.Graph):
         attribute.
         """
 
-        # get all the edges
         SegmentContourEdges = [(f, t, d) for f, t, d \
-                               in self.edges_iter(data=True) \
-                               if d["weft"] == False and \
-                                  d["warp"] == False and \
-                                  d["segment"] != None]
+                               in self.edges_iter(data=True) if \
+                               not d["weft"]and \
+                               not d["warp"]]
+        SegmentContourEdges = [sce for sce in SegmentContourEdges \
+                               if sce[2]["segment"]]
+
         for i, sce in enumerate(SegmentContourEdges):
             if sce[0] > sce[1]:
                 SegmentContourEdges[i] = (sce[1], sce[0], sce[2])
+
         # sort them by their 'segment' attributes value
-        # SegmentContourEdges.sort(key=lambda x: x[2]["segment"])
         SegmentContourEdges.sort(key=lambda x: x[2]["segment"])
 
         return SegmentContourEdges
@@ -769,7 +796,7 @@ class KnitNetworkBase(nx.Graph):
                               in self.edges_iter(node, data=True) if
                               not d["warp"] and not d["weft"]]
         connected_segments = [cs for cs in connected_segments \
-                              if cs[2]["segment"] != None]
+                              if cs[2]["segment"]]
         connected_segments = [cs for cs in connected_segments \
                               if cs[2]["segment"][0] == node]
 
@@ -790,7 +817,7 @@ class KnitNetworkBase(nx.Graph):
                               in self.edges_iter(node, data=True) if
                               not d["warp"] and not d["weft"]]
         connected_segments = [cs for cs in connected_segments \
-                              if cs[2]["segment"] != None]
+                              if cs[2]["segment"]]
         connected_segments = [cs for cs in connected_segments \
                               if cs[2]["segment"][1] == node]
 

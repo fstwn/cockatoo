@@ -20,6 +20,8 @@ from .Exceptions import *
 from .KnitNetworkBase import KnitNetworkBase
 from .KnitMappingNetwork import KnitMappingNetwork
 
+import ahd
+
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
     "KnitNetwork"
@@ -156,6 +158,8 @@ class KnitNetwork(KnitNetworkBase):
             True if the connection has been made, otherwise false.
         """
 
+        v_print = print if verbose else lambda *a, **k: None
+
         # get connected neighbours
         connecting_neighbours = self[candidate[0]]
         # only do something if the maximum is not reached
@@ -167,22 +171,16 @@ class KnitNetwork(KnitNetworkBase):
                 if cn in [v[0] for v in source_nodes]:
                     isConnected = True
                     # print info on verbose setting
-                    if verbose:
-                        vStr = ("Candidate node {} is " +
-                                "already connected! " +
-                                "Skipping to next " +
-                                "node...")
-                        vStr = vStr.format(candidate[0])
-                        print(vStr)
+                    v_print("Candidate node {} is ".format(candidate[0]) +
+                            "already connected! " +
+                            "Skipping to next " +
+                            "node...")
                     break
             # check the flag and act accordingly
             if not isConnected:
                 # print info on verbose setting
-                if verbose:
-                    vStr = ("Connecting node {} to best " +
-                            "candidate {}.")
-                    vStr = vStr.format(node[0], candidate[0])
-                    print(vStr)
+                v_print("Connecting node {} to best ".format(node[0]) +
+                        "candidate {}.".format(candidate[0]))
                 # if all conditions are met, make the 'weft' connection
                 self.CreateWeftEdge(node, candidate)
                 return True
@@ -198,18 +196,18 @@ class KnitNetwork(KnitNetworkBase):
         propagating to the last contour in the set.
         """
 
+        v_print = print if verbose else lambda *a, **k: None
+
         # namespace mapping for performance gains
         pi = math.pi
         to_radians = math.radians
 
         if len(contour_set) < 2:
-            if verbose:
-                print("Not enough contours in contour set!")
+            v_print("Not enough contours in contour set!")
             return
 
         # print info on verbose output
-        if verbose:
-            print("Creating initial 'weft' connections for contour set...")
+        v_print("Creating initial 'weft' connections for contour set...")
 
         # loop over all vertices of positions (list of lists of tuples)
         for i, pos in enumerate(contour_set):
@@ -232,10 +230,8 @@ class KnitNetwork(KnitNetworkBase):
                 # loop through all nodes on the current position
                 for k, node in enumerate(initial_nodes):
                     # print info on verbose setting
-                    if verbose:
-                        vStr = "Processing node {} on position {}:"
-                        vStr = vStr.format(node[0], node[1]["position"])
-                        print(vStr)
+                    v_print("Processing node {} on position {}:".format(
+                                                  node[0], node[1]["position"]))
 
                     # get the geometry for the current node
                     thisPt = node[1]["geo"]
@@ -263,11 +259,8 @@ class KnitNetwork(KnitNetworkBase):
                     # the four closest nodes are the possible connections
                     possible_connections = sorted_target_nodes[:4]
                     # print info on verbose setting
-                    if verbose:
-                        vStr = "Possible connections: {}"
-                        vStr = vStr.format([pc[0] for pc in \
-                                           possible_connections])
-                        print(vStr)
+                    v_print("Possible connections: {}".format([pc[0] for pc in \
+                                                         possible_connections]))
 
                     # handle edge case where there is no possible
                     # connection or just one
@@ -330,9 +323,8 @@ class KnitNetwork(KnitNetworkBase):
                     # CONNECTION FOR LEAST ANGLE CHANGE ------------------------
                     if len(nNeighbours) > 2 and aDelta < to_radians(6.0):
                         # print info on verbose setting
-                        if verbose:
-                            print("Using procedure for least angle " +
-                                  "change connection...")
+                        v_print("Using procedure for least angle " +
+                                "change connection...")
 
                         # get previous pos verts, indices and connections
                         prevPos = contour_set[i-1]
@@ -384,9 +376,8 @@ class KnitNetwork(KnitNetworkBase):
                     # CONNECTION FOR MOST PERPENDICULAR --------------------
                     else:
                         # print info on verbose setting
-                        if verbose:
-                            print("Using procedure for most " +
-                                  "perpendicular connection...")
+                        v_print("Using procedure for most " +
+                                "perpendicular connection...")
                         # define final candidate
                         fCand = most_perpendicular[0]
 
@@ -406,6 +397,8 @@ class KnitNetwork(KnitNetworkBase):
         given set of contours.
         """
 
+        v_print = print if verbose else lambda *a, **k: None
+
         # namespace mapping for performance gains
         pi = math.pi
 
@@ -414,13 +407,11 @@ class KnitNetwork(KnitNetworkBase):
         num_attributes = nx.get_node_attributes(self, "num")
 
         if len(contour_set) < 2:
-            if verbose:
-                print("Not enough contours in contour set!")
+            v_print("Not enough contours in contour set!")
             return
 
         # print info on verbose output
-        if verbose:
-            print("Creating second pass 'weft' connections for contour set...")
+        v_print("Creating second pass 'weft' connections for contour set...")
 
         # loop over all vertices of positions (list of lists of tuples)
         for i, pos in enumerate(contour_set):
@@ -447,17 +438,15 @@ class KnitNetwork(KnitNetworkBase):
             # loop through all nodes on current position
             for k, node in enumerate(initial_nodes):
                 # print info on verbose setting
-                if verbose:
-                    vStr = "Processing node {} on position {}:"
-                    vStr = vStr.format(node[0], node[1]["position"])
-                    print(vStr)
+                v_print("Processing node " +
+                      "{} on position {}:".format(node[0], node[1]["position"]))
 
                 # get connecting edges on target position
                 conWeftEdges = self.NodeWeftEdges(node[0], data=True)
                 conPos = []
                 if len(conWeftEdges) == 0 and verbose:
                     # print info on verbose setting
-                    print("No previously connected weft edges...")
+                    v_print("No previously connected weft edges...")
                 for weftEdge in conWeftEdges:
                     weftEdgeFrom = weftEdge[0]
                     weftEdgeTo = weftEdge[1]
@@ -472,20 +461,17 @@ class KnitNetwork(KnitNetworkBase):
                 target_positions = []
                 if target_positionA == None:
                     if target_positionB in conPos:
-                        if verbose:
-                            print("Node is connected. Skipping...")
+                        v_print("Node is connected. Skipping...")
                         continue
                     target_positions.append(target_positionB)
                 elif target_positionB == None:
                     if target_positionA in conPos:
-                        if verbose:
-                            print("Node is connected. Skipping...")
+                        v_print("Node is connected. Skipping...")
                         continue
                     target_positions.append(target_positionA)
                 elif ((target_positionA in conPos) and
                       (target_positionB in conPos)):
-                    if verbose:
-                        print("Node is connected. Skipping...")
+                    v_print("Node is connected. Skipping...")
                     continue
                 elif ((target_positionB in conPos) and
                       (target_positionA not in conPos)):
@@ -498,20 +484,15 @@ class KnitNetwork(KnitNetworkBase):
                     target_positions = [target_positionA, target_positionB]
 
                 # print info on verbose setting
-                if verbose:
-                    if len(target_positions) > 1:
-                        vStr = "Two target positions: {}, {}"
-                        vStr = vStr.format(*target_positions)
-                        print(vStr)
-                    elif len(target_positions) == 1:
-                        vStr = "Target position: {}"
-                        vStr = vStr.format(target_positions[0])
-                        print(vStr)
+                if verbose and len(target_positions) > 1:
+                    v_print("Two target positions: {}, {}".format(
+                                                         *target_positions))
+                elif verbose and len(target_positions) == 1:
+                    v_print("Target position: {}".format(target_positions[0]))
 
                 # skip if there are no target positions
                 if len(target_positions) == 0:
-                    if verbose:
-                        print("No target position! Skipping...")
+                    v_print("No target position! Skipping...")
                     continue
 
                 # only proceed if there is a target position
@@ -533,10 +514,8 @@ class KnitNetwork(KnitNetworkBase):
                     # have fallen through the checks by now
 
                     # print info on verbose setting
-                    if verbose:
-                        vStr = "Target position is {}. Computing window..."
-                        vStr = vStr.format(target_position)
-                        print(vStr)
+                    v_print("Target position is {}. ".format(target_position) +
+                            "Computing window...")
 
                     # get the previous node on this contour
                     prevNode = initial_nodes[k-1]
@@ -569,8 +548,7 @@ class KnitNetwork(KnitNetworkBase):
                         start_of_window = possible_connections[0]
                     elif len(possible_connections) == 0:
                         # print info on verbose setting
-                        if verbose:
-                            print("No possible connection, skipping...")
+                        v_print("No possible connection, skipping...")
                         continue
 
                     # get the next node on this pos that is
@@ -615,26 +593,20 @@ class KnitNetwork(KnitNetworkBase):
 
                     if len(window) == 0:
                         # print info on verbose setting
-                        if verbose:
-                            print("Length of window is 0, skipping...")
+                        v_print("Length of window is 0, skipping...")
                     elif len(window) == 1:
                         # print info on verbose setting
-                        if verbose:
-                            print("Window has only one node.")
-                            vStr = ("Connecting to node {} on " +
-                                    "position {}...")
-                            vStr = vStr.format(window[0][0],
-                                               window[0][1]["position"])
-                            print(vStr)
+                        v_print("Window has only one node.")
+                        v_print("Connecting to node {}".format(window[0][0]) +
+                                " on position {}...".format(
+                                                      window[0][1]["position"]))
 
                         # connect weft edge
                         self.CreateWeftEdge(node, window[0])
                     else:
                         # print info on verbose setting
-                        if verbose:
-                            vStr = "Processing window nodes: {}"
-                            vStr = vStr.format([w[0] for w in window])
-                            print(vStr)
+                        v_print("Processing window nodes: {}".format(
+                                                        [w[0] for w in window]))
 
                         # sort nodes in window by distance
                         if precise:
@@ -694,12 +666,10 @@ class KnitNetwork(KnitNetworkBase):
                             fCand = most_perpendicular[0]
 
                         # print info on verbose setting
-                        if verbose:
-                            vStr = ("Connecting to node {} on " +
-                                    "position {}...")
-                            vStr = vStr.format(fCand[0],
-                                               fCand[1]["position"])
-                            print(vStr)
+                        v_print("Connecting to node " +
+                                "{} on position {}...".format(
+                                                        fCand[0],
+                                                        fCand[1]["position"]))
 
                         # connect weft edge to best target
                         self.CreateWeftEdge(node, fCand)
@@ -846,7 +816,8 @@ class KnitNetwork(KnitNetworkBase):
 
         if len(filtered_weft_edges) > 1:
             print(filtered_weft_edges)
-            print("More than one filtered candidate weft edge!")
+            print("More than one filtered candidate weft edge! " +
+                  "Segment complete...?")
         elif len(filtered_weft_edges) == 1:
             fwec = filtered_weft_edges[0]
             connected_node = (fwec[1], self.node[fwec[1]])
@@ -1106,21 +1077,37 @@ class KnitNetwork(KnitNetworkBase):
             raise MappingNetworkError(errMsg)
 
         allSegments = mapnet.SegmentContourEdges
+        allSegmentNodes = [(n, d) for n, d \
+                    in self.nodes_iter(data=True) if d["segment"]]
+
+        segdict = {}
+        for n in allSegmentNodes:
+            if n[1]["segment"] not in segdict:
+                segdict[n[1]["segment"]] = [n]
+            else:
+                segdict[n[1]["segment"]].append(n)
 
         anbs = []
-        for i, segment in enumerate(allSegments):
-            segval = segment[2]["segment"]
-            segnodes = self.NodesOnSegment(segval, data=True)
-            if data:
-                if edges:
-                    anbs.append((segval, segnodes, allSegments[i]))
-                else:
-                    anbs.append((segval, segnodes))
-            else:
-                if edges:
-                    anbs.append((segval, [sn[0] for sn in segnodes], allSegments[i]))
-                else:
-                    anbs.append((segval, [sn[0] for sn in segnodes]))
+        if data and edges:
+            for segment in allSegments:
+                segval = segment[2]["segment"]
+                segnodes = sorted(segdict[segval])
+                anbs.append((segval, segnodes, segment))
+        elif data and not edges:
+            for segment in allSegments:
+                segval = segment[2]["segment"]
+                segnodes = sorted(segdict[segval])
+                anbs.append((segval, segnodes))
+        elif not data and edges:
+            for segment in allSegments:
+                segval = segment[2]["segment"]
+                segnodes = sorted(segdict[segval])
+                anbs.append((segval, [sn[0] for sn in segnodes], segment))
+        elif not data and not edges:
+            for segment in allSegments:
+                segval = segment[2]["segment"]
+                segnodes = sorted(segdict[segval])
+                anbs.append((segval, [sn[0] for sn in segnodes]))
 
         return anbs
 
@@ -1257,6 +1244,8 @@ class KnitNetwork(KnitNetworkBase):
             True if the connection has been made, otherwise false.
         """
 
+        v_print = print if verbose else lambda *a, **k: None
+
         connecting_neighbours = self[candidate[0]]
         if len(connecting_neighbours) < max_connections:
             isConnected = False
@@ -1264,21 +1253,16 @@ class KnitNetwork(KnitNetworkBase):
                 if cn in [v[0] for v in source_nodes]:
                     isConnected = True
                     # print info on verbose setting
-                    if verbose:
-                        vStr = ("Candidate node {} is " +
-                                "already connected! " +
-                                "Skipping to next " +
-                                "node...")
-                        vStr = vStr.format(candidate[0])
-                        print(vStr)
+                    v_print("Candidate node {} is ".format(candidate[0]) +
+                            "already connected! " +
+                            "Skipping to next " +
+                            "node...")
                     break
             if not isConnected:
                 # print info on verbose setting
-                if verbose:
-                    vStr = ("Connecting node {} to best " +
-                            "candidate {}.")
-                    vStr = vStr.format(node[0], candidate[0])
-                    print(vStr)
+                v_print("Connecting node {} to best candidate {}.".format(
+                                                                node[0],
+                                                                candidate[0]))
                 # finally create the warp edge for good
                 self.CreateWarpEdge(node, candidate)
                 return True
@@ -1295,18 +1279,18 @@ class KnitNetwork(KnitNetworkBase):
         supplied with their attribute data!
         """
 
+        v_print = print if verbose else lambda *a, **k: None
+
         # namespace mapping for performance gains
         pi = math.pi
         to_radians = math.radians
 
         if len(segment_pair) < 2:
-            if verbose:
-                print("Not enough contour segments in supplied set!")
+            v_print("Not enough contour segments in supplied set!")
             return
 
         # print info on verbose output
-        if verbose:
-            print("Creating initial 'warp' connections for contour set...")
+        v_print("Creating initial 'warp' connections for contour set...")
 
         # get initial and target vertices without 'end' nodes
         initial_nodes = segment_pair[0]
@@ -1325,10 +1309,9 @@ class KnitNetwork(KnitNetworkBase):
             thisPt = node[1]["geo"]
 
             # print info on verbose setting
-            if verbose:
-                vStr = "Processing node {} on segment {}:"
-                vStr = vStr.format(node[0], node[1]["segment"])
-                print(vStr)
+            v_print("Processing node {} on segment {}:".format(
+                                                            node[0],
+                                                            node[1]["segment"]))
 
             # filtering according to forbidden nodes
             target_nodes = [tn for tn in target_nodes \
@@ -1353,11 +1336,8 @@ class KnitNetwork(KnitNetworkBase):
             # the four nearest nodes are the possible connections
             possible_connections = sorted_target_nodes[:4]
             # print info on verbose setting
-            if verbose:
-                vStr = "Possible connections: {}"
-                vStr = vStr.format([pc[0] for pc in \
-                                   possible_connections])
-                print(vStr)
+            v_print("Possible connections: {}".format([pc[0] for pc in \
+                                                       possible_connections]))
 
             # handle edge case where there is no possible connection or just one
             if len(possible_connections) == 0:
@@ -1417,15 +1397,15 @@ class KnitNetwork(KnitNetworkBase):
             # CONNECTION FOR LEAST ANGLE CHANGE --------------------------------
             if len(nNeighbours) > 2 and aDelta < to_radians(6.0):
                 # print info on verbose setting
-                if verbose:
-                    print("Using procedure for least angle " +
-                          "change connection...")
+                v_print("Using procedure for least angle " +
+                        "change connection...")
 
                 # get previous connected edge and its direction
                 prevEdges = self.NodeWarpEdges(node[0], data=True)
                 if len(prevEdges) > 1:
                     print("More than one previous " +
-                          "'warp' connection! This was unexpected...")
+                          "'warp' connection! This was unexpected..." +
+                          "Taking the first one..?")
                     prevDir = prevEdges[0][2]["geo"].Direction
                 else:
                     prevDir = prevEdges[0][2]["geo"].Direction
@@ -1467,9 +1447,8 @@ class KnitNetwork(KnitNetworkBase):
             # CONNECTION FOR MOST PERPENDICULAR --------------------------------
             else:
                 # print info on verbose setting
-                if verbose:
-                    print("Using procedure for most " +
-                          "perpendicular connection...")
+                v_print("Using procedure for most " +
+                        "perpendicular connection...")
                 # define final candidate node
                 fCand = most_perpendicular[0]
                 # attempt connection to final candidate
@@ -1488,17 +1467,15 @@ class KnitNetwork(KnitNetworkBase):
         given set of contours.
         """
 
+        v_print = print if verbose else lambda *a, **k: None
+
         if len(window) == 0:
             # print info on verbose setting
-            if verbose:
-                print("Length of window is 0, skipping...")
+            v_print("Length of window is 0, skipping...")
         elif len(window) == 1:
             # print info on verbose setting
-            if verbose:
-                print("Window has only one node.")
-                vStr = ("Connecting to node {}.")
-                vStr = vStr.format(window[0][0])
-                print(vStr)
+            v_print("Window has only one node.")
+            v_print("Connecting to node {}.".format(window[0][0]))
 
             # connect 'warp' edge
             self.CreateWarpEdge(source_nodes[source_index], window[0])
@@ -1507,10 +1484,8 @@ class KnitNetwork(KnitNetworkBase):
             thisPt = source_nodes[source_index][1]["geo"]
 
             # print info on verbose setting
-            if verbose:
-                vStr = "Processing window nodes: {}"
-                vStr = vStr.format([w[0] for w in window])
-                print(vStr)
+            v_print("Processing window nodes: {}".format(
+                                                        [w[0] for w in window]))
 
             # sort nodes in window by distance
             if precise:
@@ -1556,12 +1531,9 @@ class KnitNetwork(KnitNetworkBase):
             fCand = most_perpendicular[0]
 
             # print info on verbose setting
-            if verbose:
-                vStr = ("Connecting to node {} on " +
-                        "position {}...")
-                vStr = vStr.format(fCand[0],
-                                   fCand[1]["position"])
-                print(vStr)
+            v_print("Connecting to node " +
+                    "{} on position {}...".format(fCand[0],
+                                                  fCand[1]["position"]))
 
             # connect weft edge to best target
             self.CreateWarpEdge(source_nodes[source_index], fCand)
@@ -1600,12 +1572,7 @@ class KnitNetwork(KnitNetworkBase):
             Defaults to False.
         """
 
-        # retrieve mapping network
-        mapnet = self.MappingNetwork
-        if not mapnet:
-            errMsg = ("Mapping network has not been built for this instance, " +
-                      "sampling segment contours is impossible!")
-            raise MappingNetworkError(errMsg)
+        v_print = print if verbose else lambda *a, **k: None
 
         # get all segment ids, nodes per segment and edges
         SegmentValues, AllNodesBySegment, SegmentContourEdges = zip(
@@ -1616,7 +1583,7 @@ class KnitNetwork(KnitNetworkBase):
                                zip(SegmentContourEdges, AllNodesBySegment)))
 
         # build source and target chains
-        source_chains, target_chain_dict = mapnet.BuildChains(False, True)
+        source_chains, target_chain_dict = self.MappingNetwork.BuildChains(False, True)
 
         # initialize container dict for connected chains
         connected_chains = dict()
@@ -1659,9 +1626,8 @@ class KnitNetwork(KnitNetworkBase):
             target_key = None
 
             # print info on verbose setting
-            if verbose:
-                print("-------------------------------------------------------")
-                print("Processing segment chain {} ...".format(source_chain))
+            v_print("-------------------------------------------------------")
+            v_print("Processing segment chain {} ...".format(source_chain))
 
             # CASE 1 - ENCLOSED SHORT ROW <====> ALL CASES ---------------------
 
@@ -1720,10 +1686,9 @@ class KnitNetwork(KnitNetworkBase):
                 target_nodes = [n for seg in target_nodes for n in seg]
 
                 # print info on verbose setting
-                if verbose:
-                    vStr = "<=====> detected. Connecting to segment chain {}."
-                    vStr = vStr.format(target_key)
-                    print(vStr)
+                v_print("<=====> detected. Connecting to " +
+                        "segment chain {}.".format(target_key))
+
                 # we have successfully verified our target segment and
                 # can create some warp edges!
                 segment_pair = [current_nodes, target_nodes]
@@ -1800,10 +1765,8 @@ class KnitNetwork(KnitNetworkBase):
                 if (targetFirstNode == firstNode[0] \
                 and targetLastNode in self[lastNode[0]]):
                     # print info on verbose setting
-                    if verbose:
-                        vStr = "<=====/ detected. Connecting to segment {}."
-                        vStr = vStr.format(target_key)
-                        print(vStr)
+                    v_print("<=====/ detected. Connecting " +
+                            "to segment {}.".format(target_key))
                     # we have successfully verified our target segment and
                     # can create some warp edges!
                     segment_pair = [current_nodes, target_nodes]
@@ -1823,8 +1786,7 @@ class KnitNetwork(KnitNetworkBase):
                                                 verbose=verbose)
                     continue
                 else:
-                    if verbose:
-                        print("No real connection for <=====/. Next case...")
+                    v_print("No real connection for <=====/. Next case...")
 
             # CASE 3 - SHORT ROW TO THE LEFT /====> ALL CASES ------------------
 
@@ -1883,10 +1845,8 @@ class KnitNetwork(KnitNetworkBase):
                 if (targetFirstNode in self[firstNode[0]] \
                 and targetLastNode == lastNode[0]):
                     # print info on verbose setting
-                    if verbose:
-                        vStr = "/=====> detected. Connecting to segment {}."
-                        vStr = vStr.format(target_key)
-                        print(vStr)
+                    v_print("/=====> detected. Connecting " +
+                            "to segment {}.".format(target_key))
                     # we have successfully verified our target segment and
                     # can create some warp edges!
                     segment_pair = [current_nodes, target_nodes]
@@ -1905,8 +1865,7 @@ class KnitNetwork(KnitNetworkBase):
                                                 verbose=verbose)
                     continue
                 else:
-                    if verbose:
-                        print("No real connection for /=====>. Next case...")
+                    v_print("No real connection for /=====>. Next case...")
 
             # CASE 4 - REGULAR ROW /=====/ ALL CASES ---------------------------
 
@@ -1966,10 +1925,8 @@ class KnitNetwork(KnitNetworkBase):
                 if (targetFirstNode in self[firstNode[0]] \
                 and targetLastNode in self[lastNode[0]]):
                     # print info on verbose setting
-                    if verbose:
-                        vStr = "/=====/ detected. Connecting to segment {}."
-                        vStr = vStr.format(target_key)
-                        print(vStr)
+                    v_print("/=====/ detected. Connecting " +
+                            "to segment {}.".format(target_key))
                     # we have successfully verified our target segment and
                     # can create some warp edges!
                     segment_pair = [current_nodes, target_nodes]
@@ -1988,16 +1945,15 @@ class KnitNetwork(KnitNetworkBase):
                                                 verbose=verbose)
                     continue
                 else:
-                    if verbose:
-                        print("No real connection for /=====/. No cases match.")
+                    v_print("No real connection for /=====/. No cases match.")
 
         # SECOND PASS SKETCHING ------------------------------------------------
 
         # INVOKE SECOND PASS FOR SOURCE ---> TARGET ----------------------------
 
         for i, current_chain in enumerate(source_to_target):
-            print("-----------------------------------------------------------")
-            print("S>T Current Chain: {}".format(current_chain))
+            v_print("---------------------------------------------------------")
+            v_print("S>T Current Chain: {}".format(current_chain))
             # build a list of nodes containing all nodes in the current chain
             # including all 'end' nodes
             current_chain_nodes = []
@@ -2048,8 +2004,8 @@ class KnitNetwork(KnitNetworkBase):
                 # if the node is not connected to the target chain, we
                 # need to find the end of the window
                 if not node_connected:
-                    print("Node: {}".format(node[0]))
-                    print("Start of window: {}".format(start_of_window))
+                    v_print("Node: {}".format(node[0]))
+                    v_print("Start of window: {}".format(start_of_window))
 
                     end_of_window = None
                     for n, tcn in enumerate(target_chain_nodes):
@@ -2077,21 +2033,21 @@ class KnitNetwork(KnitNetworkBase):
                             window = target_chain_nodes[start_of_window: \
                                                         end_of_window+1]
 
-                        print("End of window: {}".format(end_of_window))
+                        v_print("End of window: {}".format(end_of_window))
 
                         self._create_second_pass_warp_connection(
                                                             current_chain_nodes,
                                                             k,
                                                             window,
-                                                            precise=False,
-                                                            verbose=True)
+                                                            precise=precise,
+                                                            verbose=verbose)
 
 
         # INVOKE SECOND PASS FOR TARGET ---> SOURCE ----------------------------
 
         for i, current_chain in enumerate(target_to_source):
-            print("-----------------------------------------------------------")
-            print("T>S Current Chain: {}".format(current_chain))
+            v_print("-----------------------------------------------------------")
+            v_print("T>S Current Chain: {}".format(current_chain))
             # build a list of nodes containing all nodes in the current chain
             # including all 'end' nodes
             current_chain_nodes = []
@@ -2140,8 +2096,8 @@ class KnitNetwork(KnitNetworkBase):
                 # if the node is not connected to the target chain, we
                 # need to find the end of the window
                 if not node_connected:
-                    print("Node: {}".format(node[0]))
-                    print("Start of window: {}".format(start_of_window))
+                    v_print("Node: {}".format(node[0]))
+                    v_print("Start of window: {}".format(start_of_window))
 
                     end_of_window = None
                     for n, tcn in enumerate(target_chain_nodes):
@@ -2169,13 +2125,13 @@ class KnitNetwork(KnitNetworkBase):
                             window = target_chain_nodes[start_of_window: \
                                                         end_of_window+1]
 
-                        print("End of window: {}".format(end_of_window))
+                        v_print("End of window: {}".format(end_of_window))
                         self._create_second_pass_warp_connection(
                                                             current_chain_nodes,
                                                             k,
                                                             window,
-                                                            precise=False,
-                                                            verbose=False)
+                                                            precise=precise,
+                                                            verbose=verbose)
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':

@@ -29,6 +29,9 @@ class NetworkXNotPresentError(KnitNetworkError):
 class NetworkXVersionError(KnitNetworkError):
     """Exception raised when NetworkX version is not 1.5."""
 
+class KnitNetworkGeometryError(KnitNetworkError):
+    """Exception raised when vital geometry operations fail."""
+
 class MappingNetworkError(KnitNetworkError):
     """
     Exception raised by methods relying on a mapping network if no mapping
