@@ -24,15 +24,15 @@ The purpose of this project is to enable Rhino and Grasshopper to automatically 
 
 ### 1. Download release files
 
-- Go to [releases](https://github.com/fstwn/pyembroideryGH/releases) and download the newest release
-- Unzip the downloaded archive. You should get two folders `pyembroidery`, `pyembroideryGH` and a text-file.
+- Go to [releases](https://github.com/fstwn/Cockatoo/releases) and download the newest release
+- Unzip the downloaded archive. You should get two folders: `modules` and `Cockatoo`.
 
 ### 2. Install python modules
 
 - Open the scripts folder of Rhino 6 by opening explorer and navigating to
   
   `C:\Users\%USERNAME%\AppData\Roaming\McNeel\Rhinoceros\6.0\scripts`
-- Move the whole `pyembroidery` directory to the scripts folder.
+- Move all the Content from inside the `modules` directory to this scripts folder.
 
 ### 3. Install Cockatoo UserObjects
 
@@ -47,7 +47,7 @@ The purpose of this project is to enable Rhino and Grasshopper to automatically 
 
 ### 4. Unblock the new UserObjects!
 
-- Go into your `pyembroideryGH` folder inside Grasshoppers UserObjects folder
+- Go into the `Cockatoo` folder inside Grasshoppers UserObjects folder
 - Right click onto the first UserObject and go to **Properties**
 - If the text *This file came from another computer [...]* is displayed click on **Unblock**!
 - **Unfortunately you have to do this for _EVERY_ UserObject in the folder!**
