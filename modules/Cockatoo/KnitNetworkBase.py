@@ -493,14 +493,25 @@ class KnitNetworkBase(nx.Graph):
         Gets all 'end' vertices on all positions ordered by position.
         """
 
-        aebp = []
-        total = self.TotalPositions
-        for pos in range(total):
-            ends = self.EndsOnPosition(pos, True)
-            if data:
-                aebp.append(ends)
+        allPositionEnds = sorted(
+                            [(n, d) for n, d in self.nodes_iter(data=True) \
+                            if d["position"] != None and d["end"]],
+                            key=lambda x: x[1]["position"])
+
+        posdict = OrderedDict()
+        for n in allPositionEnds:
+            if n[1]["position"] not in posdict:
+                posdict[n[1]["position"]] = [n]
             else:
-                aebp.append([pn[0] for pn in ends])
+                posdict[n[1]["position"]].append(n)
+
+        aebp = []
+        for key in posdict:
+            posends = sorted(posdict[key], key=lambda x: x[1]["num"])
+            if data:
+                aebp.append(posends)
+            else:
+                aebp.append([pe[0] for pe in posends])
 
         return aebp
 
