@@ -2,6 +2,8 @@
 from __future__ import absolute_import
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
+import Cockatoo.Environment
+
 from . import Engine
 from . import FileIO
 from . import Structs

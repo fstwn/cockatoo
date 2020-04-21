@@ -4,17 +4,26 @@ from __future__ import division
 from __future__ import print_function
 from collections import OrderedDict
 
-# RHINO IMPORTS ----------------------------------------------------------------
-from Rhino.Geometry import Curve as RhinoCurve
-from Rhino.Geometry import Line as RhinoLine
-from Rhino.Geometry import LineCurve as RhinoLineCurve
-from Rhino.Geometry import Polyline as RhinoPolyline
-
 # THIRD PARTY MODULE IMPORTS ---------------------------------------------------
 import networkx as nx
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
+from .Environment import IsRhinoInside
 from .Exceptions import KnitNetworkGeometryError
+
+# RHINO IMPORTS ----------------------------------------------------------------
+if IsRhinoInside():
+    import rhinoinside
+    rhinoinside.load()
+    from Rhino.Geometry import Curve as RhinoCurve
+    from Rhino.Geometry import Line as RhinoLine
+    from Rhino.Geometry import LineCurve as RhinoLineCurve
+    from Rhino.Geometry import Polyline as RhinoPolyline
+else:
+    from Rhino.Geometry import Curve as RhinoCurve
+    from Rhino.Geometry import Line as RhinoLine
+    from Rhino.Geometry import LineCurve as RhinoLineCurve
+    from Rhino.Geometry import Polyline as RhinoPolyline
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [

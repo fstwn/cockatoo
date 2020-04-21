@@ -6,21 +6,28 @@ from collections import deque, OrderedDict
 import math
 from operator import itemgetter
 
-# RHINO IMPORTS ----------------------------------------------------------------
-from Rhino.Geometry import Curve as RhinoCurve
-from Rhino.Geometry import Line as RhinoLine
-from Rhino.Geometry import Interval as RhinoInterval
-from Rhino.Geometry import Vector3d as RhinoVector3d
-
 # THIRD PARTY MODULE IMPORTS ---------------------------------------------------
 import networkx as nx
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
+from .Environment import IsRhinoInside
 from .Exceptions import *
 from .KnitNetworkBase import KnitNetworkBase
 from .KnitMappingNetwork import KnitMappingNetwork
 
-import ahd
+# RHINO IMPORTS ----------------------------------------------------------------
+if IsRhinoInside():
+    import rhinoinside
+    rhinoinside.load()
+    from Rhino.Geometry import Curve as RhinoCurve
+    from Rhino.Geometry import Line as RhinoLine
+    from Rhino.Geometry import Interval as RhinoInterval
+    from Rhino.Geometry import Vector3d as RhinoVector3d
+else:
+    from Rhino.Geometry import Curve as RhinoCurve
+    from Rhino.Geometry import Line as RhinoLine
+    from Rhino.Geometry import Interval as RhinoInterval
+    from Rhino.Geometry import Vector3d as RhinoVector3d
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
@@ -1078,7 +1085,7 @@ class KnitNetwork(KnitNetworkBase):
 
         allSegments = mapnet.SegmentContourEdges
         allSegmentNodes = [(n, d) for n, d \
-                    in self.nodes_iter(data=True) if d["segment"]]
+                           in self.nodes_iter(data=True) if d["segment"]]
 
         segdict = {}
         for n in allSegmentNodes:
@@ -1091,22 +1098,34 @@ class KnitNetwork(KnitNetworkBase):
         if data and edges:
             for segment in allSegments:
                 segval = segment[2]["segment"]
-                segnodes = sorted(segdict[segval])
+                try:
+                    segnodes = sorted(segdict[segval])
+                except KeyError:
+                    segnodes = []
                 anbs.append((segval, segnodes, segment))
         elif data and not edges:
             for segment in allSegments:
                 segval = segment[2]["segment"]
-                segnodes = sorted(segdict[segval])
+                try:
+                    segnodes = sorted(segdict[segval])
+                except KeyError:
+                    segnodes = []
                 anbs.append((segval, segnodes))
         elif not data and edges:
             for segment in allSegments:
                 segval = segment[2]["segment"]
-                segnodes = sorted(segdict[segval])
+                try:
+                    segnodes = sorted(segdict[segval])
+                except KeyError:
+                    segnodes = []
                 anbs.append((segval, [sn[0] for sn in segnodes], segment))
         elif not data and not edges:
             for segment in allSegments:
                 segval = segment[2]["segment"]
-                segnodes = sorted(segdict[segval])
+                try:
+                    segnodes = sorted(segdict[segval])
+                except KeyError:
+                    segnodes = []
                 anbs.append((segval, [sn[0] for sn in segnodes]))
 
         return anbs

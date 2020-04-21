@@ -7,27 +7,30 @@ Custom Exceptions for Cockatoo.
 class CockatooException(Exception):
     """Base class for exceptions in Cockatoo."""
 
+class CockatooImportException(ImportError):
+    """Base class for import errors in Cockatoo."""
+
 # DEPENDENCY EXCEPTIONS --------------------------------------------------------
 
-class RhinoNotPresentError(CockatooException):
+class RhinoNotPresentError(CockatooImportException):
     """Exception raised when import of Rhino fails."""
 
-class KangarooNotPresentError(CockatooException):
+class KangarooNotPresentError(CockatooImportException):
     """Exception raised when import of Kangaroo fails."""
 
-class PlanktonNotPresentError(CockatooException):
+class PlanktonNotPresentError(CockatooImportException):
     """Exception raised when import of Plankton fails."""
+
+class NetworkXNotPresentError(CockatooImportException):
+    """Exception raised when import of NetworkX fails."""
+
+class NetworkXVersionError(CockatooImportException):
+    """Exception raised when NetworkX version is not 1.5."""
 
 # KNITNETWORK EXCEPTIONS -------------------------------------------------------
 
 class KnitNetworkError(CockatooException):
     """Exception for a serious error in a KnitNetwork of Cockatoo."""
-
-class NetworkXNotPresentError(KnitNetworkError):
-    """Exception raised when import of NetworkX fails."""
-
-class NetworkXVersionError(KnitNetworkError):
-    """Exception raised when NetworkX version is not 1.5."""
 
 class KnitNetworkGeometryError(KnitNetworkError):
     """Exception raised when vital geometry operations fail."""

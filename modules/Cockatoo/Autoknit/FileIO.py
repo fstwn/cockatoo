@@ -16,7 +16,6 @@ from os import path
 # RHINO IMPORTS ----------------------------------------------------------------
 from Rhino.Geometry import Mesh as RhinoMesh
 from Rhino.Geometry import Point3f as RhinoPoint3f
-import scriptcontext
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from . import Structs
@@ -153,7 +152,7 @@ def LoadObj(filepath):
     # read from the file in text mode
     with open(filepath, "rt") as f:
         while True:
-            scriptcontext.escape_test()
+            #scriptcontext.escape_test()
 
             # read a line and split it into parts
             line = f.readline()
@@ -211,7 +210,7 @@ def SaveObj(filepath, mesh):
     temp = deque()
     faces = deque()
     while len(fids) > 0:
-        scriptcontext.escape_test()
+        #scriptcontext.escape_test()
         # if face is complete, check if it is a triangle, append and reset temp
         if temp and len(temp) == 4:
             if temp[-2] == temp[-1]:
