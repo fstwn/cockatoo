@@ -1273,9 +1273,7 @@ class KnitNetwork(KnitNetworkBase):
                     isConnected = True
                     # print info on verbose setting
                     v_print("Candidate node {} is ".format(candidate[0]) +
-                            "already connected! " +
-                            "Skipping to next " +
-                            "node...")
+                            "already connected! Skipping to next node...")
                     break
             if not isConnected:
                 # print info on verbose setting
@@ -1333,8 +1331,9 @@ class KnitNetwork(KnitNetworkBase):
                                                             node[1]["segment"]))
 
             # filtering according to forbidden nodes
-            target_nodes = [tn for tn in target_nodes \
-                            if tn[0] >= forbidden_node]
+            if forbidden_node != -1:
+                target_nodes = [tnode for tx, tnode in enumerate(target_nodes) \
+                                if tx >= target_nodes.index(forbidden_node)]
             if len(target_nodes) == 0:
                 continue
 
@@ -1347,9 +1346,8 @@ class KnitNetwork(KnitNetworkBase):
                             for tn in target_nodes]
 
             # sort nodes after distances
-            allDists, sorted_target_nodes = zip(
-                                    *sorted(zip(allDists,
-                                                target_nodes),
+            allDists, sorted_target_nodes = zip(*sorted(
+                                                zip(allDists, target_nodes),
                                                 key = itemgetter(0)))
 
             # the four nearest nodes are the possible connections
@@ -1371,7 +1369,7 @@ class KnitNetwork(KnitNetworkBase):
                                                 verbose=verbose)
                 # set forbidden node
                 if res:
-                    forbidden_node = fCand[0]
+                    forbidden_node = fCand
                 continue
 
             # get the segment contours current direction
@@ -1460,7 +1458,7 @@ class KnitNetwork(KnitNetworkBase):
                                                 verbose=verbose)
                 # set forbidden node
                 if res:
-                    forbidden_node = fCand[0]
+                    forbidden_node = fCand
                 continue
 
             # CONNECTION FOR MOST PERPENDICULAR --------------------------------
@@ -1478,7 +1476,7 @@ class KnitNetwork(KnitNetworkBase):
                                                 verbose=verbose)
                 # set forbidden node
                 if res:
-                    forbidden_node = fCand[0]
+                    forbidden_node = fCand
 
     def _create_second_pass_warp_connection(self, source_nodes, source_index, window, precise=False, verbose=False):
         """
@@ -1701,8 +1699,13 @@ class KnitNetwork(KnitNetworkBase):
                 # extract the ids for node retrieval
                 target_ids = tuple([seg for seg in target_chain])
                 # retrieve the target nodes from the segment dictionary by id
-                target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [n for seg in target_nodes for n in seg]
+                target_segment_nodes = [SegmentDict[id][1] for id in target_ids]
+                target_nodes = []
+                for j, tsn in enumerate(target_segment_nodes):
+                    if include_end_nodes and j > 0:
+                        target_nodes.append((target_ids[j][0],
+                                              self.node[target_ids[j][0]]))
+                    [target_nodes.append(n) for n in tsn]
 
                 # print info on verbose setting
                 v_print("<=====> detected. Connecting to " +
@@ -1773,8 +1776,13 @@ class KnitNetwork(KnitNetworkBase):
                 # extract the ids for node retrieval
                 target_ids = tuple([seg for seg in target_chain])
                 # retrieve the target nodes from the segment dictionary by id
-                target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [n for seg in target_nodes for n in seg]
+                target_segment_nodes = [SegmentDict[id][1] for id in target_ids]
+                target_nodes = []
+                for j, tsn in enumerate(target_segment_nodes):
+                    if include_end_nodes and j > 0:
+                        target_nodes.append((target_ids[j][0],
+                                              self.node[target_ids[j][0]]))
+                    [target_nodes.append(n) for n in tsn]
 
                 targetFirstNode = target_ids[0][0]
                 targetLastNode = target_ids[-1][1]
@@ -1853,8 +1861,13 @@ class KnitNetwork(KnitNetworkBase):
                 # extract the ids for node retrieval
                 target_ids = tuple([seg for seg in target_chain])
                 # retrieve the target nodes from the segment dictionary by id
-                target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [n for seg in target_nodes for n in seg]
+                target_segment_nodes = [SegmentDict[id][1] for id in target_ids]
+                target_nodes = []
+                for j, tsn in enumerate(target_segment_nodes):
+                    if include_end_nodes and j > 0:
+                        target_nodes.append((target_ids[j][0],
+                                              self.node[target_ids[j][0]]))
+                    [target_nodes.append(n) for n in tsn]
 
                 targetFirstNode = target_ids[0][0]
                 targetLastNode = target_ids[-1][1]
@@ -1932,8 +1945,13 @@ class KnitNetwork(KnitNetworkBase):
                 # extract the ids for node retrieval
                 target_ids = tuple([seg for seg in target_chain])
                 # retrieve the target nodes from the segment dictionary by id
-                target_nodes = [SegmentDict[id][1] for id in target_ids]
-                target_nodes = [n for seg in target_nodes for n in seg]
+                target_segment_nodes = [SegmentDict[id][1] for id in target_ids]
+                target_nodes = []
+                for j, tsn in enumerate(target_segment_nodes):
+                    if include_end_nodes and j > 0:
+                        target_nodes.append((target_ids[j][0],
+                                              self.node[target_ids[j][0]]))
+                    [target_nodes.append(n) for n in tsn]
 
                 # set target first and last node ('end' nodes)
                 targetFirstNode = target_ids[0][0]
@@ -1969,10 +1987,10 @@ class KnitNetwork(KnitNetworkBase):
         # SECOND PASS SKETCHING ------------------------------------------------
 
         # INVOKE SECOND PASS FOR SOURCE ---> TARGET ----------------------------
-
+        return
         for i, current_chain in enumerate(source_to_target):
-            v_print("---------------------------------------------------------")
-            v_print("S>T Current Chain: {}".format(current_chain))
+            print("---------------------------------------------------------")
+            print("S>T Current Chain: {}".format(current_chain))
             # build a list of nodes containing all nodes in the current chain
             # including all 'end' nodes
             current_chain_nodes = []
@@ -2002,19 +2020,22 @@ class KnitNetwork(KnitNetworkBase):
                 # find out if the current node is already principally connected
                 node_neighbours = self[node[0]]
                 node_connected = False
+                # if the node is the first or the last node, it is defined as
+                # connected per-se
                 if k == 0 or k == len(current_chain_nodes)-1:
                     node_connected = True
 
                 # find out if the current node is already connected to the
-                # target chain
-                # get node warp edges and their target nodes
+                # target chain, get node warp edges and their target nodes
                 node_warp_edges = self.NodeWarpEdges(node[0], data=False)
                 warp_edge_targets = [we[1] for we in node_warp_edges]
                 # loop over warp edge targets to get the start of the window
                 for wet in warp_edge_targets:
+                    # loop over target chain nodes
                     for n, tcn in enumerate(target_chain_nodes):
-                        # TODO: also set window if it's the first 'end'
-                        #       node and we've got a <=== situation
+                        # if a warp edge target is in the target chain,
+                        # the node is connected and star of window for next
+                        # node is defined
                         if wet == tcn[0]:
                             if n > start_of_window or start_of_window == -1:
                                 start_of_window = n
@@ -2023,10 +2044,17 @@ class KnitNetwork(KnitNetworkBase):
                 # if the node is not connected to the target chain, we
                 # need to find the end of the window
                 if not node_connected:
-                    v_print("Node: {}".format(node[0]))
-                    v_print("Start of window: {}".format(start_of_window))
+                    print("Node: {}".format(node[0]))
+                    print("Start of window: {}".format(start_of_window))
+
+                    # if len(target_chain_nodes) >= 2 and start_of_window == -1:
+                    #     if target_chain_nodes[0] == current_chain_nodes[0]:
+                    #         start_of_window = 1
+                    #     else:
+                    #         start_of_window = 0
 
                     end_of_window = None
+                    # loop over target chain nodes
                     for n, tcn in enumerate(target_chain_nodes):
                         if n >= start_of_window:
                             if tcn[0] == current_chain_nodes[-1][0]:
@@ -2036,14 +2064,22 @@ class KnitNetwork(KnitNetworkBase):
                             tcn_warp_edge_targets = [we[1] for we \
                                                      in tcn_warp_edges]
                             for twet in tcn_warp_edge_targets:
-                                # TODO: also set window if it's the last 'end'
-                                #       node and we've got a ===> situation
                                 if (twet in [cn[0] for cn \
                                              in current_chain_nodes]):
                                     end_of_window = n
                                     break
-                        if end_of_window:
+                        if end_of_window and end_of_window > start_of_window:
                             break
+
+                    if end_of_window:
+                        tcn_we = target_chain_nodes[end_of_window]
+                        ccn_end = current_chain_nodes[-1]
+                        ccn_len = len(current_chain_nodes)
+                        if tcn_we == ccn_end and k == ccn_len-2:
+                            end_of_window -= 1
+                    if end_of_window < start_of_window:
+                        start_of_window = -1
+                        end_of_window = None
 
                     if start_of_window != -1 and end_of_window != None:
                         if end_of_window == len(target_chain_nodes)-1:
@@ -2052,7 +2088,7 @@ class KnitNetwork(KnitNetworkBase):
                             window = target_chain_nodes[start_of_window: \
                                                         end_of_window+1]
 
-                        v_print("End of window: {}".format(end_of_window))
+                        print("End of window: {}".format(end_of_window))
 
                         self._create_second_pass_warp_connection(
                                                             current_chain_nodes,
@@ -2063,10 +2099,10 @@ class KnitNetwork(KnitNetworkBase):
 
 
         # INVOKE SECOND PASS FOR TARGET ---> SOURCE ----------------------------
-
+        return
         for i, current_chain in enumerate(target_to_source):
-            v_print("-----------------------------------------------------------")
-            v_print("T>S Current Chain: {}".format(current_chain))
+            print("---------------------------------------------------------")
+            print("T>S Current Chain: {}".format(current_chain))
             # build a list of nodes containing all nodes in the current chain
             # including all 'end' nodes
             current_chain_nodes = []
@@ -2103,7 +2139,10 @@ class KnitNetwork(KnitNetworkBase):
                 # target chain
                 node_warp_edges = self.NodeWarpEdges(node[0], data=False)
                 warp_edge_targets = [we[1] for we in node_warp_edges]
+                # loop over weft edge targets
                 for wet in warp_edge_targets:
+                    # if weft edge target  is in target chain nodes, node
+                    # is connected and the start of our window for the next node
                     for n, tcn in enumerate(target_chain_nodes):
                         # TODO: also set window if it's the first 'end'
                         #       node and we've got a <=== situation
@@ -2115,10 +2154,14 @@ class KnitNetwork(KnitNetworkBase):
                 # if the node is not connected to the target chain, we
                 # need to find the end of the window
                 if not node_connected:
-                    v_print("Node: {}".format(node[0]))
-                    v_print("Start of window: {}".format(start_of_window))
+                    print("Node: {}".format(node[0]))
+                    print("Start of window: {}".format(start_of_window))
+
+                    # if len(target_chain_nodes) >= 2 and start_of_window == -1:
+                    #     start_of_window = 1
 
                     end_of_window = None
+                    # loop over target chain nodes
                     for n, tcn in enumerate(target_chain_nodes):
                         if n >= start_of_window:
                             if tcn[0] == current_chain_nodes[-1][0]:
@@ -2127,9 +2170,10 @@ class KnitNetwork(KnitNetworkBase):
                                                                 data=False)
                             tcn_warp_edge_targets = [we[1] for we \
                                                      in tcn_warp_edges]
+                            # loop over warp edge targets of current target node
                             for twet in tcn_warp_edge_targets:
-                                # TODO: also set window if it's the last 'end'
-                                #       node and we've got a ===> situation
+                                # of warp edge target is in current chain,
+                                # it is the end of the window
                                 if (twet in [cn[0] for cn \
                                              in current_chain_nodes]):
                                     end_of_window = n
@@ -2144,7 +2188,7 @@ class KnitNetwork(KnitNetworkBase):
                             window = target_chain_nodes[start_of_window: \
                                                         end_of_window+1]
 
-                        v_print("End of window: {}".format(end_of_window))
+                        print("End of window: {}".format(end_of_window))
                         self._create_second_pass_warp_connection(
                                                             current_chain_nodes,
                                                             k,
