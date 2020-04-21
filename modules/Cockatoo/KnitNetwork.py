@@ -1643,7 +1643,7 @@ class KnitNetwork(KnitNetworkBase):
             target_key = None
 
             # print info on verbose setting
-            v_print("-------------------------------------------------------")
+            v_print("---------------------------------------------------------")
             v_print("Processing segment chain {} ...".format(source_chain))
 
             # CASE 1 - ENCLOSED SHORT ROW <====> ALL CASES ---------------------
@@ -1984,12 +1984,9 @@ class KnitNetwork(KnitNetworkBase):
                 else:
                     v_print("No real connection for /=====/. No cases match.")
 
-        # SECOND PASS SKETCHING ------------------------------------------------
-
         # INVOKE SECOND PASS FOR SOURCE ---> TARGET ----------------------------
-        return
         for i, current_chain in enumerate(source_to_target):
-            print("---------------------------------------------------------")
+            print("-----------------------------------------------------------")
             print("S>T Current Chain: {}".format(current_chain))
             # build a list of nodes containing all nodes in the current chain
             # including all 'end' nodes
@@ -2047,11 +2044,12 @@ class KnitNetwork(KnitNetworkBase):
                     print("Node: {}".format(node[0]))
                     print("Start of window: {}".format(start_of_window))
 
-                    # if len(target_chain_nodes) >= 2 and start_of_window == -1:
-                    #     if target_chain_nodes[0] == current_chain_nodes[0]:
-                    #         start_of_window = 1
-                    #     else:
-                    #         start_of_window = 0
+                    # re-check start of window for <.====/ case
+                    if len(target_chain_nodes) >= 2 and start_of_window == -1:
+                        if target_chain_nodes[0] == current_chain_nodes[0]:
+                            start_of_window = 1
+                        else:
+                            start_of_window = 0
 
                     end_of_window = None
                     # loop over target chain nodes
@@ -2059,10 +2057,13 @@ class KnitNetwork(KnitNetworkBase):
                         if n >= start_of_window:
                             if tcn[0] == current_chain_nodes[-1][0]:
                                 end_of_window = n
+                            # get all warp edges of the current target node
+                            # and their targets
                             tcn_warp_edges = self.NodeWarpEdges(tcn[0],
                                                                 data=False)
                             tcn_warp_edge_targets = [we[1] for we \
                                                      in tcn_warp_edges]
+                            # loop over warp edge targets
                             for twet in tcn_warp_edge_targets:
                                 if (twet in [cn[0] for cn \
                                              in current_chain_nodes]):
@@ -2071,6 +2072,7 @@ class KnitNetwork(KnitNetworkBase):
                         if end_of_window and end_of_window > start_of_window:
                             break
 
+                    # re-check end of window for /====.> case
                     if end_of_window:
                         tcn_we = target_chain_nodes[end_of_window]
                         ccn_end = current_chain_nodes[-1]
@@ -2081,6 +2083,7 @@ class KnitNetwork(KnitNetworkBase):
                         start_of_window = -1
                         end_of_window = None
 
+                    # if we have a valid window, set the target nodes
                     if start_of_window != -1 and end_of_window != None:
                         if end_of_window == len(target_chain_nodes)-1:
                             window = target_chain_nodes[start_of_window:]
@@ -2090,18 +2093,21 @@ class KnitNetwork(KnitNetworkBase):
 
                         print("End of window: {}".format(end_of_window))
 
+                        # execute connection to target
                         self._create_second_pass_warp_connection(
                                                             current_chain_nodes,
                                                             k,
                                                             window,
                                                             precise=precise,
                                                             verbose=verbose)
-
+                    else:
+                        # print info on verbose setting
+                        print("No valid window for current chain!")
 
         # INVOKE SECOND PASS FOR TARGET ---> SOURCE ----------------------------
-        return
+
         for i, current_chain in enumerate(target_to_source):
-            print("---------------------------------------------------------")
+            print("-----------------------------------------------------------")
             print("T>S Current Chain: {}".format(current_chain))
             # build a list of nodes containing all nodes in the current chain
             # including all 'end' nodes
@@ -2144,8 +2150,6 @@ class KnitNetwork(KnitNetworkBase):
                     # if weft edge target  is in target chain nodes, node
                     # is connected and the start of our window for the next node
                     for n, tcn in enumerate(target_chain_nodes):
-                        # TODO: also set window if it's the first 'end'
-                        #       node and we've got a <=== situation
                         if wet == tcn[0]:
                             if n > start_of_window or start_of_window == -1:
                                 start_of_window = n
@@ -2154,11 +2158,16 @@ class KnitNetwork(KnitNetworkBase):
                 # if the node is not connected to the target chain, we
                 # need to find the end of the window
                 if not node_connected:
+                    # print info on verbose output
                     print("Node: {}".format(node[0]))
                     print("Start of window: {}".format(start_of_window))
 
-                    # if len(target_chain_nodes) >= 2 and start_of_window == -1:
-                    #     start_of_window = 1
+                    # re-check start of window for <.====/ case
+                    if len(target_chain_nodes) >= 2 and start_of_window == -1:
+                        if target_chain_nodes[0] == current_chain_nodes[0]:
+                            start_of_window = 1
+                        else:
+                            start_of_window = 0
 
                     end_of_window = None
                     # loop over target chain nodes
@@ -2166,6 +2175,8 @@ class KnitNetwork(KnitNetworkBase):
                         if n >= start_of_window:
                             if tcn[0] == current_chain_nodes[-1][0]:
                                 end_of_window = n
+                            # get all warp edges of the current target node and
+                            # their targets
                             tcn_warp_edges = self.NodeWarpEdges(tcn[0],
                                                                 data=False)
                             tcn_warp_edge_targets = [we[1] for we \
@@ -2178,9 +2189,21 @@ class KnitNetwork(KnitNetworkBase):
                                              in current_chain_nodes]):
                                     end_of_window = n
                                     break
-                        if end_of_window:
+                        if end_of_window and end_of_window > start_of_window:
                             break
 
+                    # re-check end of window for /====.> case
+                    if end_of_window:
+                        tcn_we = target_chain_nodes[end_of_window]
+                        ccn_end = current_chain_nodes[-1]
+                        ccn_len = len(current_chain_nodes)
+                        if tcn_we == ccn_end and k == ccn_len-2:
+                            end_of_window -= 1
+                    if end_of_window < start_of_window:
+                        start_of_window = -1
+                        end_of_window = None
+
+                    # if there is a valid window, set the target chain nodes
                     if start_of_window != -1 and end_of_window != None:
                         if end_of_window == len(target_chain_nodes)-1:
                             window = target_chain_nodes[start_of_window:]
@@ -2188,13 +2211,18 @@ class KnitNetwork(KnitNetworkBase):
                             window = target_chain_nodes[start_of_window: \
                                                         end_of_window+1]
 
+                        # print infor on verbose output
                         print("End of window: {}".format(end_of_window))
+
+                        # execute connection
                         self._create_second_pass_warp_connection(
                                                             current_chain_nodes,
                                                             k,
                                                             window,
                                                             precise=precise,
                                                             verbose=verbose)
+                    else:
+                        print("No valid window for current chain!")
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':

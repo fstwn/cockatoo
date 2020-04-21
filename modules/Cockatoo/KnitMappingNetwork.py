@@ -149,7 +149,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             warpStart = warp_edge[0]
             warpStartLeafFlag = self.node[warp_edge[0]]["leaf"]
             connected_start_segments = self.EndNodeSegmentsByStart(warpStart,
-                                                                  data=True)
+                                                                   data=True)
             # traverse segments from start node of 'warp' edge
             if len(connected_start_segments) > 0:
                 for j, cs in enumerate(connected_start_segments):
