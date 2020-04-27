@@ -4,7 +4,13 @@ from __future__ import division
 from __future__ import print_function
 
 # RHINO IMPORTS ----------------------------------------------------------------
-from Rhino.Geometry import Mesh as RhinoMesh
+from Cockatoo.Environment import IsRhinoInside
+if IsRhinoInside():
+    import rhinoinside
+    rhinoinside.load()
+    from Rhino.Geometry import Mesh as RhinoMesh
+else:
+    from Rhino.Geometry import Mesh as RhinoMesh
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from .EmbeddedConstraint import EmbeddedConstraint
