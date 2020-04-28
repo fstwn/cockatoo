@@ -325,6 +325,29 @@ class KnitNetworkBase(nx.Graph):
         # add the node to the network instance
         self.add_node(node_index, attr_dict=node_attributes)
 
+    # NODE GEOMETRY ------------------------------------------------------------
+
+    def NodeGeometry(self, node_index):
+        """
+        Returns the 'geo' attribute of the specified node.
+        """
+        try:
+            return self.node[node_index]["geo"]
+        except KeyError:
+            return None
+
+    def NodeCoordinates(self, node_index):
+        """
+        Returns the XYZ coordinates of the node as a tuple.
+        """
+        try:
+            NodeX = self.node[node_index]["x"]
+            NodeY = self.node[node_index]["y"]
+            NodeZ = self.node[node_index]["z"]
+            return (NodeX, NodeY, NodeZ)
+        except KeyError:
+            return None
+
     # PROPERTIES ---------------------------------------------------------------
 
     def _get_total_positions(self):

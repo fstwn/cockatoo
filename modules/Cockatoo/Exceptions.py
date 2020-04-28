@@ -27,6 +27,9 @@ class NetworkXNotPresentError(CockatooImportException):
 class NetworkXVersionError(CockatooImportException):
     """Exception raised when NetworkX version is not 1.5."""
 
+class AutoknitNotPresentError(CockatooImportException):
+    """Exception raised when Autoknit does not seem to be present."""
+
 # KNITNETWORK EXCEPTIONS -------------------------------------------------------
 
 class KnitNetworkError(CockatooException):

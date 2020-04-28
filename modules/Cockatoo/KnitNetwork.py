@@ -2224,6 +2224,26 @@ class KnitNetwork(KnitNetworkBase):
                     else:
                         print("No valid window for current chain!")
 
+    # FIND FACES OF NETWORK ----------------------------------------------------
+
+    def FindFaces(self):
+        """
+        Finds the faces of a network by using a wall-follower mechanism.
+        """
+
+        # create a directed network with duplicate edges in opposing directions
+        DirectedNetwork = nx.DiGraph()
+
+        DirectedNetwork.name = self.name
+        DirectedNetwork.add_nodes_from(self)
+        DirectedNetwork.add_edges_from( ((u, v, data))
+                                         for u, nbrs in self.adjacency_iter()
+                                         for v, data in nbrs.items() )
+        DirectedNetwork.graph = self.graph
+        DirectedNetwork.node = self.node
+
+        return DirectedNetwork
+
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':
     pass
