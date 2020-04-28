@@ -1,20 +1,28 @@
-"""Constructs contours for deriving a knitting pattern from a mesh.
-TODO: Update docstring
+"""Constructs contours for deriving a knitting pattern from a mesh. Use the
+GeodesicStrength and TweenStrength inputs to control the shape and distribution
+of the contour curves on the mesh.
+
+Based on an approach by Anders Holden Deleuran:
+https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
     Inputs:
-        Run: {item, boolean}
-        Mesh:{item, mesh}
-        KnitConstraints: {item, float}
-        ContourDensity: {item, integer}
-        ContourMode: {item, integer}
+        Run: Set to True to activate the component. Connect a boolean toggle ideally. {item, boolean}
+        Mesh: The mesh to create the contours on. {item, mesh}
+        KnitConstraints: The Cockatoo KnitConstraints defining the direction and limits of the contours. {item, float}
+        ContourDensity: The density (i.e. amount) of the contour curves. {item, int/float}
+        ContourMode: How to interpret the ContourDensity input. 0 = Relative - ContourDensity sets the total number of contour curves. 1 = Absolute - ContourDensity sets the target distance between the contour curves. {item, integer}
+        ContourDivisionDensity: The resolution (i.e. division count) of the contour curves. {item, int/float}
+        ContourDivisionMode: How to interpret the ContourDivisionDensity input. 0 = Relative - ContourDivisionDensity sets the total number of divisions for the contour curves. 1 = Absolute - ContourDivisionDensity sets the target segment length of the contour curves. {item, int/float}
+        GeodesicStrength: Strength of the internal Kangaroo2 goal minimizing the length of the contour curves. Defaults to 1000. {item, int}
+        TweenStrength: Strength of the internal Kangaroo2 goal controlling the distribution of the contours. Defaults to 2000. {item, int}
+        MaxIterations: The maximum number of iterations for the internal Kangaroo2 solver. {item, int}
+        Tolerance: The tolerance of the internal Kangaroo2 solver. Defaults to 1e-6. {item, int}
+        Threshold: The threshold for the internal Kangaroo2 solver. Defaults to 1e-14. {item, int}
     Output:
-        StartCourse: {item, polyline}
-        EndCourse: {item, polyline}
-        LeftBoundary: {item, polyline}
-        RightBoundary: {item, polyline}
+        KnitContours: The KnitContour curves on the mesh for initializing a KnitNetwork and deriving a knitting pattern from the mesh. {item, polyline}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200418
+        Version: 200428
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -341,13 +349,18 @@ class KnitContoursOnMesh(component):
         
         # INITIALIZATION -------------------------------------------------------
         
-        # sanitize samplingmode input
-        if ContourMode < 0:
+        # sanitize ContourMode input
+        if ContourMode == None:
+            ContourMode = 0
+        elif ContourMode < 0:
             ContourMode = 0
         elif ContourMode > 1:
             ContourMode = 1
         
-        if ContourDivisionMode < 0:
+        # sanitize ContourDivisionMode input
+        if ContourDivisionMode == None:
+            ContourDivisionMode = 0
+        elif ContourDivisionMode < 0:
             ContourDivisionMode = 0
         elif ContourDivisionMode > 1:
             ContourDivisionMode = 1
@@ -365,12 +378,12 @@ class KnitContoursOnMesh(component):
             Threshold = 1e-14
         
         if GeodesicStrength == None:
-            GeodesicStrength = 200
+            GeodesicStrength = 1000
         if TweenStrength == None:
-            TweenStrength = 1000
+            TweenStrength = 2000
         
         EqualizeStrength = 0
-        OnMeshStrength = 20000
+        OnMeshStrength = 100000
         
         NullTree = Grasshopper.DataTree[object]()
         
