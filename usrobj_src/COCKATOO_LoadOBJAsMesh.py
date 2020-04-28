@@ -7,7 +7,7 @@ Load a model from an *.obj file and create a Mesh out of it.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200414
+        Version: 200427
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -22,6 +22,7 @@ import rhinoscriptsyntax as rs
 
 # LOCAL MODULE IMPORTS
 from mbe.io import loadOBJ
+from mbe.component import addRuntimeWarning
 
 # GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "LoadOBJAsMesh"
@@ -35,7 +36,13 @@ class LoadOBJ(component):
         # define output so it's never empty
         Model = None
         
-        Model = loadOBJ(FP)
+        if FP:
+            try:
+                Model = loadOBJ(FP)
+            except:
+                pass
+        else:
+            addRuntimeWarning(self, "Missing file path to load model!") 
         
         # return outputs if you have them; here I try it for you:
         return Model
