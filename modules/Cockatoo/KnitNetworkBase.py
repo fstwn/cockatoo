@@ -1,3 +1,11 @@
+"""
+Base class for graph representation of knitting data.
+
+Author: Max Eschenbach
+License: Apache License 2.0
+Version: 200503
+"""
+
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
@@ -24,6 +32,10 @@ else:
     from Rhino.Geometry import Line as RhinoLine
     from Rhino.Geometry import LineCurve as RhinoLineCurve
     from Rhino.Geometry import Polyline as RhinoPolyline
+
+# AUTHORSHIP -------------------------------------------------------------------
+
+__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
@@ -341,9 +353,10 @@ class KnitNetworkBase(nx.Graph):
         Returns the XYZ coordinates of the node as a tuple.
         """
         try:
-            NodeX = self.node[node_index]["x"]
-            NodeY = self.node[node_index]["y"]
-            NodeZ = self.node[node_index]["z"]
+            node_data = self.node[node_index]
+            NodeX = node_data["x"]
+            NodeY = node_data["y"]
+            NodeZ = node_data["z"]
             return (NodeX, NodeY, NodeZ)
         except KeyError:
             return None
