@@ -1,6 +1,14 @@
 """
 Custom Exceptions for Cockatoo.
+
+Author: Max Eschenbach
+License: Apache License 2.0
+Version: 200503
 """
+
+# AUTHORSHIP -------------------------------------------------------------------
+
+__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
 # COCKATOO BASE EXCEPTION ------------------------------------------------------
 
