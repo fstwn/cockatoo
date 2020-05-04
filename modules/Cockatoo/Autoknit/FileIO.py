@@ -20,7 +20,6 @@ from Rhino.Geometry import Point3f as RhinoPoint3f
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from . import Structs
 from .Constraint import Constraint
-from .Utility import removeTrailingNewlines
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
@@ -197,7 +196,7 @@ def SaveObj(filepath, mesh):
         raise ValueError("Supplied filepath is not a valid filepath!")
 
     # remove trailing newlines from the filepath and check for file extension
-    filepath = path.normpath(removeTrailingNewlines(filepath))
+    filepath = path.normpath(filepath.rstrip("\n\r"))
     if not filepath.lower().endswith(".obj"):
         filepath = filepath + ".obj"
 

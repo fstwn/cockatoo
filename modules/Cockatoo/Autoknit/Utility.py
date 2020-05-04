@@ -8,8 +8,7 @@ import string
 __all__ = [
     "make_kd_tree",
     "get_knn",
-    "get_nearest",
-    "removeTrailingNewlines"
+    "get_nearest"
 ]
 
 # UTILITY CLASSES --------------------------------------------------------------
@@ -123,20 +122,6 @@ def get_nearest(kd_node, point, dim, dist_func, return_distances=False, i=0, bes
             get_nearest(
                 kd_node[dx >= 0], point, dim, dist_func, return_distances, i, best)
     return best if return_distances else best[1]
-
-# FILE PATHS -------------------------------------------------------------------
-
-def removeTrailingNewlines(s):
-    """
-    Removes trailing newlines from a string (most of the time a filepath).
-    """
-    if not s:
-        return None
-    elif s.endswith("\n"):
-        s = removeTrailingNewlines(s[:-1])
-    elif s.endswith("\r"):
-        s = removeTrailingNewlines(s[:-1])
-    return s
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':

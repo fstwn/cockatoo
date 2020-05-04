@@ -15,8 +15,6 @@ from os import path
 import Rhino
 import scriptcontext
 
-from .helpers import removeTrailingNewlines
-
 def loadOBJ(filepath):
     """Reads from an *.obj file and returns a Rhino mesh"""
     # create a new, empty Rhino mesh
@@ -69,7 +67,7 @@ def saveOBJ(mesh, filepath):
         raise ValueError("Supplied filepath is not a valid filepath!")
 
     # remove trailing newlines from the filepath and check for file extension
-    filepath = path.normpath(removeTrailingNewlines(filepath))
+    filepath = path.normpath(filepath.rstrip("\n\r"))
     if not filepath.lower().endswith(".obj"):
         filepath = filepath + ".obj"
 
