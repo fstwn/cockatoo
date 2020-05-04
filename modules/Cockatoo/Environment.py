@@ -1,3 +1,11 @@
+"""
+Environment set-up functions and checks for Cockatoo.
+
+Author: Max Eschenbach
+License: Apache License 2.0
+Version: 200503
+"""
+
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import print_function
@@ -38,6 +46,10 @@ def NetworkXVersion():
     Return the version of the used networkx module.
     """
     return NXVERSION
+
+# AUTHORSHIP -------------------------------------------------------------------
+
+__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
