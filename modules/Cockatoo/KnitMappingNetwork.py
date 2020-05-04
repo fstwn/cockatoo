@@ -1,6 +1,16 @@
+"""
+Mapping network for aiding a network of knitting data in generation of final
+'warp' edge connections.
+
+Author: Max Eschenbach
+License: Apache License 2.0
+Version: 200503
+"""
+
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
+from __future__ import print_function
 from collections import deque
 import math
 from operator import itemgetter
@@ -10,6 +20,9 @@ import networkx as nx
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from .KnitNetworkBase import KnitNetworkBase
+
+# AUTHORSHIP -------------------------------------------------------------------
+__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
@@ -24,6 +37,8 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
     This is intended only to be instanced by a fully segmented instance of
     KnitNetwork.
     """
+
+    # TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------
 
     def ToString(self):
         """
