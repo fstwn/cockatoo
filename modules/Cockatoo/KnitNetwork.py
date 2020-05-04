@@ -1,3 +1,11 @@
+"""
+Representation of a 3D surface or mesh as knitting data using a network (graph).
+
+Author: Max Eschenbach
+License: Apache License 2.0
+Version: 200503
+"""
+
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
@@ -6,14 +14,16 @@ from collections import deque, OrderedDict
 import math
 from operator import itemgetter
 
-# THIRD PARTY MODULE IMPORTS ---------------------------------------------------
-import networkx as nx
-
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from .Environment import IsRhinoInside
 from .Exceptions import *
 from .KnitNetworkBase import KnitNetworkBase
 from .KnitMappingNetwork import KnitMappingNetwork
+from .KnitDiNetwork import KnitDiNetwork
+from .Utilities import is_ccw_xy
+
+# THIRD PARTY MODULE IMPORTS ---------------------------------------------------
+import networkx as nx
 
 # RHINO IMPORTS ----------------------------------------------------------------
 if IsRhinoInside():
@@ -28,6 +38,10 @@ else:
     from Rhino.Geometry import Line as RhinoLine
     from Rhino.Geometry import Interval as RhinoInterval
     from Rhino.Geometry import Vector3d as RhinoVector3d
+
+# AUTHORSHIP -------------------------------------------------------------------
+
+__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
@@ -71,7 +85,7 @@ class KnitNetwork(KnitNetworkBase):
         else:
             self.MappingNetwork = None
 
-    # REPRESENTATION OF NETWORK ------------------------------------------------
+    # TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------
 
     def ToString(self):
         """
@@ -152,7 +166,7 @@ class KnitNetwork(KnitNetworkBase):
 
         max_connections : int
             The new 'weft' connection will only be made if the candidate nodes
-            number of connected neighbours is below this. Defaults to 4.
+            number of connected neighbors is below this. Defaults to 4.
 
         verbose : bool
             If True, this routine and all its subroutines will print messages
@@ -167,14 +181,14 @@ class KnitNetwork(KnitNetworkBase):
 
         v_print = print if verbose else lambda *a, **k: None
 
-        # get connected neighbours
-        connecting_neighbours = self[candidate[0]]
+        # get connected neighbors
+        connecting_neighbors = self[candidate[0]]
         # only do something if the maximum is not reached
-        if len(connecting_neighbours) < max_connections:
+        if len(connecting_neighbors) < max_connections:
             # determine if the node is already connected to a node from
             # the input source nodes
             isConnected = False
-            for cn in connecting_neighbours:
+            for cn in connecting_neighbors:
                 if cn in [v[0] for v in source_nodes]:
                     isConnected = True
                     # print info on verbose setting
@@ -321,14 +335,14 @@ class KnitNetwork(KnitNetworkBase):
                                         possible_connections[:]),
                                         key = itemgetter(0, 1)))
 
-                    # get node neighbours
-                    nNeighbours = self[node[0]]
+                    # get node neighbors
+                    nNeighbors = self[node[0]]
 
                     # compute angle difference
                     aDelta = angles[0] - angles[1]
 
                     # CONNECTION FOR LEAST ANGLE CHANGE ------------------------
-                    if len(nNeighbours) > 2 and aDelta < to_radians(6.0):
+                    if len(nNeighbors) > 2 and aDelta < to_radians(6.0):
                         # print info on verbose setting
                         v_print("Using procedure for least angle " +
                                 "change connection...")
@@ -1250,7 +1264,7 @@ class KnitNetwork(KnitNetworkBase):
 
         max_connections : int
             The new 'weft' connection will only be made if the candidate nodes
-            number of connected neighbours is below this. Defaults to 4.
+            number of connected neighbors is below this. Defaults to 4.
 
         verbose : bool
             If True, this routine and all its subroutines will print messages
@@ -1265,10 +1279,10 @@ class KnitNetwork(KnitNetworkBase):
 
         v_print = print if verbose else lambda *a, **k: None
 
-        connecting_neighbours = self[candidate[0]]
-        if len(connecting_neighbours) < max_connections:
+        connecting_neighbors = self[candidate[0]]
+        if len(connecting_neighbors) < max_connections:
             isConnected = False
-            for cn in connecting_neighbours:
+            for cn in connecting_neighbors:
                 if cn in [v[0] for v in source_nodes]:
                     isConnected = True
                     # print info on verbose setting
@@ -1408,11 +1422,11 @@ class KnitNetwork(KnitNetworkBase):
             # compute angle difference
             aDelta = angles[0] - angles[1]
 
-            # get node neighbours
-            nNeighbours = self[node[0]]
+            # get node neighbors
+            nNeighbors = self[node[0]]
 
             # CONNECTION FOR LEAST ANGLE CHANGE --------------------------------
-            if len(nNeighbours) > 2 and aDelta < to_radians(6.0):
+            if len(nNeighbors) > 2 and aDelta < to_radians(6.0):
                 # print info on verbose setting
                 v_print("Using procedure for least angle " +
                         "change connection...")
@@ -2015,7 +2029,7 @@ class KnitNetwork(KnitNetworkBase):
             # loop through all nodes on the current chain
             for k, node in enumerate(current_chain_nodes):
                 # find out if the current node is already principally connected
-                node_neighbours = self[node[0]]
+                node_neighbors = self[node[0]]
                 node_connected = False
                 # if the node is the first or the last node, it is defined as
                 # connected per-se
@@ -2136,7 +2150,7 @@ class KnitNetwork(KnitNetworkBase):
             # loop through all nodes on the current chain
             for k, node in enumerate(current_chain_nodes):
                 # find out if the current node is already principally connected
-                node_neighbours = self[node[0]]
+                node_neighbors = self[node[0]]
                 node_connected = False
                 if k == 0 or k == len(current_chain_nodes)-1:
                     node_connected = True
@@ -2226,23 +2240,32 @@ class KnitNetwork(KnitNetworkBase):
 
     # FIND FACES OF NETWORK ----------------------------------------------------
 
-    def FindFaces(self):
+    def ToKnitDiNetwork(self):
         """
-        Finds the faces of a network by using a wall-follower mechanism.
+        Constructs a directed KnitDiNetwork based on this network.
         """
 
         # create a directed network with duplicate edges in opposing directions
-        DirectedNetwork = nx.DiGraph()
+        dirnet = KnitDiNetwork()
 
-        DirectedNetwork.name = self.name
-        DirectedNetwork.add_nodes_from(self)
-        DirectedNetwork.add_edges_from( ((u, v, data))
-                                         for u, nbrs in self.adjacency_iter()
-                                         for v, data in nbrs.items() )
-        DirectedNetwork.graph = self.graph
-        DirectedNetwork.node = self.node
+        dirnet.name = self.name
+        dirnet.add_nodes_from(self)
+        dirnet.add_edges_from( (u, v, data)
+                                for u, nbrs in self.adjacency_iter()
+                                for v, data in nbrs.items() )
+        dirnet.graph = self.graph
+        dirnet.node = self.node
+        dirnet.MappingNetwork = self.MappingNetwork
 
-        return DirectedNetwork
+        return dirnet
+
+    def FindCycles(self):
+        """
+        Finds the cycles (faces) of this network by utilizing a wall-follower
+        mechanism.
+        """
+
+        return self.ToKnitDiNetwork().FindCycles()
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':
