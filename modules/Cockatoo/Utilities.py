@@ -17,7 +17,7 @@ from math import pi
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from Cockatoo.Environment import IsRhinoInside
-from Cockatoo.Exceptions import SystemNotPresentError
+from Cockatoo.Exceptions import *
 
 # RHINO IMPORTS ----------------------------------------------------------------
 if IsRhinoInside():
