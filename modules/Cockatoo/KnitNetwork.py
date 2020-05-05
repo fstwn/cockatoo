@@ -34,11 +34,13 @@ if IsRhinoInside():
     from Rhino.Geometry import Curve as RhinoCurve
     from Rhino.Geometry import Line as RhinoLine
     from Rhino.Geometry import Interval as RhinoInterval
+    from Rhino.Geometry import Point3d as RhinoPoint3d
     from Rhino.Geometry import Vector3d as RhinoVector3d
 else:
     from Rhino.Geometry import Curve as RhinoCurve
     from Rhino.Geometry import Line as RhinoLine
     from Rhino.Geometry import Interval as RhinoInterval
+    from Rhino.Geometry import Point3d as RhinoPoint3d
     from Rhino.Geometry import Vector3d as RhinoVector3d
 
 # AUTHORSHIP -------------------------------------------------------------------
@@ -2331,6 +2333,83 @@ class KnitNetwork(KnitNetworkBase):
         """
 
         return self.ToKnitDiNetwork().CreateMesh(mode=mode, ngons=ngons)
+
+    # DUALITY ------------------------------------------------------------------
+
+    def CreateDual(self, mode=-1):
+        """
+        Creates the dual of this KnitNetwork while translating current edge
+        attributes to the edges of the dual network.
+
+        Parameters
+        ----------
+        mode : int
+            Determines how the neighbors of each node are sorted when finding
+            cycles for the network.
+            -1 equals to using the world XY plane (default)
+             0 equals to using a plane normal to the origin nodes closest
+               point on the geometrybase
+             1 equals to using a plane normal to the average of the origin
+               and neighbor nodes' closest points on the geometrybase
+             2 equals to using an average plane between a plane fit to the
+               origin and its neighbor nodes and a plane normal to the origin
+               nodes closest point on the geometrybase
+            Defaults to -1
+
+        Returns
+        -------
+        Dual : KnitNetwork
+            The dual network of this KnitNetwork.
+
+        Warning
+        -------
+        Modes other than -1 (default) are only possible if this network has an
+        underlying geometrybase in form of a Mesh or NurbsSurface. The
+        geometrybase should be assigned when initializing the network by
+        assigning the geometry to the "geometrybase" attribute of the network.
+        """
+
+        # first find the cycles of this network
+        cycles = self.FindCycles(mode=mode)
+
+        # we need a mapping between network edge -> containing cycles ... ??
+
+        # get node data for all nodes once
+        node_data = {k: self.node[k] for k in self.nodes_iter()}
+
+        # create new KnitNetwork for dual network
+        DualNetwork = KnitNetwork(geometrybase=self.graph["geometrybase"])
+
+        # for each cycle, find the centroid node
+        for ckey in cycles.keys():
+            cycle = cycles[ckey]
+            c_len = len(cycle)
+
+            # skip invalid cycles
+            if c_len > 4 or c_len < 3:
+                continue
+
+            # get coords of cycle nodes
+            cycle_coords = [ [node_data[k]["x"],
+                              node_data[k]["y"],
+                              node_data[k]["z"]] for k in cycle ]
+
+            # compute centroid
+            c_x, c_y, c_z = zip(*cycle_coords)
+            centroid = [sum(c_x) / c_len, sum(c_y) / c_len, sum(c_z) / c_len]
+            centroid_pt = RhinoPoint3d(*centroid)
+
+            # compile node attributes
+            is_leaf = True in [node_data[k]["leaf"] for k in cycle]
+            is_end = True in [node_data[k]["end"] for k in cycle]
+            attr_dict = { "x": centroid_pt.X,
+                          "y": centroid_pt.Y,
+                          "z": centroid_pt.Z,
+                          "geo": centroid_pt,
+                          "leaf": is_leaf,
+                          "end": is_end }
+
+        return DualNetwork
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':
