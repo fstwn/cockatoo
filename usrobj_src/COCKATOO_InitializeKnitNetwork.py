@@ -1,13 +1,18 @@
-"""Initialize KnitNetwork from a set of contours.
+"""
+Initialize a KnitNetwork from a set of KnitContours (i.e. isocurves / isolines)
+and an optional GeometryBase.
+The GeometryBase is a mesh or surface which should be described by the
+network. While it is optional, it is **HIGHLY** recommended to provide it!
     Inputs:
         KnitContours: The contours of the knitting pattern. {item, curve}
         CourseHeight: The course height of the knitting machine. {item, float}
+        GeometryBase: The geometry his network is based on. {item, mesh/surface)
     Output:
         KnitNetwork: The initialized KnitNetwork. {item, KnitNetwork}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200414
+        Version: 200505
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -31,20 +36,27 @@ ghenv.Component.SubCategory = "6 KnitNetwork"
 
 class InitializeKnitNetwork(component):
     
-    def RunScript(self, KnitContours, CourseHeight):
+    def RunScript(self, KnitContours, CourseHeight, GeometryBase):
         
         if KnitContours and CourseHeight:
-            # DECLARE OUTPUTS --------------------------------------------------
             
             # create KnitNetwork (inherits from nx.Graph)
             KN = Cockatoo.KnitNetwork()
             
+            # SET THE GEOMETRYBASE ---------------------------------------------
+            if GeometryBase:
+                if isinstance(GeometryBase, Rhino.Geometry.Mesh):
+                    KN.graph["geometrybase"] = GeometryBase
+                elif isinstance(GeometryBase, Rhino.Geometry.Brep):
+                    if GeometryBase.IsSurface:
+                        KN.graph["geometrybase"] = Rhino.Geometry.NurbsSurface(
+                                                       GeometryBase.Surfaces[0])
+            else:
+                KN.graph["geometrybase"] = None
+            
             # LOOP THROUGH CONTOURS AND FILL NETWORK ---------------------------
             nodenum = 0
             for i, plc in enumerate(KnitContours):
-                # get path and polylinecurve
-                ghpath = Grasshopper.Kernel.Data.GH_Path(i)
-                
                 # compute divisioncount and divide contour
                 dc = round(plc.GetLength() / CourseHeight)
                 tplc = plc.DivideByCount(dc, True)
