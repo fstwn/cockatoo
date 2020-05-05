@@ -19,7 +19,7 @@ from operator import itemgetter
 import networkx as nx
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from .KnitNetworkBase import KnitNetworkBase
+from Cockatoo.KnitNetworkBase import KnitNetworkBase
 
 # AUTHORSHIP -------------------------------------------------------------------
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
