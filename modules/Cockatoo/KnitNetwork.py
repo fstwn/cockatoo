@@ -2233,7 +2233,14 @@ class KnitNetwork(KnitNetworkBase):
 
     def ToKnitDiNetwork(self):
         """
-        Constructs a directed KnitDiNetwork based on this network.
+        Constructs and returns a directed KnitDiNetwork based on this network
+        by duplicating all edges so that [u -> v] and [v -> u] for every
+        edge [u - v] in this undirected network.
+
+        Returns
+        -------
+        KnitDiNetwork : KnitDiNetwork
+            The directed representation of this network.
         """
 
         # create a directed network with duplicate edges in opposing directions
@@ -2254,9 +2261,76 @@ class KnitNetwork(KnitNetworkBase):
         """
         Finds the cycles (faces) of this network by utilizing a wall-follower
         mechanism.
+
+        Parameters
+        ----------
+        mode : int
+            Determines how the neighbors of each node are sorted when finding
+            cycles for the network.
+            -1 equals to using the world XY plane (default)
+             0 equals to using a plane normal to the origin nodes closest
+               point on the geometrybase
+             1 equals to using a plane normal to the average of the origin
+               and neighbor nodes' closest points on the geometrybase
+             2 equals to using an average plane between a plane fit to the
+               origin and its neighbor nodes and a plane normal to the origin
+               nodes closest point on the geometrybase
+            Defaults to -1
+
+        Warning
+        -------
+        Modes other than -1 (default) are only possible if this network has an
+        underlying geometrybase in form of a Mesh or NurbsSurface. The
+        geometrybase should be assigned when initializing the network by
+        assigning the geometry to the "geometrybase" attribute of the network.
+
+        Notes
+        -----
+        Based on an implementation inside the COMPAS framework.
+        For more info see [1]_.
+
+        References
+        ----------
+        .. [1] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
+               See: https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L20
         """
 
         return self.ToKnitDiNetwork().FindCycles(mode=mode)
+
+    def CreateMesh(self, mode=-1, ngons=False):
+        """
+        Constructs a mesh from this network by finding cycles and using them as
+        mesh faces.
+
+        Parameters
+        ----------
+        mode : int
+            Determines how the neighbors of each node are sorted when finding
+            cycles for the network.
+            -1 equals to using the world XY plane (default)
+             0 equals to using a plane normal to the origin nodes closest
+               point on the geometrybase
+             1 equals to using a plane normal to the average of the origin
+               and neighbor nodes' closest points on the geometrybase
+             2 equals to using an average plane between a plane fit to the
+               origin and its neighbor nodes and a plane normal to the origin
+               nodes closest point on the geometrybase
+            Defaults to -1
+
+        ngons : bool
+            If True, n-gon faces (more than 4 edges) are allowed, otherwise
+            their cycles are treated as invalid and will be ignored.
+            Defaults to False.
+
+        Warning
+        -------
+        Modes other than -1 (default) are only possible if this network has an
+        underlying geometrybase in form of a Mesh or NurbsSurface. The
+        geometrybase should be assigned when initializing the network by
+        assigning the geometry to the "geometrybase" attribute of the network.
+        """
+
+        return self.ToKnitDiNetwork().CreateMesh(mode=mode, ngons=ngons)
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':
