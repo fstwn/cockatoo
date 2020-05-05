@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from __future__ import division
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from .StoredConstraint import StoredConstraint
+from Cockatoo.Autoknit.StoredConstraint import StoredConstraint
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
