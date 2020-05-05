@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from __future__ import division
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from . import Structs
+from Cockatoo.Autoknit import Structs
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
