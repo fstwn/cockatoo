@@ -13,13 +13,20 @@ from collections import deque
 import itertools
 from os import path
 
-# RHINO IMPORTS ----------------------------------------------------------------
-from Rhino.Geometry import Mesh as RhinoMesh
-from Rhino.Geometry import Point3f as RhinoPoint3f
-
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from . import Structs
-from .Constraint import Constraint
+from Cockatoo.Environment import IsRhinoInside
+from Cockatoo.Autoknit import Structs
+from Cockatoo.Autoknit.Constraint import Constraint
+
+# RHINO IMPORTS ----------------------------------------------------------------
+if IsRhinoInside():
+    import rhinoinside
+    rhinoinside.load()
+    from Rhino.Geometry import Mesh as RhinoMesh
+    from Rhino.Geometry import Point3f as RhinoPoint3f
+else:
+    from Rhino.Geometry import Mesh as RhinoMesh
+    from Rhino.Geometry import Point3f as RhinoPoint3f
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
