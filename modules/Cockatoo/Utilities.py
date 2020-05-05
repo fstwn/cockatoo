@@ -13,28 +13,68 @@ from __future__ import print_function
 from itertools import tee
 from math import acos
 from math import degrees
+from math import pi
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from .Environment import IsRhinoInside
+from Cockatoo.Environment import IsRhinoInside
+from Cockatoo.Exceptions import SystemNotPresentError
 
 # RHINO IMPORTS ----------------------------------------------------------------
 if IsRhinoInside():
     import rhinoinside
     rhinoinside.load()
     from Rhino.Geometry import Vector3d as RhinoVector3d
+    from Rhino.Geometry import Quaternion as RhinoQuaternion
 else:
     from Rhino.Geometry import Vector3d as RhinoVector3d
+    from Rhino.Geometry import Quaternion as RhinoQuaternion
 
 # AUTHORSHIP -------------------------------------------------------------------
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
+    "TweenPlanes"
     "is_ccw_xy",
     "pairwise"
 ]
 
-# ACTUAL FUNCTION DEFINTIONS ---------------------------------------------------
+# GEOMETRY ---------------------------------------------------------------------
+
+def TweenPlanes(P1, P2, t):
+    """
+    Tweens between two planes using quaternion rotation.
+    """
+
+    # handle dotnet dependency in a nice way
+    try:
+        from clr import Reference
+        from System import Double
+    except ImportError as e:
+        errMsg = "Could not import System. This function cannot execute!"
+        raise SystemNotPresentError(errMsg)
+
+    # create the quternion rotation between the two input planes
+    Q = RhinoQuaternion.Rotation(P1, P2)
+
+    # prepare out parameters
+    qAngle = Reference[Double]()
+    qAxis = Reference[RhinoVector3d]()
+
+    # get the rotation of the quaternion
+    Q.GetRotation(qAngle, qAxis)
+
+    axis = RhinoVector3d(qAxis.X, qAxis.Y, qAxis.Z)
+    angle = float(qAngle) - 2 * pi if float(qAngle) > pi else float(qAngle)
+
+    OutputPlane = P1.Clone()
+    OutputPlane.Rotate(t * angle, axis, OutputPlane.Origin)
+    Translation = RhinoVector3d(P2.Origin - P1.Origin)
+    OutputPlane.Translate(Translation * t)
+
+    return OutputPlane
+
+# MATH AND HELPERS -------------------------------------------------------------
 
 def is_ccw_xy(a, b, c, colinear=False):
     """
