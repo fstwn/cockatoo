@@ -4,7 +4,7 @@ Create the dual network of a KnitNetwork
         Toggle: Set to True to activate the component. {item, boolean}
         KnitNetwork: The KnitNetwork to create the dual network to. {item, KnitNetwork}
         CyclesMode: Determines how the neighbors of each node are sorted when
-                    finding cycles for the network.
+                    finding the cycles of the network.
                     [-1] equals to using the world XY plane (default)
                      [0] equals to using a plane normal to the origin nodes 
                        closest point on the geometrybase
@@ -20,7 +20,7 @@ Create the dual network of a KnitNetwork
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200505
+        Version: 200506
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
