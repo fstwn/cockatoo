@@ -515,8 +515,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         # loop over cycles and add faces to the mesh
         for ckey in cycles.keys():
             cycle = cycles[ckey]
-            if len(cycle) > 4 and not ngons:
-                continue
+            if len(cycle) > 4:
+                if not ngons:
+                    continue
+                else:
+                    pass
             elif len(cycle) < 3:
                 continue
             else:
@@ -527,3 +530,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Mesh.UnifyNormals()
 
         return Mesh
+
+# MAIN -------------------------------------------------------------------------
+if __name__ == '__main__':
+    pass
