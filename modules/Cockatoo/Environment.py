@@ -11,7 +11,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from Cockatoo import Exceptions
+from Cockatoo.Exceptions import *
 
 # CHECKING FOR RHINO DEPENDENCY AND ENVIRONMENT --------------------------------
 try:
@@ -24,7 +24,7 @@ except ImportError:
         import Rhino
         ISRHINOINSIDE = True
     except:
-        raise Exceptions.RhinoNotPresentError()
+        raise RhinoNotPresentError()
 
 def IsRhinoInside():
     """
@@ -37,9 +37,9 @@ try:
     import networkx
     NXVERSION = networkx.__version__
     if not NXVERSION == "1.5":
-        raise Exceptions.NetworkXVersionError()
+        raise NetworkXVersionError()
 except ImportError:
-    raise Exceptions.NetworkXNotPresentError()
+    raise NetworkXNotPresentError()
 
 def NetworkXVersion():
     """
