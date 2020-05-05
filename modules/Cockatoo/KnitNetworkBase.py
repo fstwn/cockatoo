@@ -14,7 +14,7 @@ from collections import OrderedDict
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from Cockatoo.Environment import IsRhinoInside
-from Cockatoo.Exceptions import KnitNetworkGeometryError
+from Cockatoo.Exceptions import *
 
 # RHINO IMPORTS ----------------------------------------------------------------
 if IsRhinoInside():
