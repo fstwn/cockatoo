@@ -8,11 +8,13 @@ Version: 200414
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
+import clr
 from collections import deque
 import math
 
 # RHINO IMPORTS ----------------------------------------------------------------
 import Rhino
+import System
 import scriptcontext
 
 # AUTHORSHIP -------------------------------------------------------------------
@@ -80,3 +82,28 @@ def BreakPolyline(Polyline, BreakAngle):
                 pl.Add(segments.popleft().From)
 
     return plcs
+
+def TweenPlanes(P1, P2, t):
+        """
+        Tweens between two planes using quaternion rotation.
+        """
+
+        # create the quternion rotation between the two input planes
+        Q = Rhino.Geometry.Quaternion.Rotation(P1, P2)
+
+        # prepare out parameters
+        qAngle = clr.Reference[System.Double]()
+        qAxis = clr.Reference[Rhino.Geometry.Vector3d]()
+
+        # get the rotation of the quaternion
+        Q.GetRotation(qAngle, qAxis)
+
+        axis = Rhino.Geometry.Vector3d(qAxis.X, qAxis.Y, qAxis.Z)
+        angle = float(qAngle) - 2 * math.pi if float(qAngle) > math.pi else float(qAngle)
+
+        OutputPlane = P1.Clone()
+        OutputPlane.Rotate(t * angle, axis, OutputPlane.Origin)
+        Translation = Rhino.Geometry.Vector3d(P2.Origin - P1.Origin)
+        OutputPlane.Translate(Translation * t)
+
+        return OutputPlane
