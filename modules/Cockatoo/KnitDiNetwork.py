@@ -15,10 +15,11 @@ import math
 from operator import itemgetter
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from .Environment import IsRhinoInside
-from .KnitNetworkBase import KnitNetworkBase
-from .Utilities import is_ccw_xy
-from .Utilities import pairwise
+from Cockatoo.Environment import IsRhinoInside
+from Cockatoo.KnitNetworkBase import KnitNetworkBase
+from Cockatoo.Utilities import is_ccw_xy
+from Cockatoo.Utilities import pairwise
+from Cockatoo.Utilities import TweenPlanes
 
 # THIRD PARTY MODULE IMPORTS ---------------------------------------------------
 import networkx as nx
@@ -108,7 +109,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
     # FIND FACES (CYCLES) OF NETWORK -------------------------------------------
 
-    def _sort_node_neighbors(self, key, nbrs, xyz, geo, cbp, nrm, ccw=True):
+    def _sort_node_neighbors(self, key, nbrs, xyz, geo, cbp, nrm, mode=-1, ccw=True):
         """
         Sort the neighbors of a network node.
 
@@ -123,8 +124,6 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                See: https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L132
         """
 
-        MODE = 1
-
         # if there is only one neighbor we don't need to sort anything
         if len(nbrs) == 1:
             return nbrs
@@ -136,24 +135,26 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         a = xyz[key]
 
         # compute local orientation if geometrybase data is present
-        if cbp and nrm and MODE == 0:
+        # CASE 1: Plane is determined by mesh normal of origin node
+        if cbp and nrm and mode == 0:
             # construct local reference plane and map coordinates to plane space
             a_geo = geo[key]
-            lclpln = RhinoPlane(a_geo, nrm[key])
-            lcl_a = lclpln.RemapToPlaneSpace(a_geo)[1]
-            a = (lcl_a.X, lcl_a.Y, lcl_a.Z)
+            localplane = RhinoPlane(a_geo, nrm[key])
+            a_local = localplane.RemapToPlaneSpace(a_geo)[1]
+            a = (a_local.X, a_local.Y, a_local.Z)
             # compute local plane coordinates for all neighbors
-            lcl_xyz = {}
+            xyz_local = {}
             for nbr in nbrs:
                 # find closest point on plane and remap to plane space
-                nbr_cp = lclpln.ClosestPoint(geo[nbr])
-                lcl_nbr = lclpln.RemapToPlaneSpace(nbr_cp)[1]
-                nbr_xyz = (lcl_nbr.X, lcl_nbr.Y, lcl_nbr.Z)
+                nbr_cp = localplane.ClosestPoint(geo[nbr])
+                local_nbr = localplane.RemapToPlaneSpace(nbr_cp)[1]
+                nbr_coords = (local_nbr.X, local_nbr.Y, local_nbr.Z)
                 # set coordinate dict value
-                lcl_xyz[nbr] = nbr_xyz
+                xyz_local[nbr] = nbr_coords
             # reassign coordinate dictionary for neighbor sorting
-            xyz = lcl_xyz
-        elif cbp and nrm and MODE == 1:
+            xyz = xyz_local
+        # CASE 2: Plane is determined by average normal of origin node and nbrs
+        elif cbp and nrm and mode == 1:
             # construct local reference plane and map coordinates to plane space
             a_geo = geo[key]
             # get average normal
@@ -162,20 +163,52 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             for nv in nbr_nrms:
                 avg_nrm += nv
             # construct plane based on average normal
-            lclpln = RhinoPlane(a_geo, avg_nrm)
-            lcl_a = lclpln.RemapToPlaneSpace(a_geo)[1]
-            a = (lcl_a.X, lcl_a.Y, lcl_a.Z)
+            localplane = RhinoPlane(a_geo, avg_nrm)
+            a_local = localplane.RemapToPlaneSpace(a_geo)[1]
+            a = (a_local.X, a_local.Y, a_local.Z)
             # compute local plane coordinates for all neighbors
-            lcl_xyz = {}
+            xyz_local = {}
             for nbr in nbrs:
                 # find closest point on plane and remap to plane space
-                nbr_cp = lclpln.ClosestPoint(geo[nbr])
-                lcl_nbr = lclpln.RemapToPlaneSpace(nbr_cp)[1]
-                nbr_xyz = (lcl_nbr.X, lcl_nbr.Y, lcl_nbr.Z)
+                nbr_cp = localplane.ClosestPoint(geo[nbr])
+                local_nbr = localplane.RemapToPlaneSpace(nbr_cp)[1]
+                nbr_coords = (local_nbr.X, local_nbr.Y, local_nbr.Z)
                 # set coordinate dict value
-                lcl_xyz[nbr] = nbr_xyz
+                xyz_local[nbr] = nbr_coords
             # reassign coordinate dictionary for neighbor sorting
-            xyz = lcl_xyz
+            xyz = xyz_local
+        # CASE 3: Plane is determined by avg between fitplane and avg meshplane
+        elif cbp and nrm and mode == 2:
+            # construct local reference plane and map coordinates to plane space
+            a_geo = geo[key]
+            # get average normal
+            avg_nrm = nrm[key]
+            nbr_nrms = [nrm[n] for n in nbrs]
+            for nv in nbr_nrms:
+                avg_nrm += nv
+            # construct plane based on average normal
+            localplane = RhinoPlane(a_geo, avg_nrm)
+            fitplane = RhinoPlane.FitPlaneToPoints([geo[n] for n in nbrs])[1]
+             # align fitplane with localplane
+            if fitplane.Normal * localplane.Normal < 0:
+                fitplane.Flip()
+            # tween the planes and set origin
+            tweenplane = TweenPlanes(localplane, fitplane, 0.5)
+            tweenplane.Origin = a_geo
+            # remap origin node to plane space
+            a_local = tweenplane.RemapToPlaneSpace(a_geo)[1]
+            a = (a_local.X, a_local.Y, a_local.Z)
+            # compute local plane coordinates for all neighbors
+            xyz_local = {}
+            for nbr in nbrs:
+                # find closest point on plane and remap to plane space
+                nbr_cp = tweenplane.ClosestPoint(geo[nbr])
+                local_nbr = tweenplane.RemapToPlaneSpace(nbr_cp)[1]
+                nbr_coords = (local_nbr.X, local_nbr.Y, local_nbr.Z)
+                # set coordinate dict value
+                xyz_local[nbr] = nbr_coords
+            # reassign coordinate dictionary for neighbor sorting
+            xyz = xyz_local
 
         # loop over all neighbors except the first one
         for i, nbr in enumerate(nbrs[1:]):
@@ -203,7 +236,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             return ordered_nbrs[::-1]
         return ordered_nbrs
 
-    def _sort_neighbors(self, ccw=True):
+    def _sort_neighbors(self, mode=-1, ccw=True):
         """
         Sort the neighbors of all network nodes.
 
@@ -248,7 +281,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         # loop over all nodes in network
         for key in self.nodes_iter():
             nbrs = self[key].keys()
-            sorted_neighbors[key] = self._sort_node_neighbors(key, nbrs, xyz, geo, cbp, nrm, ccw=ccw)
+            sorted_neighbors[key] = self._sort_node_neighbors(key, nbrs, xyz, geo, cbp, nrm, mode=mode, ccw=ccw)
 
         # set the sorted neighbors list as an attribute to the nodes
         for key, nbrs in sorted_neighbors.items():
@@ -274,13 +307,16 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         # get all node neighbors
         nbrs = self[key].keys()
+
         # if there is only one neighbor, we have already found our candidate
         if len(nbrs) == 1:
             return nbrs[0]
+
         ab = [-1.0, -1.0, 0.0]
         rhino_ab = RhinoVector3d(*ab)
         a = self.NodeCoordinates(key)
         b = [a[0] + ab[0], a[1] + ab[1], 0]
+
         angles = []
         for nbr in nbrs:
             c = self.NodeCoordinates(nbr)
@@ -290,6 +326,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             if is_ccw_xy(a, b, c, True):
                 alpha = (2 * math.pi) - alpha
             angles.append(alpha)
+
         return nbrs[angles.index(min(angles))]
 
     def _find_edge_cycle(self, u, v):
@@ -316,7 +353,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 break
         return cycle
 
-    def FindCycles(self):
+    def FindCycles(self, mode=-1):
         """
         Finds the cycles (faces) of this network by utilizing a wall-follower
         mechanism.
@@ -346,9 +383,10 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 self.halfedge[v][u] = None
 
         # sort the all the neighbors for each node of the network
-        self._sort_neighbors()
+        self._sort_neighbors(mode=mode)
 
         # find start node
+        # TODO: implement search from leaf nodes first
         u = sorted(self.nodes_iter(data=True), key=lambda n: (n[1]["y"], n[1]["x"]))[0][0]
 
         # initialize found and cycles dict
