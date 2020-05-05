@@ -16,8 +16,8 @@ from collections import OrderedDict
 import networkx as nx
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from .Environment import IsRhinoInside
-from .Exceptions import KnitNetworkGeometryError
+from Cockatoo.Environment import IsRhinoInside
+from Cockatoo.Exceptions import KnitNetworkGeometryError
 
 # RHINO IMPORTS ----------------------------------------------------------------
 if IsRhinoInside():
