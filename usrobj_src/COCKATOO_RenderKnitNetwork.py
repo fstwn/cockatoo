@@ -142,6 +142,7 @@ class RenderKnitNetwork(component):
             # define colours for nodes and node texts
             colEnd = System.Drawing.Color.Red
             colLeaf = System.Drawing.Color.Green
+            colEndLeaf = System.Drawing.Color.Orange
             colRegular = System.Drawing.Color.Black
             
             if RenderNodes or RenderNodeIndices or RenderNodeData:
@@ -149,12 +150,15 @@ class RenderKnitNetwork(component):
                 
                 for i, node in enumerate(nodes):
                     data = node[1]
-                    if data["end"] == True:
+                    if data["end"] == True and data["leaf"] == False:
                         if RenderNodes:
                             viz.AddPoint(data["geo"], colEnd, psEnd, 3)
-                    elif data["leaf"] == True:
+                    elif data["end"] == False and data["leaf"] == True:
                         if RenderNodes:
                             viz.AddPoint(data["geo"], colLeaf, psLeaf, 3)
+                    elif data["end"] == True and data["leaf"] == True:
+                        if RenderNodes:
+                            viz.AddPoint(data["geo"], colEndLeaf, psLeaf, 3)
                     elif data["leaf"] == False and data["end"] == False:
                         if RenderNodes:
                             viz.AddPoint(data["geo"], colRegular, psRegular, 2)
