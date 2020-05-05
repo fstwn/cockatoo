@@ -10,6 +10,26 @@ Version: 200503
 
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
+# ALL DICTIONARY ---------------------------------------------------------------
+
+__all__ = [
+    "CockatooException",
+    "CockatooImportException",
+    "RhinoNotPresentError",
+    "SystemNotPresentError",
+    "KangarooNotPresentError",
+    "PlanktonNotPresentError",
+    "NetworkXNotPresentError",
+    "NetworkXVersionError",
+    "AutoknitNotPresentError",
+    "KnitNetworkError",
+    "KnitNetworkGeometryError",
+    "MappingNetworkError",
+    "NoWeftEdgesError",
+    "NoWarpEdgesError",
+    "NoEndNodesError"
+]
+
 # COCKATOO BASE EXCEPTION ------------------------------------------------------
 
 class CockatooException(Exception):
