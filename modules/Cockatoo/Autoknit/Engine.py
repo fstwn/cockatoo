@@ -8,8 +8,8 @@ from os import path
 from scriptcontext import sticky as st
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from .Environment import _AK_PATH_, _AK_INTERFACE_
-from .FileIO import SaveObj, SaveConstraints
+from Cockatoo.Autoknit.Environment import _AK_PATH_, _AK_INTERFACE_
+from Cockatoo.Autoknit.FileIO import SaveObj, SaveConstraints
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
