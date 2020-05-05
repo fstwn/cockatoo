@@ -333,6 +333,14 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         """
         Find a cycle based on the given edge.
 
+        Parameters
+        ----------
+        u : int
+            Index of the start node of the origin edge for the cycle.
+
+        v : int
+            Index of the end node of the origin edge for the cycle.
+
         Notes
         -----
         Based on an implementation inside the COMPAS framework.
@@ -357,6 +365,27 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         """
         Finds the cycles (faces) of this network by utilizing a wall-follower
         mechanism.
+
+        Parameters
+        ----------
+        mode : int
+            Determines how the neighbors of each node are sorted when finding
+            cycles for the network.
+            -1 equals to using the world XY plane (default)
+             0 equals to using a plane normal to the origin nodes closest
+               point on the geometrybase
+             1 equals to using a plane normal to the average of the origin
+               and neighbor nodes' closest points on the geometrybase
+             2 equals to using an average plane between a plane fit to the
+               origin and its neighbor nodes and a plane normal to the origin
+               nodes closest point on the geometrybase
+
+        Warning
+        -------
+        Modes other than -1 (default) are only possible if this network has an
+        underlying geometrybase in form of a Mesh or NurbsSurface. The
+        geometrybase should be assigned when initializing the network by
+        assigning the geometry to the "geometrybase" attribute of the network.
 
         Notes
         -----
@@ -401,11 +430,14 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         found[frozen] = ckey
         cycles[ckey] = cycle
 
+        # set halfedge dict
         for a, b in pairwise(cycle + cycle[:1]):
             self.halfedge[a][b] = ckey
         ckey += 1
 
+        # loop over all edges and find cycles
         for u, v in self.edges_iter():
+            # u -> v edges
             if self.halfedge[u][v] is None:
                 cycle = self._find_edge_cycle(u, v)
                 frozen = frozenset(cycle)
@@ -415,6 +447,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                     ckey += 1
                 for a, b in pairwise(cycle + cycle[:1]):
                     self.halfedge[a][b] = found[frozen]
+            # v -> u edges
             if self.halfedge[v][u] is None:
                 cycle = self._find_edge_cycle(v, u)
                 frozen = frozenset(cycle)
@@ -426,3 +459,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                     self.halfedge[a][b] = found[frozen]
 
         return cycles
+
+    def ConstructMesh(self, mode=-1):
+        """
+
+        """
