@@ -1,18 +1,27 @@
 """
 Geometry tools for GHPython scripts
+
 Author: Max Eschenbach
 License: Apache License 2.0
 Version: 200414
 """
-# PYTHON STANDARD LIBRARY IMPORTS
+# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
 from collections import deque
 import math
 
-# RHINO IMPORTS
+# RHINO IMPORTS ----------------------------------------------------------------
 import Rhino
 import scriptcontext
+
+# AUTHORSHIP -------------------------------------------------------------------
+__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
+
+# ALL DICTIONARY ---------------------------------------------------------------
+__all__ = [
+    "BreakPolyline"
+]
 
 def BreakPolyline(Polyline, BreakAngle):
     """
