@@ -5,7 +5,7 @@ network.
         Toggle: Set to True to activate the component. {item, boolean}
         KnitNetwork: The KnitNetwork to mesh. {item, KnitNetwork}
         CyclesMode: Determines how the neighbors of each node are sorted when
-                    finding cycles for the network.
+                    finding the cycles of the network.
                     [-1] equals to using the world XY plane (default)
                      [0] equals to using a plane normal to the origin nodes 
                        closest point on the geometrybase
@@ -21,7 +21,7 @@ network.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200505
+        Version: 200506
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -62,7 +62,8 @@ class CMFKN(component):
         
         if Toggle and KnitNetwork:
             # create mesh from knitnetwork
-            Mesh = KnitNetwork.CreateMesh(mode=CyclesMode)
+            Mesh = KnitNetwork.CreateMesh(mode=CyclesMode,
+                                          ngons=False)
             
             return Mesh
         else:
