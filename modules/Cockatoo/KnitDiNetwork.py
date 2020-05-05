@@ -123,6 +123,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                See: https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L132
         """
 
+        MODE = 1
+
         # if there is only one neighbor we don't need to sort anything
         if len(nbrs) == 1:
             return nbrs
@@ -134,21 +136,48 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         a = xyz[key]
 
         # compute local orientation if geometrybase data is present
-        if cbp and nrm:
+        if cbp and nrm and MODE == 0:
+            # construct local reference plane and map coordinates to plane space
             a_geo = geo[key]
             lclpln = RhinoPlane(a_geo, nrm[key])
             lcl_a = lclpln.RemapToPlaneSpace(a_geo)[1]
             a = (lcl_a.X, lcl_a.Y, lcl_a.Z)
+            # compute local plane coordinates for all neighbors
             lcl_xyz = {}
             for nbr in nbrs:
+                # find closest point on plane and remap to plane space
                 nbr_cp = lclpln.ClosestPoint(geo[nbr])
                 lcl_nbr = lclpln.RemapToPlaneSpace(nbr_cp)[1]
                 nbr_xyz = (lcl_nbr.X, lcl_nbr.Y, lcl_nbr.Z)
+                # set coordinate dict value
                 lcl_xyz[nbr] = nbr_xyz
+            # reassign coordinate dictionary for neighbor sorting
+            xyz = lcl_xyz
+        elif cbp and nrm and MODE == 1:
+            # construct local reference plane and map coordinates to plane space
+            a_geo = geo[key]
+            # get average normal
+            avg_nrm = nrm[key]
+            nbr_nrms = [nrm[n] for n in nbrs]
+            for nv in nbr_nrms:
+                avg_nrm += nv
+            # construct plane based on average normal
+            lclpln = RhinoPlane(a_geo, avg_nrm)
+            lcl_a = lclpln.RemapToPlaneSpace(a_geo)[1]
+            a = (lcl_a.X, lcl_a.Y, lcl_a.Z)
+            # compute local plane coordinates for all neighbors
+            lcl_xyz = {}
+            for nbr in nbrs:
+                # find closest point on plane and remap to plane space
+                nbr_cp = lclpln.ClosestPoint(geo[nbr])
+                lcl_nbr = lclpln.RemapToPlaneSpace(nbr_cp)[1]
+                nbr_xyz = (lcl_nbr.X, lcl_nbr.Y, lcl_nbr.Z)
+                # set coordinate dict value
+                lcl_xyz[nbr] = nbr_xyz
+            # reassign coordinate dictionary for neighbor sorting
             xyz = lcl_xyz
 
-        # loop over all neighbors except the first one (which is our basis for
-        # the ordered list)
+        # loop over all neighbors except the first one
         for i, nbr in enumerate(nbrs[1:]):
             c = xyz[nbr]
             pos = 0
