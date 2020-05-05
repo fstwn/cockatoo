@@ -15,12 +15,12 @@ import math
 from operator import itemgetter
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from .Environment import IsRhinoInside
-from .Exceptions import *
-from .KnitNetworkBase import KnitNetworkBase
-from .KnitMappingNetwork import KnitMappingNetwork
-from .KnitDiNetwork import KnitDiNetwork
-from .Utilities import is_ccw_xy
+from Cockatoo.Environment import IsRhinoInside
+from Cockatoo.Exceptions import *
+from Cockatoo.KnitNetworkBase import KnitNetworkBase
+from Cockatoo.KnitMappingNetwork import KnitMappingNetwork
+from Cockatoo.KnitDiNetwork import KnitDiNetwork
+from Cockatoo.Utilities import is_ccw_xy
 
 # THIRD PARTY MODULE IMPORTS ---------------------------------------------------
 import networkx as nx
@@ -2259,13 +2259,13 @@ class KnitNetwork(KnitNetworkBase):
 
         return dirnet
 
-    def FindCycles(self):
+    def FindCycles(self, mode=-1):
         """
         Finds the cycles (faces) of this network by utilizing a wall-follower
         mechanism.
         """
 
-        return self.ToKnitDiNetwork().FindCycles()
+        return self.ToKnitDiNetwork().FindCycles(mode=mode)
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':
