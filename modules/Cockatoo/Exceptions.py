@@ -23,6 +23,9 @@ class CockatooImportException(ImportError):
 class RhinoNotPresentError(CockatooImportException):
     """Exception raised when import of Rhino fails."""
 
+class SystemNotPresentError(CockatooImportException):
+    """Exception raised when import of System fails."""
+
 class KangarooNotPresentError(CockatooImportException):
     """Exception raised when import of Kangaroo fails."""
 
