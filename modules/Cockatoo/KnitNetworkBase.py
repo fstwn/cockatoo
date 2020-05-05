@@ -12,9 +12,6 @@ from __future__ import division
 from __future__ import print_function
 from collections import OrderedDict
 
-# THIRD PARTY MODULE IMPORTS ---------------------------------------------------
-import networkx as nx
-
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from Cockatoo.Environment import IsRhinoInside
 from Cockatoo.Exceptions import KnitNetworkGeometryError
@@ -32,6 +29,9 @@ else:
     from Rhino.Geometry import Line as RhinoLine
     from Rhino.Geometry import LineCurve as RhinoLineCurve
     from Rhino.Geometry import Polyline as RhinoPolyline
+
+# THIRD PARTY MODULE IMPORTS ---------------------------------------------------
+import networkx as nx
 
 # AUTHORSHIP -------------------------------------------------------------------
 
