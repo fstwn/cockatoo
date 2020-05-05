@@ -14,7 +14,7 @@ TODO: UPDATE DOCSTRING, MODE SELECTOR
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200414
+        Version: 200405
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -94,7 +94,7 @@ class RelaxMeshIntoPlane(component):
         ci.append(vIndex)
         return ci
     
-    def ComputeLocalPlanes(self, Mesh, Depth = 1):
+    def ComputeLocalPlanes(self, Mesh, Depth=1):
         vertices = list(Mesh.Vertices.ToPoint3dArray())
         LocalPlanes = []
         for i, vertex in enumerate(vertices):
