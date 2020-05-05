@@ -29,13 +29,17 @@ if IsRhinoInside():
     import rhinoinside
     rhinoinside.load()
     from Rhino.Geometry import Mesh as RhinoMesh
+    from Rhino.Geometry import MeshNgon as RhinoMeshNgon
     from Rhino.Geometry import NurbsSurface as RhinoNurbsSurface
     from Rhino.Geometry import Plane as RhinoPlane
+    from Rhino.Geometry import Point3d as RhinoPoint3d
     from Rhino.Geometry import Vector3d as RhinoVector3d
 else:
     from Rhino.Geometry import Mesh as RhinoMesh
+    from Rhino.Geometry import MeshNgon as RhinoMeshNgon
     from Rhino.Geometry import NurbsSurface as RhinoNurbsSurface
     from Rhino.Geometry import Plane as RhinoPlane
+    from Rhino.Geometry import Point3d as RhinoPoint3d
     from Rhino.Geometry import Vector3d as RhinoVector3d
 
 # AUTHORSHIP -------------------------------------------------------------------
@@ -416,8 +420,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         self._sort_neighbors(mode=mode)
 
         # find start node
-        # TODO: implement search from leaf nodes first - ?
-        u = sorted(self.nodes_iter(data=True), key=lambda n: (n[1]["y"], n[1]["x"]))[0][0]
+        leaves = self.LeafNodes
+        if leaves:
+            u = sorted(leaves, key=lambda n: (n[1]["y"], n[1]["x"]))[0][0]
+        else:
+            u = sorted(self.nodes_iter(data=True), key=lambda n: (n[1]["y"], n[1]["x"]))[0][0]
 
         # initialize found and cycles dict
         cycles = {}
@@ -513,18 +520,45 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             vcount += 1
 
         # loop over cycles and add faces to the mesh
+        fcount = 0
         for ckey in cycles.keys():
             cycle = cycles[ckey]
-            if len(cycle) > 4:
+            c_len = len(cycle)
+            if c_len > 4:
                 if not ngons:
                     continue
                 else:
-                    pass
-            elif len(cycle) < 3:
+                    # find centroid of ngon nodes
+                    cycle_coords = [ [ self.node[k]["x"],
+                                       self.node[k]["y"],
+                                       self.node[k]["z"] ] for k in cycle ]
+                    # compute centroid
+                    c_x, c_y, c_z = zip(*cycle_coords)
+                    centroid = [sum(c_x) / c_len,
+                                sum(c_y) / c_len,
+                                sum(c_z) / c_len]
+                    # add centroid to mesh
+                    Mesh.Vertices.Add(*centroid)
+                    # create triangle with centroid for every pair in cycle
+                    closed_cycle = cycle[:]
+                    closed_cycle.append(cycle[0])
+                    ngon_faces = []
+                    for a, b in pairwise(closed_cycle):
+                        Mesh.Faces.AddFace(node_to_vertex[a],
+                                           node_to_vertex[b],
+                                           vcount)
+                        ngon_faces.append(fcount)
+                        fcount += 1
+                    ngon_cycle = [node_to_vertex[n] for n in cycle]
+                    NGon = RhinoMeshNgon.Create(ngon_cycle, ngon_faces)
+                    # increment mesh vertex counter
+                    vcount += 1
+            elif c_len < 3:
                 continue
             else:
                 mesh_cycle = [node_to_vertex[n] for n in cycle]
                 Mesh.Faces.AddFace(*mesh_cycle)
+                fcount += 1
 
         # unify the normals of the mesh
         Mesh.UnifyNormals()
