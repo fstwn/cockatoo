@@ -461,6 +461,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         return cycles
 
+    # MESHING ------------------------------------------------------------------
+
     def CreateMesh(self, mode=-1, ngons=False):
         """
         Constructs a mesh from this network by finding cycles and using them as
