@@ -12,19 +12,6 @@ import string
 # RHINO IMPORTS
 import Rhino
 
-def removeTrailingNewlines(s):
-    """
-    Removes trailing newlines from a string (most of the time a filepath).
-    """
-
-    if not s:
-        return None
-    elif s.endswith("\n"):
-        s = removeTrailingNewlines(s[:-1])
-    elif s.endswith("\r"):
-        s = removeTrailingNewlines(s[:-1])
-    return s
-
 def mapValuesAsColors(values, srcMin, srcMax, targetMin = 0.0, targetMax = 0.7):
     """
     Make a list of HSL colors where the values are mapped onto a
