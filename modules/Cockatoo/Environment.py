@@ -11,7 +11,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from . import Exceptions
+from Cockatoo import Exceptions
 
 # CHECKING FOR RHINO DEPENDENCY AND ENVIRONMENT --------------------------------
 try:
