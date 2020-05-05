@@ -10,8 +10,10 @@ Version: 200503
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from collections import deque, OrderedDict
-import math
+from collections import deque
+from collections import OrderedDict
+from math import radians
+from math import pi
 from operator import itemgetter
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
@@ -219,10 +221,6 @@ class KnitNetwork(KnitNetworkBase):
 
         v_print = print if verbose else lambda *a, **k: None
 
-        # namespace mapping for performance gains
-        pi = math.pi
-        to_radians = math.radians
-
         if len(contour_set) < 2:
             v_print("Not enough contours in contour set!")
             return
@@ -342,7 +340,7 @@ class KnitNetwork(KnitNetworkBase):
                     aDelta = angles[0] - angles[1]
 
                     # CONNECTION FOR LEAST ANGLE CHANGE ------------------------
-                    if len(nNeighbors) > 2 and aDelta < to_radians(6.0):
+                    if len(nNeighbors) > 2 and aDelta < radians(6.0):
                         # print info on verbose setting
                         v_print("Using procedure for least angle " +
                                 "change connection...")
@@ -419,9 +417,6 @@ class KnitNetwork(KnitNetworkBase):
         """
 
         v_print = print if verbose else lambda *a, **k: None
-
-        # namespace mapping for performance gains
-        pi = math.pi
 
         # get attributes only once
         position_attributes = nx.get_node_attributes(self, "position")
@@ -1312,10 +1307,6 @@ class KnitNetwork(KnitNetworkBase):
 
         v_print = print if verbose else lambda *a, **k: None
 
-        # namespace mapping for performance gains
-        pi = math.pi
-        to_radians = math.radians
-
         if len(segment_pair) < 2:
             v_print("Not enough contour segments in supplied set!")
             return
@@ -1426,7 +1417,7 @@ class KnitNetwork(KnitNetworkBase):
             nNeighbors = self[node[0]]
 
             # CONNECTION FOR LEAST ANGLE CHANGE --------------------------------
-            if len(nNeighbors) > 2 and aDelta < to_radians(6.0):
+            if len(nNeighbors) > 2 and aDelta < radians(6.0):
                 # print info on verbose setting
                 v_print("Using procedure for least angle " +
                         "change connection...")
@@ -1550,7 +1541,7 @@ class KnitNetwork(KnitNetworkBase):
                       in zip(candidateDirections, normals)]
 
             # compute deltas as a mesaure of perpendicularity
-            deltas = [abs(a - (0.5 * math.pi)) for a in angles]
+            deltas = [abs(a - (0.5 * pi)) for a in angles]
 
             # sort window by distance, then by delta
             allDists, deltas, most_perpendicular = zip(*sorted(
