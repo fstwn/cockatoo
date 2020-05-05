@@ -11,13 +11,13 @@ Version: 200503
 from __future__ import absolute_import
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from . import Autoknit
-from . import Environment
-from . import Exceptions
-from .KnitNetworkBase import KnitNetworkBase
-from .KnitNetwork import KnitNetwork
-from .KnitDiNetwork import KnitDiNetwork
-from .KnitMappingNetwork import KnitMappingNetwork
+from Cockatoo import Autoknit
+from Cockatoo import Environment
+from Cockatoo import Exceptions
+from Cockatoo.KnitNetworkBase import KnitNetworkBase
+from Cockatoo.KnitNetwork import KnitNetwork
+from Cockatoo.KnitDiNetwork import KnitDiNetwork
+from Cockatoo.KnitMappingNetwork import KnitMappingNetwork
 
 # AUTHORSHIP -------------------------------------------------------------------
 
