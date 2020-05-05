@@ -74,7 +74,7 @@ class KnitNetwork(KnitNetworkBase):
 
     def __init__(self, data=None, **attr):
         """
-        Initialize a KnitNetwork (inherits NetworkX graph with edges, name,
+        Initialize a KnitNetwork (inherits NetworkX graph) with edges, name,
         graph attributes.
 
         Parameters
@@ -85,8 +85,10 @@ class KnitNetwork(KnitNetworkBase):
             NetworkX graph object.  If the corresponding optional Python
             packages are installed the data can also be a NumPy matrix
             or 2d ndarray, a SciPy sparse matrix, or a PyGraphviz graph.
+
         name : string, optional (default='')
             An optional name for the graph.
+
         attr : keyword arguments, optional (default= no attributes)
             Attributes to add to graph as key=value pairs.
         """
@@ -2479,10 +2481,6 @@ class KnitNetwork(KnitNetworkBase):
         # first find the cycles of this network
         cycles = self.FindCycles(mode=mode)
 
-        # we need a mapping between network edge -> containing cycles ... ??
-        # --> to determine if two cycles (dual nodes) are connected via
-        #     a warp or weft edge
-
         # get node data for all nodes once
         node_data = {k: self.node[k] for k in self.nodes_iter()}
 
@@ -2521,7 +2519,7 @@ class KnitNetwork(KnitNetworkBase):
 
             # get node attributes
             is_leaf = True in [node_data[k]["leaf"] for k in cycle]
-            is_end = True in [node_data[k]["end"] for k in cycle]
+            #is_end = True in [node_data[k]["end"] for k in cycle]
 
             # add node to dual network
             DualNetwork.NodeFromPoint3d(ckey,
@@ -2529,7 +2527,7 @@ class KnitNetwork(KnitNetworkBase):
                                         position=None,
                                         num=None,
                                         leaf=is_leaf,
-                                        end=is_end,
+                                        end=False,
                                         segment=None)
 
         # loop over original edges and create corresponding edges in dual
@@ -2545,6 +2543,10 @@ class KnitNetwork(KnitNetworkBase):
                     fromNode = (cycle_keys[0], DualNetwork.node[cycle_keys[0]])
                     toNode = (cycle_keys[1], DualNetwork.node[cycle_keys[1]])
                     DualNetwork.CreateWarpEdge(fromNode, toNode)
+
+        # TODO: set 'end' attribute if node has two warp and one weft edge!
+        # TODO: set 'crease' attribute if node has two weft and one warp edge
+        #       and is not a leaf!
 
         return DualNetwork
 
