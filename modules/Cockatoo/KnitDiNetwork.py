@@ -74,8 +74,10 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             NetworkX graph object.  If the corresponding optional Python
             packages are installed the data can also be a NumPy matrix
             or 2d ndarray, a SciPy sparse matrix, or a PyGraphviz graph.
+
         name : string, optional (default='')
             An optional name for the graph.
+
         attr : keyword arguments, optional (default= no attributes)
             Attributes to add to graph as key=value pairs.
         """
