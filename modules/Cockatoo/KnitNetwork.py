@@ -23,6 +23,7 @@ from Cockatoo.KnitNetworkBase import KnitNetworkBase
 from Cockatoo.KnitMappingNetwork import KnitMappingNetwork
 from Cockatoo.KnitDiNetwork import KnitDiNetwork
 from Cockatoo.Utilities import is_ccw_xy
+from Cockatoo.Utilities import pairwise
 
 # THIRD PARTY MODULE IMPORTS ---------------------------------------------------
 import networkx as nx
@@ -31,16 +32,26 @@ import networkx as nx
 if IsRhinoInside():
     import rhinoinside
     rhinoinside.load()
+    from Rhino.Geometry import Brep as RhinoBrep
     from Rhino.Geometry import Curve as RhinoCurve
     from Rhino.Geometry import Line as RhinoLine
     from Rhino.Geometry import Interval as RhinoInterval
+    from Rhino.Geometry import Mesh as RhinoMesh
+    from Rhino.Geometry import NurbsSurface as RhinoNurbsSurface
     from Rhino.Geometry import Point3d as RhinoPoint3d
+    from Rhino.Geometry import Polyline as RhinoPolyline
+    from Rhino.Geometry import Surface as RhinoSurface
     from Rhino.Geometry import Vector3d as RhinoVector3d
 else:
+    from Rhino.Geometry import Brep as RhinoBrep
     from Rhino.Geometry import Curve as RhinoCurve
     from Rhino.Geometry import Line as RhinoLine
     from Rhino.Geometry import Interval as RhinoInterval
+    from Rhino.Geometry import Mesh as RhinoMesh
+    from Rhino.Geometry import NurbsSurface as RhinoNurbsSurface
     from Rhino.Geometry import Point3d as RhinoPoint3d
+    from Rhino.Geometry import Polyline as RhinoPolyline
+    from Rhino.Geometry import Surface as RhinoSurface
     from Rhino.Geometry import Vector3d as RhinoVector3d
 
 # AUTHORSHIP -------------------------------------------------------------------
@@ -89,6 +100,97 @@ class KnitNetwork(KnitNetworkBase):
         else:
             self.MappingNetwork = None
 
+    @classmethod
+    def CreateFromContours(cls, contours, course_height, geometrybase=None):
+        """
+        Create and initialize a KnitNetwork based on a set of contours, a
+        given course height and an optional geometrybase.
+        The geometrybase is a mesh or surface which should be described by the
+        network. While it is optional, it is **HIGHLY** recommended to provide
+        it!
+
+        Parameters
+        ----------
+        contours : Curve / Polyline
+            Ordered contours (i.e. isocurves, isolines) to initialize the
+            KnitNetwork with.
+
+        course_height : float
+            The course height for sampling the contours.
+
+        geometrybase : Mesh / NurbsSurface
+            Optional underlying geometry that this network is based on.
+
+        Returns
+        -------
+        KnitNetwork : KnitNetwork
+            A new, initialized KnitNetwork instance.
+
+        Notes
+        -----
+        This method will automatically call InitializePositionContourEdges() on
+        the newly created network!
+        """
+
+        # create network
+        network = cls(geometrybase=geometrybase)
+
+        # assign geometrybase if present and valid
+        if geometrybase:
+            if isinstance(geometrybase, RhinoMesh):
+                network.graph["geometrybase"] = geometrybase
+            elif isinstance(geometrybase, RhinoBrep):
+                if geometrybase.IsSurface:
+                    network.graph["geometrybase"] = RhinoNurbsSurface(
+                                                       geometrybase.Surfaces[0])
+            elif isinstance(geometrybase, RhinoSurface):
+                network.graph["geometrybase"] = geometrybase
+        else:
+            network.graph["geometrybase"] = None
+
+        # divide the contours and fill network with vertices (nodes)
+        nodenum = 0
+        for i, crv in enumerate(contours):
+            # check input
+            if not isinstance(crv, RhinoCurve):
+                if isinstance(crv, RhinoPolyline):
+                    crv = crv.ToPolylineCurve()
+                else:
+                    errMsg = ("Contour at index {} is not ".format(i) + \
+                              "a valid Curve or Polyline!")
+                    raise KnitNetworkGeometryError(errMsg)
+
+            # compute divisioncount and divide contour
+            dc = round(crv.GetLength() / course_height)
+            tcrv = crv.DivideByCount(dc, True)
+            dpts = [crv.PointAt(t) for t in tcrv]
+
+            # loop over all vertices (points) on the current contour
+            for j, vertex in enumerate(dpts):
+                # declare node attributes
+                vpos = i
+                vnum = j
+                if j == 0 or j == len(dpts) - 1:
+                    vleaf = True
+                else:
+                    vleaf = False
+                # create network node from rhino point
+                network.NodeFromPoint3d(nodenum,
+                                        vertex,
+                                        vpos,
+                                        vnum,
+                                        vleaf,
+                                        False,
+                                        None)
+
+                # increment counter
+                nodenum += 1
+
+        # call position contour initialization
+        network.InitializePositionContourEdges()
+
+        return network
+
     # TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------
 
     def ToString(self):
@@ -112,6 +214,11 @@ class KnitNetwork(KnitNetworkBase):
         Creates all initial position contour edges as neither 'warp' nor 'weft'
         by iterating over all nodes in the network and grouping them based on
         their 'position' attribute.
+
+        Notes
+        -----
+        This method is auomatically called when creating a KnitNetwork using
+        the CreateFromContours method!
         """
 
         # get all nodes by position
@@ -2373,12 +2480,18 @@ class KnitNetwork(KnitNetworkBase):
         cycles = self.FindCycles(mode=mode)
 
         # we need a mapping between network edge -> containing cycles ... ??
+        # --> to determine if two cycles (dual nodes) are connected via
+        #     a warp or weft edge
 
         # get node data for all nodes once
         node_data = {k: self.node[k] for k in self.nodes_iter()}
 
         # create new KnitNetwork for dual network
         DualNetwork = KnitNetwork(geometrybase=self.graph["geometrybase"])
+
+        # create mapping dict for edges to adjacent cycles
+        edge_to_cycle = {(u, v): {} for u, v in self.edges_iter()}
+        edge_to_cycle.update({(v, u): {} for u, v in self.edges_iter()})
 
         # for each cycle, find the centroid node
         for ckey in cycles.keys():
@@ -2389,25 +2502,49 @@ class KnitNetwork(KnitNetworkBase):
             if c_len > 4 or c_len < 3:
                 continue
 
+            # loop over cycle edges and fill mapping dicts
+            closed_cycle = cycle[:]
+            closed_cycle.append(cycle[0])
+            for u, v in pairwise(closed_cycle):
+                if (u, v) in edge_to_cycle:
+                    edge_to_cycle[(u, v)][ckey] = True
+
             # get coords of cycle nodes
-            cycle_coords = [ [node_data[k]["x"],
-                              node_data[k]["y"],
-                              node_data[k]["z"]] for k in cycle ]
+            cycle_coords = [ [ node_data[k]["x"],
+                               node_data[k]["y"],
+                               node_data[k]["z"] ] for k in cycle ]
 
             # compute centroid
             c_x, c_y, c_z = zip(*cycle_coords)
             centroid = [sum(c_x) / c_len, sum(c_y) / c_len, sum(c_z) / c_len]
             centroid_pt = RhinoPoint3d(*centroid)
 
-            # compile node attributes
+            # get node attributes
             is_leaf = True in [node_data[k]["leaf"] for k in cycle]
             is_end = True in [node_data[k]["end"] for k in cycle]
-            attr_dict = { "x": centroid_pt.X,
-                          "y": centroid_pt.Y,
-                          "z": centroid_pt.Z,
-                          "geo": centroid_pt,
-                          "leaf": is_leaf,
-                          "end": is_end }
+
+            # add node to dual network
+            DualNetwork.NodeFromPoint3d(ckey,
+                                        centroid_pt,
+                                        position=None,
+                                        num=None,
+                                        leaf=is_leaf,
+                                        end=is_end,
+                                        segment=None)
+
+        # loop over original edges and create corresponding edges in dual
+        for u, v, d in self.edges_iter(data=True):
+            cycle_keys = edge_to_cycle[(u, v)].keys()
+            cycle_keys.extend(edge_to_cycle[(v, u)].keys())
+            if len(cycle_keys) == 2:
+                if d["warp"]:
+                    fromNode = (cycle_keys[0], DualNetwork.node[cycle_keys[0]])
+                    toNode = (cycle_keys[1], DualNetwork.node[cycle_keys[1]])
+                    DualNetwork.CreateWeftEdge(fromNode, toNode)
+                elif d["weft"]:
+                    fromNode = (cycle_keys[0], DualNetwork.node[cycle_keys[0]])
+                    toNode = (cycle_keys[1], DualNetwork.node[cycle_keys[1]])
+                    DualNetwork.CreateWarpEdge(fromNode, toNode)
 
         return DualNetwork
 
