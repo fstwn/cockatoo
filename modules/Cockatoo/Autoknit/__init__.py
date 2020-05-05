@@ -4,15 +4,15 @@ from __future__ import absolute_import
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 import Cockatoo.Environment
 
-from . import Engine
-from . import FileIO
-from . import Structs
-from . import Utility
+from Cockatoo.Autoknit import Engine
+from Cockatoo.Autoknit import FileIO
+from Cockatoo.Autoknit import Structs
+from Cockatoo.Autoknit import Utility
 
-from .Constraint import Constraint
-from .EmbeddedConstraint import EmbeddedConstraint
-from .Model import Model
-from .StoredConstraint import StoredConstraint
+from Cockatoo.Autoknit.Constraint import Constraint
+from Cockatoo.Autoknit.EmbeddedConstraint import EmbeddedConstraint
+from Cockatoo.Autoknit.Model import Model
+from Cockatoo.Autoknit.StoredConstraint import StoredConstraint
 
 # ALL DICTIONARY ---------------------------------------------------------------
 __all__ = [
