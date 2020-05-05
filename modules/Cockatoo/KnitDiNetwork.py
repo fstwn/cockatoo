@@ -379,6 +379,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
              2 equals to using an average plane between a plane fit to the
                origin and its neighbor nodes and a plane normal to the origin
                nodes closest point on the geometrybase
+            Defaults to -1
 
         Warning
         -------
@@ -415,7 +416,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         self._sort_neighbors(mode=mode)
 
         # find start node
-        # TODO: implement search from leaf nodes first
+        # TODO: implement search from leaf nodes first - ?
         u = sorted(self.nodes_iter(data=True), key=lambda n: (n[1]["y"], n[1]["x"]))[0][0]
 
         # initialize found and cycles dict
@@ -437,7 +438,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         # loop over all edges and find cycles
         for u, v in self.edges_iter():
-            # u -> v edges
+            # find cycles for u -> v edges
             if self.halfedge[u][v] is None:
                 cycle = self._find_edge_cycle(u, v)
                 frozen = frozenset(cycle)
@@ -447,7 +448,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                     ckey += 1
                 for a, b in pairwise(cycle + cycle[:1]):
                     self.halfedge[a][b] = found[frozen]
-            # v -> u edges
+            # find cycles for v -> u edges
             if self.halfedge[v][u] is None:
                 cycle = self._find_edge_cycle(v, u)
                 frozen = frozenset(cycle)
@@ -460,7 +461,67 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         return cycles
 
-    def ConstructMesh(self, mode=-1):
+    def CreateMesh(self, mode=-1, ngons=False):
+        """
+        Constructs a mesh from this network by finding cycles and using them as
+        mesh faces.
+
+        Parameters
+        ----------
+        mode : int
+            Determines how the neighbors of each node are sorted when finding
+            cycles for the network.
+            -1 equals to using the world XY plane (default)
+             0 equals to using a plane normal to the origin nodes closest
+               point on the geometrybase
+             1 equals to using a plane normal to the average of the origin
+               and neighbor nodes' closest points on the geometrybase
+             2 equals to using an average plane between a plane fit to the
+               origin and its neighbor nodes and a plane normal to the origin
+               nodes closest point on the geometrybase
+            Defaults to -1
+
+        ngons : bool
+            If True, n-gon faces (more than 4 edges) are allowed, otherwise
+            their cycles are treated as invalid and will be ignored.
+            Defaults to False.
+
+        Warning
+        -------
+        Modes other than -1 (default) are only possible if this network has an
+        underlying geometrybase in form of a Mesh or NurbsSurface. The
+        geometrybase should be assigned when initializing the network by
+        assigning the geometry to the "geometrybase" attribute of the network.
         """
 
-        """
+        # get cycles dict of this network
+        cycles = self.FindCycles(mode=mode)
+
+        # create an empty mesh
+        Mesh = RhinoMesh()
+
+        # intialize mapping of network nodes to mesh vertices
+        node_to_vertex = {}
+        vcount = 0
+
+        # fill mesh and map network nodes to mesh vertices
+        for node, data in self.nodes_iter(data=True):
+            node_to_vertex[node] = vcount
+            Mesh.Vertices.Add(data["x"], data["y"], data["z"])
+            vcount += 1
+
+        # loop over cycles and add faces to the mesh
+        for ckey in cycles.keys():
+            cycle = cycles[ckey]
+            if len(cycle) > 4 and not ngons:
+                continue
+            elif len(cycle) < 3:
+                continue
+            else:
+                mesh_cycle = [node_to_vertex[n] for n in cycle]
+                Mesh.Faces.AddFace(*mesh_cycle)
+
+        # unify the normals of the mesh
+        Mesh.UnifyNormals()
+
+        return Mesh
