@@ -179,11 +179,12 @@ class KnitNetwork(KnitNetworkBase):
                 # create network node from rhino point
                 network.NodeFromPoint3d(nodenum,
                                         vertex,
-                                        vpos,
-                                        vnum,
-                                        vleaf,
-                                        False,
-                                        None)
+                                        position=vpos,
+                                        num=vnum,
+                                        leaf=vleaf,
+                                        end=False,
+                                        segment=None,
+                                        crease=False)
 
                 # increment counter
                 nodenum += 1
@@ -1306,12 +1307,13 @@ class KnitNetwork(KnitNetworkBase):
             for j, pt in enumerate(divPts):
                 # add node to network
                 self.NodeFromPoint3d(nodeindex,
-                                    pt,
-                                    position = None,
-                                    num = j,
-                                    leaf = nodeLeaf,
-                                    end = False,
-                                    segment = seg[2]["segment"])
+                                     pt,
+                                     position=None,
+                                     num=j,
+                                     leaf=nodeLeaf,
+                                     end=False,
+                                     segment=seg[2]["segment"],
+                                     crease=False)
                 # increment node index
                 nodeindex += 1
 
@@ -2528,12 +2530,14 @@ class KnitNetwork(KnitNetworkBase):
                                         num=None,
                                         leaf=is_leaf,
                                         end=False,
-                                        segment=None)
+                                        segment=None,
+                                        crease=False)
 
         # loop over original edges and create corresponding edges in dual
         for u, v, d in self.edges_iter(data=True):
             cycle_keys = edge_to_cycle[(u, v)].keys()
             cycle_keys.extend(edge_to_cycle[(v, u)].keys())
+            cycle_keys.sort()
             if len(cycle_keys) == 2:
                 if d["warp"]:
                     fromNode = (cycle_keys[0], DualNetwork.node[cycle_keys[0]])
