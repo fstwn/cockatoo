@@ -428,6 +428,15 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         else:
             u = sorted(self.nodes_iter(data=True), key=lambda n: (n[1]["y"], n[1]["x"]))[0][0]
 
+
+        """
+        leaves = self.LeafNodes
+        if leaves:
+            u = sorted(leaves, key=lambda n: n[0])[0][0]
+        else:
+            u = sorted(self.nodes_iter(data=True), key=lambda n: n[0])[0][0]
+        """
+        
         # initialize found and cycles dict
         cycles = {}
         found = {}
