@@ -1596,7 +1596,7 @@ class KnitNetwork(KnitNetworkBase):
                 if res:
                     forbidden_node = fCand
 
-    def _create_second_pass_warp_connection(self, source_nodes, source_index, window, precise=False, verbose=False):
+    def _create_second_pass_warp_connection(self, source_nodes, source_index, window, precise=False, verbose=False, reversed=False):
         """
         Private method for creating second pass 'warp' connections for the
         given set of contours.
@@ -1667,11 +1667,14 @@ class KnitNetwork(KnitNetworkBase):
 
             # print info on verbose setting
             v_print("Connecting to node " +
-                    "{} on position {}...".format(fCand[0],
-                                                  fCand[1]["position"]))
+                    "{} on segment {}...".format(fCand[0],
+                                                  fCand[1]["segment"]))
 
             # connect weft edge to best target
-            self.CreateWarpEdge(source_nodes[source_index], fCand)
+            if reversed:
+                self.CreateWarpEdge(fCand, source_nodes[source_index])
+            else:
+                self.CreateWarpEdge(source_nodes[source_index], fCand)
 
     def CreateFinalWarpConnections(self, max_connections=4, include_end_nodes=True, precise=False, verbose=False):
         """
@@ -1726,6 +1729,9 @@ class KnitNetwork(KnitNetworkBase):
         # initialize segment mapping dictionaries
         source_to_target = OrderedDict()
         target_to_source = OrderedDict()
+
+        source_to_key = dict()
+        target_to_key = dict()
 
         # ITERATE OVER SOURCE SEGMENT CHAINS -----------------------------------
 
@@ -1836,8 +1842,12 @@ class KnitNetwork(KnitNetworkBase):
                 # fill mapping dictionaries
                 if current_ids not in source_to_target:
                     source_to_target[current_ids] = target_ids
+                if current_ids not in source_to_key:
+                    source_to_key[current_ids] = chain_value
                 if target_ids not in target_to_source:
                     target_to_source[target_ids] = current_ids
+                if target_ids not in target_to_key:
+                    target_to_key[target_ids] = target_key
 
                 # create initial warp connections between the chains
                 connected_chains[target_key] = True
@@ -1920,8 +1930,12 @@ class KnitNetwork(KnitNetworkBase):
                     # fill mapping dictionaries
                     if current_ids not in source_to_target:
                         source_to_target[current_ids] = target_ids
+                    if current_ids not in source_to_key:
+                        source_to_key[current_ids] = chain_value
                     if target_ids not in target_to_source:
                         target_to_source[target_ids] = current_ids
+                    if target_ids not in target_to_key:
+                        target_to_key[target_ids] = target_key
 
                     # create initial 'warp' connections between the chains
                     self._create_initial_warp_connections(
@@ -2005,8 +2019,12 @@ class KnitNetwork(KnitNetworkBase):
                     # fill mapping dictionaries
                     if current_ids not in source_to_target:
                         source_to_target[current_ids] = target_ids
+                    if current_ids not in source_to_key:
+                        source_to_key[current_ids] = chain_value
                     if target_ids not in target_to_source:
                         target_to_source[target_ids] = current_ids
+                    if target_ids not in target_to_key:
+                        target_to_key[target_ids] = target_key
 
                     self._create_initial_warp_connections(
                                                 segment_pair,
@@ -2090,8 +2108,12 @@ class KnitNetwork(KnitNetworkBase):
                     # fill mapping dictionaries
                     if current_ids not in source_to_target:
                         source_to_target[current_ids] = target_ids
+                    if current_ids not in source_to_key:
+                        source_to_key[current_ids] = chain_value
                     if target_ids not in target_to_source:
                         target_to_source[target_ids] = current_ids
+                    if target_ids not in target_to_key:
+                        target_to_key[target_ids] = target_key
 
                     self._create_initial_warp_connections(
                                                 segment_pair,
@@ -2223,10 +2245,10 @@ class KnitNetwork(KnitNetworkBase):
                         print("No valid window for current chain!")
 
         # INVOKE SECOND PASS FOR TARGET ---> SOURCE ----------------------------
-
         for i, current_chain in enumerate(target_to_source):
             print("-----------------------------------------------------------")
             print("T>S Current Chain: {}".format(current_chain))
+
             # build a list of nodes containing all nodes in the current chain
             # including all 'end' nodes
             current_chain_nodes = []
@@ -2238,6 +2260,9 @@ class KnitNetwork(KnitNetworkBase):
 
             # retrieve target chain from the source to target mapping
             target_chain = target_to_source[current_chain]
+
+            cckey = target_to_key[current_chain]
+            tckey = source_to_key[target_chain]
 
             # build a list of nodes containing all nodes in the target chain
             # including all 'end' nodes
@@ -2333,12 +2358,17 @@ class KnitNetwork(KnitNetworkBase):
                         print("End of window: {}".format(end_of_window))
 
                         # execute connection
+                        if cckey > tckey:
+                            rev = True
+                        else:
+                            rev = False
                         self._create_second_pass_warp_connection(
                                                             current_chain_nodes,
                                                             k,
                                                             window,
                                                             precise=precise,
-                                                            verbose=verbose)
+                                                            verbose=verbose,
+                                                            reversed=rev)
                     else:
                         print("No valid window for current chain!")
 
