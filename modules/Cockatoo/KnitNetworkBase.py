@@ -280,7 +280,7 @@ class KnitNetworkBase(nx.Graph):
 
     # NODE CREATION ------------------------------------------------------------
 
-    def NodeFromPoint3d(self, node_index, pt, position=None, num=None, leaf=False, end=False, segment=None):
+    def NodeFromPoint3d(self, node_index, pt, position=None, num=None, leaf=False, end=False, segment=None, crease=False):
         """
         Creates a network node from a Rhino Point3d and attributes.
 
@@ -309,13 +309,18 @@ class KnitNetworkBase(nx.Graph):
 
         end : bool
             The 'end' attribute of the node identifying it as the start or end
-            of a segment contour.
+            of a segment.
             Defaults to False.
 
         segment : :obj:`tuple` of :obj:`int`
             The 'segment' attribute of the node identifying its position between
             two 'end' nodes.
             Defaults to None.
+
+        crease : bool
+            The 'crease' attribute identifying the node as an increase or
+            decrease (needed for translation from dual to 2d knitting pattern).
+            Defaults to False.
         """
 
         # extract node coordinates
@@ -332,6 +337,7 @@ class KnitNetworkBase(nx.Graph):
                            "leaf": leaf,
                            "end": end,
                            "segment": segment,
+                           "crease": crease,
                            "geo": pt}
 
         # add the node to the network instance
