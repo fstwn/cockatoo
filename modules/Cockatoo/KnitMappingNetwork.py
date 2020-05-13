@@ -143,6 +143,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
         # get all warp edges of this mappingnetwork
         AllWarpEdges = self.WarpEdges
+        AllWarpEdges.sort(key=lambda e: e[0])
 
         # initialize lists and dictionaries for storage of chains
         source_chains = []
