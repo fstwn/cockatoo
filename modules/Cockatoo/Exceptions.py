@@ -61,6 +61,11 @@ class NetworkXVersionError(CockatooImportException):
 class AutoknitNotPresentError(CockatooImportException):
     """Exception raised when Autoknit does not seem to be present."""
 
+# CALLBACK EXCEPTIONS ----------------------------------------------------------
+
+class CockatooCallbackError(CockatooException):
+    """Exception raised when a supplied callback is not callable."""
+
 # KNITNETWORK EXCEPTIONS -------------------------------------------------------
 
 class KnitNetworkError(CockatooException):
