@@ -2577,6 +2577,39 @@ class KnitNetwork(KnitNetworkBase):
                     toNode = (cycle_keys[1], DualNetwork.node[cycle_keys[1]])
                     DualNetwork.CreateWarpEdge(fromNode, toNode)
 
+        # loop over all nodes of the network and set crease and end attrs
+        for node in DualNetwork.nodes_iter():
+            node_data = DualNetwork.node[node]
+
+            warp_edges = []
+            weft_edges = []
+            for k in DualNetwork[node].keys():
+                if DualNetwork[node][k]["weft"]:
+                    weft_edges.append(k)
+                elif DualNetwork[node][k]["warp"]:
+                    warp_edges.append(k)
+
+            warplen = len(warp_edges)
+            weftlen = len(weft_edges)
+
+            # 2 warp edges and 1 weft edge  >> end
+            if warplen == 2 and weftlen == 1:
+                node_data["end"] = True
+            # 2 warp edges and 0 weft edges >> end
+            elif warplen == 2 and weftlen == 0:
+                node_data["end"] = True
+            # 1 warp edge and 1 weft edge   >> end
+            elif warplen == 1 and weftlen == 1:
+                node_data["end"] = True
+            # 1 warp edge and 0 weft edges  >> end
+            elif warplen == 1 and weftlen == 0:
+                node_data["end"] = True
+            # 1 warp edge and 2 weft edges  >> crease
+            elif warplen == 1 and weftlen == 2:
+                if not node_data["leaf"]:
+                    node_data["crease"] = True
+
+
         # TODO: set 'end' attribute if node has two warp and one weft edge!
         # TODO: set 'crease' attribute if node has two weft and one warp edge
         #       and is not a leaf!
