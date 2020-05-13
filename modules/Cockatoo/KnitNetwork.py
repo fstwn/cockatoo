@@ -2524,7 +2524,7 @@ class KnitNetwork(KnitNetworkBase):
         edge_to_cycle.update({(v, u): {} for u, v in self.edges_iter()})
 
         # for each cycle, find the centroid node
-        for ckey in cycles.keys():
+        for ckey in sorted(cycles.keys()):
             cycle = cycles[ckey]
             c_len = len(cycle)
 
@@ -2551,7 +2551,6 @@ class KnitNetwork(KnitNetworkBase):
 
             # get node attributes
             is_leaf = True in [node_data[k]["leaf"] for k in cycle]
-            #is_end = True in [node_data[k]["end"] for k in cycle]
 
             # add node to dual network
             DualNetwork.NodeFromPoint3d(ckey,
