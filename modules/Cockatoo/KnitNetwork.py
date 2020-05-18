@@ -914,7 +914,7 @@ class KnitNetwork(KnitNetworkBase):
 
     # ASSIGNING OF 'SEGMENT' ATTRIBUTES FOR MAPPING NETWORK --------------------
 
-    def TraverseEdgeUntilEnd(self, start_end_node, start_node, seen_segments, way_nodes=None, way_edges=None, end_nodes=None):
+    def TraverseWeftEdgeUntilEnd(self, start_end_node, start_node, seen_segments, way_nodes=None, way_edges=None, end_nodes=None):
         """
         Method for traversing a path of 'weft' edges until another
         'end' node is discoverd.
@@ -931,7 +931,7 @@ class KnitNetwork(KnitNetworkBase):
 
         # get the connected edges and filter them, sort out the ones that
         # already have a 'segment' attribute assigned
-        connected_weft_edges = self.edges(start_node[0], data=True)
+        connected_weft_edges = self.NodeWeftEdges(start_node[0], data=True)
         filtered_weft_edges = []
         for cwe in connected_weft_edges:
             if cwe[2]["segment"] != None:
@@ -994,7 +994,7 @@ class KnitNetwork(KnitNetworkBase):
                 way_nodes.append(connected_node[0])
                 way_edges.append(fwec)
                 # call this method recursively until a 'end' node is found
-                return self.TraverseEdgeUntilEnd(start_end_node,
+                return self.TraverseWeftEdgeUntilEnd(start_end_node,
                                                  connected_node,
                                                  seen_segments,
                                                  way_nodes,
@@ -1011,7 +1011,7 @@ class KnitNetwork(KnitNetworkBase):
         """
 
         # get connected weft edges and sort them by their connected node
-        weft_connections = self.edges(start_end_node[0], data=True)
+        weft_connections = self.NodeWeftEdges(start_end_node[0], data=True)
         weft_connections.sort(key=lambda x: x[1])
 
         # loop through all connected weft edges
@@ -1041,7 +1041,7 @@ class KnitNetwork(KnitNetworkBase):
                 seen_segments.append((segStart, segEnd))
 
             else:
-                seen_segments = self.TraverseEdgeUntilEnd(start_end_node[0],
+                seen_segments = self.TraverseWeftEdgeUntilEnd(start_end_node[0],
                                                           connected_node,
                                                           seen_segments,
                                                           way_edges=[cwe])
