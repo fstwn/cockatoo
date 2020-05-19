@@ -2613,8 +2613,10 @@ class KnitNetwork(KnitNetworkBase):
             # 1 warp edge and 2 weft edges  >> crease
             elif warplen == 1 and weftlen == 2:
                 if not node_data["leaf"]:
-                    node_data["crease"] = True
-
+                    if warp_in:
+                        node_data["decrease"] = True
+                    elif warp_out:
+                        node_data["increase"] = True
 
         # TODO: set 'end' attribute if node has two warp and one weft edge!
         # TODO: set 'crease' attribute if node has two weft and one warp edge
