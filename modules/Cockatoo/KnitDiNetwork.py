@@ -177,7 +177,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         """
 
         WarpEdges = [(s, e, d) for s, e, d in \
-                     self.edges_iter(node, data=True) if d["warp"]]
+                     self.in_edges_iter(node, data=True) if d["warp"]]
 
         if data:
             return WarpEdges
