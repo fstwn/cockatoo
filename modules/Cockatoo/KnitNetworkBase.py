@@ -727,6 +727,24 @@ class KnitNetworkBase(nx.Graph):
 
         return True
 
+    # EDGE METHODS -------------------------------------------------------------
+
+    def EdgeGeometryDirection(self, u, v):
+        """
+        Returns a given edge in order with reference to the direction of the
+        associated geometry (line).
+        """
+
+        # get data of the edge
+        edge_geo = self[u][v]["geo"]
+
+        # compare the startpoint
+        if (edge_geo.From == self.node[u]["geo"] \
+        and edge_geo.To == self.node[v]["geo"]):
+            return (u, v)
+        else:
+            return (v, u)
+
     # EDGE PROPERTIES ----------------------------------------------------------
 
     def _get_contour_edges(self):
