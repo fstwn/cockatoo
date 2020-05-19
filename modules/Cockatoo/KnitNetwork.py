@@ -2361,10 +2361,13 @@ class KnitNetwork(KnitNetworkBase):
                         print("End of window: {}".format(end_of_window))
 
                         # execute connection
-                        if cckey > tckey:
-                            rev = True
-                        else:
+                        if cckey < tckey:
                             rev = False
+                        else:
+                            rev = True
+
+                        print(cckey, tckey)
+
                         self._create_second_pass_warp_connection(
                                                             current_chain_nodes,
                                                             k,
