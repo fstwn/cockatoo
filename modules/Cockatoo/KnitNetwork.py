@@ -1635,7 +1635,7 @@ class KnitNetwork(KnitNetworkBase):
             # get the contours current direction
             if source_index < len(source_nodes)-1:
                 sourceDir = RhinoLine(thisPt,
-                                   source_nodes[source_index+1][1]["geo"]).Direction
+                            source_nodes[source_index+1][1]["geo"]).Direction
             elif source_index == len(initial_nodes)-1:
                 sourceDir = RhinoLine(source_nodes[source_index-1][1]["geo"],
                                    thisPt).Direction
@@ -1661,7 +1661,7 @@ class KnitNetwork(KnitNetworkBase):
                                                     zip(allDists,
                                                         deltas,
                                                         window),
-                                                        key = itemgetter(0, 1)))
+                                                        key=itemgetter(0, 1)))
             # set final candidate node for connection
             fCand = most_perpendicular[0]
 
@@ -1670,7 +1670,7 @@ class KnitNetwork(KnitNetworkBase):
                     "{} on segment {}...".format(fCand[0],
                                                   fCand[1]["segment"]))
 
-            # connect weft edge to best target
+            # connect warp edge to best target
             if reversed:
                 self.CreateWarpEdge(fCand, source_nodes[source_index])
             else:
@@ -2290,7 +2290,7 @@ class KnitNetwork(KnitNetworkBase):
                 warp_edge_targets = [we[1] for we in node_warp_edges]
                 # loop over weft edge targets
                 for wet in warp_edge_targets:
-                    # if weft edge target  is in target chain nodes, node
+                    # if warp edge target  is in target chain nodes, node
                     # is connected and the start of our window for the next node
                     for n, tcn in enumerate(target_chain_nodes):
                         if wet == tcn[0]:
@@ -2326,7 +2326,7 @@ class KnitNetwork(KnitNetworkBase):
                                                      in tcn_warp_edges]
                             # loop over warp edge targets of current target node
                             for twet in tcn_warp_edge_targets:
-                                # of warp edge target is in current chain,
+                                # if warp edge target is in current chain,
                                 # it is the end of the window
                                 if (twet in [cn[0] for cn \
                                              in current_chain_nodes]):
@@ -2354,7 +2354,7 @@ class KnitNetwork(KnitNetworkBase):
                             window = target_chain_nodes[start_of_window: \
                                                         end_of_window+1]
 
-                        # print infor on verbose output
+                        # print info on verbose output
                         print("End of window: {}".format(end_of_window))
 
                         # execute connection
