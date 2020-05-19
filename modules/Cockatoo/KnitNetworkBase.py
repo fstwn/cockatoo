@@ -337,7 +337,8 @@ class KnitNetworkBase(nx.Graph):
                            "leaf": leaf,
                            "end": end,
                            "segment": segment,
-                           "crease": crease,
+                           "increase": increase,
+                           "decrease": decrease,
                            "geo": pt}
 
         # add the node to the network instance
