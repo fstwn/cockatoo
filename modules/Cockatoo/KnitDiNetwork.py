@@ -113,6 +113,142 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         data = data.format(nn, ce, wee, wae)
         return name + data
 
+    # NODE WEFT EDGE METHODS ---------------------------------------------------
+
+    def NodeWeftEdgesOut(self, node, data=False):
+        """
+        Gets the outgoing 'weft' edges connected to the given node.
+        """
+
+        WeftEdges = [(s, e, d) for s, e, d in \
+                     self.edges_iter(node, data=True) if d["weft"]]
+
+        if data:
+            return WeftEdges
+        else:
+            return [(e[0], e[1]) for e in WeftEdges]
+
+    def NodeWeftEdgesIn(self, node, data=False):
+        """
+        Gets the incmoing 'weft' edges connected to the given node.
+        """
+
+        WeftEdges = [(s, e, d) for s, e, d in \
+                     self.in_edges_iter(node, data=True) if d["weft"]]
+
+        if data:
+            return WeftEdges
+        else:
+            return [(e[0], e[1]) for e in WeftEdges]
+
+    def NodeWeftEdges(self, node, data=False):
+        """
+        Gets incoming and outgoing 'weft' edges connected to the given node.
+        """
+
+        WeftEdges = [(s, e, d) for s, e, d in \
+                     self.edges_iter(node, data=True) if d["weft"]]
+        WeftEdges.extend((s, e, d) for s, e, d in \
+                     self.in_edges_iter(node, data=True) if d["weft"])
+
+        if data:
+            return WeftEdges
+        else:
+            return [(e[0], e[1]) for e in WeftEdges]
+
+    # NODE WARP EDGE METHODS ---------------------------------------------------
+
+    def NodeWarpEdgesOut(self, node, data=False):
+        """
+        Gets the outgoing 'warp' edges connected to the given node.
+        """
+
+        WarpEdges = [(s, e, d) for s, e, d in \
+                     self.edges_iter(node, data=True) if d["warp"]]
+
+        if data:
+            return WarpEdges
+        else:
+            return [(e[0], e[1]) for e in WarpEdges]
+
+    def NodeWarpEdgesIn(self, node, data=False):
+        """
+        Gets the incoming 'warp' edges connected to the given node.
+        """
+
+        WarpEdges = [(s, e, d) for s, e, d in \
+                     self.edges_iter(node, data=True) if d["warp"]]
+
+        if data:
+            return WarpEdges
+        else:
+            return [(e[0], e[1]) for e in WarpEdges]
+
+    def NodeWarpEdges(self, node, data=False):
+        """
+        Gets the incoming and outgoing 'warp' edges connected to the given node.
+        """
+
+        WarpEdges = [(s, e, d) for s, e, d in \
+                     self.edges_iter(node, data=True) if d["warp"]]
+        WarpEdges.extend((s, e, d) for s, e, d in \
+                     self.in_edges_iter(node, data=True) if d["warp"])
+
+        if data:
+            return WarpEdges
+        else:
+            return [(e[0], e[1]) for e in WarpEdges]
+
+    # NODE CONTOUR EDGE METHODS ------------------------------------------------
+
+    def NodeContourEdgesOut(self, node, data=False):
+        """
+        Gets the outgoing edges marked neither 'warp' nor 'weft' connected to
+        the given node.
+        """
+
+        ContourEdges = [(s, e, d) for s, e, d in \
+                        self.edges_iter(node, data=True) \
+                        if not d["warp"] and not d["weft"]]
+
+        if data:
+            return ContourEdges
+        else:
+            return [(e[0], e[1]) for e in ContourEdges]
+
+    def NodeContourEdgesIn(self, node, data=False):
+        """
+        Gets the incoming edges marked neither 'warp' nor 'weft' connected to
+        the given node.
+        """
+
+        ContourEdges = [(s, e, d) for s, e, d in \
+                        self.in_edges_iter(node, data=True) \
+                        if not d["warp"] and not d["weft"]]
+
+        if data:
+            return ContourEdges
+        else:
+            return [(e[0], e[1]) for e in ContourEdges]
+
+    def NodeContourEdges(self, node, data=False):
+        """
+        Gets the incoming and outcoing edges marked neither 'warp' nor 'weft'
+        connected to the given node.
+        """
+
+        ContourEdges = [(s, e, d) for s, e, d in \
+                        self.edges_iter(node, data=True) \
+                        if not d["warp"] and not d["weft"]]
+        ContourEdges.extend([(s, e, d) for s, e, d in \
+                        self.in_edges_iter(node, data=True) \
+                        if not d["warp"] and not d["weft"]])
+
+        if data:
+            return ContourEdges
+        else:
+            return [(e[0], e[1]) for e in ContourEdges]
+
     # FIND FACES (CYCLES) OF NETWORK -------------------------------------------
 
     def _sort_node_neighbors(self, key, nbrs, xyz, geo, cbp, nrm, mode=-1, ccw=True):
