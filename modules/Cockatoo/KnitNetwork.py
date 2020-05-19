@@ -1613,7 +1613,10 @@ class KnitNetwork(KnitNetworkBase):
             v_print("Connecting to node {}.".format(window[0][0]))
 
             # connect 'warp' edge
-            self.CreateWarpEdge(source_nodes[source_index], window[0])
+            if reversed:
+                self.CreateWarpEdge(window[0], source_nodes[source_index])
+            else:
+                self.CreateWarpEdge(source_nodes[source_index], window[0])
         else:
             # retrive the point of the current source node
             thisPt = source_nodes[source_index][1]["geo"]
