@@ -280,7 +280,7 @@ class KnitNetworkBase(nx.Graph):
 
     # NODE CREATION ------------------------------------------------------------
 
-    def NodeFromPoint3d(self, node_index, pt, position=None, num=None, leaf=False, end=False, segment=None, crease=False):
+    def NodeFromPoint3d(self, node_index, pt, position=None, num=None, leaf=False, end=False, segment=None, increase=False, decrease=False):
         """
         Creates a network node from a Rhino Point3d and attributes.
 
