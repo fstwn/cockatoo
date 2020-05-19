@@ -184,7 +184,8 @@ class KnitNetwork(KnitNetworkBase):
                                         leaf=vleaf,
                                         end=False,
                                         segment=None,
-                                        crease=False)
+                                        increase=False,
+                                        decrease=False)
 
                 # increment counter
                 nodenum += 1
@@ -1313,7 +1314,8 @@ class KnitNetwork(KnitNetworkBase):
                                      leaf=nodeLeaf,
                                      end=False,
                                      segment=seg[2]["segment"],
-                                     crease=False)
+                                     increase=False,
+                                     decrease=False)
                 # increment node index
                 nodeindex += 1
 
@@ -2566,7 +2568,8 @@ class KnitNetwork(KnitNetworkBase):
                                         leaf=is_leaf,
                                         end=False,
                                         segment=None,
-                                        crease=False)
+                                        increase=False,
+                                        decrease=False)
 
         # loop over original edges and create corresponding edges in dual
         for u, v, d in self.edges_iter(data=True):
