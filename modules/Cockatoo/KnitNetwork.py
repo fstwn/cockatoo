@@ -2525,7 +2525,7 @@ class KnitNetwork(KnitNetworkBase):
         node_data = {k: self.node[k] for k in self.nodes_iter()}
 
         # create new KnitNetwork for dual network
-        DualNetwork = KnitNetwork(geometrybase=self.graph["geometrybase"])
+        DualNetwork = KnitDiNetwork(geometrybase=self.graph["geometrybase"])
 
         # create mapping dict for edges to adjacent cycles
         edge_to_cycle = {(u, v): {} for u, v in self.edges_iter()}
@@ -2590,16 +2590,13 @@ class KnitNetwork(KnitNetworkBase):
         for node in DualNetwork.nodes_iter():
             node_data = DualNetwork.node[node]
 
-            warp_edges = []
-            weft_edges = []
-            for k in DualNetwork[node].keys():
-                if DualNetwork[node][k]["weft"]:
-                    weft_edges.append(k)
-                elif DualNetwork[node][k]["warp"]:
-                    warp_edges.append(k)
+            warp_in = DualNetwork.NodeWarpEdgesIn(node)
+            warp_out = DualNetwork.NodeWarpEdgesOut(node)
+            weft_in = DualNetwork.NodeWeftEdgesIn(node)
+            weft_out = DualNetwork.NodeWeftEdgesOut(node)
 
-            warplen = len(warp_edges)
-            weftlen = len(weft_edges)
+            warplen = len(warp_in) + len(warp_out)
+            weftlen = len(weft_in) + len(weft_out)
 
             # 2 warp edges and 1 weft edge  >> end
             if warplen == 2 and weftlen == 1:
