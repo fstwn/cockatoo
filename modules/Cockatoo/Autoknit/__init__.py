@@ -14,7 +14,7 @@ from Cockatoo.Autoknit.EmbeddedConstraint import EmbeddedConstraint
 from Cockatoo.Autoknit.Model import Model
 from Cockatoo.Autoknit.StoredConstraint import StoredConstraint
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "Engine",
     "FileIO",

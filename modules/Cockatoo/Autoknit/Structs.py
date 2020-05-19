@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 import struct
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "STRUCT_SCALAR",
     "STRUCT_VERTEX",

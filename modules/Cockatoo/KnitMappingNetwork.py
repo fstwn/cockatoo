@@ -24,7 +24,7 @@ from Cockatoo.KnitNetworkBase import KnitNetworkBase
 # AUTHORSHIP -------------------------------------------------------------------
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "KnitMappingNetwork"
 ]

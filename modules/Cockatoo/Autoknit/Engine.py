@@ -11,7 +11,7 @@ from scriptcontext import sticky as st
 from Cockatoo.Autoknit.Environment import _AK_PATH_, _AK_INTERFACE_
 from Cockatoo.Autoknit.FileIO import SaveObj, SaveConstraints
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "InitializeComponentInterface",
     "TempFilePaths",

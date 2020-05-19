@@ -10,7 +10,7 @@ Version: 200503
 
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 
 __all__ = [
     "CockatooException",

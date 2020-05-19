@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 from os import path
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "_AK_RAW_PATH_",
     "_AK_PATH_",

@@ -19,7 +19,7 @@ from .Constraint import Constraint
 from .FileIO import LoadConstraints, SaveConstraints, SaveObj, LoadObj
 from .Utility import AttributeList, make_kd_tree, get_nearest
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "Model"
 ]

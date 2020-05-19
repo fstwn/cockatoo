@@ -58,7 +58,7 @@ else:
 
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "KnitNetwork"
 ]

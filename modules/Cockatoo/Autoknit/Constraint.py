@@ -5,7 +5,7 @@ from __future__ import division
 # RHINO IMPORTS ----------------------------------------------------------------
 from Rhino.Geometry import Point3d, Polyline, PolylineCurve
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "Constraint"
 ]

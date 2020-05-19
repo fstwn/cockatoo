@@ -23,7 +23,7 @@ from Cockatoo.KnitMappingNetwork import KnitMappingNetwork
 
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "Autoknit",
     "Environment",

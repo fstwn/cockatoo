@@ -37,7 +37,7 @@ import networkx as nx
 
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "KnitNetworkBase"
 ]

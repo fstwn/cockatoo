@@ -4,7 +4,7 @@ from __future__ import division
 import heapq
 import string
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "make_kd_tree",
     "get_knn",

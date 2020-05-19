@@ -28,7 +28,7 @@ else:
     from Rhino.Geometry import Mesh as RhinoMesh
     from Rhino.Geometry import Point3f as RhinoPoint3f
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "LoadConstraints",
     "SaveConstraints",

@@ -5,7 +5,7 @@ from __future__ import division
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from Cockatoo.Autoknit.StoredConstraint import StoredConstraint
 
-# ALL DICTIONARY ---------------------------------------------------------------
+# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "EmbeddedConstraint"
 ]
