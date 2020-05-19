@@ -2570,20 +2570,20 @@ class KnitNetwork(KnitNetworkBase):
 
         # loop over original edges and create corresponding edges in dual
         for u, v, d in self.edges_iter(data=True):
-            cycle_keys = edge_to_cycle[(u, v)].keys()
-            cycle_keys.extend(edge_to_cycle[(v, u)].keys())
-            cycle_keys.sort()
-            if len(cycle_keys) == 2:
+            u, v = self.EdgeGeometryDirection(u, v)
+            cycle_a = edge_to_cycle[(u, v)].keys()
+            cycle_b = edge_to_cycle[(v, u)].keys()
+            if cycle_a and cycle_b:
+                cycle_a = cycle_a[0]
+                cycle_b = cycle_b[0]
+                node_a = (cycle_a, DualNetwork.node[cycle_a])
+                node_b = (cycle_b, DualNetwork.node[cycle_b])
                 if d["warp"]:
-                    fromNode = (cycle_keys[0], DualNetwork.node[cycle_keys[0]])
-                    toNode = (cycle_keys[1], DualNetwork.node[cycle_keys[1]])
-                    DualNetwork.CreateWeftEdge(fromNode, toNode)
+                    DualNetwork.CreateWeftEdge(node_a, node_b)
                 elif d["weft"]:
-                    fromNode = (cycle_keys[0], DualNetwork.node[cycle_keys[0]])
-                    toNode = (cycle_keys[1], DualNetwork.node[cycle_keys[1]])
-                    DualNetwork.CreateWarpEdge(fromNode, toNode)
+                    DualNetwork.CreateWarpEdge(node_b, node_a)
 
-        # loop over all nodes of the network and set crease and end attrs
+        # loop over all nodes of the network and set crease and end attributes
         for node in DualNetwork.nodes_iter():
             node_data = DualNetwork.node[node]
 
