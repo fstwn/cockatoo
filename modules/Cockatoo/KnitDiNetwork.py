@@ -747,6 +747,17 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         return True
 
+    def MakeCsvData(self):
+        """
+        Stuctures this network in a way that it can be represented as rows and
+        columns to produce a 2d knitting pattern.
+
+        Returns
+        -------
+            CSV Data : List of lists (rows) where every value represents a node
+        """
+        pass
+
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':
     pass
