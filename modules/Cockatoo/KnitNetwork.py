@@ -294,6 +294,7 @@ class KnitNetwork(KnitNetworkBase):
             True if the connection has been made, otherwise false.
         """
 
+        # define verbose print function
         v_print = print if verbose else lambda *a, **k: None
 
         # get connected neighbors
@@ -335,6 +336,7 @@ class KnitNetwork(KnitNetworkBase):
         propagating to the last contour in the set.
         """
 
+        # define verbose print function
         v_print = print if verbose else lambda *a, **k: None
 
         if len(contour_set) < 2:
@@ -1396,6 +1398,7 @@ class KnitNetwork(KnitNetworkBase):
             True if the connection has been made, otherwise false.
         """
 
+        # define verbose print function
         v_print = print if verbose else lambda *a, **k: None
 
         connecting_neighbors = self[candidate[0]]
@@ -1429,6 +1432,7 @@ class KnitNetwork(KnitNetworkBase):
         supplied with their attribute data!
         """
 
+        # define verbose print function
         v_print = print if verbose else lambda *a, **k: None
 
         if len(segment_pair) < 2:
@@ -1613,6 +1617,7 @@ class KnitNetwork(KnitNetworkBase):
         given set of contours.
         """
 
+        # define verbose print function
         v_print = print if verbose else lambda *a, **k: None
 
         if len(window) == 0:
@@ -1724,6 +1729,7 @@ class KnitNetwork(KnitNetworkBase):
             Defaults to False.
         """
 
+        # define verbose print function
         v_print = print if verbose else lambda *a, **k: None
 
         # get all segment ids, nodes per segment and edges

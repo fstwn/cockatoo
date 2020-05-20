@@ -734,12 +734,16 @@ class KnitNetworkBase(nx.Graph):
         """
         Returns a given edge in order with reference to the direction of the
         associated geometry (line).
+
+        Returns
+        -------
+            edge : 2-tuple of (u, v) or (v, u) depending on the directions
         """
 
-        # get data of the edge
+        # get geometry data of the edge
         edge_geo = self[u][v]["geo"]
 
-        # compare the startpoint
+        # compare start and endpoint and return nodes in order accordingly
         if (edge_geo.From == self.node[u]["geo"] \
         and edge_geo.To == self.node[v]["geo"]):
             return (u, v)
