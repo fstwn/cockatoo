@@ -318,7 +318,10 @@ class KnitNetwork(KnitNetworkBase):
                 v_print("Connecting node {} to best ".format(node[0]) +
                         "candidate {}.".format(candidate[0]))
                 # if all conditions are met, make the 'weft' connection
-                self.CreateWeftEdge(node, candidate)
+                if node[1]["position"] < candidate[1]["position"]:
+                    self.CreateWeftEdge(node, candidate)
+                else:
+                    self.CreateWeftEdge(candidate, node)
                 return True
             else:
                 return False
@@ -731,7 +734,10 @@ class KnitNetwork(KnitNetworkBase):
                                                       window[0][1]["position"]))
 
                         # connect weft edge
-                        self.CreateWeftEdge(node, window[0])
+                        if node[1]["position"] < window[0][1]["position"]:
+                            self.CreateWeftEdge(node, window[0])
+                        else:
+                            self.CreateWeftEdge(window[0], node)
                     else:
                         # print info on verbose setting
                         v_print("Processing window nodes: {}".format(
@@ -801,7 +807,10 @@ class KnitNetwork(KnitNetworkBase):
                                                         fCand[1]["position"]))
 
                         # connect weft edge to best target
-                        self.CreateWeftEdge(node, fCand)
+                        if node[1]["position"] < fCand[1]["position"]:
+                            self.CreateWeftEdge(node, fCand)
+                        else:
+                            self.CreateWeftEdge(fCand, node)
 
     def InitializeWeftEdges(self, start_index=None, include_leaves=False, max_connections=4, least_connected=False, precise=False, verbose=False):
         """
