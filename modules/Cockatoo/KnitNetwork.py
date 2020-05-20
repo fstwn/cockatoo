@@ -2161,6 +2161,9 @@ class KnitNetwork(KnitNetworkBase):
             # retrieve target chain from the source to target mapping
             target_chain = source_to_target[current_chain]
 
+            cckey = source_to_key[current_chain]
+            tckey = target_to_key[target_chain]
+
             # build a list of nodes containing all nodes in the target chain
             # including all 'end' nodes
             target_chain_nodes = []
@@ -2172,9 +2175,6 @@ class KnitNetwork(KnitNetworkBase):
 
             # initialize start of window marker
             start_of_window = -1
-
-            cckey = source_to_key[current_chain]
-            tckey = target_to_key[target_chain]
 
             # loop through all nodes on the current chain
             for k, node in enumerate(current_chain_nodes):
