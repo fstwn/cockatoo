@@ -2638,7 +2638,6 @@ class KnitNetwork(KnitNetworkBase):
                     elif warp_in:
                         node_data["decrease"] = True
 
-
         return DualNetwork
 
 # MAIN -------------------------------------------------------------------------
