@@ -2610,9 +2610,9 @@ class KnitNetwork(KnitNetworkBase):
                 node_a = (cycle_a, DualNetwork.node[cycle_a])
                 node_b = (cycle_b, DualNetwork.node[cycle_b])
                 if d["warp"]:
-                    DualNetwork.CreateWeftEdge(node_a, node_b)
+                    DualNetwork.CreateWeftEdge(node_b, node_a)
                 elif d["weft"]:
-                    DualNetwork.CreateWarpEdge(node_b, node_a)
+                    DualNetwork.CreateWarpEdge(node_a, node_b)
 
         # loop over all nodes of the network and set crease and end attributes
         for node in DualNetwork.nodes_iter():
