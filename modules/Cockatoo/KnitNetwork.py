@@ -2613,16 +2613,24 @@ class KnitNetwork(KnitNetworkBase):
             # 2 warp edges and 1 weft edge  >> end
             if warplen == 2 and weftlen == 1:
                 node_data["end"] = True
-            # 2 warp edges and 0 weft edges >> end
-            elif warplen == 2 and weftlen == 0:
-                node_data["end"] = True
+
             # 1 warp edge and 1 weft edge   >> end
             elif warplen == 1 and weftlen == 1:
                 node_data["end"] = True
+
+            # 2 warp edges and 0 weft edges >> end
+            elif warplen == 2 and weftlen == 0:
+                node_data["end"] = True
+
             # 1 warp edge and 0 weft edges  >> end
             elif warplen == 1 and weftlen == 0:
                 node_data["end"] = True
-            # 1 warp edge and 2 weft edges  >> crease
+
+            # 0 warp edges and 1 weft edge  >> end
+            elif warplen == 0 and weftlen == 1:
+                node_data["end"] = True
+
+            # 1 warp edge and 2 weft edges  >> increase or decrease
             elif warplen == 1 and weftlen == 2:
                 if not node_data["leaf"]:
                     if warp_in:
