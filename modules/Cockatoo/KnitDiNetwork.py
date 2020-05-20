@@ -711,6 +711,42 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         return Mesh
 
+    # CONVERSION TO 2D-KNITTINGPATTERN (PIXEL IMAGE) ---------------------------
+
+    def VerifyDualForm(self):
+        """
+        Verifies this network to have the correct form of a dual as needed for
+        representing this network as a 2d knitting pattern.
+
+        Returns
+        -------
+            True on success, False otherwise.
+        """
+
+        # check every single node
+        for node in self.nodes_iter():
+            # verify if all nodes have the correct keys for attributes
+            try:
+                end = self.node[node]["end"]
+                inc = self.node[node]["increase"]
+                dec = self.node[node]["decrease"]
+                lfn = self.node[node]["leaf"]
+                geo = self.node[node]["geo"]
+            except KeyError as e:
+                return False
+
+            # get all neighbors
+            prd = self.predecessors(node)
+            suc = self.successors(node)
+            nbr = prd + suc
+            lnn = len(nbr)
+
+            # check for disconnected nodes
+            if not lnn:
+                return False
+
+        return True
+
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':
     pass
