@@ -2633,10 +2633,11 @@ class KnitNetwork(KnitNetworkBase):
             # 1 warp edge and 2 weft edges  >> increase or decrease
             elif warplen == 1 and weftlen == 2:
                 if not node_data["leaf"]:
-                    if warp_in:
-                        node_data["decrease"] = True
-                    elif warp_out:
+                    if warp_out:
                         node_data["increase"] = True
+                    elif warp_in:
+                        node_data["decrease"] = True
+
 
         return DualNetwork
 
