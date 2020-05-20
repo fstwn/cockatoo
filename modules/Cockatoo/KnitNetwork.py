@@ -290,8 +290,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Returns
         -------
-        result : bool
-            True if the connection has been made, otherwise false.
+        bool
+            ``True`` if the connection has been made.
+            ``False`` otherwise.
         """
 
         # define verbose print function
@@ -2534,7 +2535,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Returns
         -------
-        Dual : KnitNetwork
+        Dual : KnitDiNetwork
             The dual network of this KnitNetwork.
 
         Warning

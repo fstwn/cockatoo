@@ -720,7 +720,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         Returns
         -------
-            True on success, False otherwise.
+        bool
+            ``True`` on success.
+            ``False`` otherwise.
         """
 
         # check every single node
@@ -754,7 +756,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         Returns
         -------
-            CSV Data : List of lists (rows) where every value represents a node
+        CSV Data
+            List of lists (rows) where every value represents a node
         """
         pass
 
