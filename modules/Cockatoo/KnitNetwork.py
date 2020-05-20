@@ -2524,7 +2524,7 @@ class KnitNetwork(KnitNetworkBase):
         # get node data for all nodes once
         node_data = {k: self.node[k] for k in self.nodes_iter()}
 
-        # create new KnitNetwork for dual network
+        # create new directed KnitDiNetwork for dual network
         DualNetwork = KnitDiNetwork(geometrybase=self.graph["geometrybase"])
 
         # create mapping dict for edges to adjacent cycles
@@ -2536,7 +2536,7 @@ class KnitNetwork(KnitNetworkBase):
             cycle = cycles[ckey]
             c_len = len(cycle)
 
-            # skip invalid cycles
+            # skip invalid cycles (ngons and self-loops)
             if c_len > 4 or c_len < 3:
                 continue
 
@@ -2617,10 +2617,6 @@ class KnitNetwork(KnitNetworkBase):
                         node_data["decrease"] = True
                     elif warp_out:
                         node_data["increase"] = True
-
-        # TODO: set 'end' attribute if node has two warp and one weft edge!
-        # TODO: set 'crease' attribute if node has two weft and one warp edge
-        #       and is not a leaf!
 
         return DualNetwork
 
