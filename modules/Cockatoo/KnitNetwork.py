@@ -2259,7 +2259,7 @@ class KnitNetwork(KnitNetworkBase):
 
                         # execute connection to target
 
-                        if cckey < tckey:
+                        if cckey <= tckey:
                             rev = False
                         else:
                             rev = True
