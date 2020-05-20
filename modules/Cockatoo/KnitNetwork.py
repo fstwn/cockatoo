@@ -1598,7 +1598,7 @@ class KnitNetwork(KnitNetworkBase):
                 if res:
                     forbidden_node = fCand
 
-    def _create_second_pass_warp_connection(self, source_nodes, source_index, window, precise=False, verbose=False, reversed=False):
+    def _create_second_pass_warp_connection(self, source_nodes, source_index, window, precise=False, verbose=False, reverse=False):
         """
         Private method for creating second pass 'warp' connections for the
         given set of contours.
@@ -1615,7 +1615,7 @@ class KnitNetwork(KnitNetworkBase):
             v_print("Connecting to node {}.".format(window[0][0]))
 
             # connect 'warp' edge
-            if reversed:
+            if reverse:
                 self.CreateWarpEdge(window[0], source_nodes[source_index])
             else:
                 self.CreateWarpEdge(source_nodes[source_index], window[0])
@@ -1676,7 +1676,7 @@ class KnitNetwork(KnitNetworkBase):
                                                   fCand[1]["segment"]))
 
             # connect warp edge to best target
-            if reversed:
+            if reverse:
                 self.CreateWarpEdge(fCand, source_nodes[source_index])
             else:
                 self.CreateWarpEdge(source_nodes[source_index], fCand)
@@ -2157,6 +2157,9 @@ class KnitNetwork(KnitNetworkBase):
             # initialize start of window marker
             start_of_window = -1
 
+            cckey = source_to_key[current_chain]
+            tckey = target_to_key[target_chain]
+
             # loop through all nodes on the current chain
             for k, node in enumerate(current_chain_nodes):
                 # find out if the current node is already principally connected
@@ -2239,12 +2242,21 @@ class KnitNetwork(KnitNetworkBase):
                         print("End of window: {}".format(end_of_window))
 
                         # execute connection to target
+
+                        if cckey < tckey:
+                            rev = False
+                        else:
+                            rev = True
+
+                        print(cckey, tckey)
+
                         self._create_second_pass_warp_connection(
                                                             current_chain_nodes,
                                                             k,
                                                             window,
                                                             precise=precise,
-                                                            verbose=verbose)
+                                                            verbose=verbose,
+                                                            reverse=rev)
                     else:
                         # print info on verbose setting
                         print("No valid window for current chain!")
@@ -2376,7 +2388,7 @@ class KnitNetwork(KnitNetworkBase):
                                                             window,
                                                             precise=precise,
                                                             verbose=verbose,
-                                                            reversed=rev)
+                                                            reverse=rev)
                     else:
                         print("No valid window for current chain!")
 
