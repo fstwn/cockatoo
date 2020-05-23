@@ -735,7 +735,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 dec = self.node[node]["decrease"]
                 lfn = self.node[node]["leaf"]
                 geo = self.node[node]["geo"]
-            except KeyError as e:
+            except KeyError:
                 return False
 
             # get all neighbors
