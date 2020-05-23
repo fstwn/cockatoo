@@ -16,6 +16,7 @@ from operator import itemgetter
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from Cockatoo.Environment import IsRhinoInside
+from Cockatoo.Exceptions import *
 from Cockatoo.KnitNetworkBase import KnitNetworkBase
 from Cockatoo.Utilities import is_ccw_xy
 from Cockatoo.Utilities import pairwise
