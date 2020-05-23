@@ -25,6 +25,7 @@ __all__ = [
     "KnitNetworkError",
     "KnitNetworkGeometryError",
     "MappingNetworkError",
+    "KnitNetworkTopologyError",
     "NoWeftEdgesError",
     "NoWarpEdgesError",
     "NoEndNodesError"
@@ -78,6 +79,12 @@ class MappingNetworkError(KnitNetworkError):
     """
     Exception raised by methods relying on a mapping network if no mapping
     network has been assigned to the current KnitNetwork instance yet.
+    """
+
+class KnitNetworkTopologyError(KnitNetworkError):
+    """
+    Exception raised by methods which rely on a certain topology of a network if
+    that topology could not be verified.
     """
 
 class NoWeftEdgesError(KnitNetworkError):
