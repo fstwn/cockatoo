@@ -2556,24 +2556,23 @@ class KnitNetwork(KnitNetworkBase):
         DualNetwork = KnitDiNetwork(geometrybase=self.graph["geometrybase"])
 
         # create mapping dict for edges to adjacent cycles
-        edge_to_cycle = {(u, v): {} for u, v in self.edges_iter()}
-        edge_to_cycle.update({(v, u): {} for u, v in self.edges_iter()})
+        edge_to_cycle = {(u, v): None for u, v in self.edges_iter()}
+        edge_to_cycle.update({(v, u): None for u, v in self.edges_iter()})
 
         # for each cycle, find the centroid node
         for ckey in sorted(cycles.keys()):
             cycle = cycles[ckey]
-            c_len = len(cycle)
+            clen = len(cycle)
 
             # skip invalid cycles (ngons and self-loops)
-            if c_len > 4 or c_len < 3:
+            if clen > 4 or clen < 3:
                 continue
 
             # loop over cycle edges and fill mapping dicts
             closed_cycle = cycle[:]
             closed_cycle.append(cycle[0])
             for u, v in pairwise(closed_cycle):
-                if (u, v) in edge_to_cycle:
-                    edge_to_cycle[(u, v)][ckey] = True
+                edge_to_cycle[(u, v)] = ckey
 
             # get coords of cycle nodes
             cycle_coords = [ [ node_data[k]["x"],
@@ -2581,8 +2580,8 @@ class KnitNetwork(KnitNetworkBase):
                                node_data[k]["z"] ] for k in cycle ]
 
             # compute centroid
-            c_x, c_y, c_z = zip(*cycle_coords)
-            centroid = [sum(c_x) / c_len, sum(c_y) / c_len, sum(c_z) / c_len]
+            cx, cy, cz = zip(*cycle_coords)
+            centroid = [sum(cx) / clen, sum(cy) / clen, sum(cz) / clen]
             centroid_pt = RhinoPoint3d(*centroid)
 
             # get node attributes
@@ -2602,11 +2601,9 @@ class KnitNetwork(KnitNetworkBase):
         # loop over original edges and create corresponding edges in dual
         for u, v, d in self.edges_iter(data=True):
             u, v = self.EdgeGeometryDirection(u, v)
-            cycle_a = edge_to_cycle[(u, v)].keys()
-            cycle_b = edge_to_cycle[(v, u)].keys()
-            if cycle_a and cycle_b:
-                cycle_a = cycle_a[0]
-                cycle_b = cycle_b[0]
+            cycle_a = edge_to_cycle[(u, v)]
+            cycle_b = edge_to_cycle[(v, u)]
+            if cycle_a is not None and cycle_b is not None:
                 node_a = (cycle_a, DualNetwork.node[cycle_a])
                 node_b = (cycle_b, DualNetwork.node[cycle_b])
                 if d["warp"]:
