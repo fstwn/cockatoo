@@ -860,7 +860,10 @@ class KnitNetwork(KnitNetworkBase):
 
         # split position list into two sets based on start index
         leftContours = AllPositions[0:start_index+1]
-        leftContours.reverse()
+        # TODO / NOTE:
+        # should left contours be reversed? reversed version has shown problems
+        # should this be optional?
+        #leftContours.reverse()
         rightContours = AllPositions[start_index:]
 
         # create the initial weft connections
