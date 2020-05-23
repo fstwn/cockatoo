@@ -11,6 +11,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from collections import deque
+from collections import OrderedDict
 import math
 from operator import itemgetter
 
@@ -760,7 +761,185 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         CSV Data
             List of lists (rows) where every value represents a node
         """
-        pass
+
+        # initialize dict for seen nodes and list for storage of rows
+        seen = {}
+        rows = []
+
+        # initialize mapping dicts for ordering of rows and columns
+        id2row= OrderedDict()
+        node2id = OrderedDict()
+
+        # every 'end' node defines the start of a row
+        # loop over all 'end' nodes
+        for node, data in self.EndNodes:
+            # continue if this node has already been visited
+            if node in seen:
+                continue
+
+            # get outgoing 'weft' edges of the current 'end' node
+            nodeweft_out = self.NodeWeftEdgesOut(node, data=True)
+            nodeweft_in = self.NodeWeftEdgesIn(node, data=True)
+
+            # skip 'end' nodes which have only incoming 'weft' edges
+            if nodeweft_in and not nodeweft_out:
+                continue
+
+            # if there is more than one outgoing weft edge, we have a problem
+            if len(nodeweft_out) > 1:
+                errMsg = "More than one outgoing 'weft' edge at " + \
+                         "first row node {}!".format(node)
+                raise KnitNetworkDualTopologyError(errMsg)
+            # if this is a singular node, it is a separate row.
+            elif len(nodeweft_out) == 0 and len(nodeweft_in) == 0:
+                # append it as a row to the list of rows
+                rows.append([node])
+                # set the mapping dictionaries
+                row_id = (node, node)
+                id2row[row_id] = [node]
+                node2id.update({node : row_id})
+                # set the seen marker and continue to next 'end' node
+                seen[node] = True
+                continue
+            # if there is exactly one 'weft' edge, traverse until next node
+            elif len(nodeweft_out) == 1:
+                # get the connected node to the current node
+                connected_node = (nodeweft_out[0][1],
+                                  self.node[nodeweft_out[0][1]])
+                # define initial row nodes with nodes of the first edge
+                row_nodes = [node, connected_node[0]]
+                # traverse as long as there is an outgoing next 'weft' edge
+                # until an 'end' node is discovered
+                while True:
+                    # get 'weft' edges of last node in row nodes
+                    next_weft = self.NodeWeftEdgesOut(row_nodes[-1])
+                    # if there is more than one connected 'weft' edge, we
+                    # have a problem
+                    if len(next_weft) > 1:
+                        errMsg = "More than one outgoing 'weft' edge at " + \
+                                 "row node {}!".format(node)
+                        raise KnitNetworkTopologyError(errMsg)
+                    # if there are no next 'weft' edges, row is complete
+                    elif len(next_weft) == 0:
+                        if self.node[row_nodes[-1]]["end"]:
+                            # this is the finishing 'end' node; set it seen
+                            # and complete this row by breaking
+                            seen[row_nodes[-1]] = True
+                            break
+                        # if there are no next 'weft' edges but this is not
+                        # an 'end' node, we have a problem
+                        else:
+                            errMsg = "Unexpected end of row. Missing 'end' " + \
+                                   "attribute at node {}!".format(row_nodes[-1])
+                            raise KnitNetworkTopologyError(errMsg)
+                    # if there is a next node over a weft edge, append to
+                    # row and continue
+                    elif len(next_weft) == 1:
+                        row_nodes.append(next_weft[0][1])
+                        continue
+                # append the completed row to the list of rows
+                rows.append(row_nodes)
+                # set the mapping dictionaries
+                row_id = (row_nodes[0], row_nodes[-1])
+                id2row[row_id] = row_nodes
+                node2id.update({node : row_id for node in row_nodes})
+                # finally, set the current node as seen
+                seen[node] = True
+
+        # fill all the rows to minimum row length with placeholder values (-1)
+        minrl = max([len(row) for row in rows])
+        
+        # loop over all rows and fill until minimum length
+        for key in id2row.keys():
+            row = id2row[key]
+            for j in range(minrl):
+                try:
+                    node = row[j]
+                except IndexError:
+                    row.append(-1)
+            id2row[key] = row
+
+        # order all rows based network topology
+
+        # loop over all rows and check warp edge connectivity
+        # start with the first row in the list ...
+
+        # order the sources and destinations
+        # each row has to be "on top" of all of its sources and "below" all
+        # of its destinations
+
+        row_ids = id2row.keys()
+
+        rowtarget = {}
+
+        # TODO: same principle in reverse has also to be applied to the sources
+        #       if this approach is valid at all
+        # NOTE: establish "local order" by computing the maximum shortest path
+        #       lengths between the current row and all its direct targets
+
+        # NOTE: approach B: make a comparison function that compares two
+        #       arbitrary rows and can decide if they should be swapped
+        #       after that, a bubble sort or similar algorithm could be used
+
+        for row_id in row_ids[:]:
+            # find all targets of this particular row by checking all nodes
+            # for targets and getting the corresponding row
+
+            # get row from mapping dict
+            row = id2row[row_id]
+            # initialize list for storage of targets
+            target_ids = []
+            # loop over all nodes in the current row
+            for node in row:
+                # continue on -1 marker
+                if node < 0:
+                    continue
+
+                # check the node for outgoing warp edges and get its successor
+                try:
+                    node_suc = self.NodeWarpEdgesOut(node)[0][1]
+                except IndexError:
+                    continue
+
+                # find the id of the row which contains the 'warp' edge
+                # successor node
+                target_id = node2id[node_suc]
+
+                # if we already found this id before, continue
+                if target_id in target_ids:
+                    continue
+
+                # if its a new id, append it to the list of found target ids
+                target_ids.append(target_id)
+
+            # if there are no target ids, we have found an 'absolute end'
+            if len(target_ids) == 0:
+                # the absolute end can be extracted at its index and appended
+                # to the end of the ordering
+                row_ids.append(row_ids.pop(row_ids.index(row_id)))
+            # if there are multiple targets, we need to build a local order (?)
+            elif len(target_ids) > 1:
+                # move all targets behind the current row
+                # establish order by using the current index of the targets
+                row_index = row_ids.index(row_id)
+                initial_indices = [row_ids.index(r) for r in target_ids]
+                initial_indices, target_ids = zip(*sorted(zip(initial_indices,
+                                                              target_ids)))
+
+                # move all the target ids behind the current row in order
+                for i, tid in enumerate(target_ids):
+                    # remove the target ids from the list
+                    row_ids.pop(row_ids.index(tid))
+                    # insert the id after the current row / the last inserted id
+                    row_ids.insert(row_ids.index(row_id)+i, tid)
+
+            # store all the sources in the mapping dict
+            rowtarget[row_id] = target_ids
+
+        ordered_rows = [id2row[id] for id in row_ids]
+
+        # return all rows
+        return rows, ordered_rows
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':
