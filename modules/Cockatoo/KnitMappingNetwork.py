@@ -19,7 +19,21 @@ from operator import itemgetter
 import networkx as nx
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
+# from Cockatoo.Environment import IsRhinoInside
 from Cockatoo.KnitNetworkBase import KnitNetworkBase
+from Cockatoo.Utilities import is_ccw_xy
+
+# RHINO IMPORTS ----------------------------------------------------------------
+# if IsRhinoInside():
+#     import rhinoinside
+#     rhinoinside.load()
+#     from Rhino.Geometry import Plane as RhinoPlane
+#     from Rhino.Geometry import Point3d as RhinoPoint3d
+#     from Rhino.Geometry import Vector3d as RhinoVector3d
+# else:
+#     from Rhino.Geometry import Plane as RhinoPlane
+#     from Rhino.Geometry import Point3d as RhinoPoint3d
+#     from Rhino.Geometry import Vector3d as RhinoVector3d
 
 # AUTHORSHIP -------------------------------------------------------------------
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
@@ -166,6 +180,79 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             warpStartLeafFlag = self.node[warpStart]["leaf"]
             connected_start_segments = self.EndNodeSegmentsByStart(warpStart,
                                                                    data=True)
+
+            # TODO:
+            # 1) build plane for reference. plane should be fit through warp
+            #    edge points and points on the connecting segments.
+            #    for example use the end of the first segment of the underlying
+            #    polyline geometry
+            # 2) for every pt get pt on the reference plane
+            # 3) order all segments in reference to the warp edges direction
+            #    all segment endpts
+
+            # if len(connected_start_segments) > 1:
+            #     # get start node geo of warp edge
+            #     ws_pt = self.node[warpStart]["geo"]
+            #     # css geo is always a polyline
+            #     css_pls = [css[2]["geo"] for css in connected_start_segments]
+            #     # get the endpt of the first segment from the polyline as reference
+            #     # for the direction of the segment
+            #     css_refpts = [csspl[1] for csspl in css_pls]
+            #
+            #     # construct local reference plane
+            #     # x-axis is an arbitrary dir of the connected segments
+            #     # y-axis is the warp edge
+            #     local_x = css_refpts[0] - ws_pt
+            #     local_x = RhinoVector3d(local_x)
+            #     local_y = warp_edge[2]["geo"].To - warp_edge[2]["geo"].From
+            #     local_y = RhinoVector3d(local_y)
+            #     localplane = RhinoPlane(ws_pt, local_x, local_y)
+            #
+            #     # fit plane to points
+            #     fitplane = RhinoPlane.FitPlaneToPoints(css_refpts + [ws_pt])[1]
+            #     fitplane_origin = fitplane.ClosestPoint(ws_pt)
+            #     fitplane.Origin = fitplane_origin
+            #     if fitplane.Normal * localplane.Normal < 0:
+            #         fitplane.Flip()
+            #
+            #     # map all the points to the plane space
+            #     a = fitplane.RemapToPlaneSpace(fitplane_origin)[1]
+            #     css_refpts_remapped = []
+            #     for csspt in css_refpts:
+            #         cp = fitplane.ClosestPoint(csspt)
+            #         rmp = fitplane.RemapToPlaneSpace(cp)[1]
+            #         css_refpts_remapped.append(rmp)
+            #
+            #     # zip the segments and the refpts
+            #     zipped_segs = zip(css_refpts_remapped, connected_start_segments)
+            #
+            #     # append first item to ordered list
+            #     ordered_zippedsegs = zipped_segs[0:1]
+            #
+            #     # loop over all items except the first one and compare
+            #     # sort the zipped segs in ccw order
+            #     for j, zipseg in enumerate(zipped_segs[1:]):
+            #         c = zipseg[0]
+            #         pos = 0
+            #         b = ordered_zippedsegs[pos][0]
+            #         while not is_ccw_xy(a, b, c):
+            #             pos += 1
+            #             if pos > j:
+            #                 break
+            #             b = ordered_zippedsegs[pos][0]
+            #         if pos == 0:
+            #             pos -= 1
+            #             b = ordered_zippedsegs[pos][0]
+            #             while is_ccw_xy(a, b, c):
+            #                 pos -= 1
+            #                 if pos < -len(ordered_zippedsegs):
+            #                     break
+            #                 b = ordered_zippedsegs[pos][0]
+            #             pos += 1
+            #         ordered_zippedsegs.insert(pos, zipseg)
+            #
+            #     ordered_pts, connected_start_segments = zip(*ordered_zippedsegs)
+
             # traverse segments from start node of 'warp' edge
             if len(connected_start_segments) > 0:
                 for j, cs in enumerate(connected_start_segments):
