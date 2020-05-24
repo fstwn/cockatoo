@@ -763,18 +763,24 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         """
 
         # initialize dict for seen nodes and list for storage of rows
-        seen = {}
+        seenrows = {}
+        seencols = {}
         rows = []
+        cols = []
 
         # initialize mapping dicts for ordering of rows and columns
         id2row= OrderedDict()
-        node2id = OrderedDict()
+        id2col = OrderedDict()
+        node2rowid = OrderedDict()
+        node2colid = OrderedDict()
+
+        # BUILD ROWS -----------------------------------------------------------
 
         # every 'end' node defines the start of a row
         # loop over all 'end' nodes
         for node, data in self.EndNodes:
             # continue if this node has already been visited
-            if node in seen:
+            if node in seenrows:
                 continue
 
             # get outgoing 'weft' edges of the current 'end' node
@@ -785,11 +791,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             if nodeweft_in and not nodeweft_out:
                 continue
 
-            # if there is more than one outgoing weft edge, we have a problem
+            # if there is more than one outgoing 'weft' edge, we have a problem
             if len(nodeweft_out) > 1:
                 errMsg = "More than one outgoing 'weft' edge at " + \
                          "first row node {}!".format(node)
-                raise KnitNetworkDualTopologyError(errMsg)
+                raise KnitNetworkTopologyError(errMsg)
             # if this is a singular node, it is a separate row.
             elif len(nodeweft_out) == 0 and len(nodeweft_in) == 0:
                 # append it as a row to the list of rows
@@ -797,9 +803,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 # set the mapping dictionaries
                 row_id = (node, node)
                 id2row[row_id] = [node]
-                node2id.update({node : row_id})
+                node2rowid.update({node : row_id})
                 # set the seen marker and continue to next 'end' node
-                seen[node] = True
+                seenrows[node] = True
                 continue
             # if there is exactly one 'weft' edge, traverse until next node
             elif len(nodeweft_out) == 1:
@@ -824,17 +830,33 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                         if self.node[row_nodes[-1]]["end"]:
                             # this is the finishing 'end' node; set it seen
                             # and complete this row by breaking
-                            seen[row_nodes[-1]] = True
+                            seenrows[row_nodes[-1]] = True
                             break
                         # if there are no next 'weft' edges but this is not
                         # an 'end' node, we have a problem
                         else:
-                            errMsg = "Unexpected end of row. Missing 'end' " + \
-                                   "attribute at node {}!".format(row_nodes[-1])
-                            raise KnitNetworkTopologyError(errMsg)
-                    # if there is a next node over a weft edge, append to
+                            # see if there are incoming 'weft' edges at the
+                            # current node which are not the way we came from
+                            next_weft = [nw for nw in \
+                                        self.NodeWeftEdgesIn(row_nodes[-1], data=True) \
+                                        if nw[0] != row_nodes[-2]]
+                            # try to reverse them as a failsafe for imperfect
+                            # topological dual graphs
+                            if len(next_weft) == 1:
+                                # flip geometry first, then the graph edge
+                                nwe = next_weft[0]
+                                nw_attr = nwe[2].copy()
+                                nw_attr["geo"].Flip()
+                                self.remove_edge(nwe[0], nwe[1])
+                                self.add_edge(nwe[1], nwe[0], attr_dict=nw_attr)
+                            else:
+                                errMsg = "Unexpected end of row. Missing 'end' " + \
+                                       "attribute at node {}!".format(row_nodes[-1])
+                                raise KnitNetworkTopologyError(errMsg)
+
+                    # if there is a next node over a 'weft' edge, append to
                     # row and continue
-                    elif len(next_weft) == 1:
+                    if len(next_weft) == 1:
                         row_nodes.append(next_weft[0][1])
                         continue
                 # append the completed row to the list of rows
@@ -842,13 +864,147 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 # set the mapping dictionaries
                 row_id = (row_nodes[0], row_nodes[-1])
                 id2row[row_id] = row_nodes
-                node2id.update({node : row_id for node in row_nodes})
+                node2rowid.update({node : row_id for node in row_nodes})
                 # finally, set the current node as seen
-                seen[node] = True
+                seenrows[node] = True
+
+        # BUILD COLUMNS --------------------------------------------------------
+
+        # every 'end' node defines the start of a row
+        # loop over all 'end' nodes
+        col_sources = [(n, d) for n, d in self.nodes_iter(data=True) \
+                       if d["increase"] or d["leaf"] or d["end"]]
+        for node, data in col_sources:
+            # continue if this node has already been visited
+            if node in seencols:
+                continue
+
+            # get outgoing 'weft' edges of the current 'end' node
+            nodewarp_out = self.NodeWarpEdgesOut(node, data=True)
+            nodewarp_in = self.NodeWarpEdgesIn(node, data=True)
+
+            # skip nodes which have incoming 'warp' edges
+            if nodewarp_in:
+                continue
+
+            # if there is more than one outgoing 'weft' edge, we have a problem
+            if len(nodewarp_out) > 1:
+                errMsg = "More than one outgoing 'warp' edge at " + \
+                         "first column node {}!".format(node)
+                raise KnitNetworkTopologyError(errMsg)
+            # if this is a singular node, it is a separate column (?)
+            elif len(nodewarp_out) == 0 and len(nodewarp_in) == 0:
+                # errMsg = "Absolutely no 'warp' edges at node {}!".format(node)
+                # raise KnitNetworkTopologyError(errMsg)
+
+                # append it as a column to the list of columns
+                cols.append([node])
+                # set the mapping dictionaries
+                col_id = (node, node)
+                id2col[col_id] = [node]
+                node2colid.update({node : col_id})
+                # set the seen marker and continue to next node
+                seencols[node] = True
+                continue
+            # if there is exactly one 'warp' edge, traverse until next node
+            elif len(nodewarp_out) == 1:
+                # get the connected node to the current node
+                connected_node = (nodewarp_out[0][1],
+                                  self.node[nodewarp_out[0][1]])
+                # define initial column nodes with nodes of the first edge
+                col_nodes = [node, connected_node[0]]
+                # traverse as long as there is an outgoing next 'warp' edge
+                while True:
+                    # get 'warp' edges of last node in row nodes
+                    next_warp = self.NodeWarpEdgesOut(col_nodes[-1])
+                    # if there is more than one connected 'warp' edge, we
+                    # have a problem
+                    if len(next_warp) > 1:
+                        errMsg = "More than one outgoing 'warp' edge at " + \
+                                 "col node {}!".format(node)
+                        raise KnitNetworkTopologyError(errMsg)
+                    # if there are no next 'warp' edges, column is complete
+                    elif len(next_warp) == 0:
+                        seencols[col_nodes[-1]] = True
+                        break
+                    # if there is a next node over a 'warp' edge, append to
+                    # column and continue
+                    elif len(next_warp) == 1:
+                        col_nodes.append(next_warp[0][1])
+                        continue
+                # append the completed column to the list of columns
+                cols.append(col_nodes)
+                # set the mapping dictionaries
+                col_id = (col_nodes[0], col_nodes[-1])
+                id2col[col_id] = col_nodes
+                node2colid.update({node : col_id for node in col_nodes})
+                # finally, set the current node as seen
+                seencols[node] = True
+
+        # BUILD ROW MAPPING FOR TOPOLOGICAL SORT -------------------------------
+
+        # initialize mapping for backtracking of rows
+        row_map = nx.DiGraph()
+        row_ids = id2row.keys()
+        # find all targets of all rows by checking all row nodes
+        # for targets and getting the corresponding row
+        for row_id in row_ids:
+            # get row from mapping dict
+            row = id2row[row_id]
+            # initialize list for storage of targets
+            target_ids = []
+            # loop over all nodes in the current row
+            for node in row:
+                # check the node for outgoing 'warp' edges and get its successor
+                try:
+                    node_suc = self.NodeWarpEdgesOut(node)[0][1]
+                except IndexError:
+                    continue
+                # find the id of the row which contains the 'warp' edge
+                # successor node
+                target_id = node2rowid[node_suc]
+                # if we already found this id before, continue
+                if target_id in target_ids:
+                    continue
+                # if its a new id, append it to the list of found target ids
+                target_ids.append(target_id)
+
+            [row_map.add_edge(row_id, tid) for tid in target_ids]
+
+        # BUILD COLUMN MAPPING FOR TOPOLOGICAL SORT ----------------------------
+
+        # initialize mapping for backtracking of columns
+        col_map = nx.DiGraph()
+        col_ids = id2col.keys()
+        # find all targets of all columns by checking all column nodes
+        # for targets and getting the corresponding column
+        for col_id in col_ids:
+            # get column from mapping dict
+            col = id2col[col_id]
+            # initialize list for storage of targets
+            target_ids = []
+            # loop over all nodes in the current column
+            for node in col:
+                # check the node for outgoing 'weft' edges and get its successor
+                try:
+                    node_suc = self.NodeWeftEdgesOut(node)[0][1]
+                except IndexError:
+                    continue
+                # find the id of the column which contains the 'weft' edge
+                # successor node
+                target_id = node2colid[node_suc]
+                # if we already found this id before, continue
+                if target_id in target_ids:
+                    continue
+                # if its a new id, append it to the list of found target ids
+                target_ids.append(target_id)
+
+            [col_map.add_edge(col_id, tid) for tid in target_ids]
+
+        # FILL ROWS WITH -1 MARKER FOR WASTE YARN ------------------------------
 
         # fill all the rows to minimum row length with placeholder values (-1)
         minrl = max([len(row) for row in rows])
-        
         # loop over all rows and fill until minimum length
         for key in id2row.keys():
             row = id2row[key]
@@ -856,90 +1012,49 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 try:
                     node = row[j]
                 except IndexError:
-                    row.append(-1)
+                    row.append(-2)
             id2row[key] = row
 
-        # order all rows based network topology
+        # TOPOLOGICAL SORT OF ROWS ---------------------------------------------
 
-        # loop over all rows and check warp edge connectivity
-        # start with the first row in the list ...
+        # own method of topological sort for rows (in utilities)
+        # ordered_row_stack = resolve_order_by_backtracking(row_map)
 
-        # order the sources and destinations
-        # each row has to be "on top" of all of its sources and "below" all
-        # of its destinations
+        # use nx topological sort for rows
+        ordered_row_stack = nx.topological_sort_recursive(row_map)
 
-        row_ids = id2row.keys()
+        # get the rows with the backtracing result
+        toposort_rows = [id2row[id] for id in ordered_row_stack]
 
-        rowtarget = {}
+        # TOPOLOGICAL SORT OF COLUMNS ------------------------------------------
 
-        # TODO: same principle in reverse has also to be applied to the sources
-        #       if this approach is valid at all
-        # NOTE: establish "local order" by computing the maximum shortest path
-        #       lengths between the current row and all its direct targets
+        # own method of topological sort for columns (in utilities)
+        # ordered_column_stack = resolve_order_by_backtracking(col_map)
 
-        # NOTE: approach B: make a comparison function that compares two
-        #       arbitrary rows and can decide if they should be swapped
-        #       after that, a bubble sort or similar algorithm could be used
+        # use nx topological sort for columns
+        ordered_column_stack = nx.topological_sort_recursive(col_map)
 
-        for row_id in row_ids[:]:
-            # find all targets of this particular row by checking all nodes
-            # for targets and getting the corresponding row
+        for i, col in enumerate(ordered_column_stack):
+            # get column nodes
+            colnodes = id2col[col]
 
-            # get row from mapping dict
-            row = id2row[row_id]
-            # initialize list for storage of targets
-            target_ids = []
-            # loop over all nodes in the current row
-            for node in row:
-                # continue on -1 marker
-                if node < 0:
-                    continue
+            # loop over all rows
+            for j, row in enumerate(toposort_rows):
+                # check the entry at the current column index
+                # if this entry is not in colnodes, shift it to the right
+                entry = row[i]
+                if entry not in colnodes:
+                    toposort_rows[j].insert(i, -1)
+                else:
+                    toposort_rows[j].append(-2)
 
-                # check the node for outgoing warp edges and get its successor
-                try:
-                    node_suc = self.NodeWarpEdgesOut(node)[0][1]
-                except IndexError:
-                    continue
-
-                # find the id of the row which contains the 'warp' edge
-                # successor node
-                target_id = node2id[node_suc]
-
-                # if we already found this id before, continue
-                if target_id in target_ids:
-                    continue
-
-                # if its a new id, append it to the list of found target ids
-                target_ids.append(target_id)
-
-            # if there are no target ids, we have found an 'absolute end'
-            if len(target_ids) == 0:
-                # the absolute end can be extracted at its index and appended
-                # to the end of the ordering
-                row_ids.append(row_ids.pop(row_ids.index(row_id)))
-            # if there are multiple targets, we need to build a local order (?)
-            elif len(target_ids) > 1:
-                # move all targets behind the current row
-                # establish order by using the current index of the targets
-                row_index = row_ids.index(row_id)
-                initial_indices = [row_ids.index(r) for r in target_ids]
-                initial_indices, target_ids = zip(*sorted(zip(initial_indices,
-                                                              target_ids)))
-
-                # move all the target ids behind the current row in order
-                for i, tid in enumerate(target_ids):
-                    # remove the target ids from the list
-                    row_ids.pop(row_ids.index(tid))
-                    # insert the id after the current row / the last inserted id
-                    row_ids.insert(row_ids.index(row_id)+i, tid)
-
-            # store all the sources in the mapping dict
-            rowtarget[row_id] = target_ids
-
-        ordered_rows = [id2row[id] for id in row_ids]
+        # trim final topological sorted rows
+        trim = toposort_rows[0].index(-2)
+        toposort_rows = [btr[:trim] for btr in toposort_rows]
 
         # return all rows
-        return rows, ordered_rows
+        return rows, toposort_rows
+
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':
