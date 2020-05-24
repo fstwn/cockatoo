@@ -875,6 +875,7 @@ class KnitNetwork(KnitNetworkBase):
         # should left contours be reversed? reversed version has shown problems
         # should this be optional?
         #leftContours.reverse()
+
         rightContours = AllPositions[start_index:]
 
         # create the initial weft connections
