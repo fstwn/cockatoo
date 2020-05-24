@@ -879,7 +879,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             if node in seencols:
                 continue
 
-            # get outgoing 'weft' edges of the current 'end' node
+            # get outgoing 'warp' edges of the current node
             nodewarp_out = self.NodeWarpEdgesOut(node, data=True)
             nodewarp_in = self.NodeWarpEdgesIn(node, data=True)
 
@@ -887,7 +887,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             if nodewarp_in:
                 continue
 
-            # if there is more than one outgoing 'weft' edge, we have a problem
+            # if there is more than one outgoing 'warp' edge, we have a problem
             if len(nodewarp_out) > 1:
                 errMsg = "More than one outgoing 'warp' edge at " + \
                          "first column node {}!".format(node)
@@ -1054,7 +1054,6 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         # return all rows
         return rows, toposort_rows
-
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':
