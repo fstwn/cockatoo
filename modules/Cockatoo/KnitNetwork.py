@@ -697,7 +697,13 @@ class KnitNetwork(KnitNetworkBase):
                             for futureweft in futureWeftEdges:
                                 fwn = (futureweft[1], self.node[futureweft[1]])
                                 if (fwn[1]["position"] == target_position and
-                                    fwn[1]["num"] >= start_of_window[1]["num"]):
+                                    fwn[1]["num"] == start_of_window[1]["num"]):
+                                    # if the start of the window is found,
+                                    # it is the only possible connection
+                                    filteredWeftEdges = [futureweft]
+                                    break
+                                if (fwn[1]["position"] == target_position and
+                                    fwn[1]["num"] > start_of_window[1]["num"]):
                                     filteredWeftEdges.append(futureweft)
                                 else:
                                     continue
@@ -705,9 +711,14 @@ class KnitNetwork(KnitNetworkBase):
                                 len(filteredWeftEdges) == 0):
                                 end_of_window = None
                                 continue
+
+                            # sort the filtered weft edges based on the 'num'
+                            # attribute of their target node
+                            filteredWeftEdges.sort(
+                                        key=lambda x: self.node[x[1]]["num"])
+
                             # get the end of the window from the first edge on
                             # the target position
-
                             end_of_window = (filteredWeftEdges[0][1],
                                              self.node[filteredWeftEdges[0][1]])
 
