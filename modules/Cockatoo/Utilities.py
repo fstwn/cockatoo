@@ -10,6 +10,7 @@ Version: 200503
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+from collections import deque
 from itertools import tee
 from math import acos
 from math import degrees
@@ -36,6 +37,7 @@ __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 __all__ = [
     "TweenPlanes"
     "is_ccw_xy",
+    "resolve_order_by_backtracking",
     "pairwise"
 ]
 
@@ -73,6 +75,81 @@ def TweenPlanes(P1, P2, t):
     OutputPlane.Translate(Translation * t)
 
     return OutputPlane
+
+# FUNCTIONAL GRAPH UTILITIES ---------------------------------------------------
+
+def _backtrack_node(G, node, pos, ordered_stack):
+    """
+    Backtracks a node until no new predecessors are found and
+    inserts the node and all dependencies in order into the
+    ordered stack list.
+    """
+
+    # check the node for dependencies
+    dependencies = [pred for pred in G.predecessors_iter(node) \
+                    if pred not in ordered_stack]
+
+    # if node has no dependencies that are not already in the stack,
+    # insert into the ordered stack of nodes and increment the pointer
+    if not dependencies:
+        if node not in ordered_stack:
+            ordered_stack.insert(pos, node)
+            pos += 1
+            return pos, ordered_stack
+    else:
+        # if node has dependencies, build a local stack of dependencies
+        dependencies = deque(dependencies)
+
+        # backtrack all dependencies
+        while len(dependencies) > 0:
+            dependency = dependencies.pop()
+            pos, ordered_stack = _backtrack_node(G,
+                                                 dependency,
+                                                 pos,
+                                                 ordered_stack)
+
+            # after all its dependencies are solved, insert the
+            # dependent node at the current pointer position
+            if dependency not in ordered_stack:
+                ordered_stack.insert(pos, dependency)
+                pos += 1
+
+        # after dependencies and sub-dependencies are solved, insert the node
+        ordered_stack.insert(pos, node)
+        pos += 1
+
+    # return the current pos and the filled ordered stack
+    return pos, ordered_stack
+
+def resolve_order_by_backtracking(G):
+    """
+    Resolve topological order of a networkx DiGraph through backtracking of
+    all nodes in the graph. Nodes are only inserted into the output list if
+    all their dependencies (predecessor nodes) are already inside the output
+    list, otherwise the algorithm will first resolve all open dependencies.
+    """
+
+    # rais if graph is not directed
+    if not G.is_directed():
+        raise ValueError("This works only on directed graphs!")
+
+    # stack is every node that has not been inserted yet
+    stack = deque(G.nodes())
+    # pos is the current pointer for insertion
+    pos = 0
+    # ordered stack is the target list for insertion
+    ordered_stack = []
+    # backtrack the whole stack
+    while len(stack) > 0:
+        # pop an arbitrary node from the stack
+        current_node = stack.pop()
+        # backtrack that node and resolve all its dependencies
+        pos, ordered_stack = _backtrack_node(G,
+                                             current_node,
+                                             pos,
+                                             ordered_stack)
+    # return the ordered stack
+    return ordered_stack
 
 # MATH AND HELPERS -------------------------------------------------------------
 
