@@ -348,7 +348,18 @@ class KnitNetworkBase(nx.Graph):
 
     def NodeGeometry(self, node_index):
         """
-        Returns the 'geo' attribute of the specified node.
+        Gets the geometry from the attributes of the supplied node.
+
+        Parameters
+        ----------
+        node_index : hashable
+            The unique identifier of the node, an int in most cases.
+
+        Returns
+        -------
+        geometry
+            The 'geo' attribute of the specified node or ``None`` if the node
+            is not present or has no 'geo' attribute
         """
         try:
             return self.node[node_index]["geo"]
@@ -357,7 +368,17 @@ class KnitNetworkBase(nx.Graph):
 
     def NodeCoordinates(self, node_index):
         """
-        Returns the XYZ coordinates of the node as a tuple.
+        Gets the node coordinates from the attributes of the supplied node.
+
+        Parameters
+        ----------
+        node_index : hashable
+            The unique identifier of the node, an int in most cases.
+
+        Returns
+        -------
+        xyz : 3-tuple
+            The XYZ coordinates of the node as a 3-tuple.
         """
         try:
             node_data = self.node[node_index]
@@ -386,7 +407,7 @@ class KnitNetworkBase(nx.Graph):
 
     def NodesOnPosition(self, pos, data=False):
         """
-        Returns the nodes on a given position (i.e. contour).
+        Gets the nodes on a given position (i.e. contour).
 
         Parameters
         ----------
@@ -396,6 +417,11 @@ class KnitNetworkBase(nx.Graph):
         data : bool
             If True, found nodes will be returned with their attribute data.
             Defaults to False.
+
+        Returns
+        -------
+        nodes : list
+            The nodes sharing the supplied 'position' attribute.
         """
 
         nodes = [(n, d) for n, d in self.nodes_iter(data=True) \
@@ -410,7 +436,18 @@ class KnitNetworkBase(nx.Graph):
 
     def AllNodesByPosition(self, data=False):
         """
-        Returns all the nodes of the network ordered by position.
+        Gets all the nodes of the network, ordered by position.
+
+        Parameters
+        ----------
+        data : bool
+            If True, found nodes will be returned with their attribute data.
+            Defaults to False.
+
+        Returns
+        -------
+        nodes : list of lists
+            All nodes grouped by their 'position' attribute
         """
 
         allPositionNodes = sorted(
@@ -439,7 +476,22 @@ class KnitNetworkBase(nx.Graph):
 
     def NodesOnSegment(self, segment, data=False):
         """
-        Returns all nodes on a given segment ordered by 'num' attribute.
+        Gets all nodes on a given segment ordered by 'num' attribute.
+
+        Parameters
+        ----------
+        segment : hashable
+            The identifier of the segment to look for
+
+        data : bool
+            If True, found nodes will be returned with their attribute data.
+            Defaults to False.
+
+        Returns
+        -------
+        nodes : list
+            List of nodes sharing the supplied 'segment' attribute, ordered by
+            their 'num' attribute
         """
 
         nodes = [(n, d) for n, d in self.nodes_iter(data=True) \
@@ -457,6 +509,11 @@ class KnitNetworkBase(nx.Graph):
     def _get_leaf_nodes(self):
         """
         Gets all 'leaf' nodes of the network.
+
+        Returns
+        -------
+        nodes : list
+            List of all nodes for which the attribute 'leaf' is ``True``
         """
 
         leaves = [(n, d) for n, d in self.nodes_iter(data=True) \
@@ -470,6 +527,21 @@ class KnitNetworkBase(nx.Graph):
     def LeavesOnPosition(self, pos, data=False):
         """
         Gets all 'leaf' vertices on a given position.
+
+        Parameters
+        ----------
+        pos : hashable
+            The index / identifier of the position
+
+        data : bool
+            If True, found nodes will be returned with their attribute data.
+            Defaults to False.
+
+        Returns
+        -------
+        nodes : list
+            List of all nodes for which the attribute 'leaf' is ``True`` and
+            which share the supplied 'position' attribute
         """
 
         leaves = [(n, d) for n, d in self.NodesOnPosition(pos, data=True) \
@@ -695,7 +767,9 @@ class KnitNetworkBase(nx.Graph):
 
         Returns
         -------
-            True on success, False otherwise.
+        bool
+            ``True`` on success
+            ``False`` otherwise
         """
 
         # get node indices
@@ -737,7 +811,8 @@ class KnitNetworkBase(nx.Graph):
 
         Returns
         -------
-            edge : 2-tuple of (u, v) or (v, u) depending on the directions
+        edge
+            2-tuple of (u, v) or (v, u) depending on the directions
         """
 
         # get geometry data of the edge
