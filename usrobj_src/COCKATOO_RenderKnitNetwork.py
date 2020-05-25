@@ -6,7 +6,7 @@ TODO: Update docstring!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200414
+        Version: 200519
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -46,6 +46,8 @@ class RenderKnitNetwork(component):
             EdgeTextPlane = Rhino.Geometry.Plane.WorldZX
             EdgeTextPlane.Flip()
         
+        DirectionalDisplay = False
+        
         # RENDER ACCORDING TO SET PARAMETERS -----------------------------------
         
         if Toggle and KN and (RenderNodes or \
@@ -61,12 +63,20 @@ class RenderKnitNetwork(component):
                 contourcol = System.Drawing.Color.Gray
                 ContourEdges = KN.ContourEdges
                 for ce in ContourEdges:
-                    geo = ce[2]["geo"]
-                    if type(geo) == Rhino.Geometry.Line:
-                        geo = Rhino.Geometry.LineCurve(geo)
-                    elif type(geo) == Rhino.Geometry.Polyline:
-                        geo = geo.ToPolylineCurve()
-                    viz.AddCurve(geo, contourcol, 2)
+                    egeo = ce[2]["geo"]
+                    if type(egeo) == Rhino.Geometry.Line:
+                        geo = Rhino.Geometry.LineCurve(egeo)
+                    elif type(egeo) == Rhino.Geometry.Polyline:
+                        geo = egeo.ToPolylineCurve()
+                    
+                    if DirectionalDisplay:
+                        ptFrom = geo.PointAtStart
+                        ptTo = geo.PointAtEnd
+                        dvec = Rhino.Geometry.Vector3d(ptTo - ptFrom)
+                        #viz.AddVector(ptFrom, dvec, contourcol, False)
+                        viz.AddCurve(geo, contourcol, 2)
+                    else:
+                        viz.AddCurve(geo, contourcol, 2)
                     
                     # RENDERING OF CONTOUR EDGE DATA ---------------------------
                     if RenderContourEdgeData:
@@ -89,12 +99,17 @@ class RenderKnitNetwork(component):
                 weftcol = System.Drawing.Color.Blue
                 WeftEdges = KN.WeftEdges
                 for weft in WeftEdges:
-                    geo = Rhino.Geometry.LineCurve(weft[2]["geo"])
-                    viz.AddCurve(geo, weftcol, 2)
+                    egeo = weft[2]["geo"]
+                    if DirectionalDisplay:
+                        dvec = Rhino.Geometry.Vector3d(egeo.To - egeo.From)
+                        viz.AddVector(egeo.From, dvec, weftcol, False)
+                    else:
+                        linegeo = Rhino.Geometry.LineCurve(egeo)
+                        viz.AddCurve(linegeo, weftcol, 2)
                     
                     # RENDERING OF WEFT DGE DATA -------------------------------
                     if RenderWeftEdgeData:
-                        EdgeTextPlane.Origin = geo.PointAtNormalizedLength(0.5)
+                        EdgeTextPlane.Origin = egeo.PointAtNormalizedLength(0.5)
                         edgeLabel = [(k, weft[2][k]) for k \
                                      in weft[2] if k != "geo"]
                         edgeLabel = ["{}: {}".format(t[0], t[1]) for t \
@@ -113,12 +128,17 @@ class RenderKnitNetwork(component):
                 warpcol = System.Drawing.Color.Red
                 WarpEdges = KN.WarpEdges
                 for warp in WarpEdges:
-                    geo = Rhino.Geometry.LineCurve(warp[2]["geo"])
-                    viz.AddCurve(geo, warpcol, 2)
+                    egeo = warp[2]["geo"]
+                    if DirectionalDisplay:
+                        dvec = Rhino.Geometry.Vector3d(egeo.To - egeo.From)
+                        viz.AddVector(egeo.From, dvec, warpcol, False)
+                    else:
+                        linegeo = Rhino.Geometry.LineCurve(egeo)
+                        viz.AddCurve(linegeo, warpcol, 2)
                     
                     # RENDERING OF WARP EDGE DATA ------------------------------
                     if RenderWarpEdgeData:
-                        EdgeTextPlane.Origin = geo.PointAtNormalizedLength(0.5)
+                        EdgeTextPlane.Origin = egeo.PointAtNormalizedLength(0.5)
                         edgeLabel = [(k, warp[2][k]) for k \
                                      in warp[2] if k != "geo"]
                         edgeLabel = ["{}: {}".format(t[0], t[1]) for t \
@@ -140,28 +160,61 @@ class RenderKnitNetwork(component):
             psRegular = Rhino.Display.PointStyle.RoundControlPoint
             
             # define colours for nodes and node texts
-            colEnd = System.Drawing.Color.Red
-            colLeaf = System.Drawing.Color.Green
+            colEnd = System.Drawing.Color.Blue
+            colLeaf = System.Drawing.Color.Cyan
             colEndLeaf = System.Drawing.Color.Orange
             colRegular = System.Drawing.Color.Black
+            colIncreaseEnd = System.Drawing.Color.Purple
+            colDecreaseEnd = System.Drawing.Color.DarkViolet
+            colIncrease = System.Drawing.Color.Red
+            colDecrease = System.Drawing.Color.DarkRed
             
             if RenderNodes or RenderNodeIndices or RenderNodeData:
                 nodes = KN.nodes(data=True)
                 
                 for i, node in enumerate(nodes):
                     data = node[1]
-                    if data["end"] == True and data["leaf"] == False:
-                        if RenderNodes:
-                            viz.AddPoint(data["geo"], colEnd, psEnd, 3)
-                    elif data["end"] == False and data["leaf"] == True:
-                        if RenderNodes:
-                            viz.AddPoint(data["geo"], colLeaf, psLeaf, 3)
-                    elif data["end"] == True and data["leaf"] == True:
-                        if RenderNodes:
-                            viz.AddPoint(data["geo"], colEndLeaf, psLeaf, 3)
-                    elif data["leaf"] == False and data["end"] == False:
-                        if RenderNodes:
-                            viz.AddPoint(data["geo"], colRegular, psRegular, 2)
+                    # END BUT NOT LEAF
+                    if data["end"] and not data["leaf"]:
+                        if not data["increase"] and not data["decrease"]:
+                            nodecol = colEnd
+                            pStyle = psEnd
+                            pSize = 3
+                        elif data["increase"] and not data["decrease"]:
+                            nodecol = colIncreaseEnd
+                            pStyle = psEnd
+                            pSize = 3
+                        elif not data["increase"] and data["decrease"]:
+                            nodecol = colDecreaseEnd
+                            pStyle = psEnd
+                            pSize = 3
+                    # END AND LEAF
+                    elif data["end"] and data["leaf"]:
+                        nodecol = colEndLeaf
+                        pStyle = psLeaf
+                        pSize = 3
+                    # NO END BUT LEAF
+                    elif not data["end"] and data["leaf"]:
+                        nodecol = colLeaf
+                        pStyle = psLeaf
+                        pSize = 3
+                    # NO END NO LEAF
+                    elif not data["end"] and not data["leaf"]:
+                        if data["increase"] and not data["decrease"]:
+                            nodecol = colIncrease
+                            pStyle = psEnd
+                            pSize = 3
+                        elif not data["increase"] and data["decrease"]:
+                            nodecol = colDecrease
+                            pStyle = psEnd
+                            pSize = 3
+                        else:
+                            nodecol = colRegular
+                            pStyle = psRegular
+                            pSize = 2
+                    
+                    if RenderNodes:
+                        viz.AddPoint(data["geo"], nodecol, pStyle, pSize)
                     
                     if RenderNodeIndices or RenderNodeData:
                         NodeTextPlane.Origin = data["geo"]
