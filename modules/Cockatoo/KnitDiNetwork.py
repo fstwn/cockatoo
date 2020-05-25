@@ -1028,7 +1028,12 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         # ordered_row_stack = resolve_order_by_backtracking(row_map)
 
         # use nx topological sort for rows
-        ordered_row_stack = nx.topological_sort_recursive(row_map)
+        try:
+            ordered_row_stack = nx.topological_sort_recursive(row_map)
+        except nx.NetworkXError as e:
+            raise KnitNetworkTopologyError(e.message)
+        except nx.NetworkXUnfeasible as e:
+            raise KnitNetworkTopologyError(e.message)
 
         # get the rows with the backtracing result
         toposort_rows = [id2row[id] for id in ordered_row_stack]
@@ -1039,7 +1044,12 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         # ordered_column_stack = resolve_order_by_backtracking(col_map)
 
         # use nx topological sort for columns
-        ordered_column_stack = nx.topological_sort_recursive(col_map)
+        try:
+            ordered_column_stack = nx.topological_sort_recursive(col_map)
+        except nx.NetworkXError as e:
+            raise KnitNetworkTopologyError(e.message)
+        except nx.NetworkXUnfeasible as e:
+            raise KnitNetworkTopologyError(e.message)
 
         for i, col in enumerate(ordered_column_stack):
             # get column nodes
