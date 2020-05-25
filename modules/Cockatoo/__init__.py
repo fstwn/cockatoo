@@ -14,6 +14,7 @@ from __future__ import absolute_import
 from Cockatoo import Autoknit
 from Cockatoo import Environment
 from Cockatoo import Exceptions
+from Cockatoo.KnitConstraint import KnitConstraint
 from Cockatoo.KnitNetworkBase import KnitNetworkBase
 from Cockatoo.KnitNetwork import KnitNetwork
 from Cockatoo.KnitDiNetwork import KnitDiNetwork
