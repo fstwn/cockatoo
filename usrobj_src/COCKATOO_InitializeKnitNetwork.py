@@ -1,10 +1,11 @@
 """
 Initialize a KnitNetwork from a set of KnitContours (i.e. isocurves / isolines)
 and an optional GeometryBase.
-The GeometryBase is a mesh or surface which should be described by the
-network. While it is optional, it is **HIGHLY** recommended to provide it!
+[NOTE] The GeometryBase is a mesh or surface which is described by the network.
+While it is optional, it is **HIGHLY** recommended to provide it, as downstream
+methods like meshing or creating a dual might fail without it.
     Inputs:
-        KnitContours: The contours of the knitting pattern. {item, curve}
+        KnitContours: The contours of the knitting pattern. {list, curve/polyline}
         CourseHeight: The course height of the knitting machine. {item, float}
         GeometryBase: The geometry his network is based on. {item, mesh/surface)
     Output:
@@ -12,7 +13,7 @@ network. While it is optional, it is **HIGHLY** recommended to provide it!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200506
+        Version: 200525
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -43,6 +44,16 @@ class InitializeKnitNetwork(component):
             KN = Cockatoo.KnitNetwork.CreateFromContours(KnitContours,
                                                          CourseHeight,
                                                          GeometryBase)
+        elif not KnitContours:
+            rml = self.RuntimeMessageLevel.Warning
+            rMsg = "No KnitNetwork input!"
+            self.AddRuntimeMessage(rml, rMsg)
+            return Grasshopper.DataTree[object]()
+        elif not CourseHeight:
+            rml = self.RuntimeMessageLevel.Warning
+            rMsg = "No CourseHeight input!"
+            self.AddRuntimeMessage(rml, rMsg)
+            return Grasshopper.DataTree[object]()
         else:
             return Grasshopper.DataTree[object]()
         
