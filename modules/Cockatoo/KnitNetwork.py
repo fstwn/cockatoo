@@ -226,7 +226,7 @@ class KnitNetwork(KnitNetworkBase):
         """
 
         # get all nodes by position
-        posList = self.AllNodesByPosition(True)
+        posList = self.AllNodesByPosition(data=True)
 
         for i, pos in enumerate(posList):
             for j, node in enumerate(pos):
@@ -861,7 +861,7 @@ class KnitNetwork(KnitNetworkBase):
         """
 
         # get all the positions / contours
-        AllPositions = self.AllNodesByPosition(True)
+        AllPositions = self.AllNodesByPosition(data=True)
 
         if start_index == None:
             # get index of longest contour
@@ -914,7 +914,7 @@ class KnitNetwork(KnitNetworkBase):
 
         # if no contour set is provided, use all contours of this network
         if contour_set == None:
-            contour_set = self.AllNodesByPosition(True)
+            contour_set = self.AllNodesByPosition(data=True)
 
         # loop through all positions in the set of contours
         for i, pos in enumerate(contour_set):
