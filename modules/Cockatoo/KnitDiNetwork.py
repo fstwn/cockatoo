@@ -445,7 +445,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         References
         ----------
-        .. [1] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
+        .. [1] Van Mele, Tom et al. *COMPAS: A framework for computational
+               research in architecture and structures*.
                See: https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L103
         """
 
@@ -479,10 +480,10 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         Parameters
         ----------
-        u : int
+        u : hashable
             Index of the start node of the origin edge for the cycle.
 
-        v : int
+        v : hashable
             Index of the end node of the origin edge for the cycle.
 
         Notes
@@ -758,8 +759,14 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         Returns
         -------
-        CSV Data
+        CSV-Data
             List of lists (rows) where every value represents a node
+
+        Raises
+        ------
+        KnitNetworkTopologyError
+            if the network does not satisfy the topology constraints needed for
+            this operation and the outcome would be unfeasible or unpredictable.
         """
 
         # initialize dict for seen nodes and list for storage of rows
