@@ -330,7 +330,7 @@ class KnitNetwork(KnitNetworkBase):
         else:
             return False
 
-    def _create_initial_weft_connections(self, contour_set, max_connections=4, precise=False, verbose=False):
+    def _create_initial_weft_connections(self, contour_set, force_continuous_start=False, force_continuous_end=False, max_connections=4, precise=False, verbose=False):
         """
         Private method for creating initial 'weft' connections for the supplied
         set of contours, starting from the first contour in the set and
@@ -354,9 +354,18 @@ class KnitNetwork(KnitNetworkBase):
                 j = i + 1
                 if j == len(contour_set):
                     break
+
                 # get initial and target vertices without 'leaf' nodes
                 initial_nodes = contour_set[i][1:-1]
                 target_nodes = contour_set[j][1:-1]
+
+                # options for continuous start and end
+                if force_continuous_start:
+                    initial_nodes = initial_nodes[1:]
+                    target_nodes = target_nodes[1:]
+                if force_continuous_end:
+                    initial_nodes = initial_nodes[:-1]
+                    target_nodes = target_nodes[:-1]
 
                 # skip if one of the contours has no nodes
                 if len(initial_nodes) == 0 or len(target_nodes) == 0:
@@ -377,6 +386,7 @@ class KnitNetwork(KnitNetworkBase):
                     # filtering according to forbidden nodes
                     target_nodes = [tn for tn in target_nodes \
                                     if tn[0] >= forbidden_node]
+
                     if len(target_nodes) == 0:
                         continue
 
@@ -552,11 +562,8 @@ class KnitNetwork(KnitNetworkBase):
         for i, pos in enumerate(contour_set):
             j = i + 1
 
-            # get initial vertices without 'leaf' nodes
-            if include_leaves:
-                initial_nodes = contour_set[i]
-            else:
-                initial_nodes = contour_set[i][1:-1]
+            # get initial nodes
+            initial_nodes = contour_set[i]
 
             # get target position candidates
             if (i > 0 and i < len(contour_set)-1 and \
@@ -826,7 +833,7 @@ class KnitNetwork(KnitNetworkBase):
                         else:
                             self.CreateWeftEdge(fCand, node)
 
-    def InitializeWeftEdges(self, start_index=None, include_leaves=False, max_connections=4, least_connected=False, precise=False, verbose=False):
+    def InitializeWeftEdges(self, start_index=None, force_continuous_start=False, force_continuous_end=False, max_connections=4, least_connected=False, precise=False, verbose=False):
         """
         Attempts to create all the preliminary 'weft' connections for the
         network.
@@ -836,8 +843,11 @@ class KnitNetwork(KnitNetworkBase):
         start_index : int
             The starting index
 
-        include_leaves : bool
-            If 'leaf' nodes should be included
+        force_continuous_start : bool
+            Forces the first row of stitches to be continuous.
+
+        force_continuous_end : bool
+            Forces the last row of stitches to be continuous
 
         max_connections : int
             The maximum connections a node is allowed to have to be considered
@@ -869,6 +879,17 @@ class KnitNetwork(KnitNetworkBase):
         elif start_index >= len(AllPositions):
             raise KnitNetworkError("Supplied splitting index is too high!")
 
+        # if continuous start is True, connect the whole first row
+        if force_continuous_start:
+            chain = [pos[1] for pos in AllPositions]
+            for pair in pairwise(chain):
+                self.CreateWeftEdge(pair[0], pair[1])
+        # if continuous end is True, connect the whole last row
+        if force_continuous_end:
+            chain = [pos[-2] for pos in AllPositions]
+            for pair in pairwise(chain):
+                self.CreateWeftEdge(pair[0], pair[1])
+
         # split position list into two sets based on start index
         leftContours = AllPositions[0:start_index+1]
         # TODO / NOTE:
@@ -880,24 +901,26 @@ class KnitNetwork(KnitNetworkBase):
 
         # create the initial weft connections
         self._create_initial_weft_connections(leftContours,
+                                              force_continuous_start=force_continuous_start,
+                                              force_continuous_end=force_continuous_end,
                                               max_connections=max_connections,
                                               precise=precise,
                                               verbose=verbose)
 
         self._create_initial_weft_connections(rightContours,
+                                              force_continuous_start=force_continuous_start,
+                                              force_continuous_end=force_continuous_end,
                                               max_connections=max_connections,
                                               precise=precise,
                                               verbose=verbose)
 
         # create second pass weft connections
         self._create_second_pass_weft_connections(leftContours,
-                                                  include_leaves,
                                                   least_connected,
                                                   precise=precise,
                                                   verbose=verbose)
 
         self._create_second_pass_weft_connections(rightContours,
-                                                  include_leaves,
                                                   least_connected,
                                                   precise=precise,
                                                   verbose=verbose)
