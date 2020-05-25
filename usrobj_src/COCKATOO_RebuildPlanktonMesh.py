@@ -13,11 +13,12 @@ TODO: Update docstring
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200324
+        Version: 200525
 """
 
 # PYTHON LIBRARY IMPORTS
 import clr
+from os import path
 
 # GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
@@ -27,8 +28,28 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # CUSTOM MODULE IMPORTS
-clr.AddReferenceToFile("Plankton.dll")
-clr.AddReferenceToFile("PlanktonGh.dll")
+planktonimport = False
+try:
+    clr.AddReferenceToFile("Plankton.dll")
+    clr.AddReferenceToFile("PlanktonGh.dll")
+    planktonimport = True
+except IOError:
+    pass
+if not planktonimport:
+    try:
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\Libraries\Plankton.dll"))
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\Libraries\PlanktonGh.dll"))
+        planktonimport = True
+    except IOError:
+        pass
+if not planktonimport:
+    try:
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\Libraries\Plankton\Plankton.dll"))
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\Libraries\Plankton\PlanktonGh.dll"))
+        planktonimport = True
+    except IOError:
+        raise RuntimeError("Plankton could not be imported! Please install it")
+
 import Plankton
 import PlanktonGh
 
