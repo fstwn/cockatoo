@@ -1,17 +1,26 @@
 """
 Assign 'segment' attributes to nodes and 'weft' edges based on their position
-between two 'end' nodes and build a mapping network used for loop generation
-from that data.
-TODO: Update docstring!
+between two 'end' nodes and build a mapping network used for final loop
+generation.
     Inputs:
         Toggle: Set to true to activate {item, boolean}
-        KnitNetwork: An initialized KnitNetwork. {item, KnitNetwork}
+        KnitNetwork: An initialized KnitNetwork with preliminary 'weft' and
+                     first 'warp' connections (edges). {item, KnitNetwork}
     Output:
-        KnitNetwork: The KnitNetwork with 'weft' connections created. {item, polyline}
+        KnitNetwork: The KnitNetwork, consisting only of 'warp' edges and their
+                     'end' nodes but with an embedded MappingNetwork for final
+                     loop generation. {item, KnitNetwork}
+        KnitMappingNetwork: Only the mapping network of the KnitNetwork.
+                            NOTE The mapping network is also embedded in the
+                            KnitNetwork during this step and can be accessed by
+                            the KnitNetwork.MappingNetwork property. It is
+                            returned here as a seperate output for reasons of
+                            visualisation, analysis and troubleshooting.
+                            {item, KnitMappingNetwork}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200413
+        Version: 200525
 """
 
 # GPYTHON SDK IMPORTS
