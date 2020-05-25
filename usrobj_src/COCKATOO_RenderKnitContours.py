@@ -1,12 +1,15 @@
-"""Visualises KnitContours
-TODO: Update docstring, implement curve behaviour
+"""
+Attempts to visualise the time flow on KnitContours by rendering them as
+gradient coloured curves. Will work with any type of curve, actually.
     Inputs:
-        Toggle: {item, boolean}
-        KnitContours:{item, curve/polyline}
+        Toggle: If True, curves will be rendered to the viewport. 
+                {item, boolean}
+        KnitContours: Some KnitContours to visualise (works with any curve). 
+                      {list, curve/polyline}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200418
+        Version: 200525
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -39,11 +42,37 @@ class RenderKnitContours(component):
             # make customdisplay
             viz = customDisplay(self, True)
             for i, pl in enumerate(KnitContours):
-                segs = [Rhino.Geometry.LineCurve(s) for s in pl.GetSegments()]
-                numseg = len(segs)
-                ccols = mapValuesAsColors(range(numseg), 0, numseg, 0.0, 0.35)
-                for j, seg in enumerate(segs):
-                    viz.AddCurve(seg, ccols[j], 3)
+                if pl.IsPolyline() and pl.Degree == 1:
+                    polypts = []
+                    for j, cpt in enumerate(pl.Points):
+                        polypts.append(Rhino.Geometry.Point3d(cpt.X, 
+                                                              cpt.Y,
+                                                              cpt.Z))
+                    pl = Rhino.Geometry.Polyline(polypts)
+                    segs = [Rhino.Geometry.LineCurve(s) for s in pl.GetSegments()]
+                    numseg = len(segs)
+                    ccols = mapValuesAsColors(range(numseg), 0, numseg, 0.0, 0.35)
+                    for j, seg in enumerate(segs):
+                        viz.AddCurve(seg, ccols[j], 3)
+                else:
+                    abstol = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance
+                    angletol = Rhino.RhinoDoc.ActiveDoc.ModelAngleToleranceRadians
+                    minlen = abstol
+                    maxlen = 100
+                    # make polylinecurve (!)
+                    pl = pl.ToPolyline(abstol, angletol, minlen, maxlen)
+                    # make polyline
+                    pl = pl.ToPolyline()
+                    segs = [Rhino.Geometry.LineCurve(s) for s in pl.GetSegments()]
+                    numseg = len(segs)
+                    ccols = mapValuesAsColors(range(numseg), 0, numseg, 0.0, 0.35)
+                    for j, seg in enumerate(segs):
+                        viz.AddCurve(seg, ccols[j], 3)
+        elif Toggle and not KnitContours:
+            viz = customDisplay(self, False)
+            rml = self.RuntimeMessageLevel.Warning
+            rMsg = "No KnitContours input!"
+            self.AddRuntimeMessage(rml, rMsg)
         else:
             viz = customDisplay(self, False)
         
