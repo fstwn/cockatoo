@@ -833,7 +833,7 @@ class KnitNetwork(KnitNetworkBase):
                         else:
                             self.CreateWeftEdge(fCand, node)
 
-    def InitializeWeftEdges(self, start_index=None, force_continuous_start=False, force_continuous_end=False, max_connections=4, least_connected=False, precise=False, verbose=False):
+    def InitializeWeftEdges(self, start_index=None, propagate_from_center=False, force_continuous_start=False, force_continuous_end=False, max_connections=4, least_connected=False, precise=False, verbose=False):
         """
         Attempts to create all the preliminary 'weft' connections for the
         network.
@@ -841,13 +841,24 @@ class KnitNetwork(KnitNetworkBase):
         Parameters
         ----------
         start_index : int
-            The starting index
+            This value defines at which index the list of contours is split.
+            If no index is supplied, will split the list at the longest contour.
+            Defaults to ``None``
+
+        propagate_from_center : bool
+            If ``True``, will propagate left and right set of contours from
+            the center contour defined by start_index or the longest contour
+            ( < | > ). Otherwise, the propagation of the contours left to the
+            center will start at the left boundary ( > | > ).
+            Defaults to ``False``
 
         force_continuous_start : bool
-            Forces the first row of stitches to be continuous.
+            If ``True``, forces the first row of stitches to be continuous.
+            Defaults to ``False``
 
         force_continuous_end : bool
-            Forces the last row of stitches to be continuous
+            If ``True``, forces the last row of stitches to be continuous.
+            Defaults to ``False``
 
         max_connections : int
             The maximum connections a node is allowed to have to be considered
@@ -892,10 +903,10 @@ class KnitNetwork(KnitNetworkBase):
 
         # split position list into two sets based on start index
         leftContours = AllPositions[0:start_index+1]
-        # TODO / NOTE:
-        # should left contours be reversed? reversed version has shown problems
-        # should this be optional?
-        #leftContours.reverse()
+        # optional propagation from center
+        # NOTE: this has shown problems / weird stitch geometries
+        if propagate_from_center:
+            leftContours.reverse()
 
         rightContours = AllPositions[start_index:]
 
