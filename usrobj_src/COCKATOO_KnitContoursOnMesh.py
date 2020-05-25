@@ -1,33 +1,57 @@
-"""Constructs contours for deriving a knitting pattern from a mesh. Use the
+"""
+Constructs contours for deriving a knitting pattern from a mesh. Use the
 GeodesicStrength and TweenStrength inputs to control the shape and distribution
 of the contour curves on the mesh.
 
-Based on an approach by Anders Holden Deleuran:
+Based on an approach for geodesics by Anders Holden Deleuran:
 https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
     Inputs:
-        Run: Set to True to activate the component. Connect a boolean toggle ideally. {item, boolean}
+        Run: Set to True to activate the component. Connect a boolean toggle
+             ideally. {item, boolean}
         Mesh: The mesh to create the contours on. {item, mesh}
-        KnitConstraints: The Cockatoo KnitConstraints defining the direction and limits of the contours. {item, float}
-        ContourDensity: The density (i.e. amount) of the contour curves. {item, int/float}
-        ContourMode: How to interpret the ContourDensity input. 0 = Relative - ContourDensity sets the total number of contour curves. 1 = Absolute - ContourDensity sets the target distance between the contour curves. {item, integer}
-        ContourDivisionDensity: The resolution (i.e. division count) of the contour curves. {item, int/float}
-        ContourDivisionMode: How to interpret the ContourDivisionDensity input. 0 = Relative - ContourDivisionDensity sets the total number of divisions for the contour curves. 1 = Absolute - ContourDivisionDensity sets the target segment length of the contour curves. {item, int/float}
-        GeodesicStrength: Strength of the internal Kangaroo2 goal minimizing the length of the contour curves. Defaults to 1000. {item, int}
-        TweenStrength: Strength of the internal Kangaroo2 goal controlling the distribution of the contours. Defaults to 2000. {item, int}
-        MaxIterations: The maximum number of iterations for the internal Kangaroo2 solver. {item, int}
-        Tolerance: The tolerance of the internal Kangaroo2 solver. Defaults to 1e-6. {item, int}
-        Threshold: The threshold for the internal Kangaroo2 solver. Defaults to 1e-14. {item, int}
+        KnitConstraints: The Cockatoo KnitConstraints defining the direction and
+                         limits of the contours. {item, float}
+        ContourDensity: The density (i.e. amount) of the contour curves.
+                        {item, int/float}
+        ContourMode: How to interpret the ContourDensity input.
+                     [0] = Relative - ContourDensity sets the total number of
+                           contour curves.
+                     [1] = Absolute - ContourDensity sets the target distance
+                         between the contour curves. {item, integer}
+        ContourDivisionDensity: The resolution (i.e. division count) of the
+                                contour curves. {item, int/float}
+        ContourDivisionMode: How to interpret the ContourDivisionDensity input.
+                             [0] = Relative - ContourDivisionDensity sets the
+                                 total num of divisions for the contour curves.
+                             [1] = Absolute - ContourDivisionDensity sets the
+                                 target segment length of the contour curves.
+                             {item, int/float}
+        GeodesicStrength: Strength of the internal Kangaroo2 goal minimizing the
+                          length of the contour curves. Defaults to 1000.
+                          {item, int}
+        TweenStrength: Strength of the internal Kangaroo2 goal controlling the
+                       distribution of the contours. Defaults to 2000.
+                       {item, int}
+        MaxIterations: The maximum number of iterations for the internal
+                       Kangaroo2 solver. {item, int}
+        Tolerance: The tolerance of the internal Kangaroo2 solver.
+                   Defaults to 1e-6. {item, int}
+        Threshold: The threshold for the internal Kangaroo2 solver.
+                   Defaults to 1e-14. {item, int}
     Output:
-        KnitContours: The KnitContour curves on the mesh for initializing a KnitNetwork and deriving a knitting pattern from the mesh. {item, polyline}
+        KnitContours: The KnitContour curves on the mesh for initializing a
+                      KnitNetwork and deriving a knitting pattern.
+                      {item, polyline}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200428
+        Version: 200525
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 import clr
+from os import path
 
 # .NET IMPORTS
 from System.Collections.Generic import List
@@ -40,11 +64,31 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # CUSTOM RHINO IMPORTS
-clr.AddReferenceToFile("KangarooSolver.dll")
+k2import = False
+try:
+    clr.AddReferenceToFile("KangarooSolver.dll")
+    k2import = True
+except IOError:
+    pass
+if not k2import:
+    try:
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Program Files\Rhino 7\Plug-ins\Grasshopper\Components\KangarooSolver.dll"))
+        k2import = True
+    except IOError:
+        pass
+if not k2import:
+    try:
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Program Files\Rhino 7 WIP\Plug-ins\Grasshopper\Components\KangarooSolver.dll"))
+        k2import = True
+    except IOError:
+        pass
+if not k2import:
+    try:
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Program Files\Rhino 6\Plug-ins\Grasshopper\Components\KangarooSolver.dll"))
+    except IOError:
+        raise RuntimeError("KangarooSolver.dll was not found! please add the " + \
+                           "folder to your module search paths manually!")
 import KangarooSolver as ks
-
-# LOCAL MODULE IMPORTS
-from mbe.geometry import BreakPolyline
 
 # GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "KnitContoursOnMesh"
@@ -172,15 +216,10 @@ class KnitContoursOnMesh(component):
         # unpack the kmclist
         StartCourse, EndCourse, LeftBoundary, RightBoundary = KMCList
         
-        StartCourse = [c.ToPolylineCurve() for c in StartCourse]
-        EndCourse = [c.ToPolylineCurve() for c in EndCourse]
-        LeftBoundary = [c.ToPolylineCurve() for c in LeftBoundary]
-        RightBoundary = [c.ToPolylineCurve() for c in RightBoundary]
-        
         # GET SEGMENTATION RATIOS ----------------------------------------------
         
-        stLen, sRat = self.GetSegmentRatios(StartCourse)
-        etLen, eRat = self.GetSegmentRatios(EndCourse)
+        stLen, sRat = self.GetSegmentRatios([StartCourse])
+        etLen, eRat = self.GetSegmentRatios([EndCourse])
         ltLen, lbRat = self.GetSegmentRatios(LeftBoundary)
         rtLen, rbRat = self.GetSegmentRatios(RightBoundary)
         
@@ -304,7 +343,7 @@ class KnitContoursOnMesh(component):
         
         # divide all start boundary segments with their matching segment count
         spt = []
-        for i, segment in enumerate(StartCourse):
+        for i, segment in enumerate([StartCourse]):
             segment.Domain = Rhino.Geometry.Interval(0, 1)
             segT = segment.DivideByCount(sDiv[i], True)
             segPt = [segment.PointAt(t) for t in segT]
@@ -313,7 +352,7 @@ class KnitContoursOnMesh(component):
         
         # divide all right boundary segments with their matching segment count
         ept = []
-        for i, segment in enumerate(EndCourse):
+        for i, segment in enumerate([EndCourse]):
             segment.Domain = Rhino.Geometry.Interval(0, 1)
             segT = segment.DivideByCount(eDiv[i], True)
             segPt = [segment.PointAt(t) for t in segT]
@@ -345,7 +384,7 @@ class KnitContoursOnMesh(component):
         
         return Contours
     
-    def RunScript(self, Run, Mesh, KnitConstraints, ContourDensity, ContourMode, ContourDivisionDensity, ContourDivisionMode, GeodesicStrength, TweenStrength, MaxIterations, Tolerance, Threshold):
+    def RunScript(self, Run, Mesh, KnitConstraint, ContourDensity, ContourMode, ContourDivisionDensity, ContourDivisionMode, GeodesicStrength, TweenStrength, MaxIterations, Tolerance, Threshold):
         
         # INITIALIZATION -------------------------------------------------------
         
@@ -389,16 +428,16 @@ class KnitContoursOnMesh(component):
         
         # DEACTIVATED CONDITION ------------------------------------------------
         
-        if not Run or MaxIterations == 0 or not Mesh or not KnitConstraints:
+        if not Run or MaxIterations == 0 or not Mesh or not KnitConstraint:
             self.Message = "Deactivated"
             return NullTree
         
         # UNPACK CONSTRAINTS ---------------------------------------------------
         
-        StartCourse = list(KnitConstraints.Branch(0))
-        EndCourse = list(KnitConstraints.Branch(1))
-        LeftBoundary = list(KnitConstraints.Branch(2))
-        RightBoundary = list(KnitConstraints.Branch(3))
+        StartCourse = KnitConstraint.StartCourse
+        EndCourse = KnitConstraint.EndCourse
+        LeftBoundary = KnitConstraint.LeftBoundary
+        RightBoundary = KnitConstraint.RightBoundary
         
         KMCList = [StartCourse, EndCourse, LeftBoundary, RightBoundary]
         
@@ -421,7 +460,6 @@ class KnitContoursOnMesh(component):
                                                         Threshold,
                                                         MaxIterations, 
                                                         Tolerance)
-        Contours.reverse()
         
         # SET COMPONENT MESSAGE ------------------------------------------------
         
