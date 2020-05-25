@@ -1,24 +1,28 @@
-"""Extracts constraints from a mesh to derive a knitting pattern.
-TODO: Update docstring, multiple start and end indices?, edge case for touching s and e
+"""
+Extracts the necessary constraints to create KnitContours for a mesh based on
+specified parameters. The constraints consist of a start, end as well as a left
+and right boundary. Preview shows the start course in red and the end course in
+green.
+To extract the constraints, the boundary of the mesh is broken apart at kinks
+which exceed the specified break angle. The 'Start' and 'End' parameters define
+indices for the resulting list of polylines.
     Inputs:
-        Mesh:{item, mesh}
-        BreakAngle: {item, float}
-        StartIndex: {item, integer}
-        EndIndex: {item, integer}
+        Mesh: The mesh that should be knit for constraint extraction.
+              {item, mesh}
+        BreakAngle: Angle at which to break apart mesh boundary. {item, float}
+        StartIndex: Index for the start course. {item, integer}
+        EndIndex: Index for the end course. {item, integer}
     Output:
-        StartCourse: {item, polyline}
-        EndCourse: {item, polyline}
-        LeftBoundary: {item, polyline}
-        RightBoundary: {item, polyline}
+        KnitConstraints: The knitconstraints for this mesh for contour
+                         generation {tree, polyline}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200414
+        Version: 200525
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
-from collections import deque
 import math
 
 # GHPYTHON SDK IMPORTS
@@ -33,6 +37,7 @@ from ghpythonlib import treehelpers as th
 import scriptcontext
 
 # LOCAL MODULE IMPORTS
+from Cockatoo import KnitConstraint
 from mbe.geometry import BreakPolyline
 from mbe.helpers import mapValuesAsColors
 import mbe.component as ct
@@ -45,7 +50,31 @@ ghenv.Component.SubCategory = "4 Constraint Extraction"
 
 class ExtractKnitConstraintsFromMesh(component):
     
-    def RunScript(self, Mesh, BreakAngle, Start, End, VizConstraints):
+    def __init__(self):
+        super(ExtractKnitConstraintsFromMesh, self).__init__()
+        self.SC = None
+        self.EC = None
+        self.LB = []
+        self.RB = []
+    
+    def DrawViewportWires(self, args):
+        try:
+            # get display from args
+            display = args.Display
+            
+            if self.SC and self.EC:
+                # diplay colors for start and end in custom display
+                scol = System.Drawing.Color.Red
+                ecol = System.Drawing.Color.Green
+                # add start and end to customdisplay
+                display.DrawCurve(self.SC, scol, 3)
+                display.DrawCurve(self.EC, ecol, 3)
+            
+        except Exception, e:
+            System.Windows.Forms.MessageBox.Show(str(e),
+                                                 "Error while drawing preview!")
+    
+    def RunScript(self, Mesh, BreakAngle, Start, End):
         # define default break angle for mesh boundary
         if BreakAngle == None:
             BreakAngle = 1.0
@@ -131,20 +160,18 @@ class ExtractKnitConstraintsFromMesh(component):
         if not ecrbcp[0]:
             EndCourse.Reverse()
         
-        if VizConstraints:
-            viz = ct.customDisplay(self, True)
-            # diplay colors for start and end in custom display
-            scol = System.Drawing.Color.Red
-            ecol = System.Drawing.Color.Green
-            # add start and end to customdisplay
-            viz.AddCurve(StartCourse, scol, 3)
-            viz.AddCurve(EndCourse, ecol, 3)
-        else:
-            viz = ct.customDisplay(self, False)
-        
-        # Left and right boundaries again so we don't have to do it yet again
+        # Break apart left and right boundaries again so we don't have to do
+        # it yet again in the next step
         LeftBoundary = BreakPolyline(LeftBoundary.ToPolyline(), BreakAngle)
         RightBoundary = BreakPolyline(RightBoundary.ToPolyline(), BreakAngle)
+        
+        # set left and right for preview drawing
+        self.SC = StartCourse
+        self.EC = EndCourse
+        self.LB = LeftBoundary
+        self.RB = RightBoundary
+        
+        KC = KnitConstraint(StartCourse, EndCourse, LeftBoundary, RightBoundary)
         
         KnitConstraints = Grasshopper.DataTree[object]()
         KnitConstraints.Add(StartCourse, Grasshopper.Kernel.Data.GH_Path(0))
@@ -153,4 +180,4 @@ class ExtractKnitConstraintsFromMesh(component):
         KnitConstraints.AddRange(RightBoundary, Grasshopper.Kernel.Data.GH_Path(3))
         
         # return outputs if you have them; here I try it for you:
-        return KnitConstraints
+        return KC
