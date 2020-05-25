@@ -1,17 +1,19 @@
 """
-Create the final network topology by sampling the previously generated courses
-with the stitch width and creating all final 'weft' and 'warp' edges using a
-previously generated mapping network.
-TODO: Update docstring!
+Create the final network topology by using the previosly created and embedded
+mapping network to sample the courses with the stitch width. Subsequently, all
+final 'weft' and 'warp' edges will be created.
     Inputs:
-        Toggle: Set to true to activate {item, boolean}
-        KnitNetwork: An initialized KnitNetwork. {item, KnitNetwork}
+        Toggle: Set to true to activate the component. {item, boolean}
+        KnitNetwork: A KnitNetwork with a previosly created, embedded mapping
+                     network. {item, KnitNetwork}
     Output:
-        MappingNetwork: The KnitNetwork with 'weft' connections created. {item, polyline}
+        KnitNetwork: The KnitNetwork representing the final knit topology with
+                     stitches, increases, decreases and short rows.
+                     {item, KnitNetwork}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200418
+        Version: 200525
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
