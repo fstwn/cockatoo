@@ -754,13 +754,13 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
     def MakeCsvData(self):
         """
-        Stuctures this network in a way that it can be represented as rows and
-        columns to produce a 2d knitting pattern.
+        Topological sort this network to represent it as rows and columns.
 
         Returns
         -------
         CSV-Data
-            List of lists (rows) where every value represents a node
+            List (rows) of lists (column values) where every value represents
+            a node.
 
         Raises
         ------
@@ -1031,9 +1031,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         try:
             ordered_row_stack = nx.topological_sort_recursive(row_map)
         except nx.NetworkXError as e:
-            raise KnitNetworkTopologyError(e.message)
+            raise KnitNetworkTopologyError(str(e.message))
         except nx.NetworkXUnfeasible as e:
-            raise KnitNetworkTopologyError(e.message)
+            raise KnitNetworkTopologyError(str(e.message))
 
         # get the rows with the backtracing result
         toposort_rows = [id2row[id] for id in ordered_row_stack]
@@ -1047,9 +1047,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         try:
             ordered_column_stack = nx.topological_sort_recursive(col_map)
         except nx.NetworkXError as e:
-            raise KnitNetworkTopologyError(e.message)
+            raise KnitNetworkTopologyError(str(e.message))
         except nx.NetworkXUnfeasible as e:
-            raise KnitNetworkTopologyError(e.message)
+            raise KnitNetworkTopologyError(str(e.message))
 
         for i, col in enumerate(ordered_column_stack):
             # get column nodes
@@ -1069,8 +1069,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         trim = toposort_rows[0].index(-2)
         toposort_rows = [btr[:trim] for btr in toposort_rows]
 
-        # return all rows
-        return rows, toposort_rows
+        # return all sorted rows
+        return toposort_rows
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':
