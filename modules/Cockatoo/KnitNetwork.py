@@ -182,6 +182,7 @@ class KnitNetwork(KnitNetworkBase):
                                         position=vpos,
                                         num=vnum,
                                         leaf=vleaf,
+                                        start=False,
                                         end=False,
                                         segment=None,
                                         increase=False,
@@ -1373,6 +1374,7 @@ class KnitNetwork(KnitNetworkBase):
                                      position=None,
                                      num=j,
                                      leaf=nodeLeaf,
+                                     start=False,
                                      end=False,
                                      segment=seg[2]["segment"],
                                      increase=False,
@@ -2642,6 +2644,7 @@ class KnitNetwork(KnitNetworkBase):
                                         position=None,
                                         num=None,
                                         leaf=is_leaf,
+                                        start=False,
                                         end=False,
                                         segment=None,
                                         increase=False,
@@ -2675,22 +2678,31 @@ class KnitNetwork(KnitNetworkBase):
             # 2 warp edges and 1 weft edge  >> end
             if warplen == 2 and weftlen == 1:
                 node_data["end"] = True
+                if weft_out:
+                    node_data["start"] = True
 
             # 1 warp edge and 1 weft edge   >> end
             elif warplen == 1 and weftlen == 1:
                 node_data["end"] = True
+                node_data["leaf"] = True
+                if weft_out:
+                    node_data["start"] = True
 
             # 2 warp edges and 0 weft edges >> end
             elif warplen == 2 and weftlen == 0:
                 node_data["end"] = True
+                node_data["start"] = True
 
             # 1 warp edge and 0 weft edges  >> end
             elif warplen == 1 and weftlen == 0:
                 node_data["end"] = True
+                node_data["start"] = True
 
             # 0 warp edges and 1 weft edge  >> end
             elif warplen == 0 and weftlen == 1:
                 node_data["end"] = True
+                if weft_out:
+                    node_data["start"] = True
 
             # 1 warp edge and 2 weft edges  >> increase or decrease
             elif warplen == 1 and weftlen == 2:
