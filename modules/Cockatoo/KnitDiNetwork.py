@@ -863,9 +863,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                         else:
                             # see if there are incoming 'weft' edges at the
                             # current node which are not the way we came from
-                            next_weft = [nw for nw in \
-                                        self.NodeWeftEdgesIn(row_nodes[-1], data=True) \
-                                        if nw[0] != row_nodes[-2]]
+                            next_weft = [nw for nw in self.NodeWeftEdgesIn(
+                                         row_nodes[-1], data=True) \
+                                         if nw[0] != row_nodes[-2]]
                             # try to reverse them as a failsafe for imperfect
                             # topological dual graphs
                             if len(next_weft) == 1:
@@ -876,8 +876,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                                 self.remove_edge(nwe[0], nwe[1])
                                 self.add_edge(nwe[1], nwe[0], attr_dict=nw_attr)
                             else:
-                                errMsg = "Unexpected end of row. Missing 'end' " + \
-                                       "attribute at node {}!".format(row_nodes[-1])
+                                errMsg = "Unexpected end of row. Missing " + \
+                                         "'end' attribute at node {}!"
+                                errMsg.format(row_nodes[-1])
                                 raise KnitNetworkTopologyError(errMsg)
 
                     # if there is a next node over a 'weft' edge, append to
