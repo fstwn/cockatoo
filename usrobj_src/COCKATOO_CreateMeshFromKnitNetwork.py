@@ -1,27 +1,41 @@
 """
 Create a mesh from a KnitNetwork by finding the cycles (faces) of the
 network.
+---
+[NOTE] This algorithm relies on finding cycles (quads and triangles) for the
+supplied network. This is not a trivial task in 3d space - at least to my
+knowledge. Assigning a geometrybase to the KnitNetwork on initialization
+and choosing cyclesmode 1 or 2 greatly improves reliability!
+None the less, success is very dependent on the curvature of the original
+surface or mesh used.
+---
+[IMPLEMENTATION DETAIL] N-Gons are deliberately deactivated but can be activated
+when editing the function call inside the scripting component and increasing
+the max_valence value.
     Inputs:
-        Toggle: Set to True to activate the component. {item, boolean}
-        KnitNetwork: The KnitNetwork to mesh. {item, KnitNetwork}
+        Toggle: Set to True to activate the component.
+                {item, boolean}
+        KnitNetwork: The KnitNetwork to mesh.
+                     {item, KnitNetwork}
         CyclesMode: Determines how the neighbors of each node are sorted when
                     finding the cycles of the network.
                     [-1] equals to using the world XY plane (default)
-                     [0] equals to using a plane normal to the origin nodes 
-                       closest point on the geometrybase
-                     [1] equals to using a plane normal to the average of the 
-                       origin and neighbor nodes' closest points on the
-                       geometrybase
-                     [2] equals to using an average plane between a plane fit to 
-                       the origin and its neighbor nodes and a plane normal to 
-                       the origin nodes closest point on the geometrybase.
-                    Defaults to [-1]. {item, int}
+                    [0] equals to using a plane normal to the origin nodes 
+                        closest point on the geometrybase
+                    [1] equals to using a plane normal to the average of the 
+                        origin and neighbor nodes' closest points on the
+                        geometrybase
+                    [2] equals to using an average plane between a plane fit to 
+                        the origin and its neighbor nodes and a plane normal to 
+                        the origin nodes closest point on the geometrybase.
+                    Defaults to -1.
+                    {item, int}
     Outputs:
         Mesh: The Rhino mesh. {item, mesh}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200506
+        Version: 200529
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -34,6 +48,9 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
+# LOCAL MODULE IMPORTS
+from Cockatoo import KnitNetwork, KnitDiNetwork
+
 # GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "CreateMeshFromKnitNetwork"
 ghenv.Component.NickName ="CMFKN"
@@ -42,7 +59,7 @@ ghenv.Component.SubCategory = "6 KnitNetwork"
 
 class CMFKN(component):
     
-    def RunScript(self, Toggle, KnitNetwork, CyclesMode):
+    def RunScript(self, Toggle, KN, CyclesMode):
         
         # sanitize inputs
         if CyclesMode == None:
@@ -52,7 +69,7 @@ class CMFKN(component):
         elif CyclesMode > 2:
             CyclesMode = 2
         
-        if not KnitNetwork:
+        if not KN:
             rml = self.RuntimeMessageLevel.Warning
             rMsg = "No KnitNetwork input!"
             self.AddRuntimeMessage(rml, rMsg)
@@ -60,11 +77,13 @@ class CMFKN(component):
         # initialize Mesh
         Mesh = Grasshopper.DataTree[Rhino.Geometry.Mesh]()
         
-        if Toggle and KnitNetwork:
+        if Toggle and KN:
             # create mesh from knitnetwork
-            Mesh = KnitNetwork.CreateMesh(mode=CyclesMode,
-                                          ngons=False)
-            
-            return Mesh
-        else:
-            return Mesh
+            if isinstance(KN, KnitNetwork):
+                Mesh = KN.CreateMesh(mode=CyclesMode,
+                                     max_valence=4)
+            elif isinstance(KN, KnitDiNetwork):
+                if KN.VerifyDualForm():
+                    Mesh = KnitNetwork(KN).CreateMesh(mode=CyclesMode,
+                                                      max_valence=4)
+        return Mesh
