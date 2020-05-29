@@ -201,6 +201,11 @@ class KnitNetwork(KnitNetworkBase):
     def ToString(self):
         """
         Return a textual description of the network.
+
+        Returns
+        -------
+        description : str
+            A textual description of the network.
         """
 
         name = "KnitNetwork"
@@ -2612,6 +2617,8 @@ class KnitNetwork(KnitNetworkBase):
         edge_to_cycle = {(u, v): None for u, v in self.edges_iter()}
         edge_to_cycle.update({(v, u): None for u, v in self.edges_iter()})
 
+        # CREATE NODES OF DUAL -------------------------------------------------
+
         # for each cycle, find the centroid node
         for ckey in sorted(cycles.keys()):
             cycle = cycles[ckey]
@@ -2652,6 +2659,8 @@ class KnitNetwork(KnitNetworkBase):
                                         increase=False,
                                         decrease=False)
 
+        # CREATE EDGES IN DUAL -------------------------------------------------
+
         # loop over original edges and create corresponding edges in dual
         for u, v, d in self.edges_iter(data=True):
             u, v = self.EdgeGeometryDirection(u, v)
@@ -2664,6 +2673,8 @@ class KnitNetwork(KnitNetworkBase):
                     DualNetwork.CreateWeftEdge(node_b, node_a)
                 elif d["weft"]:
                     DualNetwork.CreateWarpEdge(node_a, node_b)
+
+        # SET ATTRIBUTES OF DUAL NODES -----------------------------------------
 
         # loop over all nodes of the network and set crease and end attributes
         for node in DualNetwork.nodes_iter():
