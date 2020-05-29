@@ -2788,7 +2788,6 @@ class KnitNetwork(KnitNetworkBase):
                     DualNetwork.remove_node(pred)
                 elif not pred and len(suc) == 1 and \
                 DualNetwork.edge[increase][suc[0]]["weft"] :
-                    pass
                     # merge nodes, edge is increase, suc
                     suc = suc[0]
                     sd = DualNetwork.node[suc]
@@ -2816,27 +2815,28 @@ class KnitNetwork(KnitNetworkBase):
                         edge[2]["geo"] = RhinoLine(
                                             DualNetwork.node[edge[0]]["geo"],
                                             data["geo"])
-                    # edit edges of decrease
+                    # edit incoming edges of decrease
                     for edge in DualNetwork.in_edges_iter(suc, data=True):
                         if edge[2]["warp"]:
-                            fromNode = (increase, data)
-                            toNode = (edge[0], DualNetwork.node[edge[0]])
+                            fromNode = (edge[0], DualNetwork.node[edge[0]])
+                            toNode = (increase, data)
                             DualNetwork.CreateWarpEdge(fromNode, toNode)
                             DualNetwork.remove_edge(edge[0], edge[1])
                         elif edge[2]["weft"]:
-                            fromNode = (increase, data)
-                            toNode = (edge[0], DualNetwork.node[edge[0]])
+                            fromNode = (edge[0], DualNetwork.node[edge[0]])
+                            toNode = (increase, data)
                             DualNetwork.CreateWeftEdge(fromNode, toNode)
                             DualNetwork.remove_edge(edge[0], edge[1])
+                    # edit outgoing edges of decrease
                     for edge in DualNetwork.edges_iter(suc, data=True):
                         if edge[2]["warp"]:
-                            fromNode = (edge[0], DualNetwork.node[edge[0]])
-                            toNode = (increase, data)
+                            fromNode = (increase, data)
+                            toNode = (edge[1], DualNetwork.node[edge[1]])
                             DualNetwork.CreateWarpEdge(fromNode, toNode)
                             DualNetwork.remove_edge(edge[0], edge[1])
                         elif edge[2]["weft"]:
-                            fromNode = (edge[0], DualNetwork.node[edge[0]])
-                            toNode = (increase, data)
+                            fromNode = (increase, data)
+                            toNode = (edge[1], DualNetwork.node[edge[1]])
                             DualNetwork.CreateWeftEdge(fromNode, toNode)
                             DualNetwork.remove_edge(edge[0], edge[1])
                     DualNetwork.remove_node(suc)
