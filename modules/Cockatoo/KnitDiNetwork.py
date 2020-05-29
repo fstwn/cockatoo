@@ -738,6 +738,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         for node in self.nodes_iter():
             # verify if all nodes have the correct keys for attributes
             try:
+                start = self.node[node]["start"]
                 end = self.node[node]["end"]
                 inc = self.node[node]["increase"]
                 dec = self.node[node]["decrease"]
@@ -771,7 +772,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         return True
 
-    def MakeCsvData(self):
+    def MakeCsvData(self, consolidate=False):
         """
         Topological sort this network to represent it as rows and columns.
 
