@@ -72,8 +72,8 @@ class KnitNetworkBase(nx.Graph):
 
         Returns
         -------
-        stringrep : str
-            String describing the contents of the network.
+        description : str
+            A textual description of the network.
         """
 
         name = "KnitNetworkBase"
