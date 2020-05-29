@@ -3,12 +3,16 @@ Attempts to relax a mesh into a plane to make it planar. The best fit plane
 is used for reference and updated at every iteration
     Inputs:
         Run: If set to true, the relaxation process will run, if False it will
-             Pause. {item, boolean}
+             Pause.
+             {item, bool}
         Reset: Will reset the relaxation if set to true. Connect a button here,
-               ideally. {item, boolean}
+               ideally.
+               {item, bool}
         Threshold: Stop when average movement is less than this
-                   (default is 1e-3). {item, float}
-        Mesh: The mesh to attempt planarization for. {item, mesh}
+                   Defaults to [1e-3].
+                   {item, float}
+        Mesh: The mesh to attempt planarization for.
+              {item, mesh}
         GlobalPlaneStrength: Strength of the movement towards the global plane
                              {list, point}
         LocalPlaneStrength: Strength of the movement towards the local planes.
@@ -16,17 +20,21 @@ is used for reference and updated at every iteration
         EdgeLengthStrength: Strength with which edgelengths are preserved.
                             {item, float}
     Output:
-        Iterations: The current number of iterations. {item, integer}
-        RelaxedMesh: The relaxed mesh for every iteration {list, points}
-        GlobalFitPlane: The best fit plane of the mesh {item, plane}
+        Iterations: The current number of iterations.
+                    {item, integer}
+        RelaxedMesh: The relaxed mesh for every iteration.
+                     {list, points}
+        GlobalFitPlane: The best fit plane of the mesh.
+                        {item, plane}
         LocalFitPlanes: All the local planes used in the planarization attempt.
                         {list, plane}
         AveragePlaneDeviation: Average deviation between the vertices of the
-                               mesh and the globally fit plane. {item, float}
+                               mesh and the globally fit plane.
+                               {item, float}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200525
+        Version: 200529
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
