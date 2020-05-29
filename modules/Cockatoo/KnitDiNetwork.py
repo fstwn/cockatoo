@@ -283,7 +283,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         # retrieve coordinates for current node
         a = xyz[key]
 
-        # compute local orientation if geometrybase data is present
+        # compute local orientation if reference geometry data is present
         # CASE 1: Plane is determined by mesh normal of origin node
         if cbp and nrm and mode == 0:
             # construct local reference plane and map coordinates to plane space
@@ -409,22 +409,22 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         # compute local orientation data when geometry base is present
         try:
-            geometrybase = self.graph["geometrybase"]
+            reference_geometry = self.graph["reference_geometry"]
         except KeyError:
-            geometrybase = None
+            reference_geometry = None
 
-        if not geometrybase:
+        if not reference_geometry:
             cbp = None
             nrm = None
-        elif isinstance(geometrybase, RhinoMesh):
-            cbp = {k: geometrybase.ClosestMeshPoint(geo[k], 0) \
+        elif isinstance(reference_geometry, RhinoMesh):
+            cbp = {k: reference_geometry.ClosestMeshPoint(geo[k], 0) \
                    for k in self.nodes_iter()}
-            nrm = {k: geometrybase.NormalAt(cbp[k]) \
+            nrm = {k: reference_geometry.NormalAt(cbp[k]) \
                    for k in self.nodes_iter()}
-        elif isinstance(geometrybase, RhinoNurbsSurface):
-            cbp = {k: geometrybase.ClosestPoint(geo[k])[1:] \
+        elif isinstance(reference_geometry, RhinoNurbsSurface):
+            cbp = {k: reference_geometry.ClosestPoint(geo[k])[1:] \
                    for k in self.nodes_iter()}
-            nrm = {k: geometrybase.NormalAt(cbp[k][0], cbp[k][1]) \
+            nrm = {k: reference_geometry.NormalAt(cbp[k][0], cbp[k][1]) \
                    for k in self.nodes_iter()}
 
         # loop over all nodes in network
@@ -523,20 +523,20 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             cycles for the network.
             -1 equals to using the world XY plane (default)
              0 equals to using a plane normal to the origin nodes closest
-               point on the geometrybase
+               point on the reference geometry
              1 equals to using a plane normal to the average of the origin
-               and neighbor nodes' closest points on the geometrybase
+               and neighbor nodes' closest points on the reference geometry
              2 equals to using an average plane between a plane fit to the
                origin and its neighbor nodes and a plane normal to the origin
-               nodes closest point on the geometrybase
+               nodes closest point on the reference geometry
             Defaults to -1
 
         Warning
         -------
         Modes other than -1 (default) are only possible if this network has an
-        underlying geometrybase in form of a Mesh or NurbsSurface. The
-        geometrybase should be assigned when initializing the network by
-        assigning the geometry to the "geometrybase" attribute of the network.
+        underlying reference geometry in form of a Mesh or NurbsSurface. The
+        reference geometry should be assigned when initializing the network by
+        assigning the geometry to the "reference_geometry" attribute of the network.
 
         Notes
         -----
@@ -637,12 +637,12 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             cycles for the network.
             -1 equals to using the world XY plane (default)
              0 equals to using a plane normal to the origin nodes closest
-               point on the geometrybase
+               point on the reference geometry
              1 equals to using a plane normal to the average of the origin
-               and neighbor nodes' closest points on the geometrybase
+               and neighbor nodes' closest points on the reference geometry
              2 equals to using an average plane between a plane fit to the
                origin and its neighbor nodes and a plane normal to the origin
-               nodes closest point on the geometrybase
+               nodes closest point on the reference geometry
             Defaults to -1
 
         max_valence : int
@@ -654,9 +654,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Warning
         -------
         Modes other than -1 (default) are only possible if this network has an
-        underlying geometrybase in form of a Mesh or NurbsSurface. The
-        geometrybase should be assigned when initializing the network by
-        assigning the geometry to the "geometrybase" attribute of the network.
+        underlying reference geometry in form of a Mesh or NurbsSurface. The
+        reference geometry should be assigned when initializing the network by
+        assigning the geometry to the "reference_geometry" attribute of the network.
         """
 
         # get cycles dict of this network
@@ -1104,7 +1104,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         #       'pull' the row to the connection index
 
         # NOTE: handle increases on the way!
-        
+
         if consolidate:
             # swap / transpose rows and columns
             spread_columns = deque(map(list, zip(*toposort_rows[:])))
