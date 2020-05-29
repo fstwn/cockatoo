@@ -1,33 +1,46 @@
 """
 Initialize preliminary 'weft' connections (edges) and first 'warp' connections
 (edges) for a given KnitNetwork.
+---
+[WARNING] The implementation used is research-level code and not optimized. This
+can lead to substantial computation time, depending on size of the mesh, stitch
+parameters and hardware of the machine!
     Inputs:
-        Toggle: Set to True to activate the component {item, boolean}
-        KnitNetwork: An initialized KnitNetwork. {item, KnitNetwork}
+        Toggle: Set to True to activate the component.
+                {item, bool}
+        KnitNetwork: An initialized KnitNetwork.
+                     {item, KnitNetwork}
         SplittingIndex: Optional splitting index for splitting the contours into
                         two sets (left and right). If no value or -1 is
                         supplied, the longest contour will be used.
                         {item, integer}
         ContinuousStart: If True, forces the first row of stitches to be
-                         continuous. Defaults to False. {item, bool}
+                         continuous.
+                         Defaults to False.
+                         {item, bool}
         ContinuousEnd: If True, forces the last row of stitchtes to be
-                       continuous. Defaults to False. {item, bool}
+                       continuous.
+                       Defaults to False.
+                       {item, bool}
         PropagateFromCenter: If True, will propagate left and right set of 
                              contours from the center contour defined by
                              SplittingIndex ( < | > ). Otherwise, the
                              propagation of the contours left to the center will
                              start at the left boundary ( > | > ).
                              Defaults to False.
+                             {item, bool}
         Precise: If True, the more precise but slower DistanceTo() function will
-                 be used instead of DistanceToSquared(). Default is False.
-                 {item, boolean}
+                 be used instead of DistanceToSquared().
+                 Defaults to False.
+                 {item, bool}
     Output:
         KnitNetwork: The KnitNetwork with preliminary 'weft' and 'warp' edges 
-                     created. {item, polyline}
+                     created.
+                     {item, KnitNetwork}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200525
+        Version: 200529
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
