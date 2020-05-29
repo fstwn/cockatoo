@@ -1,15 +1,21 @@
 """
 Constructs contours for deriving a knitting pattern from a surface.
-[NOTE] When dealing with surfaces, KnitContours are essentially just isocurves. So
-this is a single-node solution for generating N isocurves on a surface.
+---
+[NOTE] When dealing with surfaces, KnitContours are essentially just isocurves.
+So this is a single-node solution for generating an array of equally distributed
+isocurves on a surface.
     Inputs:
-        Surface: The surface to create the contours on. {item, surface}
-        Density: The density (i.e. number) of contour curves. {item, int}
+        Surface: The surface to create the contours on.
+                 {item, surface}
+        Density: The density (i.e. number) of contour curves.
+                 {item, int}
         FlipUV: Flip the U and V parameter space of the surface for isocurve
                 extraction.
-                Defaults to False. {item, bool}
+                Defaults to False.
+                {item, bool}
         FlipDir: Flip the curve direction of the contours.
-                 Defualts to False. {item, bool}
+                 Defualts to False.
+                 {item, bool}
     Output:
         KnitContours: The KnitContour curves on the surface for initializing a
                       KnitNetwork and deriving a knitting pattern.
@@ -17,7 +23,7 @@ this is a single-node solution for generating N isocurves on a surface.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200525
+        Version: 200529
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
