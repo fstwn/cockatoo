@@ -2725,6 +2725,109 @@ class KnitNetwork(KnitNetworkBase):
                     elif warp_in:
                         node_data["decrease"] = True
 
+        # MERGE ADJACENT INCREASES/DECREASES -----------------------------------
+
+        if merge_adj_creases:
+            increase_nodes = [inc for inc in DualNetwork.nodes_iter(data=True) \
+                              if inc[1]["increase"]]
+            for increase, data in increase_nodes:
+                pred = DualNetwork.predecessors(increase)
+                suc = DualNetwork.successors(increase)
+                pred = [p for p in pred if DualNetwork.node[p]["decrease"]]
+                suc = [s for s in suc if DualNetwork.node[s]["decrease"]]
+                # merge only with pred or with suc but not both
+                if len(pred) == 1 and \
+                DualNetwork.edge[pred[0]][increase]["weft"]:
+                    # merge nodes, edge is pred, increase
+                    pred = pred[0]
+                    pd = DualNetwork.node[pred]
+                    # remove the connecting edge
+                    DualNetwork.remove_edge(pred, increase)
+                    # get the points of the nodes
+                    increase_pt = data["geo"]
+                    pred_pt = pd["geo"]
+                    # compute the new merged point
+                    new_vec = RhinoVector3d(increase_pt - pred_pt)
+                    new_pt = pred_pt + (new_vec * 0.5)
+                    # replace the increase with the new pt and invert the
+                    # increase attribute
+                    data["geo"] = new_pt
+                    data["x"] = new_pt.X
+                    data["y"] = new_pt.Y
+                    data["z"] = new_pt.Z
+                    data["increase"] = False
+                    # edit the edges of the increase
+                    for edge in DualNetwork.edges_iter(increase, data=True):
+                        edge[2]["geo"] = RhinoLine(
+                                            data["geo"],
+                                            DualNetwork.node[edge[1]]["geo"])
+                    # edit edges of decrease
+                    for edge in DualNetwork.in_edges_iter(pred, data=True):
+                        if edge[2]["warp"]:
+                            fromNode = (edge[0], DualNetwork.node[edge[0]])
+                            toNode = (increase, data)
+                            DualNetwork.CreateWarpEdge(fromNode, toNode)
+                            DualNetwork.remove_edge(edge[0], edge[1])
+                        elif edge[2]["weft"]:
+                            fromNode = (edge[0], DualNetwork.node[edge[0]])
+                            toNode = (increase, data)
+                            DualNetwork.CreateWeftEdge(fromNode, toNode)
+                            DualNetwork.remove_edge(edge[0], edge[1])
+                    DualNetwork.remove_node(pred)
+                elif not pred and len(suc) == 1 and \
+                DualNetwork.edge[increase][suc[0]]["weft"] :
+                    pass
+                    # merge nodes, edge is increase, suc
+                    suc = suc[0]
+                    sd = DualNetwork.node[suc]
+                    # remove the connecting edge
+                    DualNetwork.remove_edge(increase, suc)
+                    # get the points of the nodes
+                    increase_pt = data["geo"]
+                    suc_pt = sd["geo"]
+                    # compute the new merged point
+                    new_vec = RhinoVector3d(suc_pt - increase_pt)
+                    new_pt = increase_pt + (new_vec * 0.5)
+                    # replace the increase with the new pt and invert the
+                    # increase attribute
+                    data["geo"] = new_pt
+                    data["x"] = new_pt.X
+                    data["y"] = new_pt.Y
+                    data["z"] = new_pt.Z
+                    data["increase"] = False
+                    # edit the edges of the increase
+                    for edge in DualNetwork.edges_iter(increase, data=True):
+                        edge[2]["geo"] = RhinoLine(
+                                            data["geo"],
+                                            DualNetwork.node[edge[1]]["geo"])
+                    for edge in DualNetwork.in_edges_iter(increase, data=True):
+                        edge[2]["geo"] = RhinoLine(
+                                            DualNetwork.node[edge[0]]["geo"],
+                                            data["geo"])
+                    # edit edges of decrease
+                    for edge in DualNetwork.in_edges_iter(suc, data=True):
+                        if edge[2]["warp"]:
+                            fromNode = (increase, data)
+                            toNode = (edge[0], DualNetwork.node[edge[0]])
+                            DualNetwork.CreateWarpEdge(fromNode, toNode)
+                            DualNetwork.remove_edge(edge[0], edge[1])
+                        elif edge[2]["weft"]:
+                            fromNode = (increase, data)
+                            toNode = (edge[0], DualNetwork.node[edge[0]])
+                            DualNetwork.CreateWeftEdge(fromNode, toNode)
+                            DualNetwork.remove_edge(edge[0], edge[1])
+                    for edge in DualNetwork.edges_iter(suc, data=True):
+                        if edge[2]["warp"]:
+                            fromNode = (edge[0], DualNetwork.node[edge[0]])
+                            toNode = (increase, data)
+                            DualNetwork.CreateWarpEdge(fromNode, toNode)
+                            DualNetwork.remove_edge(edge[0], edge[1])
+                        elif edge[2]["weft"]:
+                            fromNode = (edge[0], DualNetwork.node[edge[0]])
+                            toNode = (increase, data)
+                            DualNetwork.CreateWeftEdge(fromNode, toNode)
+                            DualNetwork.remove_edge(edge[0], edge[1])
+                    DualNetwork.remove_node(suc)
         return DualNetwork
 
 # MAIN -------------------------------------------------------------------------
