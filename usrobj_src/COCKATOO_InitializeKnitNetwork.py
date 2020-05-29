@@ -1,19 +1,24 @@
 """
 Initialize a KnitNetwork from a set of KnitContours (i.e. isocurves / isolines)
-and an optional GeometryBase.
-[NOTE] The GeometryBase is a mesh or surface which is described by the network.
+and an optional reference geometry.
+---
+[NOTE] The ReferenceGeometry is a mesh or surface which is described by the network.
 While it is optional, it is **HIGHLY** recommended to provide it, as downstream
 methods like meshing or creating a dual might fail without it.
     Inputs:
-        KnitContours: The contours of the knitting pattern. {list, curve/polyline}
-        CourseHeight: The course height of the knitting machine. {item, float}
-        GeometryBase: The geometry his network is based on. {item, mesh/surface)
+        KnitContours: The contours of the knitting pattern.
+                      {list, curve/polyline}
+        CourseHeight: The course height of the knitting machine.
+                      {item, float}
+        ReferenceGeometry: The reference geometry this network is based on.
+                           {item, mesh/surface)
     Output:
-        KnitNetwork: The initialized KnitNetwork. {item, KnitNetwork}
+        KnitNetwork: The initialized KnitNetwork.
+                     {item, KnitNetwork}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200525
+        Version: 200529
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -37,13 +42,13 @@ ghenv.Component.SubCategory = "6 KnitNetwork"
 
 class InitializeKnitNetwork(component):
     
-    def RunScript(self, KnitContours, CourseHeight, GeometryBase):
+    def RunScript(self, KnitContours, CourseHeight, ReferenceGeometry):
         
         if KnitContours and CourseHeight:
             # create KnitNetwork (inherits from nx.Graph)
             KN = Cockatoo.KnitNetwork.CreateFromContours(KnitContours,
                                                          CourseHeight,
-                                                         GeometryBase)
+                                                         ReferenceGeometry)
         elif not KnitContours:
             rml = self.RuntimeMessageLevel.Warning
             rMsg = "No KnitNetwork input!"
