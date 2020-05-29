@@ -280,7 +280,7 @@ class KnitNetworkBase(nx.Graph):
 
     # NODE CREATION ------------------------------------------------------------
 
-    def NodeFromPoint3d(self, node_index, pt, position=None, num=None, leaf=False, end=False, segment=None, increase=False, decrease=False):
+    def NodeFromPoint3d(self, node_index, pt, position=None, num=None, leaf=False, start=False, end=False, segment=None, increase=False, decrease=False):
         """
         Creates a network node from a Rhino Point3d and attributes.
 
@@ -307,9 +307,14 @@ class KnitNetworkBase(nx.Graph):
             first or last course of the knitting pattern.
             Defaults to False.
 
+        start : bool
+            The 'start' attribute of the node identifying it as the start of
+            a course.
+            Defaults to False.
+
         end : bool
-            The 'end' attribute of the node identifying it as the start or end
-            of a segment.
+            The 'end' attribute of the node identifying it as the end of a
+            segment or course.
             Defaults to False.
 
         segment : :obj:`tuple` of :obj:`int`
@@ -335,6 +340,7 @@ class KnitNetworkBase(nx.Graph):
                            "position": position,
                            "num": num,
                            "leaf": leaf,
+                           "start": start,
                            "end": end,
                            "segment": segment,
                            "increase": increase,
