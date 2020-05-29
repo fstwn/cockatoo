@@ -2527,7 +2527,7 @@ class KnitNetwork(KnitNetworkBase):
 
         return self.ToKnitDiNetwork().FindCycles(mode=mode)
 
-    def CreateMesh(self, mode=-1, ngons=False):
+    def CreateMesh(self, mode=-1, max_valence=4):
         """
         Constructs a mesh from this network by finding cycles and using them as
         mesh faces.
@@ -2547,10 +2547,11 @@ class KnitNetwork(KnitNetworkBase):
                nodes closest point on the geometrybase
             Defaults to -1
 
-        ngons : bool
-            If True, n-gon faces (more than 4 edges) are allowed, otherwise
-            their cycles are treated as invalid and will be ignored.
-            Defaults to False.
+        max_valence : int
+            Sets the maximum edge valence of the faces. If this is set to > 4,
+            n-gon faces (more than 4 edges) are allowed. Otherwise, their cycles
+            are treated as invalid and will be ignored.
+            Defaults to 4.
 
         Warning
         -------
@@ -2560,11 +2561,12 @@ class KnitNetwork(KnitNetworkBase):
         assigning the geometry to the "geometrybase" attribute of the network.
         """
 
-        return self.ToKnitDiNetwork().CreateMesh(mode=mode, ngons=ngons)
+        return self.ToKnitDiNetwork().CreateMesh(mode=mode,
+                                                 max_valence=max_valence)
 
     # DUALITY ------------------------------------------------------------------
 
-    def CreateDual(self, mode=-1):
+    def CreateDual(self, mode=-1, merge_adj_creases=True, mend_trailing_rows=True):
         """
         Creates the dual of this KnitNetwork while translating current edge
         attributes to the edges of the dual network.

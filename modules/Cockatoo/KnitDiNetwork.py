@@ -625,7 +625,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
     # MESHING ------------------------------------------------------------------
 
-    def CreateMesh(self, mode=-1, ngons=False):
+    def CreateMesh(self, mode=-1, max_valence=4):
         """
         Constructs a mesh from this network by finding cycles and using them as
         mesh faces.
@@ -645,10 +645,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                nodes closest point on the geometrybase
             Defaults to -1
 
-        ngons : bool
-            If True, n-gon faces (more than 4 edges) are allowed, otherwise
-            their cycles are treated as invalid and will be ignored.
-            Defaults to False.
+        max_valence : int
+            Sets the maximum edge valence of the faces. If this is set to > 4,
+            n-gon faces (more than 4 edges) are allowed. Otherwise, their cycles
+            are treated as invalid and will be ignored.
+            Defaults to 4.
 
         Warning
         -------
@@ -680,34 +681,33 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             cycle = cycles[ckey]
             c_len = len(cycle)
             if c_len > 4:
-                if not ngons:
+                if c_len > max_valence:
                     continue
-                else:
-                    # find centroid of ngon nodes
-                    cycle_coords = [ [ self.node[k]["x"],
-                                       self.node[k]["y"],
-                                       self.node[k]["z"] ] for k in cycle ]
-                    # compute centroid
-                    c_x, c_y, c_z = zip(*cycle_coords)
-                    centroid = [sum(c_x) / c_len,
-                                sum(c_y) / c_len,
-                                sum(c_z) / c_len]
-                    # add centroid to mesh
-                    Mesh.Vertices.Add(*centroid)
-                    # create triangle with centroid for every pair in cycle
-                    closed_cycle = cycle[:]
-                    closed_cycle.append(cycle[0])
-                    ngon_faces = []
-                    for a, b in pairwise(closed_cycle):
-                        Mesh.Faces.AddFace(node_to_vertex[a],
-                                           node_to_vertex[b],
-                                           vcount)
-                        ngon_faces.append(fcount)
-                        fcount += 1
-                    ngon_cycle = [node_to_vertex[n] for n in cycle]
-                    NGon = RhinoMeshNgon.Create(ngon_cycle, ngon_faces)
-                    # increment mesh vertex counter
-                    vcount += 1
+                # find centroid of ngon nodes
+                cycle_coords = [ [ self.node[k]["x"],
+                                   self.node[k]["y"],
+                                   self.node[k]["z"] ] for k in cycle ]
+                # compute centroid
+                c_x, c_y, c_z = zip(*cycle_coords)
+                centroid = [sum(c_x) / c_len,
+                            sum(c_y) / c_len,
+                            sum(c_z) / c_len]
+                # add centroid to mesh
+                Mesh.Vertices.Add(*centroid)
+                # create triangle with centroid for every pair in cycle
+                closed_cycle = cycle[:]
+                closed_cycle.append(cycle[0])
+                ngon_faces = []
+                for a, b in pairwise(closed_cycle):
+                    Mesh.Faces.AddFace(node_to_vertex[a],
+                                       node_to_vertex[b],
+                                       vcount)
+                    ngon_faces.append(fcount)
+                    fcount += 1
+                ngon_cycle = [node_to_vertex[n] for n in cycle]
+                NGon = RhinoMeshNgon.Create(ngon_cycle, ngon_faces)
+                # increment mesh vertex counter
+                vcount += 1
             elif c_len < 3:
                 continue
             else:
