@@ -9,16 +9,20 @@ indices for the resulting list of polylines.
     Inputs:
         Mesh: The mesh that should be knit for constraint extraction.
               {item, mesh}
-        BreakAngle: Angle at which to break apart mesh boundary. {item, float}
-        StartIndex: Index for the start course. {item, integer}
-        EndIndex: Index for the end course. {item, integer}
+        BreakAngle: Angle at which to break apart mesh boundary.
+                    {item, float}
+        StartIndex: Index for the start course.
+                    {item, integer}
+        EndIndex: Index for the end course.
+                  {item, integer}
     Output:
         KnitConstraints: The knitconstraints for this mesh for contour
-                         generation {tree, polyline}
+                         generation.
+                         {item, KnitConstraint}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200525
+        Version: 200529
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -139,10 +143,9 @@ class ExtractKnitConstraintsFromMesh(component):
         # RightBoundary startpoint
         rsp = RightBoundary.PointAtStart
         
-        # define maximum distance for boundary direction flipping as 1mm
-        md = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Millimeters,
-                                       Rhino.RhinoDoc.ActiveDoc.ModelUnitSystem)
-        md = md * 1
+        # define maximum distance for boundary direction flipping as 10 * abstol
+        md = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance
+        md = md * 10
         
         # check for flipping of left and right boundaries
         lbsccp = StartCourse.ClosestPoint(lsp, md)
