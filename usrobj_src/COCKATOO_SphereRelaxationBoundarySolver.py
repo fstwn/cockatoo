@@ -1,24 +1,32 @@
-"""Relaxes a bunch of points using sphere relaxation.
+"""
+Relaxes a bunch of points using sphere relaxation.
     Inputs:
         Run: If set to true, the relaxation process will run, if False it will
-             Pause. {item, boolean}
+             Pause.
+             {item, bool}
         Reset: Will reset the relaxation if set to true. Connect a button here
-               ideally. {item, boolean}
+               ideally.
+               {item, bool}
         Threshold: Stop when average movement is less than this
-                   (default is 1e-3). {item, float}
-        Boundary: The boundary to keep the points in. {item, mesh}
-        Points: The center points for the circle relaxation. {list, point}
-        Distance: The distance the points should respect {item, float}
+                   (default is 1e-3).
+                   {item, float}
+        Boundary: The boundary to keep the points in.
+                  {item, mesh}
+        Points: The center points for the circle relaxation.
+                {list, point}
+        Distance: The distance the points should respect.
+                  {item, float}
         BoundaryStrength: The momentum used for collisions with the boundary
                           (ideally between 0.0 and 1.0).
-                          Default is 0.5 {item, float}
+                          Defaults to [0.5].
+                          {item, float}
     Output:
         Iterations: The current number of iterations. {item, integer}
         RelaxedPoints: The relaxed points for every iteration {list, points}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200525
+        Version: 200529
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
