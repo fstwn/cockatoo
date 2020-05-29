@@ -2582,14 +2582,25 @@ class KnitNetwork(KnitNetworkBase):
             Determines how the neighbors of each node are sorted when finding
             cycles for the network.
             -1 equals to using the world XY plane (default)
-             0 equals to using a plane normal to the origin nodes closest
+            0 equals to using a plane normal to the origin nodes closest
                point on the geometrybase
-             1 equals to using a plane normal to the average of the origin
+            1 equals to using a plane normal to the average of the origin
                and neighbor nodes' closest points on the geometrybase
-             2 equals to using an average plane between a plane fit to the
+            2 equals to using an average plane between a plane fit to the
                origin and its neighbor nodes and a plane normal to the origin
                nodes closest point on the geometrybase
             Defaults to -1
+
+        merge_adj_creases : bool
+            If ``True``, will merge adjacent 'increase' and 'decrease' nodes
+            connected by a 'weft' edge into a single node. This effectively
+            simplifies the pattern, as a decrease is unneccessary to perform
+            if an increase is right beside it - both nodes can be replaced by a
+            single regular node (stitch).
+            Defaults to ``True``.
+
+        mend_trailing_rows : bool
+
 
         Returns
         -------
@@ -2724,6 +2735,7 @@ class KnitNetwork(KnitNetworkBase):
                         node_data["increase"] = True
                     elif warp_in:
                         node_data["decrease"] = True
+
 
         # MERGE ADJACENT INCREASES/DECREASES -----------------------------------
 
