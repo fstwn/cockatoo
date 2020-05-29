@@ -51,11 +51,15 @@ class KnitConstraint(object):
                      "right" : []}
         for lb in LeftBoundary:
             if not isinstance(lb, RhinoPolylineCurve):
-                raise ValueError("All items of LeftBoundary have to be of type PolylineCurve!")
+                errMsg = "All items of LeftBoundary have to be of type " + \
+                         "PolylineCurve!"
+                raise ValueError(errMsg)
             self.cons["left"].append(lb)
         for rb in RightBoundary:
             if not isinstance(rb, RhinoPolylineCurve):
-                raise ValueError("All items of RightBoundary have to be of type PolylineCurve!")
+                errMsg = "All items of RightBoundary have to be of type " + \
+                         "PolylineCurve!"
+                raise ValueError()
             self.cons["right"].append(rb)
 
     def ToString(self):
