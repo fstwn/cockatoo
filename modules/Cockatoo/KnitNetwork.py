@@ -2840,6 +2840,132 @@ class KnitNetwork(KnitNetworkBase):
                             DualNetwork.CreateWeftEdge(fromNode, toNode)
                             DualNetwork.remove_edge(edge[0], edge[1])
                     DualNetwork.remove_node(suc)
+
+
+        # ATTEMPT TO MEND TRAILING ROWS ----------------------------------------
+
+        if mend_trailing_rows:
+            # TODO: find a safer / more robust implementation attempt!
+            errMsg = "This option is not satisfyingly implemented for this " + \
+                     "method and yet. Therefore, it is deactivated for now."
+            raise NotImplementedError(errMsg)
+            # get all nodes which are 'leaf' and 'end' (right side)
+            # and all nodes which are 'leaf' and 'start' (left side)
+            trailing = sorted([(n, d) for n, d in \
+                              DualNetwork.nodes_iter(data=True) \
+                              if d["leaf"] \
+                              and d["end"]], key=lambda x: x[0])
+            trailing_left = deque([t for t in trailing if t[1]["start"]])
+            trailing_right = deque([t for t in trailing if not t[1]["start"]])
+
+            # from the trailing left nodes...
+            # travel one outgoing 'weft'
+            # from there travel one incoming 'warp'
+            # if the resulting node is 'start', 'end' and has 3 edges in total
+            # >> take its outgoing 'warp' edge (we already traveled that so
+            #    we should already have it)
+            # >> connect it to the trailing left node
+            # >> remove the 'leaf' attribute from the trailing node as it is no
+            #    longer trailing
+            # >> add the 'increase' attribute to the previous target of the
+            #    'warp' edge
+
+            while len(trailing_left) > 0:
+                # pop an item from the deque
+                trail = trailing_left.popleft()
+                # travel one outgoing 'weft' edge
+                weft_out = DualNetwork.NodeWeftEdgesOut(trail[0], data=True)
+                if not weft_out:
+                    continue
+                weft_out = weft_out[0]
+                # check the target of the 'weft' edge for incoming 'warp'
+                warp_in = DualNetwork.NodeWarpEdgesIn(weft_out[1], data=True)
+                warp_out = DualNetwork.NodeWarpEdgesOut(weft_out[1], data=True)
+                if not warp_in:
+                    continue
+                warp_in = warp_in[0]
+                candidate = (warp_in[0], DualNetwork.node[warp_in[0]])
+                nce = len(DualNetwork.in_edges(warp_in[0]))
+                nce += len(DualNetwork.edges(warp_in[0]))
+                # if this condition holds, we have a trailing increase
+                if candidate[1]["start"] and candidate[1]["end"] \
+                and nce == 3:
+                    # remove found 'warp' edge
+                    DualNetwork.remove_edge(warp_in[0], warp_in[1])
+                    # assign 'increase' attribute to former 'warp' edge target
+                    DualNetwork.node[warp_in[1]]["increase"] = True
+                    # connect candidate to trail with new 'warp' edge
+                    DualNetwork.CreateWarpEdge(candidate, trail)
+                    # remove 'leaf' attribute of former trail
+                    trail[1]["leaf"] = False
+                else:
+                    if warp_out:
+                        warp_out = warp_out[0]
+                        candidate = (warp_out[1], DualNetwork.node[warp_out[1]])
+                        nce = len(DualNetwork.in_edges(warp_out[1]))
+                        nce += len(DualNetwork.edges(warp_out[1]))
+                        # if this condition holds, we have a trailing decrease
+                        if candidate[1]["start"] and candidate[1]["end"] \
+                        and nce == 3:
+                            # remove found 'warp' edge
+                            DualNetwork.remove_edge(warp_out[0], warp_out[1])
+                            # assign 'decrease' attribute to former 'warp'
+                            # edge source
+                            DualNetwork.node[warp_out[0]]["decrease"] = True
+                            # connect former trail to candidate with new
+                            # 'warp' edge
+                            DualNetwork.CreateWarpEdge(trail, candidate)
+                            # remove 'leaf' attribute of former trail
+                            trail[1]["leaf"] = False
+
+            while len(trailing_right) > 0:
+                # pop an item from the deque
+                trail = trailing_right.popleft()
+                # travel one incoming 'weft' edge
+                weft_in = DualNetwork.NodeWeftEdgesIn(trail[0], data=True)
+                if not weft_in:
+                    continue
+                weft_in = weft_in[0]
+                # check the target of the 'weft' edge for incoming 'warp'
+                warp_in = DualNetwork.NodeWarpEdgesIn(weft_in[0], data=True)
+                warp_out = DualNetwork.NodeWarpEdgesOut(weft_in[0], data=True)
+                if not warp_in:
+                    continue
+                warp_in = warp_in[0]
+                candidate = (warp_in[0], DualNetwork.node[warp_in[0]])
+                nce = len(DualNetwork.in_edges(warp_in[0]))
+                nce += len(DualNetwork.edges(warp_in[0]))
+                # if this condition holds, we have a trailing increase
+                if candidate[1]["end"] \
+                and nce == 3:
+                    # remove found 'warp' edge
+                    DualNetwork.remove_edge(warp_in[0], warp_in[1])
+                    # assign 'increase' attribute to former 'warp' edge target
+                    DualNetwork.node[warp_in[1]]["increase"] = True
+                    # connect candidate to trail with new 'warp' edge
+                    DualNetwork.CreateWarpEdge(candidate, trail)
+                    # remove 'leaf' attribute of former trail
+                    trail[1]["leaf"] = False
+                else:
+                    if warp_out:
+                        warp_out = warp_out[0]
+                        candidate = (warp_out[1], DualNetwork.node[warp_out[1]])
+                        nce = len(DualNetwork.in_edges(warp_out[1]))
+                        nce += len(DualNetwork.edges(warp_out[1]))
+                        # if this condition holds, we have a trailing decrease
+                        if candidate[1]["start"] and candidate[1]["end"] \
+                        and nce == 3:
+                            # remove found 'warp' edge
+                            DualNetwork.remove_edge(warp_out[0], warp_out[1])
+                            # assign 'decrease' attribute to former 'warp'
+                            # edge source
+                            DualNetwork.node[warp_out[0]]["decrease"] = True
+                            # connect former trail to candidate with new
+                            # 'warp' edge
+                            DualNetwork.CreateWarpEdge(trail, candidate)
+                            # remove 'leaf' attribute of former trail
+                            trail[1]["leaf"] = False
+
         return DualNetwork
 
 # MAIN -------------------------------------------------------------------------
