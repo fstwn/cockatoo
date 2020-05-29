@@ -748,12 +748,25 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
             # get all neighbors
             prd = self.predecessors(node)
+            lpr = len(prd)
+            # check for nodes with more than two predecessors
+            if lpr > 2:
+                return False
+
             suc = self.successors(node)
+            lsu = len(suc)
+            # check for nodes with more than two successors
+            if lsu > 2:
+                return False
+
             nbr = prd + suc
             lnn = len(nbr)
-
             # check for disconnected nodes
             if not lnn:
+                return False
+
+            # maximum connections per node is four
+            elif lnn > 4:
                 return False
 
         return True
