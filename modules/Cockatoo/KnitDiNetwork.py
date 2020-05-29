@@ -3,7 +3,7 @@ Directional KnitNetwork for finding faces (cycles) of a KnitNetwork.
 
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200503
+Version: 200529
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------

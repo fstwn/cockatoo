@@ -3,7 +3,7 @@ Representation of a 3D surface or mesh as knitting data using a network (graph).
 
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200503
+Version: 200529
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
