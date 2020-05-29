@@ -407,7 +407,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         xyz = {k: (d["x"], d["y"], d["z"]) for k, d in self.nodes_iter(True)}
         geo = {k: d["geo"] for k, d in self.nodes_iter(True)}
 
-        # compute local orientation data when geometry base is present
+        # compute local orientation data when reference geometry is present
         try:
             reference_geometry = self.graph["reference_geometry"]
         except KeyError:
