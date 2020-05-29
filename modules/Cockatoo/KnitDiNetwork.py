@@ -104,6 +104,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     def ToString(self):
         """
         Return a textual description of the network.
+
+        Returns
+        -------
+        description : str
+            A textual description of the network.
         """
 
         name = "KnitDiNetwork"
@@ -561,19 +566,20 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         self._sort_neighbors(mode=mode)
 
         # find start node
+        # sort leaf nodes by y and x coordinates
         # leaves = self.LeafNodes
         # if leaves:
         #     u = sorted(leaves, key=lambda n: (n[1]["y"], n[1]["x"]))[0][0]
         # else:
         #     u = sorted(self.nodes_iter(data=True), key=lambda n: (n[1]["y"], n[1]["x"]))[0][0]
 
-
+        # find start node
+        # sort leaf nodes by node identifier / index
         leaves = self.LeafNodes
         if leaves:
             u = sorted(leaves, key=lambda n: n[0])[0][0]
         else:
             u = sorted(self.nodes_iter(data=True), key=lambda n: n[0])[0][0]
-
 
         # initialize found and cycles dict
         cycles = {}
