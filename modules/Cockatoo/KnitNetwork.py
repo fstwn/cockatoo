@@ -103,11 +103,11 @@ class KnitNetwork(KnitNetworkBase):
             self.MappingNetwork = None
 
     @classmethod
-    def CreateFromContours(cls, contours, course_height, geometrybase=None):
+    def CreateFromContours(cls, contours, course_height, reference_geometry=None):
         """
         Create and initialize a KnitNetwork based on a set of contours, a
-        given course height and an optional geometrybase.
-        The geometrybase is a mesh or surface which should be described by the
+        given course height and an optional reference geometry.
+        The reference geometry is a mesh or surface which should be described by the
         network. While it is optional, it is **HIGHLY** recommended to provide
         it!
 
@@ -120,7 +120,7 @@ class KnitNetwork(KnitNetworkBase):
         course_height : float
             The course height for sampling the contours.
 
-        geometrybase : Mesh / NurbsSurface
+        reference_geometry : Mesh / NurbsSurface
             Optional underlying geometry that this network is based on.
 
         Returns
@@ -135,20 +135,20 @@ class KnitNetwork(KnitNetworkBase):
         """
 
         # create network
-        network = cls(geometrybase=geometrybase)
+        network = cls(reference_geometry=reference_geometry)
 
-        # assign geometrybase if present and valid
-        if geometrybase:
-            if isinstance(geometrybase, RhinoMesh):
-                network.graph["geometrybase"] = geometrybase
-            elif isinstance(geometrybase, RhinoBrep):
-                if geometrybase.IsSurface:
-                    network.graph["geometrybase"] = RhinoNurbsSurface(
-                                                       geometrybase.Surfaces[0])
-            elif isinstance(geometrybase, RhinoSurface):
-                network.graph["geometrybase"] = geometrybase
+        # assign reference_geometry if present and valid
+        if reference_geometry:
+            if isinstance(reference_geometry, RhinoMesh):
+                network.graph["reference_geometry"] = reference_geometry
+            elif isinstance(reference_geometry, RhinoBrep):
+                if reference_geometry.IsSurface:
+                    network.graph["reference_geometry"] = RhinoNurbsSurface(
+                                                 reference_geometry.Surfaces[0])
+            elif isinstance(reference_geometry, RhinoSurface):
+                network.graph["reference_geometry"] = reference_geometry
         else:
-            network.graph["geometrybase"] = None
+            network.graph["reference_geometry"] = None
 
         # divide the contours and fill network with vertices (nodes)
         nodenum = 0
@@ -2504,20 +2504,21 @@ class KnitNetwork(KnitNetworkBase):
             cycles for the network.
             -1 equals to using the world XY plane (default)
              0 equals to using a plane normal to the origin nodes closest
-               point on the geometrybase
+               point on the reference geometry
              1 equals to using a plane normal to the average of the origin
-               and neighbor nodes' closest points on the geometrybase
+               and neighbor nodes' closest points on the reference geometry
              2 equals to using an average plane between a plane fit to the
                origin and its neighbor nodes and a plane normal to the origin
-               nodes closest point on the geometrybase
+               nodes closest point on the reference geometry
             Defaults to -1
 
         Warning
         -------
         Modes other than -1 (default) are only possible if this network has an
-        underlying geometrybase in form of a Mesh or NurbsSurface. The
-        geometrybase should be assigned when initializing the network by
-        assigning the geometry to the "geometrybase" attribute of the network.
+        underlying reference geometry in form of a Mesh or NurbsSurface. The
+        reference geometry should be assigned when initializing the network by
+        assigning the geometry to the "reference_geometry" attribute of the
+        network.
 
         Notes
         -----
@@ -2544,12 +2545,12 @@ class KnitNetwork(KnitNetworkBase):
             cycles for the network.
             -1 equals to using the world XY plane (default)
              0 equals to using a plane normal to the origin nodes closest
-               point on the geometrybase
+               point on the reference geometry
              1 equals to using a plane normal to the average of the origin
-               and neighbor nodes' closest points on the geometrybase
+               and neighbor nodes' closest points on the reference geometry
              2 equals to using an average plane between a plane fit to the
                origin and its neighbor nodes and a plane normal to the origin
-               nodes closest point on the geometrybase
+               nodes closest point on the reference geometry
             Defaults to -1
 
         max_valence : int
@@ -2561,9 +2562,9 @@ class KnitNetwork(KnitNetworkBase):
         Warning
         -------
         Modes other than -1 (default) are only possible if this network has an
-        underlying geometrybase in form of a Mesh or NurbsSurface. The
-        geometrybase should be assigned when initializing the network by
-        assigning the geometry to the "geometrybase" attribute of the network.
+        underlying reference geometry in form of a Mesh or NurbsSurface. The
+        reference geometry should be assigned when initializing the network by
+        assigning the geometry to the "reference_geometry" attribute of the network.
         """
 
         return self.ToKnitDiNetwork().CreateMesh(mode=mode,
@@ -2583,12 +2584,12 @@ class KnitNetwork(KnitNetworkBase):
             cycles for the network.
             -1 equals to using the world XY plane (default)
             0 equals to using a plane normal to the origin nodes closest
-               point on the geometrybase
+               point on the reference geometry
             1 equals to using a plane normal to the average of the origin
-               and neighbor nodes' closest points on the geometrybase
+               and neighbor nodes' closest points on the reference geometry
             2 equals to using an average plane between a plane fit to the
                origin and its neighbor nodes and a plane normal to the origin
-               nodes closest point on the geometrybase
+               nodes closest point on the reference geometry
             Defaults to -1
 
         merge_adj_creases : bool
@@ -2610,9 +2611,10 @@ class KnitNetwork(KnitNetworkBase):
         Warning
         -------
         Modes other than -1 (default) are only possible if this network has an
-        underlying geometrybase in form of a Mesh or NurbsSurface. The
-        geometrybase should be assigned when initializing the network by
-        assigning the geometry to the "geometrybase" attribute of the network.
+        underlying reference geometry in form of a Mesh or NurbsSurface. The
+        reference geometry  should be assigned when initializing the network by
+        assigning the geometry to the 'reference_geometry' attribute of the
+        network.
         """
 
         # first find the cycles of this network
@@ -2622,7 +2624,8 @@ class KnitNetwork(KnitNetworkBase):
         node_data = {k: self.node[k] for k in self.nodes_iter()}
 
         # create new directed KnitDiNetwork for dual network
-        DualNetwork = KnitDiNetwork(geometrybase=self.graph["geometrybase"])
+        DualNetwork = KnitDiNetwork(
+                            reference_geometry=self.graph["reference_geometry"])
 
         # create mapping dict for edges to adjacent cycles
         edge_to_cycle = {(u, v): None for u, v in self.edges_iter()}
