@@ -12,6 +12,8 @@ from __future__ import absolute_import
 import Rhino
 from scriptcontext import sticky as st
 
+# CUSTOM DISPLAY HANDLING ------------------------------------------------------
+
 def customDisplay(component, toggle):
     """
     Make a custom display which is unique to the component and lives in the
