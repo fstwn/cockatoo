@@ -23,18 +23,6 @@ import networkx as nx
 from Cockatoo.KnitNetworkBase import KnitNetworkBase
 from Cockatoo.Utilities import is_ccw_xy
 
-# RHINO IMPORTS ----------------------------------------------------------------
-# if IsRhinoInside():
-#     import rhinoinside
-#     rhinoinside.load()
-#     from Rhino.Geometry import Plane as RhinoPlane
-#     from Rhino.Geometry import Point3d as RhinoPoint3d
-#     from Rhino.Geometry import Vector3d as RhinoVector3d
-# else:
-#     from Rhino.Geometry import Plane as RhinoPlane
-#     from Rhino.Geometry import Point3d as RhinoPoint3d
-#     from Rhino.Geometry import Vector3d as RhinoVector3d
-
 # AUTHORSHIP -------------------------------------------------------------------
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
