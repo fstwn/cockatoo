@@ -1,6 +1,4 @@
 """
-Base class for graph representation of knitting data.
-
 Author: Max Eschenbach
 License: Apache License 2.0
 Version: 200529
@@ -45,8 +43,14 @@ __all__ = [
 # ACTUAL CLASS -----------------------------------------------------------------
 class KnitNetworkBase(nx.Graph):
     """
-    Base class for representing a network that facilitates the automatic
-    generation of knitting patterns based on Rhino geometry.
+    Abstract datastructure for representing a network (graph) consisting of
+    nodes with special attributes aswell as 'warp' edges, 'weft' edges and
+    contour edges which are neither 'warp' nor 'weft'.
+
+    Used as a base class for sharing behaviour between the KnitNetwork,
+    KnitMappingNetwork and KnitDiNetwork classes.
+
+    Inherits from networkx.Graph.
     """
 
     # REPRESENTATION OF NETWORK ------------------------------------------------
@@ -351,7 +355,7 @@ class KnitNetworkBase(nx.Graph):
 
     def NodeGeometry(self, node_index):
         """
-        Gets the geometry from the attributes of the supplied node.
+        Gets the geometry from the 'geo' attribute of the supplied node.
 
         Parameters
         ----------
@@ -371,7 +375,8 @@ class KnitNetworkBase(nx.Graph):
 
     def NodeCoordinates(self, node_index):
         """
-        Gets the node coordinates from the attributes of the supplied node.
+        Gets the node coordinates from the 'x', 'y' and 'z' attributes of the
+        supplied node.
 
         Parameters
         ----------
@@ -408,13 +413,14 @@ class KnitNetworkBase(nx.Graph):
 
     # NODES ON POSITION CONTOURS -----------------------------------------------
 
-    def NodesOnPosition(self, pos, data=False):
+    def NodesOnPosition(self, position, data=False):
         """
-        Gets the nodes on a given position (i.e. contour).
+        Gets the nodes on a given position (i.e. contour) by returning all
+        nodes which share the given value as their 'position' attribute.
 
         Parameters
         ----------
-        pos : int
+        position : int
             The index of the position
 
         data : bool
@@ -439,7 +445,8 @@ class KnitNetworkBase(nx.Graph):
 
     def AllNodesByPosition(self, data=False):
         """
-        Gets all the nodes of the network, ordered by position.
+        Gets all the nodes of the network, ordered by the values of their
+        'position' attribute.
 
         Parameters
         ----------
@@ -527,13 +534,14 @@ class KnitNetworkBase(nx.Graph):
     LeafNodes = property(_get_leaf_nodes, None, None,
                          "All 'leaf' nodes of the network.")
 
-    def LeavesOnPosition(self, pos, data=False):
+    def LeavesOnPosition(self, position, data=False):
         """
-        Gets all 'leaf' vertices on a given position.
+        Gets all 'leaf' nodes which share the supplied value as their 'position'
+        attribute.
 
         Parameters
         ----------
-        pos : hashable
+        position : hashable
             The index / identifier of the position
 
         data : bool
@@ -544,10 +552,10 @@ class KnitNetworkBase(nx.Graph):
         -------
         nodes : list
             List of all nodes for which the attribute 'leaf' is ``True`` and
-            which share the supplied 'position' attribute
+            which share the supplied value as their 'position' attribute
         """
 
-        leaves = [(n, d) for n, d in self.NodesOnPosition(pos, data=True) \
+        leaves = [(n, d) for n, d in self.NodesOnPosition(position, data=True) \
                   if d["leaf"]]
         if not data:
             leaves = [n[0] for n in leaves]
@@ -555,7 +563,19 @@ class KnitNetworkBase(nx.Graph):
 
     def AllLeavesByPosition(self, data=False):
         """
-        Gets all 'leaf' nodes ordered by 'position' attribute.
+        Gets all 'leaf' nodes ordered by their 'position' attribute.
+
+        Parameters
+        ----------
+        data : bool
+            If True, found nodes will be returned with their attribute data.
+            Defaults to False.
+
+        Returns
+        -------
+        nodes : list of lists
+            All nodes for which the attribute 'leaf' is true, grouped by their
+            'position' attribute
         """
 
         allPositionLeaves = sorted(
@@ -595,12 +615,28 @@ class KnitNetworkBase(nx.Graph):
     EndNodes = property(_get_end_nodes, None, None,
                         "All 'end' nodes of the network")
 
-    def EndsOnPosition(self, pos, data=False):
+    def EndsOnPosition(self, position, data=False):
         """
-        Gets 'end' nodes on a given position.
+        Gets all 'end' nodes which share the supplied value as their 'position'
+        attribute.
+
+        Parameters
+        ----------
+        position : hashable
+            The index / identifier of the position
+
+        data : bool
+            If True, found nodes will be returned with their attribute data.
+            Defaults to False.
+
+        Returns
+        -------
+        nodes : list
+            List of all nodes for which the attribute 'end' is ``True`` and
+            which share the supplied value as their 'position' attribute
         """
 
-        ends = [(n, d) for n, d in self.NodesOnPosition(pos, data=True) \
+        ends = [(n, d) for n, d in self.NodesOnPosition(position, data=True) \
                 if d["end"]]
         if not data:
             return [n[0] for n in ends]
@@ -608,7 +644,19 @@ class KnitNetworkBase(nx.Graph):
 
     def AllEndsByPosition(self, data=False):
         """
-        Gets all 'end' vertices on all positions ordered by position.
+        Gets all 'end' nodes ordered by their 'position' attribute.
+
+        Parameters
+        ----------
+        data : bool
+            If True, found nodes will be returned with their attribute data.
+            Defaults to False.
+
+        Returns
+        -------
+        nodes : list of lists
+            All nodes for which the attribute 'end' is true, grouped by their
+            'position' attribute
         """
 
         allPositionEnds = sorted(
@@ -635,12 +683,12 @@ class KnitNetworkBase(nx.Graph):
 
     # POSITION CONTOUR METHODS -------------------------------------------------
 
-    def GeometryAtPositionContour(self, pos, as_crv=False):
+    def GeometryAtPositionContour(self, position, as_crv=False):
         """
         Gets the contour polyline at a given position.
         """
 
-        points = [d["geo"] for n, d in self.NodesOnPosition(pos, True)]
+        points = [d["geo"] for n, d in self.NodesOnPosition(position, True)]
         Contour = RhinoPolyline(points)
         if as_crv:
             Contour = Contour.ToPolylineCurve()
@@ -669,7 +717,13 @@ class KnitNetworkBase(nx.Graph):
     def CreateContourEdge(self, From, To):
         """
         Creates an edge neither 'warp' nor 'weft' between two nodes in the
-        network, returns True if the edge has been successfully created.
+        network.
+
+        Returns
+        -------
+        bool
+            ``True`` on success
+            ``False`` otherwise
         """
 
         # get node indices
@@ -695,8 +749,13 @@ class KnitNetworkBase(nx.Graph):
 
     def CreateWeftEdge(self, From, To, segment=None):
         """
-        Creates a 'weft' edge between two nodes in the network, returns True if
-        the edge has been successfully created.
+        Creates a 'weft' edge between two nodes in the network.
+
+        Returns
+        -------
+        bool
+            ``True`` on success
+            ``False`` otherwise
         """
 
         # get node indices
@@ -722,8 +781,13 @@ class KnitNetworkBase(nx.Graph):
 
     def CreateWarpEdge(self, From, To):
         """
-        Creates a 'warp' edge between two nodes in the network, returns True if
-        the edge has been successfully created.
+        Creates a 'warp' edge between two nodes in the network.
+
+        Returns
+        -------
+        bool
+            ``True`` on success
+            ``False`` otherwise
         """
 
         # get node indices
@@ -814,7 +878,7 @@ class KnitNetworkBase(nx.Graph):
 
         Returns
         -------
-        edge
+        edge : 2-tuple
             2-tuple of (u, v) or (v, u) depending on the directions
         """
 
