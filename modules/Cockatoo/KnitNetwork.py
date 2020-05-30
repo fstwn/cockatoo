@@ -229,7 +229,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        This method is auomatically called when creating a KnitNetwork using
+        This method is automatically called when creating a KnitNetwork using
         the CreateFromContours method!
         """
 
@@ -950,8 +950,8 @@ class KnitNetwork(KnitNetworkBase):
 
     def InitializeWarpEdges(self, contour_set=None, verbose=False):
         """
-        Method for initializing first 'warp' connections once
-        all 'weft' connections are made.
+        Method for initializing first 'warp' connections once all preliminary
+        'weft' connections are made.
         """
 
         # if no contour set is provided, use all contours of this network
@@ -1161,11 +1161,20 @@ class KnitNetwork(KnitNetworkBase):
         Creates the corresponding mapping network for the final loop generation
         from a KnitNetwork instance with fully assigned 'segment' attributes.
 
+        The created mapping network will be part of the KnitNetwork instance.
+        It can be accessed using the MappingNetwork property.
+
         Notes
         -----
         All nodes without an 'end' attribute as well as all 'weft' edges are
         removed by this step. Final nodes as well as final 'weft' and 'warp'
         edges can only be created using the mapping network.
+
+        Returns
+        -------
+        success : bool
+            ``True`` if the mapping network has been successfully created.
+            ``False`` otherwise.
         """
 
         # create a new KnitMappingNetwork instance
@@ -1245,8 +1254,7 @@ class KnitNetwork(KnitNetworkBase):
 
     def _set_mapping_network(self, mapping_network):
         """
-        Private setter method for setting this instance's associated mapping
-        network.
+        Setter for this instance's associated mapping network.
         """
 
         # set mapping network to instance
@@ -2476,7 +2484,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Returns
         -------
-        KnitDiNetwork : KnitDiNetwork
+        directed_network : KnitDiNetwork
             The directed representation of this network.
         """
 
