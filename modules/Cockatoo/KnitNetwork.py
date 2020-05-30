@@ -167,8 +167,8 @@ class KnitNetwork(KnitNetworkBase):
             tcrv = crv.DivideByCount(dc, True)
             dpts = [crv.PointAt(t) for t in tcrv]
 
-            # loop over all vertices (points) on the current contour
-            for j, vertex in enumerate(dpts):
+            # loop over all nodes on the current contour
+            for j, point in enumerate(dpts):
                 # declare node attributes
                 vpos = i
                 vnum = j
@@ -178,7 +178,7 @@ class KnitNetwork(KnitNetworkBase):
                     vleaf = False
                 # create network node from rhino point
                 network.NodeFromPoint3d(nodenum,
-                                        vertex,
+                                        point,
                                         position=vpos,
                                         num=vnum,
                                         leaf=vleaf,
