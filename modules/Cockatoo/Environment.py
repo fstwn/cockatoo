@@ -3,7 +3,7 @@ Environment set-up functions and checks for Cockatoo.
 
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200503
+Version: 200530
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
@@ -24,7 +24,9 @@ except ImportError:
         import Rhino
         ISRHINOINSIDE = True
     except:
-        raise RhinoNotPresentError()
+        errMsg = "Rhino could not be loaded! Please make sure the " + \
+                 "RhinoCommon API is available to continue."
+        raise RhinoNotPresentError(errMsg)
 
 def IsRhinoInside():
     """
@@ -37,9 +39,13 @@ try:
     import networkx
     NXVERSION = networkx.__version__
     if not NXVERSION == "1.5":
-        raise NetworkXVersionError()
+        errMsg = "Could not verify NetworkX as version 1.5! Please make " + \
+                 "sure NetworkX 1.5 is available to continue."
+        raise NetworkXVersionError(errMsg)
 except ImportError:
-    raise NetworkXNotPresentError()
+    errMsg = "Could not load NetworkX. Please make sure the networkx " + \
+             "module is available to continue."
+    raise NetworkXNotPresentError(errMsg)
 
 def NetworkXVersion():
     """
