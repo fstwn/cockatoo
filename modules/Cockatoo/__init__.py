@@ -1,10 +1,10 @@
 """
-Cockatoo library and class interface for automatic generation of cnc-knitting
-patterns from 3D surfaces and meshes.
+Cockatoo module for automatic generation of knitting patterns based on
+mesh or NURBS surface reference geometry.
 
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200529
+Version: 200530
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
@@ -13,7 +13,7 @@ from __future__ import absolute_import
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from Cockatoo import Autoknit
 from Cockatoo import Environment
-from Cockatoo.Exceptions import *
+from Cockatoo import Exceptions
 from Cockatoo.KnitConstraint import KnitConstraint
 from Cockatoo.KnitNetworkBase import KnitNetworkBase
 from Cockatoo.KnitNetwork import KnitNetwork
