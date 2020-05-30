@@ -1,9 +1,7 @@
 """
-Representation of a 3D surface or mesh as knitting data using a network (graph).
-
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200529
+Version: 200530
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
@@ -66,8 +64,14 @@ __all__ = [
 # ACTUAL CLASS -----------------------------------------------------------------
 class KnitNetwork(KnitNetworkBase):
     """
-    Class for representing a network that facilitates the automatic generation
-    of knitting patterns based on Rhino geometry.
+    Datastructure for representing a network (graph) consisting of nodes with
+    special attributes aswell as 'warp' edges, 'weft' edges and contour edges
+    which are neither 'warp' nor 'weft'.
+
+    Used for the automatic generation of knitting patterns based on mesh or
+    NURBS surface geometry.
+
+    Inherits from KnitNetworkBase.
     """
 
     # INITIALIZATION -----------------------------------------------------------
@@ -81,10 +85,8 @@ class KnitNetwork(KnitNetworkBase):
         ----------
         data : input graph
             Data to initialize graph.  If data=None (default) an empty
-            graph is created.  The data can be an edge list, or any
-            NetworkX graph object.  If the corresponding optional Python
-            packages are installed the data can also be a NumPy matrix
-            or 2d ndarray, a SciPy sparse matrix, or a PyGraphviz graph.
+            network is created.  The data can be an edge list, any
+            KnitNetworkBase or NetworkX graph object.
 
         name : string, optional (default='')
             An optional name for the graph.
@@ -2564,7 +2566,8 @@ class KnitNetwork(KnitNetworkBase):
         Modes other than -1 (default) are only possible if this network has an
         underlying reference geometry in form of a Mesh or NurbsSurface. The
         reference geometry should be assigned when initializing the network by
-        assigning the geometry to the "reference_geometry" attribute of the network.
+        assigning the geometry to the "reference_geometry" attribute of the
+        network.
         """
 
         return self.ToKnitDiNetwork().CreateMesh(mode=mode,
