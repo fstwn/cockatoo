@@ -261,17 +261,14 @@ class KnitNetworkBase(nx.Graph):
         for edge in kmn_edges:
             if edge[2]["weft"]:
                 eType = "weft"
-                eWeight = 1
                 eCol = blue
             elif edge[2]["warp"]:
                 eType = "warp"
-                eWeight = 10
                 eCol = red
             elif not edge[2]["weft"] and not edge[2]["warp"]:
                 continue
 
-            edgeAttrs = {"weight": eWeight,
-                         "color": eCol,
+            edgeAttrs = {"color": eCol,
                          "type": eType}
 
             GephiGraph.add_edge(edge[0], edge[1], attr_dict=edgeAttrs)
