@@ -150,7 +150,7 @@ class KnitNetwork(KnitNetworkBase):
         else:
             network.graph["reference_geometry"] = None
 
-        # divide the contours and fill network with vertices (nodes)
+        # divide the contours and fill network with nodes
         nodenum = 0
         for i, crv in enumerate(contours):
             # check input
@@ -353,7 +353,7 @@ class KnitNetwork(KnitNetworkBase):
         # print info on verbose output
         v_print("Creating initial 'weft' connections for contour set...")
 
-        # loop over all vertices of positions (list of lists of tuples)
+        # loop over all nodes of positions (list of lists of tuples)
         for i, pos in enumerate(contour_set):
             # pos is a list of tuples (nodes)
             if i < len(contour_set):
@@ -361,7 +361,7 @@ class KnitNetwork(KnitNetworkBase):
                 if j == len(contour_set):
                     break
 
-                # get initial and target vertices without 'leaf' nodes
+                # get initial and target nodes without 'leaf' nodes
                 initial_nodes = contour_set[i][1:-1]
                 target_nodes = contour_set[j][1:-1]
 
@@ -396,7 +396,7 @@ class KnitNetwork(KnitNetworkBase):
                     if len(target_nodes) == 0:
                         continue
 
-                    # get four closest verts on adjacent contour
+                    # get four closest nodes on adjacent contour
                     if precise:
                         allDists = [thisPt.DistanceTo(tv[1]["geo"]) \
                                     for tv in target_nodes]
@@ -480,7 +480,7 @@ class KnitNetwork(KnitNetworkBase):
                         v_print("Using procedure for least angle " +
                                 "change connection...")
 
-                        # get previous pos verts, indices and connections
+                        # get previous pos nodes, indices and connections
                         prevPos = contour_set[i-1]
                         prevIndices = [n[0] for n in prevPos]
 
@@ -564,7 +564,7 @@ class KnitNetwork(KnitNetworkBase):
         # print info on verbose output
         v_print("Creating second pass 'weft' connections for contour set...")
 
-        # loop over all vertices of positions (list of lists of tuples)
+        # loop over all nodes of positions (list of lists of tuples)
         for i, pos in enumerate(contour_set):
             j = i + 1
 
@@ -645,14 +645,14 @@ class KnitNetwork(KnitNetworkBase):
 
                 # only proceed if there is a target position
                 for target_position in target_positions:
-                    # get target vertices
+                    # get target nodes
                     target_nodes = self.NodesOnPosition(target_position, True)
 
                     # get the point geo of this node
                     thisPt = node[1]["geo"]
 
                     # get a window of possible connections on the target
-                    # position by looking for the previos vertex on this contour
+                    # position by looking for the previos node on this contour
                     # connected to target position, then propagating along
                     # the target position to the next node that is connected
                     # to this position. these two nodes will define the window
@@ -958,7 +958,7 @@ class KnitNetwork(KnitNetworkBase):
 
         # loop through all positions in the set of contours
         for i, pos in enumerate(contour_set):
-            # get all vertices on current contour
+            # get all nodes on current contour
             initial_nodes = contour_set[i]
 
             # loop through all nodes on this contour
@@ -1088,7 +1088,7 @@ class KnitNetwork(KnitNetworkBase):
             if cwe[2]["segment"]:
                 continue
 
-            # check the connected node. if it is an end vertex,
+            # check the connected node. if it is an end node,
             # set the respective keys
             connected_node = (cwe[1], self.node[cwe[1]])
 
@@ -1140,10 +1140,10 @@ class KnitNetwork(KnitNetworkBase):
                     contour_storage.append(edge)
                 self.remove_edge(edge[0], edge[1])
 
-        # get all 'end' vertices ordered by their 'position' attribute
+        # get all 'end' nodes ordered by their 'position' attribute
         all_ends_by_position = self.AllEndsByPosition(data=True)
 
-        # loop through all 'end' vertices
+        # loop through all 'end' nodes
         for position in all_ends_by_position:
             for endnode in position:
                 self.TraverseWeftEdgesAndSetAttributes(endnode)
@@ -1499,7 +1499,7 @@ class KnitNetwork(KnitNetworkBase):
         # print info on verbose output
         v_print("Creating initial 'warp' connections for contour set...")
 
-        # get initial and target vertices without 'end' nodes
+        # get initial and target nodes without 'end' nodes
         initial_nodes = segment_pair[0]
         target_nodes = segment_pair[1]
 
