@@ -46,10 +46,13 @@ __all__ = [
 # ACTUAL CLASS -----------------------------------------------------------------
 class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
     """
-    Class for representing a mapping network that facilitates the automatic
-    generation of knitting patterns based on Rhino geometry.
-    This is intended only to be instanced by a fully segmented instance of
-    KnitNetwork.
+    Datastructure representing a mapping between connected chains of 'weft'
+    edges in a KnitNetwork for final creation of 'weft' and 'warp' edges.
+
+    Notes
+    -----
+    Not intended to be instantiated separately. Should only be instantiated
+    by the KnitNetwork.CreateMappingNetwork method!
     """
 
     # TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------
