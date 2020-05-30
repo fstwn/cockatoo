@@ -1,9 +1,7 @@
 """
-Directional KnitNetwork for finding faces (cycles) of a KnitNetwork.
-
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200529
+Version: 200530
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
@@ -55,10 +53,10 @@ __all__ = [
 # ACTUAL CLASS -----------------------------------------------------------------
 class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     """
-    Class for representing a mapping network that facilitates the automatic
-    generation of knitting patterns based on Rhino geometry.
-    This is intended only to be instanced by a fully segmented instance of
-    KnitNetwork.
+    Datastructure representing a directed graph of nodes aswell as 'weft'
+    and 'warp' edges. Used in the automatic generation of knitting patterns.
+
+    Inherits from KnitNetworkBase and networkx.DiGraph
     """
 
     # INITIALIZATION -----------------------------------------------------------
