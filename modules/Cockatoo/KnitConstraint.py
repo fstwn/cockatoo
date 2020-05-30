@@ -1,10 +1,7 @@
 """
-Representation of constraints derived from a mesh for automatic generation
-of knitting patterns.
-
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200529
+Version: 200530
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
@@ -36,8 +33,8 @@ __all__ = [
 # ACTUAL CLASS -----------------------------------------------------------------
 class KnitConstraint(object):
     """
-    Datastructure for representing a constraint based on a mesh used for
-    generating 3d knitting patterns.
+    Datastructure for representing constraints derived from a mesh. Used for
+    the automatic generation of knitting patterns.
     """
 
     def __init__(self, StartCourse, EndCourse, LeftBoundary, RightBoundary):
@@ -65,6 +62,11 @@ class KnitConstraint(object):
     def ToString(self):
         """
         Return a textual description of the constraint.
+
+        Returns
+        -------
+        description : str
+            A textual description of the constraint.
         """
 
         name = "KnitConstraint"
