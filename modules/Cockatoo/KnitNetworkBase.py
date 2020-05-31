@@ -434,7 +434,7 @@ class KnitNetworkBase(nx.Graph):
         """
 
         nodes = [(n, d) for n, d in self.nodes_iter(data=True) \
-                 if d["position"] == pos]
+                 if d["position"] == position]
 
         nodes.sort(key=lambda x: x[1]["num"])
 
