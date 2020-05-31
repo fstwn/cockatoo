@@ -25,7 +25,6 @@ __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
 # ALL LIST ---------------------------------------------------------------------
 __all__ = [
-    "Autoknit",
     "Environment",
     "Exceptions",
     "KnitNetworkBase",
