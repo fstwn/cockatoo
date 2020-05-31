@@ -11,7 +11,6 @@ Version: 200530
 from __future__ import absolute_import
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from Cockatoo import Autoknit
 from Cockatoo import Environment
 from Cockatoo import Exceptions
 from Cockatoo.KnitConstraint import KnitConstraint
