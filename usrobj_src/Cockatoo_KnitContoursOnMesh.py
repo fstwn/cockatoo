@@ -53,7 +53,7 @@ https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -447,6 +447,12 @@ class KnitContoursOnMesh(component):
         
         if not Run or MaxIterations == 0 or not Mesh or not KnitConstraint:
             self.Message = "Deactivated"
+            if not Mesh:
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, "No Mesh input!")
+            if not KnitConstraint:
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, "No KnitConstraint input!")
             return NullTree
         
         # UNPACK CONSTRAINTS ---------------------------------------------------
