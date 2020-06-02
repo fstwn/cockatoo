@@ -23,7 +23,7 @@ generation.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200602
 """
 
 # GPYTHON SDK IMPORTS
@@ -34,8 +34,13 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # LOCAL MODULE IMPORTS
-import Cockatoo
-from mbe.component import addRuntimeWarning
+try:
+    import Cockatoo
+except ImportError:
+    errMsg = "The Cockatoo python module seems to be not correctly " + \
+             "installed! Please make sure the module is in you search " + \
+             "path, see README for instructions!."
+    raise ImportError(errMsg)
 
 # GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "BuildMappingNetwork"
@@ -63,7 +68,8 @@ class BuildMappingNetwork(component):
                 if w and not s:
                     vStr = "'weft' edge {} has no segment value!"
                     vStr = vStr.format((edge[0], edge[1]))
-                    addRuntimeWarning(self, vStr)
+                    rml = self.RuntimeMessageLevel.Warning
+                    self.AddRuntimeMessage(rml, vStr)
             
             for node in KN.nodes(data=True):
                 e = node[1]["end"]
@@ -72,7 +78,8 @@ class BuildMappingNetwork(component):
                     if not e:
                         vStr = "node {} has no segment value!"
                         vStr = vStr.format(node[0])
-                        addRuntimeWarning(self, vStr)
+                        rml = self.RuntimeMessageLevel.Warning
+                        self.AddRuntimeMessage(rml, vStr)
             
             # CREATE MAPPING NETWORK -------------------------------------------
             
