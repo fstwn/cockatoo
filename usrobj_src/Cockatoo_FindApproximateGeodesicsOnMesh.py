@@ -43,13 +43,14 @@ https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
     Remarks:
         Author: Max Eschenbach, based on an approach by Anders Holden Deleuran
         License: Apache License 2.0
-        Version: 200531
+        Version: 200602
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 import clr
 import math
+from os import path
 
 # .NET IMPORTS
 from System.Collections.Generic import List
@@ -62,9 +63,34 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # CUSTOM RHINO IMPORTS
-clr.AddReferenceToFile("KangarooSolver.dll")
-import KangarooSolver as ks
 import scriptcontext as sc
+
+# KANGAROO 2 IMPORT
+k2import = False
+try:
+    clr.AddReferenceToFile("KangarooSolver.dll")
+    k2import = True
+except IOError:
+    pass
+if not k2import:
+    try:
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Program Files\Rhino 7\Plug-ins\Grasshopper\Components\KangarooSolver.dll"))
+        k2import = True
+    except IOError:
+        pass
+if not k2import:
+    try:
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Program Files\Rhino 7 WIP\Plug-ins\Grasshopper\Components\KangarooSolver.dll"))
+        k2import = True
+    except IOError:
+        pass
+if not k2import:
+    try:
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Program Files\Rhino 6\Plug-ins\Grasshopper\Components\KangarooSolver.dll"))
+    except IOError:
+        raise RuntimeError("KangarooSolver.dll was not found! please add the " + \
+                           "folder to your module search paths manually!")
+import KangarooSolver as ks
 
 # GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "FindApproximateGeodesicsOnMesh"
