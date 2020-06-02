@@ -23,7 +23,7 @@ isocurves on a surface.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200602
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -45,6 +45,7 @@ ghenv.Component.SubCategory = "5 Contouring"
 class KnitContoursOnSurface(component):
     
     def RunScript(self, Surface, Density, FlipUV, FlipDir):
+        
         if Surface and Density is not None:
             
             # verify density input
@@ -77,16 +78,17 @@ class KnitContoursOnSurface(component):
             # flip direction of curves based on input param
             if FlipDir:
                 [c.Reverse() for c in contours]
-                
-        elif Density == None:
-            rml = self.RuntimeMessageLevel.Warning
-            rMsg = "No Density input!"
-            self.AddRuntimeMessage(rml, rMsg)
-            return Grasshopper.DataTree[object]()
-        elif not Surface:
-            rml = self.RuntimeMessageLevel.Warning
-            rMsg = "No Surface input!"
-            self.AddRuntimeMessage(rml, rMsg)
+        
+        else:
+            if not Surface:
+                rml = self.RuntimeMessageLevel.Warning
+                rMsg = "No Surface input!"
+                self.AddRuntimeMessage(rml, rMsg)
+            if Density == None:
+                rml = self.RuntimeMessageLevel.Warning
+                rMsg = "No Density input!"
+                self.AddRuntimeMessage(rml, rMsg)
+            
             return Grasshopper.DataTree[object]()
         
         return contours
