@@ -1,53 +1,134 @@
 """
-Remeshes the input mesh using the new QuadRemesh functionality until all the naked points are identical to the supplied points.
+Remeshes the input mesh using the new QuadRemesh functionality until all the
+naked points are identical to the supplied points.
+TODO: Update docstring, update inputs to item + runcount strategy instead of
+using tree branches
     Inputs:
-        Geometry: The original input mesh or brep to quad-remesh. {tree, mesh/brep}
-        FixedPts: The points where the quadmesh should connect (i.e. naked vertices). {list, point}
-        InitialTargetQuadCount: The number of quads to try to achieve in the final remeshed object. {tree, integer}
-        AdaptiveQuadCount: Respect the original Target Quad Count value as much as possible. True returns more quads than TargetQuadCount depending on amount of high-curvature areas {item, boolean}
-        AdaptiveSize: Larger values results in for quad sizes that adjust to match input curvature. Smaller values results in more uniform quad sizes at the risk of less feature preservation. Range [0 - 100] {item, float}
-        DetectHardEdges: When enabled the hard edges in models will be retained. {item, boolean}
-        GuideCurves: GuideCurves for the remeshing process {list, curve}
-        GuideCurveInfluence: 0 = Approximate 1 = Interpolate Edge Ring 2 = Interpolate Edge Loop This value is ignored if Guide Curves are not supplied {item, number}
-        SymmetryAxis: Symmetry axis to use for symmetric remeshing. [0 = No Symmetry, 1 = X, 2 = Y, 4 = Z] {item, integer}
-        PreserveMeshArrayEdgesMode: 0=off, 1=On(Smart), 2=On(Strict) : Mesh array's created from Breps will have their brep face edge boundaries retained. Smart - Small or insignificant input faces are ignored. Strict - All input faces are factored in remeshed result. {item, integer}
-        MaxMeshingIterations: The maximum number of attempts to find a quadmesh connecting to the supplied FixedPts. 0 turns off the feature and only returns the first result {item, integer}
-        AdjustQuadMesh: If True, the component will try to move the naked vertices of the quadmesh to the locations of the supplied FixedPts. This will only be executed for meshes where NakedPts = FixedPts! {item, boolean}
-        RelaxQuadMesh: If True, an internal Kangaroo 2 solver will relax the quadmesh and keep naked vertices fixed. {item, boolean}
-        RelaxationEdgeLengthFactor: The target edgelength factor for the relaxation process. {item, float}
-        RelaxationIterations: Number of iterations for the relaxation of the mesh. {item, integer}
-        RelaxationTolerance: Tolerance for the relaxation process. Default is 0.01 units. {item, float}
-        Parallel: Toggle parallel execution on and off {item, boolean}
+        Geometry: The original input mesh or brep to quad-remesh.
+                  {tree, mesh/brep}
+        FixedPts: The points where the quadmesh should connect (i.e. naked
+                  vertices).
+                  {list, point}
+        InitialTargetQuadCount: The number of quads to try to achieve in the
+                                final remeshed object.
+                                {tree, integer}
+        AdaptiveQuadCount: Respect the original Target Quad Count value as much
+                           as possible. True returns more quads than
+                           TargetQuadCount depending on amount of high-curvature
+                           areas.
+                           {item, bool}
+        AdaptiveSize: Larger values results in for quad sizes that adjust to
+                      match input curvature. Smaller values results in more
+                      uniform quad sizes at the risk of less feature
+                      preservation. Range [0 - 100]
+                      {item, float}
+        DetectHardEdges: When enabled the hard edges in models will be retained.
+                         {item, boolean}
+        GuideCurves: GuideCurves for the remeshing process.
+                     {list, curve}
+        GuideCurveInfluence: This value is ignored if Guide Curves are not
+                             supplied.
+                             [0] = Approximate
+                             [1] = Interpolate Edge Ring 
+                             [2] = Interpolate Edge Loop
+                             {item, int}
+        SymmetryAxis: Symmetry axis to use for symmetric remeshing.
+                      [0] = No Symmetry
+                      [1] = X
+                      [2] = Y
+                      [4] = Z 
+                      {item, int}
+        PreserveMeshArrayEdgesMode: Mesh array's created from Breps will have
+                                    their brep face edge boundaries retained.
+                                    Smart - Small or insignificant input faces
+                                    are ignored.
+                                    Strict - All input faces are factored in
+                                    remeshed result.
+                                    [0] = Off
+                                    [1] = On(Smart)
+                                    [2] = On(Strict)
+                                    {item, int}
+        MaxMeshingIterations: The maximum number of attempts to find a quadmesh
+                              connecting to the supplied FixedPts. 0 turns off
+                              the feature and only returns the first result.
+                              {item, int}
+        AdjustQuadMesh: If True, the component will try to move the naked
+                        vertices of the quadmesh to the locations of the
+                        supplied FixedPts. This will only be executed for meshes
+                        where NakedPts = FixedPts!
+                        {item, bool}
+        RelaxQuadMesh: If True, an internal Kangaroo 2 solver will relax the
+                       quadmesh and keep naked vertices fixed.
+                       {item, bool}
+        RelaxationEdgeLengthFactor: The target edgelength factor for the
+                                    relaxation process.
+                                    {item, float}
+        RelaxationIterations: Number of iterations for the relaxation of the
+                              mesh.
+                              {item, int}
+        RelaxationTolerance: Tolerance for the relaxation process.
+                             Defaults to [0.01] units.
+                             {item, float}
+        Parallel: Toggle parallel execution on and off.
+                  {item, bool}
     Output:
-        QuadMesh: The remeshed result {item/list, mesh}
+        QuadMesh: The remeshed result.
+                  {item/list, mesh}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200602
 """
 
+# PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
-import math
-
 import clr
-clr.AddReferenceToFile("KangarooSolver.dll")
+import math
+from os import path
+
+# KANGAROO 2 IMPORT
+k2import = False
+try:
+    clr.AddReferenceToFile("KangarooSolver.dll")
+    k2import = True
+except IOError:
+    pass
+if not k2import:
+    try:
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Program Files\Rhino 7\Plug-ins\Grasshopper\Components\KangarooSolver.dll"))
+        k2import = True
+    except IOError:
+        pass
+if not k2import:
+    try:
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Program Files\Rhino 7 WIP\Plug-ins\Grasshopper\Components\KangarooSolver.dll"))
+        k2import = True
+    except IOError:
+        pass
+if not k2import:
+    try:
+        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Program Files\Rhino 6\Plug-ins\Grasshopper\Components\KangarooSolver.dll"))
+    except IOError:
+        raise RuntimeError("KangarooSolver.dll was not found! please add the " + \
+                           "folder to your module search paths manually!")
 import KangarooSolver as ks
 
+# GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
 import ghpythonlib.treehelpers as th
 import ghpythonlib.components as ghcomp
-
 import Grasshopper, GhPython
 import System
-from System.Collections.Generic import List
 import Rhino
 
+# ADDITIONAL RHINO IMPORTS
+from System.Collections.Generic import List
 import scriptcontext as sc
 
 ghenv.Component.Name = "QuadReMeshExtendedParallel"
 ghenv.Component.NickName = "QRMExP"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "3 Remeshing"
+ghenv.Component.SubCategory = "2 Meshing & Remeshing"
 
 class QuadReMeshExtendedParallel(component):
     
