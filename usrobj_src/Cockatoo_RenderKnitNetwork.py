@@ -56,7 +56,7 @@ substantial amount of time!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -366,4 +366,7 @@ class RenderKnitNetwork(component):
                             viz.AddText(nodeTxt, nodecol)
             
         else:
+            if Toggle and not KN:
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, "No KnitNetwork input!")
             viz = self.CustomDisplay(False)
