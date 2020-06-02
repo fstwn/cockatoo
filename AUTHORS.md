@@ -6,7 +6,7 @@
 
 ## Contributors
 
-- Your name here <<your_email@here.com>>
+- Your name here <<your_email@here.com>> [@yourgithubusername](https://github.com/yourgithubsusername)
 
 ## Sources
 
