@@ -11,7 +11,7 @@ https://discourse.mcneel.com/t/write-a-bitmap-pixel-by-pixel-in-python/81116/2
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200602
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -72,3 +72,10 @@ class WriteKnittingPatternToBitmap(component):
                     
             # Save to file
             bitmap.Save(path.normpath(Path.strip("\n\r")), System.Drawing.Imaging.ImageFormat.Bmp)
+        else:
+            if not PatternData:
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, "No PatternData input!")
+            if not Path:
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, "No Path input!")
