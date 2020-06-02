@@ -4,7 +4,7 @@ mesh or NURBS surface reference geometry.
 
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200530
+Version: 200602
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
