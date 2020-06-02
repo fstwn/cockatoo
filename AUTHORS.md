@@ -10,4 +10,4 @@
 
 ## Sources
 
-- [1] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
+- [1] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*
