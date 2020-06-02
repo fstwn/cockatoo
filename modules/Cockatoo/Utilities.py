@@ -13,6 +13,7 @@ from __future__ import print_function
 from collections import deque
 from itertools import tee
 from math import acos
+from math import cos
 from math import degrees
 from math import pi
 
@@ -24,24 +25,89 @@ from Cockatoo.Exceptions import *
 if IsRhinoInside():
     import rhinoinside
     rhinoinside.load()
-    from Rhino.Geometry import Vector3d as RhinoVector3d
+    from Rhino.Display import ColorHSL as RhinoColorHSL
+    from Rhino.Geometry import Polyline as RhinoPolyline
     from Rhino.Geometry import Quaternion as RhinoQuaternion
+    from Rhino.Geometry import Vector3d as RhinoVector3d
 else:
-    from Rhino.Geometry import Vector3d as RhinoVector3d
+    from Rhino.Display import ColorHSL as RhinoColorHSL
+    from Rhino.Geometry import Polyline as RhinoPolyline
     from Rhino.Geometry import Quaternion as RhinoQuaternion
+    from Rhino.Geometry import Vector3d as RhinoVector3d
 
 # AUTHORSHIP -------------------------------------------------------------------
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 
 # ALL LIST ---------------------------------------------------------------------
 __all__ = [
-    "TweenPlanes"
+    "BreakPolyline",
+    "MapValuesAsColors",
+    "TweenPlanes",
     "is_ccw_xy",
     "resolve_order_by_backtracking",
     "pairwise"
 ]
 
-# GEOMETRY ---------------------------------------------------------------------
+# RHINO GEOMETRY ---------------------------------------------------------------
+
+def BreakPolyline(Polyline, BreakAngle):
+    """
+    Breaks a polyline at kinks based on a specified angle. Will move the seam
+    of closed polylines to the first kink discovered.
+    """
+
+    # get all the polyline segments
+    segments = deque(Polyline.GetSegments())
+
+    # check if polyline in closed
+    if Polyline.IsClosed:
+        closedSeamAtKink = False
+    else:
+        closedSeamAtKink = True
+
+    # initialize containers
+    plcs = []
+    pl = RhinoPolyline()
+
+    # process all segments
+    while len(segments) > 0:
+        # if there is only one segment left, add the endpoint to the new pl
+        if len(segments) == 1:
+            ln = segments.popleft()
+            pl.Add(ln.To)
+            plcs.append(pl.ToPolylineCurve())
+            break
+
+        # get unitized directions of this and next segment
+        thisdir = segments[0].Direction
+        nextdir = segments[1].Direction
+        thisdir.Unitize()
+        nextdir.Unitize()
+
+        # compute angle
+        vdp = thisdir * nextdir
+        angle = cos(vdp / (thisdir.Length * nextdir.Length))
+        angle = RhinoVector3d.VectorAngle(thisdir, nextdir)
+
+        # check angles and execute breaks
+        if angle >= BreakAngle:
+            if not closedSeamAtKink:
+                segments.rotate(-1)
+                pl.Add(segments.popleft().From)
+                closedSeamAtKink = True
+            elif closedSeamAtKink:
+                ln = segments.popleft()
+                pl.Add(ln.From)
+                pl.Add(ln.To)
+                plcs.append(pl.ToPolylineCurve())
+                pl = RhinoPolyline()
+        else:
+            if not closedSeamAtKink:
+                segments.rotate(-1)
+            else:
+                pl.Add(segments.popleft().From)
+
+    return plcs
 
 def TweenPlanes(P1, P2, t):
     """
@@ -75,6 +141,67 @@ def TweenPlanes(P1, P2, t):
     OutputPlane.Translate(Translation * t)
 
     return OutputPlane
+
+# RHINO DISPLAY ----------------------------------------------------------------
+
+def MapValuesAsColors(values, srcMin, srcMax, targetMin = 0.0, targetMax = 0.7):
+    """
+    Make a list of HSL colors where the values are mapped onto a
+    targetMin-targetMax hue domain. Meaning that low values will be red, medium
+    values green and large values blue if targetMin: 0.0 and targetMax: 0.7
+
+    Parameters
+    ----------
+    values : list
+        List of values to map as colors.
+
+    srcMin : float
+        Lower bounds of the value domain.
+
+    srcMax : float
+        Upper bounds of the value domain.
+
+    targetMin : float
+        Lower bounds of the target (color) domain.
+        Defaults to 0.
+
+    targetMax : float
+        Upper bounds of the target (color) domain.
+        Defaults to 0.7 .
+
+    Returns
+    -------
+    colors : list
+        List of RGB colors corresponding to the input values.
+
+    Notes
+    -----
+    Based on code by Anders Holden Deleuran. Code was only changed in regards
+    of defaults and names.
+    For more info see [1]_ .
+
+    References
+    ----------
+    .. [1] mapValuesAsColors.py - gist by Anders Holden Deleuran
+           See: https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea
+    """
+
+    # Remap numbers into new numeric domain
+    remappedValues = []
+    for v in values:
+        if srcMax-srcMin > 0:
+            rv = ((v-srcMin)/(srcMax-srcMin))*(targetMax-targetMin)+targetMin
+        else:
+            rv = (targetMin+targetMax)/2
+        remappedValues.append(rv)
+
+    # Make colors and return
+    colors = []
+    for v in remappedValues:
+        c = RhinoColorHSL(v,1.0,0.5).ToArgbColor()
+        colors.append(c)
+
+    return colors
 
 # FUNCTIONAL GRAPH UTILITIES ---------------------------------------------------
 
@@ -151,7 +278,7 @@ def resolve_order_by_backtracking(G):
     # return the ordered stack
     return ordered_stack
 
-# MATH AND HELPERS -------------------------------------------------------------
+# PURE PYTHON GEOMETRY ---------------------------------------------------------
 
 def is_ccw_xy(a, b, c, colinear=False):
     """
@@ -209,8 +336,11 @@ def is_ccw_xy(a, b, c, colinear=False):
         return ab_x * ac_y - ab_y * ac_x >= 0
     return ab_x * ac_y - ab_y * ac_x > 0
 
+# PYTHON HELPERS AND UTILITIES -------------------------------------------------
+
 def pairwise(iterable):
-    """Returns the data of iterable in pairs (2-tuples).
+    """
+    Returns the data of iterable in pairs (2-tuples).
 
     Parameters
     ----------
