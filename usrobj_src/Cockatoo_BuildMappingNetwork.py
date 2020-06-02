@@ -23,7 +23,7 @@ generation.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # GPYTHON SDK IMPORTS
@@ -88,7 +88,9 @@ class BuildMappingNetwork(component):
         elif not Toggle and KN:
             return KN
         else:
-            return Grasshopper.DataTree[object]()
+            rml = self.RuntimeMessageLevel.Warning
+            self.AddRuntimeMessage(rml, "No KnitNetwork input!")
+            return Grasshopper.DataTree[object](), Grasshopper.DataTree[object]()
         
         # return outputs if you have them; here I try it for you:
         return KN, KN.MappingNetwork
