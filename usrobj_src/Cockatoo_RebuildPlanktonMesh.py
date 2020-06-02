@@ -13,7 +13,7 @@ TODO: Update docstring
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200602
 """
 
 # PYTHON LIBRARY IMPORTS
@@ -56,7 +56,7 @@ import PlanktonGh
 ghenv.Component.Name = "RebuildPlanktonMesh"
 ghenv.Component.NickName = "RPM"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "3 Remeshing"
+ghenv.Component.SubCategory = "2 Meshing & Remeshing"
 
 class RebuildPlanktonMesh(component):
     
