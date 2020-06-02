@@ -28,7 +28,7 @@ parameters and hardware of the machine!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -77,8 +77,13 @@ class CreateFinalNetworkTopology(component):
                                           include_end_nodes=IncludeEnds,
                                           precise=Precise,
                                           verbose=False)
-            
         else:
+            if not KN:
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, "No KnitNetwork input!")
+            if not StitchWidth:
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, "No StitchWidth input!")
             KN = Grasshopper.DataTree[object]()
         
         # return outputs if you have them; here I try it for you:
