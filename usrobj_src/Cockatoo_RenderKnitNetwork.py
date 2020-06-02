@@ -56,7 +56,7 @@ substantial amount of time!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200602
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -69,9 +69,17 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
+# ADDITIONAL RHINO IMPORTS
+from scriptcontext import sticky as st
+
 # LOCAL MODULE IMPORTS
-from mbe.component import customDisplay
-from Cockatoo import KnitNetwork
+try:
+    from Cockatoo import KnitNetwork
+except ImportError:
+    errMsg = "The Cockatoo python module seems to be not correctly " + \
+             "installed! Please make sure the module is in you search " + \
+             "path, see README for instructions!."
+    raise ImportError(errMsg)
 
 # GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "RenderKnitNetwork"
@@ -80,6 +88,38 @@ ghenv.Component.Category = "Cockatoo"
 ghenv.Component.SubCategory = "7 Visualisation"
 
 class RenderKnitNetwork(component):
+    
+    def CustomDisplay(self, toggle):
+        """
+        Make a custom display which is unique to the component and lives in the
+        sticky dictionary.
+    
+        Notes
+        -----
+        Original code by Anders Holden Deleuran.
+        For more info see [1]_.
+    
+        References
+        ----------
+        .. [1] customDisplayInSticky.py - gist by Anders Holden Deleuran
+               See: https://gist.github.com/AndersDeleuran/09f8af66c29e96bd35440fa8276b0b5a
+        """
+    
+        # Make unique name and custom display
+        displayKey = str(self.InstanceGuid) + "___CUSTOMDISPLAY"
+        if displayKey not in st:
+            st[displayKey] = Rhino.Display.CustomDisplay(True)
+    
+        # Clear display each time component runs
+        st[displayKey].Clear()
+    
+        # Return the display or get rid of it
+        if toggle:
+            return st[displayKey]
+        else:
+            st[displayKey].Dispose()
+            del st[displayKey]
+            return None
     
     def RunScript(self, Toggle, KN, RenderNodes=False, RenderNodeIndices=False, RenderNodeData=False, NodeTextPlane=None, NodeTextHeight=0.1, RenderContourEdges=False, RenderContourEdgeData=False, RenderWeftEdges=True, RenderWeftEdgeData=False, RenderWarpEdges=True, RenderWarpEdgeData=False, DirectionalDisplay=False, EdgeTextPlane=None, EdgeTextHeight=0.1):
         
@@ -111,7 +151,7 @@ class RenderKnitNetwork(component):
                               RenderWarpEdges):
             
             # create customdisplay
-            viz = customDisplay(self, True)
+            viz = self.CustomDisplay(True)
             
             # RENDERING OF CONTOUR EDGES ---------------------------------------
             
@@ -326,4 +366,4 @@ class RenderKnitNetwork(component):
                             viz.AddText(nodeTxt, nodecol)
             
         else:
-            viz = customDisplay(self, False)
+            viz = self.CustomDisplay(False)
