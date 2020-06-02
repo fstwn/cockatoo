@@ -22,7 +22,7 @@ indices for the resulting list of polylines.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -84,7 +84,16 @@ class ExtractKnitConstraintsFromMesh(component):
         
         NullTree = Grasshopper.DataTree[object]()
         
-        if not Mesh:
+        if not Mesh or Start == None or End == None:
+            if not Mesh:
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, "No Mesh input!")
+            if not Start:
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, "No Start input!")
+            if not End:
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, "No End input!")
             return NullTree
         
         # get naked edges of the mesh boundary
