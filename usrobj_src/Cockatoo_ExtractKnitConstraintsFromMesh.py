@@ -22,12 +22,11 @@ indices for the resulting list of polylines.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200602
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
-import math
 
 # GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
@@ -36,15 +35,15 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
-# CUSTOM RHINO IMPORTS
-from ghpythonlib import treehelpers as th
-import scriptcontext
-
 # LOCAL MODULE IMPORTS
-from Cockatoo import KnitConstraint
-from mbe.geometry import BreakPolyline
-from mbe.helpers import mapValuesAsColors
-import mbe.component as ct
+try:
+    from Cockatoo import KnitConstraint
+    from Cockatoo.Utilities import BreakPolyline
+except ImportError:
+    errMsg = "The Cockatoo python module seems to be not correctly " + \
+             "installed! Please make sure the module is in you search " + \
+             "path, see README for instructions!."
+    raise ImportError(errMsg)
 
 # GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "ExtractKnitConstraintsFromMesh"
@@ -106,7 +105,8 @@ class ExtractKnitConstraintsFromMesh(component):
         
         # extract left and right boundaries by indices
         if Start == End:
-            ct.addRuntimeWarning(self, "Start index cannot be the same as " +
+            rml = self.RuntimeMessageLevel.Warning
+            self.AddRuntimeMessage(rml, "Start index cannot be the same as " +
                                        "end index! Aborting...")
             return NullTree
         elif Start > End:
