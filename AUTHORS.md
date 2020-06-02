@@ -2,7 +2,7 @@
 
 ## Development
 
-- Max Eschenbach <<eschenbach@uni-kassel.de>> [@fstwn](https://github.com/fstwn)
+- Max Eschenbach <<pos@maxeschenbach.com>> [@fstwn](https://github.com/fstwn)
 
 ## Contributors
 
