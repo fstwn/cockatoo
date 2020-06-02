@@ -45,7 +45,7 @@ The purpose of this project is to enable Rhino and Grasshopper to automatically 
     `File >> Special Folders >> User Object Folder`
 - Move the whole `Cockatoo` directory to the UserObjects folder.
 
-- **NOTE**:
+- **NOTE**: If Rhino is currently running, you'll have to restart Rhino for the new UserObjects to be loaded!
 
 ### 4. Unblock the new UserObjects!
 
