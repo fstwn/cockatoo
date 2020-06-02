@@ -10,7 +10,7 @@ TODO: Update docstring!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200602
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -24,7 +24,13 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # LOCAL MODULE IMPORTS
-import Cockatoo
+try:
+    import Cockatoo
+except ImportError:
+    errMsg = "The Cockatoo python module seems to be not correctly " + \
+             "installed! Please make sure the module is in you search " + \
+             "path, see README for instructions!."
+    raise ImportError(errMsg)
 
 # GHENV COMPONENT SETTINGS
 ghenv.Component.Name = "MakeRenderGraph"
