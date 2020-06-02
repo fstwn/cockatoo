@@ -7,7 +7,7 @@ Converts units specified in millimeters or with a signed string into document un
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200602
 """
 
 # PYTHON MODULE IMPORTS
@@ -53,6 +53,13 @@ class UnitConverter(component):
                                    "Tolerance: " + str(abstol))
         
         if Value:
+            if Value.startswith("1E") \
+            or Value.startswith("1e") \
+            or Value.startswith("1.0e") \
+            or Value.startswith("1.0E"):
+                Value = "{:.500f}".format(float(Value))
+                Value = Value.rstrip("0")
+            
             alpha, num, special = self.splitString(Value)
             if alpha == "" or alpha == "mm":
                 insys = Rhino.UnitSystem.Millimeters
