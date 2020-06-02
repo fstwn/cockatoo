@@ -45,12 +45,14 @@ The purpose of this project is to enable Rhino and Grasshopper to automatically 
     `File >> Special Folders >> User Object Folder`
 - Move the whole `Cockatoo` directory to the UserObjects folder.
 
-- **NOTE: If Rhino is currently running, you'll have to restart Rhino for the new UserObjects to be loaded!**
-
 ### 4. Unblock the new UserObjects!
 
 - Go into the `Cockatoo` folder inside Grasshoppers UserObjects folder
 - Right click onto the first UserObject and go to **Properties**
 - If the text *This file came from another computer [...]* is displayed click on **Unblock**!
 - **Unfortunately you have to do this for _EVERY_ UserObject in the folder!**
+
+### 5. Restart Rhino & Grasshopper
+
+- If Rhino was running during the installation process, you'll have to restart it for the changes to take effect!
 
