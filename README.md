@@ -5,7 +5,7 @@
 
 ---
 
-### [Yeah, yeah... Knitting... Rhino... Python... I get it. Just tell me how to install and use it!](https://github.com/fstwn/Cockatoo/blob/master/README.md#installation--usage)
+### [...Yeah, yeah... Knitting... Rhino... Python... I get it. Just tell me how to install and use it!](https://github.com/fstwn/Cockatoo/blob/master/README.md#installation--usage)
 
 ---
 
