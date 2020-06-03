@@ -15,7 +15,7 @@ The purpose of this project is to enable Rhino and Grasshopper to derive (3d-)kn
 
 - All datastructures, core logic and algorithms are defined in the *Cockatoo* python module.
 - The [RhinoCommon API](https://developer.rhino3d.com/guides/rhinocommon/what-is-rhinocommon/) is used to handle all geometric operations.
-- The [NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/) module is used to handle all the necessary graph operations (for more info, see the [Pecularities](https://github.com/fstwn/Cockatoo/blob/master/README.md#pecularities) section).
+- The [NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/) module is used to handle all the necessary graph operations (for more info, see the [Pecularities](#pecularities) section).
 - The python module can be used from within RhinoPython scripts as well as from within Grasshopper through the GHPython scriptable component.
 - Cockatoo also includes a set of Grasshopper components (*UserObjects*), which provide a user interface to the underlying python module without the need of scripting.
 - The python module as well as the UserObjects are designed to be open for extension.
