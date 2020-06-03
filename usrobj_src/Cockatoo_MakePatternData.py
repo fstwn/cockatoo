@@ -24,7 +24,7 @@ https://en.wikipedia.org/wiki/Topological_sorting
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -42,7 +42,7 @@ from ghpythonlib import treehelpers as th
 
 # LOCAL MODULE IMPORTS
 try:
-    from Cockatoo.Exceptions import KnitNetworkTopologyError
+    from cockatoo.exception import KnitNetworkTopologyError
 except ImportError:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
@@ -65,7 +65,7 @@ class MakePatternData(component):
             # CREATE CSV DATA (ROWS AND COLUMNS) -------------------------------
             
             try:
-                PatternData = DualNetwork.MakePatternData(consolidate=Consolidate)
+                PatternData = DualNetwork.make_pattern_data(consolidate=Consolidate)
             except Exception as e:
                 rml = self.RuntimeMessageLevel.Error
                 rMsg = "Could not perform topological sort on input network!"
@@ -73,8 +73,6 @@ class MakePatternData(component):
                 print(e.message)
             
             # CONVERT CSV DATA TO COMMANDS -------------------------------------
-            
-            print PatternData
             
             try:
                 cmd_rows = []

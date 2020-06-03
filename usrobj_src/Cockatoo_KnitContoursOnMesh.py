@@ -100,7 +100,7 @@ import KangarooSolver as ks
 
 # LOCAL MODULE IMPORTS
 try:
-    import Cockatoo
+    import cockatoo
 except ImportError:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
@@ -115,7 +115,7 @@ ghenv.Component.SubCategory = "5 Contouring"
 
 class KnitContoursOnMesh(component):
     
-    def RelaxContoursOnMesh(self, polylines, mesh, kLineLengthA, kLineLengthB, kEqualize, kOnMesh, thres, iMax, tol):
+    def relax_contours_on_mesh(self, polylines, mesh, kLineLengthA, kLineLengthB, kEqualize, kOnMesh, thres, iMax, tol):
         """
         Relax a bunch of contour lines on a mesh.
         Based on an approach by Anders Holden Deleuran.
@@ -216,7 +216,7 @@ class KnitContoursOnMesh(component):
                     
             return contours, iterations
     
-    def GetSegmentRatios(self, segments):
+    def get_segment_ratios(self, segments):
         """
         Get the length ratios for the given segment relative to their overall
         length.
@@ -228,17 +228,17 @@ class KnitContoursOnMesh(component):
         
         return overall_length, seg_ratios
     
-    def CreateContours(self, KMCList, ContourDensity, ContourDivisionDensity, ContourMode, ContourDivisionMode):
+    def create_contours(self, KMCList, ContourDensity, ContourDivisionDensity, ContourMode, ContourDivisionMode):
         
         # unpack the kmclist
         StartCourse, EndCourse, LeftBoundary, RightBoundary = KMCList
         
         # GET SEGMENTATION RATIOS ----------------------------------------------
         
-        stLen, sRat = self.GetSegmentRatios([StartCourse])
-        etLen, eRat = self.GetSegmentRatios([EndCourse])
-        ltLen, lbRat = self.GetSegmentRatios(LeftBoundary)
-        rtLen, rbRat = self.GetSegmentRatios(RightBoundary)
+        stLen, sRat = self.get_segment_ratios([StartCourse])
+        etLen, eRat = self.get_segment_ratios([EndCourse])
+        ltLen, lbRat = self.get_segment_ratios(LeftBoundary)
+        rtLen, rbRat = self.get_segment_ratios(RightBoundary)
         
         # SET SAMPLING DENSITY -------------------------------------------------
         
@@ -457,16 +457,16 @@ class KnitContoursOnMesh(component):
         
         # UNPACK CONSTRAINTS ---------------------------------------------------
         
-        StartCourse = KnitConstraint.StartCourse
-        EndCourse = KnitConstraint.EndCourse
-        LeftBoundary = KnitConstraint.LeftBoundary
-        RightBoundary = KnitConstraint.RightBoundary
+        StartCourse = KnitConstraint.start_course
+        EndCourse = KnitConstraint.end_course
+        LeftBoundary = KnitConstraint.left_boundary
+        RightBoundary = KnitConstraint.right_boundary
         
         KMCList = [StartCourse, EndCourse, LeftBoundary, RightBoundary]
         
         # SAMPLE INPUT AND CREATE CONTOURS -------------------------------------
         
-        Contours = self.CreateContours(KMCList,
+        Contours = self.create_contours(KMCList,
                                        ContourDensity,
                                        ContourDivisionDensity,
                                        ContourMode,
@@ -474,7 +474,7 @@ class KnitContoursOnMesh(component):
         
         # RELAX CONTOUR CURVES ON THE MESH -------------------------------------
         
-        Contours, Iterations = self.RelaxContoursOnMesh(Contours,
+        Contours, Iterations = self.relax_contours_on_mesh(Contours,
                                                         Mesh,
                                                         GeodesicStrength,
                                                         TweenStrength,

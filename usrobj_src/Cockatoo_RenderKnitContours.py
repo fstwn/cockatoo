@@ -9,7 +9,7 @@ gradient coloured curves. Will work with any type of curve, actually.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -27,7 +27,7 @@ from scriptcontext import sticky as st
 
 # LOCAL MODULE IMPORTS
 try:
-    from Cockatoo.Utilities import MapValuesAsColors
+    from cockatoo.utilities import map_values_as_colors
 except ImportError:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
@@ -42,7 +42,7 @@ ghenv.Component.SubCategory = "7 Visualisation"
 
 class RenderKnitContours(component):
     
-    def CustomDisplay(self, toggle):
+    def custom_display(self, toggle):
         """
         Make a custom display which is unique to the component and lives in the
         sticky dictionary.
@@ -80,7 +80,7 @@ class RenderKnitContours(component):
         
         if Toggle and KnitContours:
             # make customdisplay
-            viz = self.CustomDisplay(True)
+            viz = self.custom_display(True)
             for i, pl in enumerate(KnitContours):
                 if pl.IsPolyline() and pl.Degree == 1:
                     polypts = []
@@ -91,7 +91,7 @@ class RenderKnitContours(component):
                     pl = Rhino.Geometry.Polyline(polypts)
                     segs = [Rhino.Geometry.LineCurve(s) for s in pl.GetSegments()]
                     numseg = len(segs)
-                    ccols = MapValuesAsColors(range(numseg), 0, numseg, 0.0, 0.35)
+                    ccols = map_values_as_colors(range(numseg), 0, numseg, 0.0, 0.35)
                     for j, seg in enumerate(segs):
                         viz.AddCurve(seg, ccols[j], 3)
                 else:
@@ -105,14 +105,14 @@ class RenderKnitContours(component):
                     pl = pl.ToPolyline()
                     segs = [Rhino.Geometry.LineCurve(s) for s in pl.GetSegments()]
                     numseg = len(segs)
-                    ccols = MapValuesAsColors(range(numseg), 0, numseg, 0.0, 0.35)
+                    ccols = map_values_as_colors(range(numseg), 0, numseg, 0.0, 0.35)
                     for j, seg in enumerate(segs):
                         viz.AddCurve(seg, ccols[j], 3)
         elif Toggle and not KnitContours:
-            viz = self.CustomDisplay(False)
+            viz = self.custom_display(False)
             rml = self.RuntimeMessageLevel.Warning
             rMsg = "No KnitContours input!"
             self.AddRuntimeMessage(rml, rMsg)
         else:
-            viz = self.CustomDisplay(False)
+            viz = self.custom_display(False)
         

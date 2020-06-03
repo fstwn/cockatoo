@@ -74,7 +74,7 @@ from scriptcontext import sticky as st
 
 # LOCAL MODULE IMPORTS
 try:
-    from Cockatoo import KnitNetwork
+    from cockatoo import KnitNetwork
 except ImportError:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
@@ -89,7 +89,7 @@ ghenv.Component.SubCategory = "7 Visualisation"
 
 class RenderKnitNetwork(component):
     
-    def CustomDisplay(self, toggle):
+    def custom_display(self, toggle):
         """
         Make a custom display which is unique to the component and lives in the
         sticky dictionary.
@@ -151,14 +151,14 @@ class RenderKnitNetwork(component):
                               RenderWarpEdges):
             
             # create customdisplay
-            viz = self.CustomDisplay(True)
+            viz = self.custom_display(True)
             
             # RENDERING OF CONTOUR EDGES ---------------------------------------
             
             if RenderContourEdges:
                 contourcol = System.Drawing.Color.Gray
-                ContourEdges = KN.ContourEdges
-                for ce in ContourEdges:
+                contour_edges = KN.contour_edges
+                for ce in contour_edges:
                     egeo = ce[2]["geo"]
                     if type(egeo) == Rhino.Geometry.Line:
                         geo = Rhino.Geometry.LineCurve(egeo)
@@ -196,8 +196,8 @@ class RenderKnitNetwork(component):
             
             if RenderWeftEdges:
                 weftcol = System.Drawing.Color.Blue
-                WeftEdges = KN.WeftEdges
-                for weft in WeftEdges:
+                weft_edges = KN.weft_edges
+                for weft in weft_edges:
                     egeo = weft[2]["geo"]
                     linegeo = Rhino.Geometry.LineCurve(egeo)
                     if DirectionalDisplay:
@@ -228,8 +228,8 @@ class RenderKnitNetwork(component):
             
             if RenderWarpEdges:
                 warpcol = System.Drawing.Color.Red
-                WarpEdges = KN.WarpEdges
-                for warp in WarpEdges:
+                warp_edges = KN.warp_edges
+                for warp in warp_edges:
                     egeo = warp[2]["geo"]
                     linegeo = Rhino.Geometry.LineCurve(egeo)
                     if DirectionalDisplay:
@@ -369,4 +369,4 @@ class RenderKnitNetwork(component):
             if Toggle and not KN:
                 rml = self.RuntimeMessageLevel.Warning
                 self.AddRuntimeMessage(rml, "No KnitNetwork input!")
-            viz = self.CustomDisplay(False)
+            viz = self.custom_display(False)

@@ -23,7 +23,7 @@ isocurves on a surface.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS

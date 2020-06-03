@@ -1,7 +1,7 @@
 """
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200529
+Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
@@ -11,11 +11,11 @@ from __future__ import print_function
 from collections import OrderedDict
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from Cockatoo.Environment import IsRhinoInside
-from Cockatoo.Exceptions import *
+from cockatoo.environment import is_rhino_inside
+from cockatoo.exception import *
 
 # RHINO IMPORTS ----------------------------------------------------------------
-if IsRhinoInside():
+if is_rhino_inside():
     import rhinoinside
     rhinoinside.load()
     from Rhino.Geometry import Curve as RhinoCurve
@@ -78,18 +78,22 @@ class KnitNetworkBase(nx.Graph):
         -------
         description : str
             A textual description of the network.
+
+        Notes
+        -----
+        Used for overloading the Grasshopper display in data parameters.
         """
 
         name = "KnitNetworkBase"
         nn = len(self.nodes())
-        ce = len(self.ContourEdges)
-        wee = len(self.WeftEdges)
-        wae = len(self.WarpEdges)
+        ce = len(self.contour_edges)
+        wee = len(self.weft_edges)
+        wae = len(self.warp_edges)
         data = ("({} Nodes, {} Contours, {} Weft, {} Warp)")
         data = data.format(nn, ce, wee, wae)
         return name + data
 
-    def MakeRenderGraph(self, allcircles=False):
+    def make_render_graph(self, allcircles=False):
         """
         Creates a new graph with attributes for visualising this networkx
         using GraphViz.
@@ -206,7 +210,7 @@ class KnitNetworkBase(nx.Graph):
 
         return RenderGraph
 
-    def MakeGephiGraph(self):
+    def make_gephi_graph(self):
         """
         Creates a new graph with attributes for visualising this network
         using Gephi.
@@ -281,7 +285,7 @@ class KnitNetworkBase(nx.Graph):
 
     # NODE CREATION ------------------------------------------------------------
 
-    def NodeFromPoint3d(self, node_index, pt, position=None, num=None, leaf=False, start=False, end=False, segment=None, increase=False, decrease=False):
+    def node_from_point3d(self, node_index, pt, position=None, num=None, leaf=False, start=False, end=False, segment=None, increase=False, decrease=False):
         """
         Creates a network node from a Rhino Point3d and attributes.
 
@@ -353,7 +357,7 @@ class KnitNetworkBase(nx.Graph):
 
     # NODE GEOMETRY ------------------------------------------------------------
 
-    def NodeGeometry(self, node_index):
+    def node_geometry(self, node_index):
         """
         Gets the geometry from the 'geo' attribute of the supplied node.
 
@@ -373,7 +377,7 @@ class KnitNetworkBase(nx.Graph):
         except KeyError:
             return None
 
-    def NodeCoordinates(self, node_index):
+    def node_coordinates(self, node_index):
         """
         Gets the node coordinates from the 'x', 'y' and 'z' attributes of the
         supplied node.
@@ -407,13 +411,13 @@ class KnitNetworkBase(nx.Graph):
         total = max([d["position"] for n, d in self.nodes_iter(data=True)])+1
         return total
 
-    TotalPositions = property(_get_total_positions, None, None,
+    total_positions = property(_get_total_positions, None, None,
                               "The total number of positions (i.e. contours) " +
                               "inside the network")
 
     # NODES ON POSITION CONTOURS -----------------------------------------------
 
-    def NodesOnPosition(self, position, data=False):
+    def nodes_on_position(self, position, data=False):
         """
         Gets the nodes on a given position (i.e. contour) by returning all
         nodes which share the given value as their 'position' attribute.
@@ -443,7 +447,7 @@ class KnitNetworkBase(nx.Graph):
 
         return nodes
 
-    def AllNodesByPosition(self, data=False):
+    def all_nodes_by_position(self, data=False):
         """
         Gets all the nodes of the network, ordered by the values of their
         'position' attribute.
@@ -484,7 +488,7 @@ class KnitNetworkBase(nx.Graph):
 
     # NODES ON SEGMENT CONTOURS ------------------------------------------------
 
-    def NodesOnSegment(self, segment, data=False):
+    def nodes_on_segment(self, segment, data=False):
         """
         Gets all nodes on a given segment by finding all nodes which share the
         specified value as their 'segment' attribute, ordered by the value of
@@ -533,10 +537,10 @@ class KnitNetworkBase(nx.Graph):
 
         return leaves
 
-    LeafNodes = property(_get_leaf_nodes, None, None,
+    leaf_nodes = property(_get_leaf_nodes, None, None,
                          "All 'leaf' nodes of the network.")
 
-    def LeavesOnPosition(self, position, data=False):
+    def leaves_on_position(self, position, data=False):
         """
         Gets all 'leaf' nodes which share the supplied value as their 'position'
         attribute.
@@ -557,13 +561,13 @@ class KnitNetworkBase(nx.Graph):
             which share the supplied value as their 'position' attribute
         """
 
-        leaves = [(n, d) for n, d in self.NodesOnPosition(position, data=True) \
+        leaves = [(n, d) for n, d in self.nodes_on_position(position, data=True) \
                   if d["leaf"]]
         if not data:
             leaves = [n[0] for n in leaves]
         return leaves
 
-    def AllLeavesByPosition(self, data=False):
+    def all_leaves_by_position(self, data=False):
         """
         Gets all 'leaf' nodes ordered by their 'position' attribute.
 
@@ -614,10 +618,10 @@ class KnitNetworkBase(nx.Graph):
 
         return ends
 
-    EndNodes = property(_get_end_nodes, None, None,
+    end_nodes = property(_get_end_nodes, None, None,
                         "All 'end' nodes of the network")
 
-    def EndsOnPosition(self, position, data=False):
+    def ends_on_position(self, position, data=False):
         """
         Gets all 'end' nodes which share the supplied value as their 'position'
         attribute.
@@ -638,13 +642,13 @@ class KnitNetworkBase(nx.Graph):
             which share the supplied value as their 'position' attribute
         """
 
-        ends = [(n, d) for n, d in self.NodesOnPosition(position, data=True) \
+        ends = [(n, d) for n, d in self.nodes_on_position(position, data=True) \
                 if d["end"]]
         if not data:
             return [n[0] for n in ends]
         return ends
 
-    def AllEndsByPosition(self, data=False):
+    def all_ends_by_position(self, data=False):
         """
         Gets all 'end' nodes ordered by their 'position' attribute.
 
@@ -685,7 +689,7 @@ class KnitNetworkBase(nx.Graph):
 
     # POSITION CONTOUR METHODS -------------------------------------------------
 
-    def GeometryAtPositionContour(self, position, as_crv=False):
+    def geometry_at_position_contour(self, position, as_crv=False):
         """
         Gets the contour polyline at a given position by making a polyline
         from all nodes which share the specified 'position' attribute.
@@ -704,13 +708,13 @@ class KnitNetworkBase(nx.Graph):
             The contour as a Polyline (or PolylineCurve if as_crv is True).
         """
 
-        points = [d["geo"] for n, d in self.NodesOnPosition(position, True)]
+        points = [d["geo"] for n, d in self.nodes_on_position(position, True)]
         Contour = RhinoPolyline(points)
         if as_crv:
             Contour = Contour.ToPolylineCurve()
         return Contour
 
-    def LongestPositionContour(self):
+    def longest_position_contour(self):
         """
         Gets the longest contour 'position', geometry andgeometric length.
 
@@ -724,8 +728,8 @@ class KnitNetworkBase(nx.Graph):
         longestLength = 0
         longestContour = None
         longestPosition = None
-        for i in range(self.TotalPositions):
-            contour = self.GeometryAtPositionContour(i, True)
+        for i in range(self.total_positions):
+            contour = self.geometry_at_position_contour(i, True)
             cl = contour.GetLength()
             if cl > longestLength:
                 longestLength = cl
@@ -736,7 +740,7 @@ class KnitNetworkBase(nx.Graph):
 
     # EDGE CREATION METHODS ----------------------------------------------------
 
-    def CreateContourEdge(self, From, To):
+    def create_contour_edge(self, from_node, to_node):
         """
         Creates an edge neither 'warp' nor 'weft' between two nodes in the
         network.
@@ -749,12 +753,12 @@ class KnitNetworkBase(nx.Graph):
         """
 
         # get node indices
-        fromNode = From[0]
-        toNode = To[0]
+        fromNode = from_node[0]
+        toNode = to_node[0]
 
         # get geometry from nodes
-        fromGeo = From[1]["geo"]
-        toGeo = To[1]["geo"]
+        fromGeo = from_node[1]["geo"]
+        toGeo = to_node[1]["geo"]
 
         # create edge geometry
         edgeGeo = RhinoLine(fromGeo, toGeo)
@@ -772,7 +776,7 @@ class KnitNetworkBase(nx.Graph):
 
         return True
 
-    def CreateWeftEdge(self, From, To, segment=None):
+    def create_weft_edge(self, from_node, to_node, segment=None):
         """
         Creates a 'weft' edge between two nodes in the network.
 
@@ -784,12 +788,12 @@ class KnitNetworkBase(nx.Graph):
         """
 
         # get node indices
-        fromNode = From[0]
-        toNode = To[0]
+        fromNode = from_node[0]
+        toNode = to_node[0]
 
         # get geometry from nodes
-        fromGeo = From[1]["geo"]
-        toGeo = To[1]["geo"]
+        fromGeo = from_node[1]["geo"]
+        toGeo = to_node[1]["geo"]
 
         # create edge geometry
         edgeGeo = RhinoLine(fromGeo, toGeo)
@@ -807,7 +811,7 @@ class KnitNetworkBase(nx.Graph):
 
         return True
 
-    def CreateWarpEdge(self, From, To):
+    def create_warp_edge(self, from_node, to_node):
         """
         Creates a 'warp' edge between two nodes in the network.
 
@@ -819,12 +823,12 @@ class KnitNetworkBase(nx.Graph):
         """
 
         # get node indices
-        fromNode = From[0]
-        toNode = To[0]
+        fromNode = from_node[0]
+        toNode = to_node[0]
 
         # get geometry from nodes
-        fromGeo = From[1]["geo"]
-        toGeo = To[1]["geo"]
+        fromGeo = from_node[1]["geo"]
+        toGeo = to_node[1]["geo"]
 
         # create edge geometry
         edgeGeo = RhinoLine(fromGeo, toGeo)
@@ -842,7 +846,7 @@ class KnitNetworkBase(nx.Graph):
 
         return True
 
-    def CreateSegmentContourEdge(self, From, To, segment_value, segment_geo):
+    def create_segment_contour_edge(self, from_node, to_node, segment_value, segment_geo):
         """
         Creates a mapping edge between two 'end' nodes in the network. The
         geometry of this edge will be a polyline built from all the given
@@ -851,10 +855,10 @@ class KnitNetworkBase(nx.Graph):
 
         Parameters
         ----------
-        From : node
+        from_node : node
             source node of the edge
 
-        To : node
+        to_node : node
             target node of the edge
 
         segment_value : 3-tuple of :obj:`int`
@@ -871,8 +875,8 @@ class KnitNetworkBase(nx.Graph):
         """
 
         # get node indices
-        fromNode = From[0]
-        toNode = To[0]
+        fromNode = from_node[0]
+        toNode = to_node[0]
 
         # join geo together
         segment_geo = [RhinoLineCurve(l) for l in segment_geo]
@@ -884,7 +888,7 @@ class KnitNetworkBase(nx.Graph):
             return False
 
         edgeGeo = edgeGeo[0].ToPolyline()
-        if not edgeGeo[0] == From[1]["geo"]:
+        if not edgeGeo[0] == from_node[1]["geo"]:
             edgeGeo.Reverse()
 
         # create edge attribute
@@ -893,8 +897,8 @@ class KnitNetworkBase(nx.Graph):
                      "segment": segment_value,
                      "geo": edgeGeo}
 
-        self.add_node(fromNode, attr_dict=From[1])
-        self.add_node(toNode, attr_dict=To[1])
+        self.add_node(fromNode, attr_dict=from_node[1])
+        self.add_node(toNode, attr_dict=to_node[1])
 
         try:
             self.add_edge(fromNode, toNode, attr_dict=edgeAttrs)
@@ -905,7 +909,7 @@ class KnitNetworkBase(nx.Graph):
 
     # EDGE METHODS -------------------------------------------------------------
 
-    def EdgeGeometryDirection(self, u, v):
+    def edge_geometry_direction(self, u, v):
         """
         Returns a given edge in order with reference to the direction of the
         associated geometry (line).
@@ -941,14 +945,14 @@ class KnitNetworkBase(nx.Graph):
         Get all contour edges of the network that are neither 'weft' nor 'warp'.
         """
 
-        ContourEdges = [(f, t, d) for f, t, d in self.edges_iter(data=True) \
+        contour_edges = [(f, t, d) for f, t, d in self.edges_iter(data=True) \
                         if not d["weft"] and not d["warp"]]
-        for i, ce in enumerate(ContourEdges):
+        for i, ce in enumerate(contour_edges):
             if ce[0] > ce[1]:
-                ContourEdges[i] = (ce[1], ce[0], ce[2])
-        return ContourEdges
+                contour_edges[i] = (ce[1], ce[0], ce[2])
+        return contour_edges
 
-    ContourEdges = property(_get_contour_edges, None, None,
+    contour_edges = property(_get_contour_edges, None, None,
                             "The contour edges of the network marked neither " +
                             "'weft' nor 'warp'.")
 
@@ -957,14 +961,14 @@ class KnitNetworkBase(nx.Graph):
         Get all 'weft' edges of the network.
         """
 
-        WeftEdges = [(f, t, d) for f, t, d in self.edges_iter(data=True) \
+        weft_edges = [(f, t, d) for f, t, d in self.edges_iter(data=True) \
                      if d["weft"] and not d["warp"]]
-        for i, we in enumerate(WeftEdges):
+        for i, we in enumerate(weft_edges):
             if we[0] > we[1]:
-                WeftEdges[i] = (we[1], we[0], we[2])
-        return WeftEdges
+                weft_edges[i] = (we[1], we[0], we[2])
+        return weft_edges
 
-    WeftEdges = property(_get_weft_edges, None, None,
+    weft_edges = property(_get_weft_edges, None, None,
                          "The edges of the network marked 'weft'.")
 
     def _get_warp_edges(self):
@@ -972,14 +976,14 @@ class KnitNetworkBase(nx.Graph):
         Get all 'warp' edges of the network.
         """
 
-        WarpEdges = [(f, t, d) for f, t, d in self.edges_iter(data=True) \
+        warp_edges = [(f, t, d) for f, t, d in self.edges_iter(data=True) \
                      if not d["weft"] and d["warp"]]
-        for i, we in enumerate(WarpEdges):
+        for i, we in enumerate(warp_edges):
             if we[0] > we[1]:
-                WarpEdges[i] = (we[1], we[0], we[2])
-        return WarpEdges
+                warp_edges[i] = (we[1], we[0], we[2])
+        return warp_edges
 
-    WarpEdges = property(_get_warp_edges, None, None,
+    warp_edges = property(_get_warp_edges, None, None,
                          "The edges of the network marked 'warp'.")
 
     def _get_segment_contour_edges(self):
@@ -989,30 +993,30 @@ class KnitNetworkBase(nx.Graph):
         attribute.
         """
 
-        SegmentContourEdges = [(f, t, d) for f, t, d \
+        segment_contour_edges = [(f, t, d) for f, t, d \
                                in self.edges_iter(data=True) if \
                                not d["weft"]and \
                                not d["warp"]]
-        SegmentContourEdges = [sce for sce in SegmentContourEdges \
+        segment_contour_edges = [sce for sce in segment_contour_edges \
                                if sce[2]["segment"]]
 
-        for i, sce in enumerate(SegmentContourEdges):
+        for i, sce in enumerate(segment_contour_edges):
             if sce[0] > sce[1]:
-                SegmentContourEdges[i] = (sce[1], sce[0], sce[2])
+                segment_contour_edges[i] = (sce[1], sce[0], sce[2])
 
         # sort them by their 'segment' attributes value
-        SegmentContourEdges.sort(key=lambda x: x[2]["segment"])
+        segment_contour_edges.sort(key=lambda x: x[2]["segment"])
 
-        return SegmentContourEdges
+        return segment_contour_edges
 
-    SegmentContourEdges = property(_get_segment_contour_edges, None, None,
+    segment_contour_edges = property(_get_segment_contour_edges, None, None,
                          "The edges of the network marked neither 'warp' "+
                          "nor 'weft' and which have a 'segment' attribute "+
                          "assigned to them.")
 
     # NODE EDGE METHODS --------------------------------------------------------
 
-    def NodeWeftEdges(self, node, data=False):
+    def node_weft_edges(self, node, data=False):
         """
         Gets the 'weft' edges connected to a given node.
 
@@ -1035,15 +1039,15 @@ class KnitNetworkBase(nx.Graph):
             on the data parameter.
         """
 
-        WeftEdges = [(s, e, d) for s, e, d in \
+        weft_edges = [(s, e, d) for s, e, d in \
                      self.edges_iter(node, data=True) if d["weft"]]
 
         if data:
-            return WeftEdges
+            return weft_edges
         else:
-            return [(e[0], e[1]) for e in WeftEdges]
+            return [(e[0], e[1]) for e in weft_edges]
 
-    def NodeWarpEdges(self, node, data=False):
+    def node_warp_edges(self, node, data=False):
         """
         Gets the 'warp' edges connected to the given node.
 
@@ -1066,15 +1070,15 @@ class KnitNetworkBase(nx.Graph):
             on the data parameter.
         """
 
-        WarpEdges = [(s, e, d) for s, e, d in \
+        warp_edges = [(s, e, d) for s, e, d in \
                      self.edges_iter(node, data=True) if d["warp"]]
 
         if data:
-            return WarpEdges
+            return warp_edges
         else:
-            return [(e[0], e[1]) for e in WarpEdges]
+            return [(e[0], e[1]) for e in warp_edges]
 
-    def NodeContourEdges(self, node, data=False):
+    def node_contour_edges(self, node, data=False):
         """
         Gets the edges marked neither 'warp' nor 'weft' connected to the
         given node.
@@ -1099,18 +1103,18 @@ class KnitNetworkBase(nx.Graph):
             of the edge, depending on the data parameter.
         """
 
-        ContourEdges = [(s, e, d) for s, e, d in \
+        contour_edges = [(s, e, d) for s, e, d in \
                         self.edges_iter(node, data=True) \
                         if not d["warp"] and not d["weft"]]
 
         if data:
-            return ContourEdges
+            return contour_edges
         else:
-            return [(e[0], e[1]) for e in ContourEdges]
+            return [(e[0], e[1]) for e in contour_edges]
 
     # SEGMENT CONTOUR END NODE METHODS -----------------------------------------
 
-    def EndNodeSegmentsByStart(self, node, data=False):
+    def end_node_segments_by_start(self, node, data=False):
         """
         Get all the edges with a 'segment' attribute marked neither 'weft' nor
         'warp' and share a given 'end' node at the start, sorted by the values
@@ -1149,7 +1153,7 @@ class KnitNetworkBase(nx.Graph):
         else:
             return [(cs[0], cs[1]) for cs in connected_segments]
 
-    def EndNodeSegmentsByEnd(self, node, data=False):
+    def end_node_segments_by_end(self, node, data=False):
         """
         Get all the edges with a 'segment' attribute marked neither 'weft' nor
         'warp' and share a given 'end' node at the end, sorted by the values

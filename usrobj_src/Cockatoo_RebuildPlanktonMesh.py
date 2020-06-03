@@ -13,7 +13,7 @@ TODO: Update docstring
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON LIBRARY IMPORTS
@@ -49,7 +49,6 @@ if not planktonimport:
         planktonimport = True
     except IOError:
         raise RuntimeError("Plankton could not be imported! Please install it")
-
 import Plankton
 import PlanktonGh
 
@@ -60,7 +59,7 @@ ghenv.Component.SubCategory = "2 Meshing & Remeshing"
 
 class RebuildPlanktonMesh(component):
     
-    def RebuildMesh(self, Mesh, RebuildNormals, CullUnusedVertices, CullDegenerateFaces, CombineIdentical):
+    def rebuild_mesh(self, Mesh, RebuildNormals, CullUnusedVertices, CullDegenerateFaces, CombineIdentical):
         """
         Rebuilds a mesh based on certain input parameters.
         """
@@ -101,11 +100,11 @@ class RebuildPlanktonMesh(component):
                     MVL = inputMesh.Vertices
                     
                     # rebuild the mesh according to the input parameters
-                    inputMesh = self.RebuildMesh(inputMesh,
-                                                 RebuildNormals,
-                                                 CullUnusedVertices,
-                                                 CullDegenerateFaces,
-                                                 CombineIdentical)
+                    inputMesh = self.rebuild_mesh(inputMesh,
+                                                  RebuildNormals,
+                                                  CullUnusedVertices,
+                                                  CullDegenerateFaces,
+                                                  CombineIdentical)
                     
                     # get vertices as points
                     V = [MVL[x] for x in range(MVL.Count)]

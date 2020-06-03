@@ -35,7 +35,7 @@ the max_valence value.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -50,7 +50,8 @@ import rhinoscriptsyntax as rs
 
 # LOCAL MODULE IMPORTS
 try:
-    from Cockatoo import KnitNetwork, KnitDiNetwork
+    from cockatoo import KnitNetwork
+    from cockatoo import KnitDiNetwork
 except ImportError:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
@@ -63,7 +64,7 @@ ghenv.Component.NickName ="CMFKN"
 ghenv.Component.Category = "Cockatoo"
 ghenv.Component.SubCategory = "6 KnitNetwork"
 
-class CMFKN(component):
+class CreateMeshFromKnitNetwork(component):
     
     def RunScript(self, Toggle, KN, CyclesMode):
         
@@ -86,10 +87,10 @@ class CMFKN(component):
         if Toggle and KN:
             # create mesh from knitnetwork
             if isinstance(KN, KnitNetwork):
-                Mesh = KN.CreateMesh(mode=CyclesMode,
-                                     max_valence=4)
+                Mesh = KN.create_mesh(mode=CyclesMode,
+                                      max_valence=4)
             elif isinstance(KN, KnitDiNetwork):
-                if KN.VerifyDualForm():
-                    Mesh = KnitNetwork(KN).CreateMesh(mode=CyclesMode,
+                if KN.verify_dual_form():
+                    Mesh = KnitNetwork(KN).create_mesh(mode=CyclesMode,
                                                       max_valence=4)
         return Mesh

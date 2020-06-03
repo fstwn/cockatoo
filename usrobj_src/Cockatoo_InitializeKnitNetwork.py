@@ -18,7 +18,7 @@ methods like meshing or creating a dual might fail without it.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -33,7 +33,7 @@ import rhinoscriptsyntax as rs
 
 # LOCAL MODULE IMPORTS
 try:
-    import Cockatoo
+    import cockatoo
 except ImportError:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
@@ -52,9 +52,9 @@ class InitializeKnitNetwork(component):
         
         if KnitContours and CourseHeight:
             # create KnitNetwork (inherits from nx.Graph)
-            KN = Cockatoo.KnitNetwork.CreateFromContours(KnitContours,
-                                                         CourseHeight,
-                                                         ReferenceGeometry)
+            KN = cockatoo.KnitNetwork.create_from_contours(KnitContours,
+                                                           CourseHeight,
+                                                           ReferenceGeometry)
         elif not KnitContours:
             rml = self.RuntimeMessageLevel.Warning
             rMsg = "No KnitNetwork input!"

@@ -10,7 +10,7 @@ TODO: Update docstring!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -25,7 +25,7 @@ import rhinoscriptsyntax as rs
 
 # LOCAL MODULE IMPORTS
 try:
-    import Cockatoo
+    import cockatoo
 except ImportError:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
@@ -43,7 +43,7 @@ class MakeGephiGraph(component):
     def RunScript(self, Toggle, KN):
         
         if Toggle and KN:
-            GephiGraph = KN.MakeGephiGraph()
+            GephiGraph = KN.make_gephi_graph()
         else:
             GephiGraph = Grasshopper.DataTree[object]()
         

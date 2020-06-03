@@ -43,7 +43,7 @@ import rhinoscriptsyntax as rs
 
 # LOCAL MODULE IMPORTS
 try:
-    import Cockatoo
+    import cockatoo
 except ImportError:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
@@ -61,22 +61,22 @@ class CreateFinalNetworkTopology(component):
     def RunScript(self, Toggle, KN, StitchWidth, IncludeEnds=True, Precise=False):
         
         if Toggle and KN and StitchWidth:
-            KN = Cockatoo.KnitNetwork(KN)
+            KN = cockatoo.KnitNetwork(KN)
             
             # SAMPLING OF SEGMENT CONTOURS -------------------------------------
             
-            KN.SampleSegmentContours(StitchWidth)
+            KN.sample_segment_contours(StitchWidth)
             
             # CREATION OF FINAL WEFT CONNECTIONS -------------------------------
             
-            KN.CreateFinalWeftConnections()
+            KN.create_final_weft_connections()
             
             # CREATION OF WARP CONNECTIONS -------------------------------------
             
-            KN.CreateFinalWarpConnections(max_connections=4,
-                                          include_end_nodes=IncludeEnds,
-                                          precise=Precise,
-                                          verbose=False)
+            KN.create_final_warp_connections(max_connections=4,
+                                             include_end_nodes=IncludeEnds,
+                                             precise=Precise,
+                                             verbose=False)
         else:
             if not KN:
                 rml = self.RuntimeMessageLevel.Warning

@@ -37,9 +37,9 @@ import rhinoscriptsyntax as rs
 
 # LOCAL MODULE IMPORTS
 try:
-    from Cockatoo import KnitConstraint
-    from Cockatoo.Utilities import BreakPolyline
-except ImportError:
+    from cockatoo import KnitConstraint
+    from cockatoo.utilities import break_polyline
+except ImportError as e:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
              "path, see README for instructions!."
@@ -104,7 +104,7 @@ class ExtractKnitConstraintsFromMesh(component):
             return Grasshopper.DataTree[object]()
         
         # break the boundary polyline based on angles
-        boundarysegments = BreakPolyline(meshBoundary[0], BreakAngle)
+        boundarysegments = break_polyline(meshBoundary[0], BreakAngle)
         
         # sanitize start and end inputs
         if Start > len(boundarysegments)-1:
@@ -174,8 +174,8 @@ class ExtractKnitConstraintsFromMesh(component):
         
         # Break apart left and right boundaries again so we don't have to do
         # it yet again in the next step
-        LeftBoundary = BreakPolyline(LeftBoundary.ToPolyline(), BreakAngle)
-        RightBoundary = BreakPolyline(RightBoundary.ToPolyline(), BreakAngle)
+        LeftBoundary = break_polyline(LeftBoundary.ToPolyline(), BreakAngle)
+        RightBoundary = break_polyline(RightBoundary.ToPolyline(), BreakAngle)
         
         # set left and right for preview drawing
         self.SC = StartCourse

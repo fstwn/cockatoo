@@ -35,7 +35,7 @@ import rhinoscriptsyntax as rs
 
 # LOCAL MODULE IMPORTS
 try:
-    import Cockatoo
+    import cockatoo
 except ImportError:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
@@ -54,11 +54,11 @@ class BuildMappingNetwork(component):
         
         if Toggle and KN:
             # copy the input network to not mess with previous components
-            KN = Cockatoo.KnitNetwork(KN)
+            KN = cockatoo.KnitNetwork(KN)
             
             # CREATE SEGMENTATION AND ASSIGN ATTRIBUTES ------------------------
             
-            KN.AssignSegmentAttributes()
+            KN.assign_segment_attributes()
             
             # CHECK THE RESULTS ------------------------------------------------
             
@@ -83,7 +83,7 @@ class BuildMappingNetwork(component):
             
             # CREATE MAPPING NETWORK -------------------------------------------
             
-            KN.CreateMappingNetwork()
+            KN.create_mapping_network()
             
         elif not Toggle and KN:
             return KN
@@ -93,4 +93,4 @@ class BuildMappingNetwork(component):
             return Grasshopper.DataTree[object](), Grasshopper.DataTree[object]()
         
         # return outputs if you have them; here I try it for you:
-        return KN, KN.MappingNetwork
+        return KN, KN.mapping_network

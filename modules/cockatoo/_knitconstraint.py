@@ -1,7 +1,7 @@
 """
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200530
+Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
@@ -10,11 +10,11 @@ from __future__ import division
 from __future__ import print_function
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from Cockatoo.Environment import IsRhinoInside
-from Cockatoo.Exceptions import *
+from cockatoo.environment import is_rhino_inside
+from cockatoo.exception import *
 
 # RHINO IMPORTS ----------------------------------------------------------------
-if IsRhinoInside():
+if is_rhino_inside():
     import rhinoinside
     rhinoinside.load()
     from Rhino.Geometry import PolylineCurve as RhinoPolylineCurve
@@ -37,24 +37,24 @@ class KnitConstraint(object):
     the automatic generation of knitting patterns.
     """
 
-    def __init__(self, StartCourse, EndCourse, LeftBoundary, RightBoundary):
-        if not isinstance(StartCourse, RhinoPolylineCurve):
-            raise ValueError("StartCourse has to be of type PolylineCurve!")
-        if not isinstance(EndCourse, RhinoPolylineCurve):
-            raise ValueError("EndCourse has to be of type PolylineCurve!")
-        self.cons = {"start" : StartCourse,
-                     "end" : EndCourse,
+    def __init__(self, start_course, end_course, left_boundary, right_boundary):
+        if not isinstance(start_course, RhinoPolylineCurve):
+            raise ValueError("start_course has to be of type PolylineCurve!")
+        if not isinstance(end_course, RhinoPolylineCurve):
+            raise ValueError("end_course has to be of type PolylineCurve!")
+        self.cons = {"start" : start_course,
+                     "end" : end_course,
                      "left" : [],
                      "right" : []}
-        for lb in LeftBoundary:
+        for lb in left_boundary:
             if not isinstance(lb, RhinoPolylineCurve):
-                errMsg = "All items of LeftBoundary have to be of type " + \
+                errMsg = "All items of left_boundary have to be of type " + \
                          "PolylineCurve!"
                 raise ValueError(errMsg)
             self.cons["left"].append(lb)
-        for rb in RightBoundary:
+        for rb in right_boundary:
             if not isinstance(rb, RhinoPolylineCurve):
-                errMsg = "All items of RightBoundary have to be of type " + \
+                errMsg = "All items of right_boundary have to be of type " + \
                          "PolylineCurve!"
                 raise ValueError()
             self.cons["right"].append(rb)
@@ -67,6 +67,10 @@ class KnitConstraint(object):
         -------
         description : str
             A textual description of the constraint.
+
+        Notes
+        -----
+        Used for overloading the Grasshopper display in data parameters.
         """
 
         name = "KnitConstraint"
@@ -78,26 +82,26 @@ class KnitConstraint(object):
 
     # PROPERTIES ---------------------------------------------------------------
 
-    def _get_StartCourse(self):
+    def _get_start_course(self):
         return self.cons["start"]
 
-    StartCourse = property(_get_StartCourse, None, None,
-                           "The StartCourse of the KnitConstraint")
+    start_course = property(_get_start_course, None, None,
+                            "The start course of the KnitConstraint")
 
-    def _get_EndCourse(self):
+    def _get_end_course(self):
         return self.cons["end"]
 
-    EndCourse = property(_get_EndCourse, None, None,
-                           "The EndCourse of the KnitConstraint")
+    end_course = property(_get_end_course, None, None,
+                          "The end course of the KnitConstraint")
 
-    def _get_LeftBoundary(self):
+    def _get_left_boundary(self):
         return self.cons["left"]
 
-    LeftBoundary = property(_get_LeftBoundary, None, None,
-                           "The LeftBoundary of the KnitConstraint")
+    left_boundary = property(_get_left_boundary, None, None,
+                             "The left boundary of the KnitConstraint")
 
-    def _get_RightBoundary(self):
+    def _get_right_boundary(self):
         return self.cons["right"]
 
-    RightBoundary = property(_get_RightBoundary, None, None,
-                           "The RightBoundary of the KnitConstraint")
+    right_boundary = property(_get_right_boundary, None, None,
+                              "The right boundary of the KnitConstraint")

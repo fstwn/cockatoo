@@ -3,7 +3,7 @@ Custom Exceptions for Cockatoo.
 
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200503
+Version: 200603
 """
 
 # AUTHORSHIP -------------------------------------------------------------------

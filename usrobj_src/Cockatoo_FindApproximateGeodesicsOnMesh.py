@@ -43,7 +43,7 @@ https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
     Remarks:
         Author: Max Eschenbach, based on an approach by Anders Holden Deleuran
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -100,7 +100,7 @@ ghenv.Component.SubCategory = "9 Utilities"
 
 class ConstructGeodesicsOnMesh(component):
     
-    def RelaxPolylinesOnMesh(self, polylines, mesh, kLineLength, kOnMesh, thres, iMax, tol):
+    def relax_polylines_on_mesh(self, polylines, mesh, kLineLength, kOnMesh, thres, iMax, tol):
         """Relax a bunch of polylines on a mesh as an approach to finding
         approximate geodesics on meshes.
         Based on an approach by Anders Holden Deleuran."""
@@ -162,7 +162,7 @@ class ConstructGeodesicsOnMesh(component):
                     
             return geodesics, iterations
     
-    def DiscretizeDestinationLine(self, line, mode, resolution):
+    def discretize_destination_lines(self, line, mode, resolution):
         """Discretizes a destination line into a polyline with
         equally sized segments."""
         
@@ -244,13 +244,13 @@ class ConstructGeodesicsOnMesh(component):
                 Destinations[i] = Rhino.Geometry.Line(sCP, eCP)
         
         # discretize the destination lines
-        Polylines = [self.DiscretizeDestinationLine(d,
+        Polylines = [self.discretize_destination_lines(d,
                                                     Mode,
                                                     Resolution)
                                                     for d in Destinations]
         
         if Run:
-            Geodesics, Iterations = self.RelaxPolylinesOnMesh(Polylines,
+            Geodesics, Iterations = self.relax_polylines_on_mesh(Polylines,
                                                               Mesh,
                                                               LineStrength,
                                                               OnMeshStrength,

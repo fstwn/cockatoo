@@ -4,7 +4,7 @@ Mapping network for aiding a network of knitting data in generation of final
 
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200503
+Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
@@ -19,9 +19,9 @@ from operator import itemgetter
 import networkx as nx
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-# from Cockatoo.Environment import IsRhinoInside
-from Cockatoo.KnitNetworkBase import KnitNetworkBase
-from Cockatoo.Utilities import is_ccw_xy
+# from cockatoo.environment import is_rhino_inside
+from cockatoo._knitnetworkbase import KnitNetworkBase
+from cockatoo.utilities import is_ccw_xy
 
 # AUTHORSHIP -------------------------------------------------------------------
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
@@ -40,7 +40,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
     Notes
     -----
     Not intended to be instantiated separately. Should only be instantiated
-    by the KnitNetwork.CreateMappingNetwork method!
+    by the KnitNetwork.create_mapping_network method!
     """
 
     # TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------
@@ -48,20 +48,29 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
     def ToString(self):
         """
         Return a textual description of the network.
+
+        Returns
+        -------
+        description : str
+            A textual description of the network.
+
+        Notes
+        -----
+        Used for overloading the Grasshopper display in data parameters.
         """
 
         name = "KnitMappingNetwork"
         nn = len(self.nodes())
-        ce = len(self.ContourEdges)
-        wee = len(self.WeftEdges)
-        wae = len(self.WarpEdges)
+        ce = len(self.contour_edges)
+        wee = len(self.weft_edges)
+        wae = len(self.warp_edges)
         data = ("({} Nodes, {} Segment Contours, {} Weft, {} Warp)")
         data = data.format(nn, ce, wee, wae)
         return name + data
 
     # SEGMENT CONTOUR METHODS --------------------------------------------------
 
-    def TraverseSegmentsUntilWarp(self, way_segments, down=False, by_end=False):
+    def traverse_segments_until_warp(self, way_segments, down=False, by_end=False):
         """
         Method for traversing a path of 'segment' edges until a 'warp'
         edge is discovered which points to the previous or the next segment.
@@ -85,7 +94,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             # traversal by segment endnode
             if by_end:
                 # check that segment for 'warp' edges at the start
-                warp_edges = self.NodeWarpEdges(current_segment[0])
+                warp_edges = self.node_warp_edges(current_segment[0])
                 if down:
                     filtered_warp_edges = [we for we in warp_edges \
                                            if we[1] == current_segment[0]-1]
@@ -101,7 +110,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             # traversal by segment start node
             else:
                 # check that segment for 'warp' edges at the end
-                warp_edges = self.NodeWarpEdges(current_segment[1])
+                warp_edges = self.node_warp_edges(current_segment[1])
                 if down:
                     filtered_warp_edges = [we for we in warp_edges \
                                            if we[1] == current_segment[1]-1]
@@ -117,10 +126,10 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
             # get all connected segments at the last point of the segment
             if by_end:
-                connected_segments = self.EndNodeSegmentsByEnd(
+                connected_segments = self.end_node_segments_by_end(
                                                   current_segment[0], data=True)
             else:
-                connected_segments = self.EndNodeSegmentsByStart(
+                connected_segments = self.end_node_segments_by_start(
                                                   current_segment[1], data=True)
 
             # from these, only get the segment with the lowest id
@@ -140,14 +149,14 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
     # CREATION OF FINAL 'WARP' CONNECTIONS -------------------------------------
 
-    def BuildChains(self, source_as_dict=False, target_as_dict=False):
+    def build_chains(self, source_as_dict=False, target_as_dict=False):
         """
         Method for building source and target chains from segment
         contour edges.
         """
 
         # get all warp edges of this mappingnetwork
-        AllWarpEdges = self.WarpEdges
+        AllWarpEdges = self.warp_edges
         AllWarpEdges.sort(key=lambda e: e[0])
 
         # initialize lists and dictionaries for storage of chains
@@ -169,7 +178,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             # get the connected segments at the start of the 'warp edge'
             warpStart = warp_edge[0]
             warpStartLeafFlag = self.node[warpStart]["leaf"]
-            connected_start_segments = self.EndNodeSegmentsByStart(warpStart,
+            connected_start_segments = self.end_node_segments_by_start(warpStart,
                                                                    data=True)
 
             # TODO:
@@ -250,7 +259,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     # travel the connected segments at the start of the 'warp'
                     # edge until a 'upwards' connection is found and append
                     # it to the source chains of this pass
-                    segment_chain = self.TraverseSegmentsUntilWarp(
+                    segment_chain = self.traverse_segments_until_warp(
                                                             [cs[2]["segment"]],
                                                             down=False)
                     index = len([c for c in source_pass_chains \
@@ -267,7 +276,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     # a 'downwards' connection is found and append this to the
                     # target (!) chains of this pass
                     if warpStartLeafFlag:
-                        segment_chain = self.TraverseSegmentsUntilWarp(
+                        segment_chain = self.traverse_segments_until_warp(
                                                             [cs[2]["segment"]],
                                                             down=True)
                         index = len([c for c in target_pass_chains \
@@ -284,7 +293,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
             # get the connected segments at the end
             warpEnd = warp_edge[1]
             warpEndLeafFlag = self.node[warpEnd]["leaf"]
-            connected_end_segments = self.EndNodeSegmentsByStart(warpEnd,
+            connected_end_segments = self.end_node_segments_by_start(warpEnd,
                                                                 data=True)
             # traverse segments from end node of 'warp' edge
             if len(connected_end_segments) > 0:
@@ -293,7 +302,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
                     # a 'upwards' connection is found and append this to the
                     # source (!) chains of this pass
                     if warpEndLeafFlag:
-                        segment_chain = self.TraverseSegmentsUntilWarp(
+                        segment_chain = self.traverse_segments_until_warp(
                                                             [cs[2]["segment"]],
                                                             down=False)
                         index = len([c for c in source_pass_chains \
@@ -307,7 +316,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
                     # travel the connected segments until a 'downwards'
                     # connection is found and append to target pass chains
-                    segment_chain = self.TraverseSegmentsUntilWarp(
+                    segment_chain = self.traverse_segments_until_warp(
                                                              [cs[2]["segment"]],
                                                              down=True)
                     index = len([c for c in target_pass_chains \

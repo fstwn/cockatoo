@@ -1,7 +1,7 @@
 """
 Author: Max Eschenbach
 License: Apache License 2.0
-Version: 200530
+Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
@@ -14,18 +14,18 @@ import math
 from operator import itemgetter
 
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from Cockatoo.Environment import IsRhinoInside
-from Cockatoo.Exceptions import *
-from Cockatoo.KnitNetworkBase import KnitNetworkBase
-from Cockatoo.Utilities import is_ccw_xy
-from Cockatoo.Utilities import pairwise
-from Cockatoo.Utilities import TweenPlanes
+from cockatoo._knitnetworkbase import KnitNetworkBase
+from cockatoo.environment import is_rhino_inside
+from cockatoo.exception import *
+from cockatoo.utilities import is_ccw_xy
+from cockatoo.utilities import pairwise
+from cockatoo.utilities import tween_planes
 
 # THIRD PARTY MODULE IMPORTS ---------------------------------------------------
 import networkx as nx
 
 # RHINO IMPORTS ----------------------------------------------------------------
-if IsRhinoInside():
+if is_rhino_inside():
     import rhinoinside
     rhinoinside.load()
     from Rhino.Geometry import Mesh as RhinoMesh
@@ -85,11 +85,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         # initialize using original init method
         super(KnitDiNetwork, self).__init__(data=data, **attr)
 
-        # also copy the MappingNetwork attribute if it is already available
-        if data and isinstance(data, KnitDiNetwork) and data.MappingNetwork:
-            self.MappingNetwork = data.MappingNetwork
+        # also copy the mapping_network attribute if it is already available
+        if data and isinstance(data, KnitDiNetwork) and data.mapping_network:
+            self.mapping_network = data.mapping_network
         else:
-            self.MappingNetwork = None
+            self.mapping_network = None
 
         # also copy or initialize the halfedge dict for finding faces
         if data and isinstance(data, KnitDiNetwork) and data.halfedge:
@@ -107,152 +107,156 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         -------
         description : str
             A textual description of the network.
+
+        Notes
+        -----
+        Used for overloading the Grasshopper display in data parameters.
         """
 
         name = "KnitDiNetwork"
         nn = len(self.nodes())
-        ce = len(self.ContourEdges)
-        wee = len(self.WeftEdges)
-        wae = len(self.WarpEdges)
+        ce = len(self.contour_edges)
+        wee = len(self.weft_edges)
+        wae = len(self.warp_edges)
         data = ("({} Nodes, {} Segment Contours, {} Weft, {} Warp)")
         data = data.format(nn, ce, wee, wae)
         return name + data
 
     # NODE WEFT EDGE METHODS ---------------------------------------------------
 
-    def NodeWeftEdgesOut(self, node, data=False):
+    def node_weft_edges_out(self, node, data=False):
         """
         Gets the outgoing 'weft' edges connected to the given node.
         """
 
-        WeftEdges = [(s, e, d) for s, e, d in \
+        weft_edges = [(s, e, d) for s, e, d in \
                      self.edges_iter(node, data=True) if d["weft"]]
 
         if data:
-            return WeftEdges
+            return weft_edges
         else:
-            return [(e[0], e[1]) for e in WeftEdges]
+            return [(e[0], e[1]) for e in weft_edges]
 
-    def NodeWeftEdgesIn(self, node, data=False):
+    def node_weft_edges_in(self, node, data=False):
         """
         Gets the incmoing 'weft' edges connected to the given node.
         """
 
-        WeftEdges = [(s, e, d) for s, e, d in \
+        weft_edges = [(s, e, d) for s, e, d in \
                      self.in_edges_iter(node, data=True) if d["weft"]]
 
         if data:
-            return WeftEdges
+            return weft_edges
         else:
-            return [(e[0], e[1]) for e in WeftEdges]
+            return [(e[0], e[1]) for e in weft_edges]
 
-    def NodeWeftEdges(self, node, data=False):
+    def node_weft_edges(self, node, data=False):
         """
         Gets incoming and outgoing 'weft' edges connected to the given node.
         """
 
-        WeftEdges = [(s, e, d) for s, e, d in \
+        weft_edges = [(s, e, d) for s, e, d in \
                      self.edges_iter(node, data=True) if d["weft"]]
-        WeftEdges.extend((s, e, d) for s, e, d in \
+        weft_edges.extend((s, e, d) for s, e, d in \
                      self.in_edges_iter(node, data=True) if d["weft"])
 
         if data:
-            return WeftEdges
+            return weft_edges
         else:
-            return [(e[0], e[1]) for e in WeftEdges]
+            return [(e[0], e[1]) for e in weft_edges]
 
     # NODE WARP EDGE METHODS ---------------------------------------------------
 
-    def NodeWarpEdgesOut(self, node, data=False):
+    def node_warp_edges_out(self, node, data=False):
         """
         Gets the outgoing 'warp' edges connected to the given node.
         """
 
-        WarpEdges = [(s, e, d) for s, e, d in \
+        warp_edges = [(s, e, d) for s, e, d in \
                      self.edges_iter(node, data=True) if d["warp"]]
 
         if data:
-            return WarpEdges
+            return warp_edges
         else:
-            return [(e[0], e[1]) for e in WarpEdges]
+            return [(e[0], e[1]) for e in warp_edges]
 
-    def NodeWarpEdgesIn(self, node, data=False):
+    def node_warp_edges_in(self, node, data=False):
         """
         Gets the incoming 'warp' edges connected to the given node.
         """
 
-        WarpEdges = [(s, e, d) for s, e, d in \
+        warp_edges = [(s, e, d) for s, e, d in \
                      self.in_edges_iter(node, data=True) if d["warp"]]
 
         if data:
-            return WarpEdges
+            return warp_edges
         else:
-            return [(e[0], e[1]) for e in WarpEdges]
+            return [(e[0], e[1]) for e in warp_edges]
 
-    def NodeWarpEdges(self, node, data=False):
+    def node_warp_edges(self, node, data=False):
         """
         Gets the incoming and outgoing 'warp' edges connected to the given node.
         """
 
-        WarpEdges = [(s, e, d) for s, e, d in \
+        warp_edges = [(s, e, d) for s, e, d in \
                      self.edges_iter(node, data=True) if d["warp"]]
-        WarpEdges.extend((s, e, d) for s, e, d in \
+        warp_edges.extend((s, e, d) for s, e, d in \
                      self.in_edges_iter(node, data=True) if d["warp"])
 
         if data:
-            return WarpEdges
+            return warp_edges
         else:
-            return [(e[0], e[1]) for e in WarpEdges]
+            return [(e[0], e[1]) for e in warp_edges]
 
     # NODE CONTOUR EDGE METHODS ------------------------------------------------
 
-    def NodeContourEdgesOut(self, node, data=False):
+    def node_contour_edges_out(self, node, data=False):
         """
         Gets the outgoing edges marked neither 'warp' nor 'weft' connected to
         the given node.
         """
 
-        ContourEdges = [(s, e, d) for s, e, d in \
+        contour_edges = [(s, e, d) for s, e, d in \
                         self.edges_iter(node, data=True) \
                         if not d["warp"] and not d["weft"]]
 
         if data:
-            return ContourEdges
+            return contour_edges
         else:
-            return [(e[0], e[1]) for e in ContourEdges]
+            return [(e[0], e[1]) for e in contour_edges]
 
-    def NodeContourEdgesIn(self, node, data=False):
+    def node_contour_edges_in(self, node, data=False):
         """
         Gets the incoming edges marked neither 'warp' nor 'weft' connected to
         the given node.
         """
 
-        ContourEdges = [(s, e, d) for s, e, d in \
+        contour_edges = [(s, e, d) for s, e, d in \
                         self.in_edges_iter(node, data=True) \
                         if not d["warp"] and not d["weft"]]
 
         if data:
-            return ContourEdges
+            return contour_edges
         else:
-            return [(e[0], e[1]) for e in ContourEdges]
+            return [(e[0], e[1]) for e in contour_edges]
 
-    def NodeContourEdges(self, node, data=False):
+    def node_contour_edges(self, node, data=False):
         """
         Gets the incoming and outcoing edges marked neither 'warp' nor 'weft'
         connected to the given node.
         """
 
-        ContourEdges = [(s, e, d) for s, e, d in \
+        contour_edges = [(s, e, d) for s, e, d in \
                         self.edges_iter(node, data=True) \
                         if not d["warp"] and not d["weft"]]
-        ContourEdges.extend([(s, e, d) for s, e, d in \
+        contour_edges.extend([(s, e, d) for s, e, d in \
                         self.in_edges_iter(node, data=True) \
                         if not d["warp"] and not d["weft"]])
 
         if data:
-            return ContourEdges
+            return contour_edges
         else:
-            return [(e[0], e[1]) for e in ContourEdges]
+            return [(e[0], e[1]) for e in contour_edges]
 
     # FIND FACES (CYCLES) OF NETWORK -------------------------------------------
 
@@ -340,7 +344,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             if fitplane.Normal * localplane.Normal < 0:
                 fitplane.Flip()
             # tween the planes and set origin
-            tweenplane = TweenPlanes(localplane, fitplane, 0.5)
+            tweenplane = tween_planes(localplane, fitplane, 0.5)
             tweenplane.Origin = a_geo
             # remap origin node to plane space
             a_local = tweenplane.RemapToPlaneSpace(a_geo)[1]
@@ -462,12 +466,12 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         ab = [-1.0, -1.0, 0.0]
         rhino_ab = RhinoVector3d(*ab)
-        a = self.NodeCoordinates(key)
+        a = self.node_coordinates(key)
         b = [a[0] + ab[0], a[1] + ab[1], 0]
 
         angles = []
         for nbr in nbrs:
-            c = self.NodeCoordinates(nbr)
+            c = self.node_coordinates(nbr)
             ac = [c[0] - a[0], c[1] - a[1], 0]
             rhino_ac = RhinoVector3d(*ac)
             alpha = RhinoVector3d.VectorAngle(rhino_ab, rhino_ac)
@@ -509,7 +513,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 break
         return cycle
 
-    def FindCycles(self, mode=-1):
+    def find_cycles(self, mode=-1):
         """
         Finds the cycles (faces) of this network by utilizing a wall-follower
         mechanism.
@@ -565,7 +569,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         # find start node
         # sort leaf nodes by y and x coordinates
-        # leaves = self.LeafNodes
+        # leaves = self.leaf_nodes
         # if leaves:
         #     u = sorted(leaves, key=lambda n: (n[1]["y"], n[1]["x"]))[0][0]
         # else:
@@ -573,7 +577,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         # find start node
         # sort leaf nodes by node identifier / index
-        leaves = self.LeafNodes
+        leaves = self.leaf_nodes
         if leaves:
             u = sorted(leaves, key=lambda n: n[0])[0][0]
         else:
@@ -623,7 +627,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
     # MESHING ------------------------------------------------------------------
 
-    def CreateMesh(self, mode=-1, max_valence=4):
+    def create_mesh(self, mode=-1, max_valence=4):
         """
         Constructs a mesh from this network by finding cycles and using them as
         mesh faces.
@@ -654,11 +658,12 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Modes other than -1 (default) are only possible if this network has an
         underlying reference geometry in form of a Mesh or NurbsSurface. The
         reference geometry should be assigned when initializing the network by
-        assigning the geometry to the "reference_geometry" attribute of the network.
+        assigning the geometry to the "reference_geometry" attribute of the
+        network.
         """
 
         # get cycles dict of this network
-        cycles = self.FindCycles(mode=mode)
+        cycles = self.find_cycles(mode=mode)
 
         # create an empty mesh
         Mesh = RhinoMesh()
@@ -720,7 +725,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
     # CONVERSION TO 2D-KNITTINGPATTERN (PIXEL IMAGE) ---------------------------
 
-    def VerifyDualForm(self):
+    def verify_dual_form(self):
         """
         Verifies this network to have the correct form of a dual as needed for
         representing this network as a 2d knitting pattern.
@@ -770,7 +775,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         return True
 
-    def MakePatternData(self, consolidate=False):
+    def make_pattern_data(self, consolidate=False):
         """
         Topological sort this network to represent it as rows and columns.
 
@@ -809,14 +814,14 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         # every 'end' node defines the start of a row
         # loop over all 'end' nodes
-        for node, data in self.EndNodes:
+        for node, data in self.end_nodes:
             # continue if this node has already been visited
             if node in seenrows:
                 continue
 
             # get outgoing 'weft' edges of the current 'end' node
-            nodeweft_out = self.NodeWeftEdgesOut(node, data=True)
-            nodeweft_in = self.NodeWeftEdgesIn(node, data=True)
+            nodeweft_out = self.node_weft_edges_out(node, data=True)
+            nodeweft_in = self.node_weft_edges_in(node, data=True)
 
             # skip 'end' nodes which have only incoming 'weft' edges
             if nodeweft_in and not nodeweft_out:
@@ -849,7 +854,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 # until an 'end' node is discovered
                 while True:
                     # get 'weft' edges of last node in row nodes
-                    next_weft = self.NodeWeftEdgesOut(row_nodes[-1])
+                    next_weft = self.node_weft_edges_out(row_nodes[-1])
                     # if there is more than one connected 'weft' edge, we
                     # have a problem
                     if len(next_weft) > 1:
@@ -868,7 +873,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                         else:
                             # see if there are incoming 'weft' edges at the
                             # current node which are not the way we came from
-                            next_weft = [nw for nw in self.NodeWeftEdgesIn(
+                            next_weft = [nw for nw in self.node_weft_edges_in(
                                          row_nodes[-1], data=True) \
                                          if nw[0] != row_nodes[-2]]
                             # try to reverse them as a failsafe for imperfect
@@ -912,8 +917,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 continue
 
             # get outgoing 'warp' edges of the current node
-            nodewarp_out = self.NodeWarpEdgesOut(node, data=True)
-            nodewarp_in = self.NodeWarpEdgesIn(node, data=True)
+            nodewarp_out = self.node_warp_edges_out(node, data=True)
+            nodewarp_in = self.node_warp_edges_in(node, data=True)
 
             # skip nodes which have incoming 'warp' edges
             if nodewarp_in:
@@ -948,7 +953,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 # traverse as long as there is an outgoing next 'warp' edge
                 while True:
                     # get 'warp' edges of last node in row nodes
-                    next_warp = self.NodeWarpEdgesOut(col_nodes[-1])
+                    next_warp = self.node_warp_edges_out(col_nodes[-1])
                     # if there is more than one connected 'warp' edge, we
                     # have a problem
                     if len(next_warp) > 1:
@@ -989,7 +994,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             for node in row:
                 # check the node for outgoing 'warp' edges and get its successor
                 try:
-                    node_suc = self.NodeWarpEdgesOut(node)[0][1]
+                    node_suc = self.node_warp_edges_out(node)[0][1]
                 except IndexError:
                     continue
                 # find the id of the row which contains the 'warp' edge
@@ -1019,7 +1024,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             for node in col:
                 # check the node for outgoing 'weft' edges and get its successor
                 try:
-                    node_suc = self.NodeWeftEdgesOut(node)[0][1]
+                    node_suc = self.node_weft_edges_out(node)[0][1]
                 except IndexError:
                     continue
                 # find the id of the column which contains the 'weft' edge

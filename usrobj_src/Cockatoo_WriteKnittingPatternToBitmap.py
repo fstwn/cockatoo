@@ -11,7 +11,7 @@ https://discourse.mcneel.com/t/write-a-bitmap-pixel-by-pixel-in-python/81116/2
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS

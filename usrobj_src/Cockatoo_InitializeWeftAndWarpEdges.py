@@ -40,7 +40,7 @@ parameters and hardware of the machine!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200603
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -55,7 +55,7 @@ import rhinoscriptsyntax as rs
 
 # LOCAL MODULE IMPORTS
 try:
-    import Cockatoo
+    import cockatoo
 except ImportError:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
@@ -74,27 +74,27 @@ class InitializeWeftAndWarpEdges(component):
         
         if Toggle and KN:
             # copy the input network to not mess with previous components
-            KN = Cockatoo.KnitNetwork(KN)
+            KN = cockatoo.KnitNetwork(KN)
             
             if SplittingIndex < 0:
                 SplittingIndex = None
             
             # initialize 'weft' edges between 'leaf' nodes
-            KN.InitializeLeafConnections()
+            KN.initialize_leaf_connections()
             
             # create preliminary 'weft' connections on the copy of the network
-            KN.InitializeWeftEdges(start_index=SplittingIndex,
-                                   propagate_from_center=PropagateFromCenter,
-                                   force_continuous_start=ContinuousStart,
-                                   force_continuous_end=ContinuousEnd,
-                                   max_connections=4,
-                                   least_connected=False,
-                                   precise=Precise,
-                                   verbose=False)
+            KN.initialize_weft_edges(start_index=SplittingIndex,
+                                     propagate_from_center=PropagateFromCenter,
+                                     force_continuous_start=ContinuousStart,
+                                     force_continuous_end=ContinuousEnd,
+                                     max_connections=4,
+                                     least_connected=False,
+                                     precise=Precise,
+                                     verbose=False)
             
             # initialize first 'warp' connections
-            KN.InitializeWarpEdges(contour_set=None,
-                                   verbose=False)
+            KN.initialize_warp_edges(contour_set=None,
+                                     verbose=False)
             
         elif not Toggle and KN:
             return Grasshopper.DataTree[object]()

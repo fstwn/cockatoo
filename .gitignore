@@ -1,5 +1,5 @@
 UserObjects_deprecated/
 usrobj_src_deprecated/
 
-modules/Cockatoo/_backup.py
-modules/Cockatoo/_sketches_reference.py
+modules/cockatoo/_backup.py
+modules/cockatoo/_sketches_reference.py
