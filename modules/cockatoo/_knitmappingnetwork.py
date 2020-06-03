@@ -1,7 +1,4 @@
 """
-Mapping network for aiding a network of knitting data in generation of final
-'warp' edge connections.
-
 Author: Max Eschenbach
 License: Apache License 2.0
 Version: 200603
