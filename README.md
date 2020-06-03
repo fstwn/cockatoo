@@ -3,6 +3,8 @@
 - Cockatoo is a prototypical open-source software toolkit for generating (3d-)knitting patterns from NURBS surface and mesh geometry.
 - It is implemented as a [python](https://www.python.org/) module for use within [McNeel Rhinoceros 6](https://www.rhino3d.com/) aswell as [Grasshopper](https://www.rhino3d.com/6/new/grasshopper).
 
+# [Yeah, yeah... Knitting... Rhino... Python... I get it. Just tell me how to install and use it!](https://github.com/fstwn/Cockatoo/blob/master/README.md#installation--usage)
+
 ## Purpose & Origins
 
 The purpose of this project is to enable Rhino and Grasshopper to derive (3d-)knitting patterns for computerized knitting machines from NURBS surfaces and polygon meshes. The absence of such an open-source toolkit for use directly within conventional CAD-software marks the origin point for this project.
@@ -12,8 +14,9 @@ The purpose of this project is to enable Rhino and Grasshopper to derive (3d-)kn
 - All datastructures, core logic and algorithms are defined in the *Cockatoo* python module.
 - The [RhinoCommon API](https://developer.rhino3d.com/guides/rhinocommon/what-is-rhinocommon/) is used to handle all geometric operations.
 - The [NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/) module is used to handle all the necessary graph operations (for more info, see the [Pecularities](https://github.com/fstwn/Cockatoo/blob/master/README.md#pecularities) section).
-- Cockatoo includes a set of Grasshopper *UserObjects*, which provide a user interface to the underlying python module.
-- 
+- The python module can be used from within RhinoPython scripts as well as from within Grasshopper through the GHPython scriptable component.
+- Cockatoo also includes a set of Grasshopper components (*UserObjects*), which provide a user interface to the underlying python module without the need of scripting.
+- The python module as well as the UserObjects are designed to be open for extension.
 
 ## Pecularities
 
