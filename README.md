@@ -7,6 +7,8 @@
 
 ### [Yeah, yeah... Knitting... Rhino... Python... I get it. Just tell me how to install and use it!](https://github.com/fstwn/Cockatoo/blob/master/README.md#installation--usage)
 
+---
+
 ## Purpose & Origins
 
 The purpose of this project is to enable Rhino and Grasshopper to derive (3d-)knitting patterns for computerized knitting machines from NURBS surfaces and polygon meshes. The absence of such an open-source toolkit for use directly within conventional CAD-software marks the origin point for this project.
