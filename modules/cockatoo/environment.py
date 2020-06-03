@@ -13,6 +13,12 @@ from __future__ import print_function
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from cockatoo.exception import *
 
+# ALL LIST ---------------------------------------------------------------------
+__all__ = [
+    "is_rhino_inside",
+    "networkx_version"
+]
+
 # CHECKING FOR RHINO DEPENDENCY AND ENVIRONMENT --------------------------------
 try:
     import Rhino
@@ -56,12 +62,6 @@ def networkx_version():
 # AUTHORSHIP -------------------------------------------------------------------
 
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
-
-# ALL LIST ---------------------------------------------------------------------
-__all__ = [
-    "is_rhino_inside",
-    "networkx_version"
-]
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':
