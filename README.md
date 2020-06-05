@@ -13,11 +13,11 @@ The purpose of this project is to enable Rhino and Grasshopper to derive (3d-)kn
 
 ## Software Structure
 
-- All datastructures, core logic and algorithms are defined in the *Cockatoo* python module.
+- All datastructures, core logic and algorithms are defined in the `cockatoo` python module.
 - The [RhinoCommon API](https://developer.rhino3d.com/guides/rhinocommon/what-is-rhinocommon/) is used to handle all geometric operations.
-- The [NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/) module is used to handle all the necessary graph operations (for more info, see the [Pecularities](#pecularities) section).
-- The python module can be used from within RhinoPython scripts as well as from within Grasshopper through the GHPython scriptable component.
-- Cockatoo also includes a set of Grasshopper components (*UserObjects*), which provide a user interface to the underlying python module without the need of scripting.
+- The `networkx` module is used to handle all the necessary graph operations (for more info, see the [Pecularities](#pecularities) section).
+- The `cockatoo` module can be used from within RhinoPython scripts as well as from within Grasshopper through the GHPython scriptable component.
+- Cockatoo also includes a set of Grasshopper components (`UserObjects`), which provide a user interface to the underlying python module without the need of scripting.
 - The python module as well as the UserObjects are designed to be open for extension.
 
 ## Pecularities
@@ -55,7 +55,7 @@ The purpose of this project is to enable Rhino and Grasshopper to derive (3d-)kn
     `C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects`
   - *Or* open Rhino & Grasshopper and in the Grasshopper Window click on
 
-    `File >> Special Folders >> User Object Folder`
+    `File` >> `Special Folders` >> `User Object Folder`
 - Move the whole `Cockatoo` directory to the UserObjects folder.
 
 ### 4. Unblock the new UserObjects!
