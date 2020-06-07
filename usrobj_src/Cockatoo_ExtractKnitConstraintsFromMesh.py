@@ -22,7 +22,7 @@ indices for the resulting list of polylines.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200603
+        Version: 200607
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -59,6 +59,9 @@ class ExtractKnitConstraintsFromMesh(component):
         self.EC = None
         self.LB = []
         self.RB = []
+    
+    def get_BoundingBox(self):
+        return Rhino.Geometry.BoundingBox()
     
     def DrawViewportWires(self, args):
         try:
