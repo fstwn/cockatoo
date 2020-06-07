@@ -1,9 +1,14 @@
 """
-Static utility functions for Cockatoo.
+.. currentmodule:: cockatoo.utilities
 
-Author: Max Eschenbach
-License: Apache License 2.0
-Version: 200603
+.. autosummary::
+    :nosignatures:
+
+    break_polyline
+    map_values_as_colors
+    tween_planes
+    is_ccw_xy
+    resolve_order_by_backtracking
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
@@ -17,12 +22,23 @@ from math import cos
 from math import degrees
 from math import pi
 
+# DUNDER -----------------------------------------------------------------------
+__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
+__all__ = [
+    "break_polyline",
+    "map_values_as_colors",
+    "tween_planes",
+    "is_ccw_xy",
+    "resolve_order_by_backtracking",
+    "pairwise"
+]
+
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from cockatoo.environment import is_rhino_inside
+from cockatoo.environment import RHINOINSIDE
 from cockatoo.exception import *
 
 # RHINO IMPORTS ----------------------------------------------------------------
-if is_rhino_inside():
+if RHINOINSIDE:
     import rhinoinside
     rhinoinside.load()
     from Rhino.Display import ColorHSL as RhinoColorHSL
@@ -35,32 +51,19 @@ else:
     from Rhino.Geometry import Quaternion as RhinoQuaternion
     from Rhino.Geometry import Vector3d as RhinoVector3d
 
-# AUTHORSHIP -------------------------------------------------------------------
-__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
-
-# ALL LIST ---------------------------------------------------------------------
-__all__ = [
-    "break_polyline",
-    "map_values_as_colors",
-    "tween_planes",
-    "is_ccw_xy",
-    "resolve_order_by_backtracking",
-    "pairwise"
-]
-
 # RHINO GEOMETRY ---------------------------------------------------------------
 
-def break_polyline(Polyline, BreakAngle):
+def break_polyline(polyline, break_angle):
     """
     Breaks a polyline at kinks based on a specified angle. Will move the seam
     of closed polylines to the first kink discovered.
     """
 
     # get all the polyline segments
-    segments = deque(Polyline.GetSegments())
+    segments = deque(polyline.GetSegments())
 
     # check if polyline in closed
-    if Polyline.IsClosed:
+    if polyline.IsClosed:
         closedSeamAtKink = False
     else:
         closedSeamAtKink = True
@@ -90,7 +93,7 @@ def break_polyline(Polyline, BreakAngle):
         angle = RhinoVector3d.VectorAngle(thisdir, nextdir)
 
         # check angles and execute breaks
-        if angle >= BreakAngle:
+        if angle >= break_angle:
             if not closedSeamAtKink:
                 segments.rotate(-1)
                 pl.Add(segments.popleft().From)
@@ -178,11 +181,11 @@ def map_values_as_colors(values, srcMin, srcMax, targetMin = 0.0, targetMax = 0.
     -----
     Based on code by Anders Holden Deleuran. Code was only changed in regards
     of defaults and names.
-    For more info see [1]_ .
+    For more info see [10]_ .
 
     References
     ----------
-    .. [1] mapValuesAsColors.py - gist by Anders Holden Deleuran
+    .. [10] mapValuesAsColors.py - gist by Anders Holden Deleuran
            See: https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea
     """
 
@@ -306,13 +309,13 @@ def is_ccw_xy(a, b, c, colinear=False):
     Notes
     -----
     Based on an implementation inside the COMPAS framework.
-    For more info, see [1]_ and [2]_.
+    For more info, see [2]_ and [3]_.
 
     References
     ----------
-    .. [1] Van Mele, Tom *COMPAS - open-source, Python-based framework for computational research and collaboration in architecture, engineering and digital fabrication*.
+    .. [2] Van Mele, Tom *COMPAS - open-source, Python-based framework for computational research and collaboration in architecture, engineering and digital fabrication*.
            See: https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/geometry/_core/queries.py#L61
-    .. [1] Marsh, C. *Computational Geometry in Python: From Theory to Application*.
+    .. [3] Marsh, C. *Computational Geometry in Python: From Theory to Application*.
            Available at: https://www.toptal.com/python/computational-geometry-in-python-from-theory-to-implementation
 
     Examples
@@ -360,11 +363,11 @@ def pairwise(iterable):
 
     Notes
     -----
-    For more info see [1]_ .
+    For more info see [4]_ .
 
     References
     ----------
-    .. [1] Python itertools Recipes.
+    .. [4] Python itertools Recipes.
            See: https://docs.python.org/2.7/library/itertools.html#recipes
 
     """

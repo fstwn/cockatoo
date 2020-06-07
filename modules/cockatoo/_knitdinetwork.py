@@ -1,9 +1,3 @@
-"""
-Author: Max Eschenbach
-License: Apache License 2.0
-Version: 200603
-"""
-
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
@@ -13,9 +7,15 @@ from collections import OrderedDict
 import math
 from operator import itemgetter
 
+# DUNDER -----------------------------------------------------------------------
+__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
+__all__ = [
+    "KnitDiNetwork"
+]
+
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
 from cockatoo._knitnetworkbase import KnitNetworkBase
-from cockatoo.environment import is_rhino_inside
+from cockatoo.environment import RHINOINSIDE
 from cockatoo.exception import *
 from cockatoo.utilities import is_ccw_xy
 from cockatoo.utilities import pairwise
@@ -25,7 +25,7 @@ from cockatoo.utilities import tween_planes
 import networkx as nx
 
 # RHINO IMPORTS ----------------------------------------------------------------
-if is_rhino_inside():
+if RHINOINSIDE:
     import rhinoinside
     rhinoinside.load()
     from Rhino.Geometry import Mesh as RhinoMesh
@@ -42,15 +42,7 @@ else:
     from Rhino.Geometry import Point3d as RhinoPoint3d
     from Rhino.Geometry import Vector3d as RhinoVector3d
 
-# AUTHORSHIP -------------------------------------------------------------------
-__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
-
-# ALL LIST ---------------------------------------------------------------------
-__all__ = [
-    "KnitDiNetwork"
-]
-
-# ACTUAL CLASS -----------------------------------------------------------------
+# CLASS DECLARATION ------------------------------------------------------------
 class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     """
     Datastructure representing a directed graph of nodes aswell as 'weft'
@@ -99,6 +91,30 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
     # TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------
 
+    def __repr__(self):
+        """
+        Return a textual description of the network.
+
+        Returns
+        -------
+        description : str
+            A textual description of the network.
+        """
+
+        if self.name != "":
+            name = self.name
+        else:
+            name = "KnitDiNetwork"
+
+        nn = len(self.nodes())
+        ce = len(self.contour_edges)
+        wee = len(self.weft_edges)
+        wae = len(self.warp_edges)
+        data = ("({} Nodes, {} Segment Contours, {} Weft, {} Warp)")
+        data = data.format(nn, ce, wee, wae)
+
+        return name + data
+
     def ToString(self):
         """
         Return a textual description of the network.
@@ -113,14 +129,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Used for overloading the Grasshopper display in data parameters.
         """
 
-        name = "KnitDiNetwork"
-        nn = len(self.nodes())
-        ce = len(self.contour_edges)
-        wee = len(self.weft_edges)
-        wae = len(self.warp_edges)
-        data = ("({} Nodes, {} Segment Contours, {} Weft, {} Warp)")
-        data = data.format(nn, ce, wee, wae)
-        return name + data
+        return repr(self)
 
     # NODE WEFT EDGE METHODS ---------------------------------------------------
 
@@ -267,11 +276,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Notes
         -----
         Based on an implementation inside the COMPAS framework.
-        For more info see [1]_.
+        For more info see [9]_.
 
         References
         ----------
-        .. [1] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
+        .. [9] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
                See: https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L132
         """
 
@@ -394,11 +403,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Notes
         -----
         Based on an implementation inside the COMPAS framework.
-        For more info see [1]_.
+        For more info see [8]_.
 
         References
         ----------
-        .. [1] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
+        .. [8] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
                See: https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L121
         """
 
@@ -448,12 +457,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Notes
         -----
         Based on an implementation inside the COMPAS framework.
-        For more info see [1]_.
+        For more info see [7]_.
 
         References
         ----------
-        .. [1] Van Mele, Tom et al. *COMPAS: A framework for computational
-               research in architecture and structures*.
+        .. [7] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
                See: https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L103
         """
 
@@ -496,11 +504,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Notes
         -----
         Based on an implementation inside the COMPAS framework.
-        For more info see [1]_.
+        For more info see [6]_.
 
         References
         ----------
-        .. [1] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
+        .. [6] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
                See: https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L161
         """
         cycle = [u]
@@ -524,13 +532,13 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             Determines how the neighbors of each node are sorted when finding
             cycles for the network.
             -1 equals to using the world XY plane (default)
-             0 equals to using a plane normal to the origin nodes closest
-               point on the reference geometry
-             1 equals to using a plane normal to the average of the origin
-               and neighbor nodes' closest points on the reference geometry
-             2 equals to using an average plane between a plane fit to the
-               origin and its neighbor nodes and a plane normal to the origin
-               nodes closest point on the reference geometry
+            0 equals to using a plane normal to the origin nodes closest
+            point on the reference geometry
+            1 equals to using a plane normal to the average of the origin
+            and neighbor nodes' closest points on the reference geometry
+            2 equals to using an average plane between a plane fit to the
+            origin and its neighbor nodes and a plane normal to the origin
+            nodes closest point on the reference geometry
             Defaults to -1
 
         Warning
@@ -543,11 +551,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Notes
         -----
         Based on an implementation inside the COMPAS framework.
-        For more info see [1]_.
+        For more info see [5]_.
 
         References
         ----------
-        .. [1] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
+        .. [5] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
                See: https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L20
         """
 
@@ -638,13 +646,13 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             Determines how the neighbors of each node are sorted when finding
             cycles for the network.
             -1 equals to using the world XY plane (default)
-             0 equals to using a plane normal to the origin nodes closest
-               point on the reference geometry
-             1 equals to using a plane normal to the average of the origin
-               and neighbor nodes' closest points on the reference geometry
-             2 equals to using an average plane between a plane fit to the
-               origin and its neighbor nodes and a plane normal to the origin
-               nodes closest point on the reference geometry
+            0 equals to using a plane normal to the origin nodes closest
+            point on the reference geometry
+            1 equals to using a plane normal to the average of the origin
+            and neighbor nodes' closest points on the reference geometry
+            2 equals to using an average plane between a plane fit to the
+            origin and its neighbor nodes and a plane normal to the origin
+            nodes closest point on the reference geometry
             Defaults to -1
 
         max_valence : int

@@ -1,27 +1,33 @@
 """
-Custom Exceptions for Cockatoo.
+.. currentmodule:: cockatoo.exception
 
-Author: Max Eschenbach
-License: Apache License 2.0
-Version: 200603
+.. autosummary::
+    :nosignatures:
+
+    CockatooException
+    CockatooImportException
+    RhinoNotPresentError
+    SystemNotPresentError
+    NetworkXNotPresentError
+    NetworkXVersionError
+    KnitNetworkError
+    KnitNetworkGeometryError
+    MappingNetworkError
+    KnitNetworkTopologyError
+    NoWeftEdgesError
+    NoWarpEdgesError
+    NoEndNodesError
 """
 
-# AUTHORSHIP -------------------------------------------------------------------
-
+# DUNDER -----------------------------------------------------------------------
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
-
-# ALL LIST ---------------------------------------------------------------------
-
 __all__ = [
     "CockatooException",
     "CockatooImportException",
     "RhinoNotPresentError",
     "SystemNotPresentError",
-    "KangarooNotPresentError",
-    "PlanktonNotPresentError",
     "NetworkXNotPresentError",
     "NetworkXVersionError",
-    "AutoknitNotPresentError",
     "KnitNetworkError",
     "KnitNetworkGeometryError",
     "MappingNetworkError",
@@ -47,20 +53,11 @@ class RhinoNotPresentError(CockatooImportException):
 class SystemNotPresentError(CockatooImportException):
     """Exception raised when import of System fails."""
 
-class KangarooNotPresentError(CockatooImportException):
-    """Exception raised when import of Kangaroo fails."""
-
-class PlanktonNotPresentError(CockatooImportException):
-    """Exception raised when import of Plankton fails."""
-
 class NetworkXNotPresentError(CockatooImportException):
     """Exception raised when import of NetworkX fails."""
 
-class NetworkXVersionError(CockatooImportException):
+class NetworkXVersionError(CockatooException):
     """Exception raised when NetworkX version is not 1.5."""
-
-class AutoknitNotPresentError(CockatooImportException):
-    """Exception raised when Autoknit does not seem to be present."""
 
 # CALLBACK EXCEPTIONS ----------------------------------------------------------
 

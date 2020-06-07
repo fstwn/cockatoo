@@ -1,67 +1,76 @@
 """
-Environment set-up functions and checks for Cockatoo.
+.. currentmodule:: cockatoo.environment
 
-Author: Max Eschenbach
-License: Apache License 2.0
-Version: 200603
+.. autosummary::
+    :nosignatures:
+
+    RHINOINSIDE
+    NXVERSION
+    is_rhino_inside
+    networkx_version
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import print_function
 
-# LOCAL MODULE IMPORTS ---------------------------------------------------------
-from cockatoo.exception import *
-
-# ALL LIST ---------------------------------------------------------------------
+# DUNDER -----------------------------------------------------------------------
+__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
 __all__ = [
+    "RHINOINSIDE",
+    "NXVERSION",
     "is_rhino_inside",
     "networkx_version"
 ]
 
+# LOCAL MODULE IMPORTS ---------------------------------------------------------
+from cockatoo.exception import *
+
 # CHECKING FOR RHINO DEPENDENCY AND ENVIRONMENT --------------------------------
-try:
-    import Rhino
-    ISRHINOINSIDE = False
-except ImportError:
-    try:
-        import rhinoinside
-        rhinoinside.load()
-        import Rhino
-        ISRHINOINSIDE = True
-    except:
-        errMsg = "Rhino could not be loaded! Please make sure the " + \
-                 "RhinoCommon API is available to continue."
-        raise RhinoNotPresentError(errMsg)
 
 def is_rhino_inside():
     """
     Check if Rhino is running using rhinoinside.
     """
-    return ISRHINOINSIDE == True
+    try:
+        import Rhino
+    except ImportError:
+        try:
+            import rhinoinside
+            rhinoinside.load()
+            import Rhino
+            return True
+        except Exception:
+            errMsg = "Rhino could not be loaded! Please make sure the " + \
+                     "RhinoCommon API is available to continue."
+            raise RhinoNotPresentError(errMsg)
+    return False
+
+RHINOINSIDE = is_rhino_inside()
+"""
+bool: ``True`` if Rhino is running using rhinoinside, ``False`` otherwise.
+"""
 
 # CHECKING FOR NETWORKX DEPENDENCY AND VERSION ---------------------------------
-try:
-    import networkx
-    NXVERSION = networkx.__version__
-    if not NXVERSION == "1.5":
-        errMsg = "Could not verify NetworkX as version 1.5! Please make " + \
-                 "sure NetworkX 1.5 is available to continue."
-        raise NetworkXVersionError(errMsg)
-except ImportError:
-    errMsg = "Could not load NetworkX. Please make sure the networkx " + \
-             "module is available to continue."
-    raise NetworkXNotPresentError(errMsg)
 
 def networkx_version():
     """
     Return the version of the used networkx module.
     """
-    return NXVERSION
+    try:
+        import networkx
+        version = networkx.__version__
+    except ImportError:
+        errMsg = "Could not load NetworkX. Please make sure the networkx " + \
+                 "module is available to continue."
+        raise NetworkXNotPresentError(errMsg)
 
-# AUTHORSHIP -------------------------------------------------------------------
+    return version
 
-__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
+NXVERSION = networkx_version()
+"""
+str: The version string of the networkx module that is being used.
+"""
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == '__main__':

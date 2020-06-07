@@ -1,36 +1,27 @@
-"""
-Author: Max Eschenbach
-License: Apache License 2.0
-Version: 200603
-"""
-
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+# DUNDER -----------------------------------------------------------------------
+__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
+__all__ = [
+    "KnitConstraint"
+]
+
 # LOCAL MODULE IMPORTS ---------------------------------------------------------
-from cockatoo.environment import is_rhino_inside
+from cockatoo.environment import RHINOINSIDE
 from cockatoo.exception import *
 
 # RHINO IMPORTS ----------------------------------------------------------------
-if is_rhino_inside():
+if RHINOINSIDE:
     import rhinoinside
     rhinoinside.load()
     from Rhino.Geometry import PolylineCurve as RhinoPolylineCurve
 else:
     from Rhino.Geometry import PolylineCurve as RhinoPolylineCurve
 
-# AUTHORSHIP -------------------------------------------------------------------
-
-__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
-
-# ALL LIST ---------------------------------------------------------------------
-__all__ = [
-    "KnitConstraint"
-]
-
-# ACTUAL CLASS -----------------------------------------------------------------
+# CLASS DECLARATION ------------------------------------------------------------
 class KnitConstraint(object):
     """
     Datastructure for representing constraints derived from a mesh. Used for
@@ -59,6 +50,27 @@ class KnitConstraint(object):
                 raise ValueError()
             self.cons["right"].append(rb)
 
+    # TEXTUAL REPRESENTATION ---------------------------------------------------
+
+    def __repr__(self):
+        """
+        Return a textual description of the constraint.
+
+        Returns
+        -------
+        description : str
+            A textual description of the constraint
+        """
+
+        name = "KnitConstraint"
+
+        ll = len(self.cons["left"])
+        lr = len(self.cons["right"])
+        data = ("({} Left Boundaries, {} Right Boundaries)")
+        data = data.format(ll, lr)
+
+        return name + data
+
     def ToString(self):
         """
         Return a textual description of the constraint.
@@ -73,12 +85,7 @@ class KnitConstraint(object):
         Used for overloading the Grasshopper display in data parameters.
         """
 
-        name = "KnitConstraint"
-        ll = len(self.cons["left"])
-        lr = len(self.cons["right"])
-        data = ("({} Left Boundaries, {} Right Boundaries)")
-        data = data.format(ll, lr)
-        return name + data
+        return repr(self)
 
     # PROPERTIES ---------------------------------------------------------------
 

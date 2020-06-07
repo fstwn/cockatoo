@@ -1,9 +1,3 @@
-"""
-Author: Max Eschenbach
-License: Apache License 2.0
-Version: 200603
-"""
-
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
@@ -12,23 +6,20 @@ from collections import deque
 import math
 from operator import itemgetter
 
-# THIRD PARTY MODULE IMPORTS ---------------------------------------------------
-import networkx as nx
-
-# LOCAL MODULE IMPORTS ---------------------------------------------------------
-# from cockatoo.environment import is_rhino_inside
-from cockatoo._knitnetworkbase import KnitNetworkBase
-from cockatoo.utilities import is_ccw_xy
-
-# AUTHORSHIP -------------------------------------------------------------------
+# DUNDER -----------------------------------------------------------------------
 __author__ = """Max Eschenbach (post@maxeschenbach.com)"""
-
-# ALL LIST ---------------------------------------------------------------------
 __all__ = [
     "KnitMappingNetwork"
 ]
 
-# ACTUAL CLASS -----------------------------------------------------------------
+# THIRD PARTY MODULE IMPORTS ---------------------------------------------------
+import networkx as nx
+
+# LOCAL MODULE IMPORTS ---------------------------------------------------------
+from cockatoo._knitnetworkbase import KnitNetworkBase
+from cockatoo.utilities import is_ccw_xy
+
+# CLASS DECLARATION ------------------------------------------------------------
 class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
     """
     Datastructure representing a mapping between connected chains of 'weft'
@@ -41,6 +32,30 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
     """
 
     # TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------
+
+    def __repr__(self):
+        """
+        Return a textual description of the network.
+
+        Returns
+        -------
+        description : str
+            A textual description of the network.
+        """
+
+        if self.name != "":
+            name = self.name
+        else:
+            name = "KnitMappingNetwork"
+
+        nn = len(self.nodes())
+        ce = len(self.contour_edges)
+        wee = len(self.weft_edges)
+        wae = len(self.warp_edges)
+        data = ("({} Nodes, {} Segment Contours, {} Weft, {} Warp)")
+        data = data.format(nn, ce, wee, wae)
+
+        return name + data
 
     def ToString(self):
         """
@@ -56,14 +71,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         Used for overloading the Grasshopper display in data parameters.
         """
 
-        name = "KnitMappingNetwork"
-        nn = len(self.nodes())
-        ce = len(self.contour_edges)
-        wee = len(self.weft_edges)
-        wae = len(self.warp_edges)
-        data = ("({} Nodes, {} Segment Contours, {} Weft, {} Warp)")
-        data = data.format(nn, ce, wee, wae)
-        return name + data
+        return repr(self)
 
     # SEGMENT CONTOUR METHODS --------------------------------------------------
 

@@ -1,9 +1,3 @@
-"""
-Author: Max Eschenbach
-License: Apache License 2.0
-Version: 200603
-"""
-
 # PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
@@ -14,20 +8,26 @@ from math import radians
 from math import pi
 from operator import itemgetter
 
-# LOCAL MODULE IMPORTS ---------------------------------------------------------
-from cockatoo._knitnetworkbase import KnitNetworkBase
-from cockatoo._knitmappingnetwork import KnitMappingNetwork
-from cockatoo._knitdinetwork import KnitDiNetwork
-from cockatoo.environment import is_rhino_inside
-from cockatoo.exception import *
-from cockatoo.utilities import is_ccw_xy
-from cockatoo.utilities import pairwise
+# DUNDER -----------------------------------------------------------------------
+__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
+__all__ = [
+    "KnitNetwork"
+]
 
 # THIRD PARTY MODULE IMPORTS ---------------------------------------------------
 import networkx as nx
 
+# LOCAL MODULE IMPORTS ---------------------------------------------------------
+from cockatoo._knitnetworkbase import KnitNetworkBase
+from cockatoo._knitmappingnetwork import KnitMappingNetwork
+from cockatoo._knitdinetwork import KnitDiNetwork
+from cockatoo.environment import RHINOINSIDE
+from cockatoo.exception import *
+from cockatoo.utilities import is_ccw_xy
+from cockatoo.utilities import pairwise
+
 # RHINO IMPORTS ----------------------------------------------------------------
-if is_rhino_inside():
+if RHINOINSIDE:
     import rhinoinside
     rhinoinside.load()
     from Rhino.Geometry import Brep as RhinoBrep
@@ -52,16 +52,7 @@ else:
     from Rhino.Geometry import Surface as RhinoSurface
     from Rhino.Geometry import Vector3d as RhinoVector3d
 
-# AUTHORSHIP -------------------------------------------------------------------
-
-__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
-
-# ALL LIST ---------------------------------------------------------------------
-__all__ = [
-    "KnitNetwork"
-]
-
-# ACTUAL CLASS -----------------------------------------------------------------
+# CLASS DECLARATION ------------------------------------------------------------
 class KnitNetwork(KnitNetworkBase):
     """
     Datastructure for representing a network (graph) consisting of nodes with
@@ -200,6 +191,30 @@ class KnitNetwork(KnitNetworkBase):
 
     # TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------
 
+    def __repr__(self):
+        """
+        Return a textual description of the network.
+
+        Returns
+        -------
+        description : str
+            A textual description of the network.
+        """
+
+        if self.name != "":
+            name = self.name
+        else:
+            name = "KnitNetwork"
+
+        nn = len(self.nodes())
+        ce = len(self.contour_edges)
+        wee = len(self.weft_edges)
+        wae = len(self.warp_edges)
+        data = ("({} Nodes, {} Position Contours, {} Weft, {} Warp)")
+        data = data.format(nn, ce, wee, wae)
+
+        return name + data
+
     def ToString(self):
         """
         Return a textual description of the network.
@@ -214,14 +229,7 @@ class KnitNetwork(KnitNetworkBase):
         Used for overloading the Grasshopper display in data parameters.
         """
 
-        name = "KnitNetwork"
-        nn = len(self.nodes())
-        ce = len(self.contour_edges)
-        wee = len(self.weft_edges)
-        wae = len(self.warp_edges)
-        data = ("({} Nodes, {} Position Contours, {} Weft, {} Warp)")
-        data = data.format(nn, ce, wee, wae)
-        return name + data
+        return repr(self)
 
     # INITIALIZATION OF POSITION CONTOUR EDGES ---------------------------------
 
@@ -2520,13 +2528,13 @@ class KnitNetwork(KnitNetworkBase):
             Determines how the neighbors of each node are sorted when finding
             cycles for the network.
             -1 equals to using the world XY plane (default)
-             0 equals to using a plane normal to the origin nodes closest
-               point on the reference geometry
-             1 equals to using a plane normal to the average of the origin
-               and neighbor nodes' closest points on the reference geometry
-             2 equals to using an average plane between a plane fit to the
-               origin and its neighbor nodes and a plane normal to the origin
-               nodes closest point on the reference geometry
+            0 equals to using a plane normal to the origin nodes closest
+            point on the reference geometry
+            1 equals to using a plane normal to the average of the origin
+            and neighbor nodes' closest points on the reference geometry
+            2 equals to using an average plane between a plane fit to the
+            origin and its neighbor nodes and a plane normal to the origin
+            nodes closest point on the reference geometry
             Defaults to -1
 
         Warning
@@ -2561,13 +2569,13 @@ class KnitNetwork(KnitNetworkBase):
             Determines how the neighbors of each node are sorted when finding
             cycles for the network.
             -1 equals to using the world XY plane (default)
-             0 equals to using a plane normal to the origin nodes closest
-               point on the reference geometry
-             1 equals to using a plane normal to the average of the origin
-               and neighbor nodes' closest points on the reference geometry
-             2 equals to using an average plane between a plane fit to the
-               origin and its neighbor nodes and a plane normal to the origin
-               nodes closest point on the reference geometry
+            0 equals to using a plane normal to the origin nodes closest
+            point on the reference geometry
+            1 equals to using a plane normal to the average of the origin
+            and neighbor nodes' closest points on the reference geometry
+            2 equals to using an average plane between a plane fit to the
+            origin and its neighbor nodes and a plane normal to the origin
+            nodes closest point on the reference geometry
             Defaults to -1
 
         max_valence : int
@@ -2602,12 +2610,12 @@ class KnitNetwork(KnitNetworkBase):
             cycles for the network.
             -1 equals to using the world XY plane (default)
             0 equals to using a plane normal to the origin nodes closest
-               point on the reference geometry
+            point on the reference geometry
             1 equals to using a plane normal to the average of the origin
-               and neighbor nodes' closest points on the reference geometry
+            and neighbor nodes' closest points on the reference geometry
             2 equals to using an average plane between a plane fit to the
-               origin and its neighbor nodes and a plane normal to the origin
-               nodes closest point on the reference geometry
+            origin and its neighbor nodes and a plane normal to the origin
+            nodes closest point on the reference geometry
             Defaults to -1
 
         merge_adj_creases : bool
@@ -2619,7 +2627,8 @@ class KnitNetwork(KnitNetworkBase):
             Defaults to ``True``.
 
         mend_trailing_rows : bool
-
+            If ``True``, will attempt to mend trailing rows by reconnecting
+            nodes.
 
         Returns
         -------
