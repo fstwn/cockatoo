@@ -2,14 +2,15 @@
 Attempts to visualise the time flow on KnitContours by rendering them as
 gradient coloured curves. Will work with any type of curve, actually.
     Inputs:
-        Toggle: If True, curves will be rendered to the viewport. 
-                {item, boolean}
         KnitContours: Some KnitContours to visualise (works with any curve). 
                       {list, curve/polyline}
+        Thickness: The thickness of the rendered curves.
+                   Defaults to 3.
+                   {item, int}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200603
+        Version: 200607
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -42,45 +43,39 @@ ghenv.Component.SubCategory = "7 Visualisation"
 
 class RenderKnitContours(component):
     
-    def custom_display(self, toggle):
-        """
-        Make a custom display which is unique to the component and lives in the
-        sticky dictionary.
+    def __init__(self):
+        super(RenderKnitContours, self).__init__()
+        
+        self.drawing_curves = []
     
-        Notes
-        -----
-        Original code by Anders Holden Deleuran.
-        For more info see [1]_.
+    def get_BoundingBox(self):
+        return Rhino.Geometry.BoundingBox()
     
-        References
-        ----------
-        .. [1] customDisplayInSticky.py - gist by Anders Holden Deleuran
-               See: https://gist.github.com/AndersDeleuran/09f8af66c29e96bd35440fa8276b0b5a
-        """
+    def DrawViewportWires(self, args):
+        try:
+            # get the display from the arguments
+            display = args.Display
+            
+            for curve in self.drawing_curves:
+                display.DrawCurve(curve[0], curve[1], curve[2])
+            
+        except Exception, e:
+            System.Windows.Forms.MessageBox.Show(str(e),
+                                                 "Error while drawing preview!")
     
-        # Make unique name and custom display
-        displayKey = str(self.InstanceGuid) + "___CUSTOMDISPLAY"
-        if displayKey not in st:
-            st[displayKey] = Rhino.Display.CustomDisplay(True)
-    
-        # Clear display each time component runs
-        st[displayKey].Clear()
-    
-        # Return the display or get rid of it
-        if toggle:
-            return st[displayKey]
-        else:
-            st[displayKey].Dispose()
-            del st[displayKey]
-            return None
-    
-    def RunScript(self, Toggle, KnitContours):
+    def RunScript(self, KnitContours, Thickness):
         
         # VISUALISATION OF CONTOURS USING CUSTOM DISPLAY -----------------------
         
-        if Toggle and KnitContours:
+        # set default thickness
+        if Thickness == None:
+            Thickness = 3
+        
+        if KnitContours:
+            
+            drawing_curves = []
+            
             # make customdisplay
-            viz = self.custom_display(True)
             for i, pl in enumerate(KnitContours):
                 if pl.IsPolyline() and pl.Degree == 1:
                     polypts = []
@@ -89,11 +84,16 @@ class RenderKnitContours(component):
                                                               cpt.Y,
                                                               cpt.Z))
                     pl = Rhino.Geometry.Polyline(polypts)
-                    segs = [Rhino.Geometry.LineCurve(s) for s in pl.GetSegments()]
+                    segs = [Rhino.Geometry.LineCurve(s) \
+                            for s in pl.GetSegments()]
                     numseg = len(segs)
-                    ccols = map_values_as_colors(range(numseg), 0, numseg, 0.0, 0.35)
+                    ccols = map_values_as_colors(range(numseg),
+                                                 0,
+                                                 numseg,
+                                                 0.0,
+                                                 0.35)
                     for j, seg in enumerate(segs):
-                        viz.AddCurve(seg, ccols[j], 3)
+                        drawing_curves.append((seg, ccols[j], Thickness))
                 else:
                     abstol = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance
                     angletol = Rhino.RhinoDoc.ActiveDoc.ModelAngleToleranceRadians
@@ -103,16 +103,24 @@ class RenderKnitContours(component):
                     pl = pl.ToPolyline(abstol, angletol, minlen, maxlen)
                     # make polyline
                     pl = pl.ToPolyline()
-                    segs = [Rhino.Geometry.LineCurve(s) for s in pl.GetSegments()]
+                    segs = [Rhino.Geometry.LineCurve(s) \
+                            for s in pl.GetSegments()]
                     numseg = len(segs)
-                    ccols = map_values_as_colors(range(numseg), 0, numseg, 0.0, 0.35)
+                    ccols = map_values_as_colors(range(numseg),
+                                                 0,
+                                                 numseg,
+                                                 0.0,
+                                                 0.35)
                     for j, seg in enumerate(segs):
-                        viz.AddCurve(seg, ccols[j], 3)
-        elif Toggle and not KnitContours:
-            viz = self.custom_display(False)
+                        drawing_curves.append((seg, ccols[j], Thickness))
+            
+            # set attributes for drawing routine
+            self.drawing_curves = drawing_curves
+            
+        elif not KnitContours:
+            self.drawing_curves = []
             rml = self.RuntimeMessageLevel.Warning
             rMsg = "No KnitContours input!"
             self.AddRuntimeMessage(rml, rMsg)
         else:
-            viz = self.custom_display(False)
-        
+            self.drawing_curves = []
