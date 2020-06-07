@@ -56,7 +56,7 @@ substantial amount of time!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200603
+        Version: 200607
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -68,9 +68,6 @@ import Grasshopper, GhPython
 import System
 import Rhino
 import rhinoscriptsyntax as rs
-
-# ADDITIONAL RHINO IMPORTS
-from scriptcontext import sticky as st
 
 # LOCAL MODULE IMPORTS
 try:
@@ -89,39 +86,44 @@ ghenv.Component.SubCategory = "7 Visualisation"
 
 class RenderKnitNetwork(component):
     
-    def custom_display(self, toggle):
-        """
-        Make a custom display which is unique to the component and lives in the
-        sticky dictionary.
+    def __init__(self):
+        super(RenderKnitNetwork, self).__init__()
+        
+        self.drawing_nodes = []
+        self.drawing_edges = []
+        self.drawing_data = []
+        self.draw_directional = False
     
-        Notes
-        -----
-        Original code by Anders Holden Deleuran.
-        For more info see [1]_.
+    def get_BoundingBox(self):
+        return Rhino.Geometry.BoundingBox()
     
-        References
-        ----------
-        .. [1] customDisplayInSticky.py - gist by Anders Holden Deleuran
-               See: https://gist.github.com/AndersDeleuran/09f8af66c29e96bd35440fa8276b0b5a
-        """
+    def DrawViewportWires(self, args):
+        try:
+            # get display from args
+            display = args.Display
+            
+            # draw all catalogued nodes
+            for node in self.drawing_nodes:
+                display.DrawPoint(node[0], node[1], node[2], node[3])
+            
+            # draw all catalogued edges
+            if self.draw_directional:
+                for edge in self.drawing_edges:
+                    display.DrawArrow(edge[0], edge[1])
+            else:
+                for edge in self.drawing_edges:
+                    display.DrawLine(edge[0], edge[1], 2)
+            
+            # draw all catalogued data text tags
+            for txtag in self.drawing_data:
+                if display.IsVisible(txtag[0].TextPlane.Origin):
+                    display.Draw3dText(txtag[0], txtag[1])
+        
+        except Exception, e:
+            System.Windows.Forms.MessageBox.Show(str(e),
+                                                 "Error while drawing preview!")
     
-        # Make unique name and custom display
-        displayKey = str(self.InstanceGuid) + "___CUSTOMDISPLAY"
-        if displayKey not in st:
-            st[displayKey] = Rhino.Display.CustomDisplay(True)
-    
-        # Clear display each time component runs
-        st[displayKey].Clear()
-    
-        # Return the display or get rid of it
-        if toggle:
-            return st[displayKey]
-        else:
-            st[displayKey].Dispose()
-            del st[displayKey]
-            return None
-    
-    def RunScript(self, Toggle, KN, RenderNodes=False, RenderNodeIndices=False, RenderNodeData=False, NodeTextPlane=None, NodeTextHeight=0.1, RenderContourEdges=False, RenderContourEdgeData=False, RenderWeftEdges=True, RenderWeftEdgeData=False, RenderWarpEdges=True, RenderWarpEdgeData=False, DirectionalDisplay=False, EdgeTextPlane=None, EdgeTextHeight=0.1):
+    def RunScript(self, KN, RenderNodes=False, RenderNodeIndices=False, RenderNodeData=False, NodeTextPlane=None, NodeTextHeight=0.1, RenderContourEdges=False, RenderContourEdgeData=False, RenderWeftEdges=True, RenderWeftEdgeData=False, RenderWarpEdges=True, RenderWarpEdgeData=False, DirectionalDisplay=False, EdgeTextPlane=None, EdgeTextHeight=0.1):
         
         # SET DEFAULTS ---------------------------------------------------------
         
@@ -136,6 +138,9 @@ class RenderKnitNetwork(component):
         if DirectionalDisplay is None:
             DirectionalDisplay = False
         
+        # set directional drawing attribute for drawing method
+        self.draw_directional = DirectionalDisplay
+        
         # SET FONT FACES FOR DISPLAY -------------------------------------------
         
         nodeFontFace = "Helvetica"
@@ -145,39 +150,29 @@ class RenderKnitNetwork(component):
         
         # RENDER ACCORDING TO SET PARAMETERS -----------------------------------
         
-        if Toggle and KN and (RenderNodes or \
-                              RenderContourEdges or \
-                              RenderWeftEdges or \
-                              RenderWarpEdges):
-            
-            # create customdisplay
-            viz = self.custom_display(True)
+        node_drawing_list = []
+        edge_drawing_list = []
+        data_drawing_list = []
+        
+        if KN and (RenderNodes or \
+                   RenderContourEdges or \
+                   RenderWeftEdges or \
+                   RenderWarpEdges):
             
             # RENDERING OF CONTOUR EDGES ---------------------------------------
             
             if RenderContourEdges:
                 contourcol = System.Drawing.Color.Gray
                 contour_edges = KN.contour_edges
+                
                 for ce in contour_edges:
                     egeo = ce[2]["geo"]
-                    if type(egeo) == Rhino.Geometry.Line:
-                        geo = Rhino.Geometry.LineCurve(egeo)
-                    elif type(egeo) == Rhino.Geometry.Polyline:
-                        geo = egeo.ToPolylineCurve()
-                    
-                    if DirectionalDisplay:
-                        ptFrom = geo.PointAtStart
-                        ptTo = geo.PointAtEnd
-                        dvec = Rhino.Geometry.Vector3d(ptTo - ptFrom)
-                        viz.AddVector(ptFrom, dvec, contourcol, False)
-                        #viz.AddCurve(geo, contourcol, 2)
-                    else:
-                        viz.AddCurve(geo, contourcol, 2)
+                    edge_drawing_list.append((egeo, contourcol))
                     
                     # RENDERING OF CONTOUR EDGE DATA ---------------------------
                     
                     if RenderContourEdgeData:
-                        EdgeTextPlane.Origin = geo.PointAtNormalizedLength(0.5)
+                        EdgeTextPlane.Origin = egeo.PointAt(0.5)
                         edgeLabel = [(k, ce[2][k]) for k \
                                      in ce[2] if k != "geo"]
                         edgeLabel = ["{}: {}".format(t[0], t[1]) for t \
@@ -190,7 +185,8 @@ class RenderKnitNetwork(component):
                                                       EdgeTextPlane,
                                                       EdgeTextHeight)
                         tagTxt.FontFace = contourFontFace
-                        viz.AddText(tagTxt, contourcol)
+                        
+                        data_drawing_list.append((tagTxt, contourcol))
             
             # RENDERING OF WEFT EDGES ------------------------------------------
             
@@ -199,17 +195,12 @@ class RenderKnitNetwork(component):
                 weft_edges = KN.weft_edges
                 for weft in weft_edges:
                     egeo = weft[2]["geo"]
-                    linegeo = Rhino.Geometry.LineCurve(egeo)
-                    if DirectionalDisplay:
-                        dvec = Rhino.Geometry.Vector3d(egeo.To - egeo.From)
-                        viz.AddVector(egeo.From, dvec, weftcol, False)
-                    else:
-                        viz.AddCurve(linegeo, weftcol, 2)
+                    edge_drawing_list.append((egeo, weftcol))
                     
                     # RENDERING OF WEFT DGE DATA -------------------------------
                     
                     if RenderWeftEdgeData:
-                        EdgeTextPlane.Origin = linegeo.PointAtNormalizedLength(0.5)
+                        EdgeTextPlane.Origin = egeo.PointAt(0.5)
                         edgeLabel = [(k, weft[2][k]) for k \
                                      in weft[2] if k != "geo"]
                         edgeLabel = ["{}: {}".format(t[0], t[1]) for t \
@@ -222,7 +213,7 @@ class RenderKnitNetwork(component):
                                                       EdgeTextPlane,
                                                       EdgeTextHeight)
                         tagTxt.FontFace = weftFontFace
-                        viz.AddText(tagTxt, weftcol)
+                        data_drawing_list.append((tagTxt, weftcol))
             
             # RENDERING OF WARP EDGES ------------------------------------------
             
@@ -231,17 +222,12 @@ class RenderKnitNetwork(component):
                 warp_edges = KN.warp_edges
                 for warp in warp_edges:
                     egeo = warp[2]["geo"]
-                    linegeo = Rhino.Geometry.LineCurve(egeo)
-                    if DirectionalDisplay:
-                        dvec = Rhino.Geometry.Vector3d(egeo.To - egeo.From)
-                        viz.AddVector(egeo.From, dvec, warpcol, False)
-                    else:
-                        viz.AddCurve(linegeo, warpcol, 2)
+                    edge_drawing_list.append((egeo, warpcol))
                     
                     # RENDERING OF WARP EDGE DATA ------------------------------
                     
                     if RenderWarpEdgeData:
-                        EdgeTextPlane.Origin = linegeo.PointAtNormalizedLength(0.5)
+                        EdgeTextPlane.Origin = egeo.PointAt(0.5)
                         edgeLabel = [(k, warp[2][k]) for k \
                                      in warp[2] if k != "geo"]
                         edgeLabel = ["{}: {}".format(t[0], t[1]) for t \
@@ -254,7 +240,7 @@ class RenderKnitNetwork(component):
                                                       EdgeTextPlane,
                                                       EdgeTextHeight)
                         tagTxt.FontFace = warpFontFace
-                        viz.AddText(tagTxt, warpcol)
+                        data_drawing_list.append((tagTxt, warpcol))
             
             # RENDERING OF NODES -----------------------------------------------
             
@@ -330,7 +316,7 @@ class RenderKnitNetwork(component):
                             pSize = 2
                     
                     if RenderNodes:
-                        viz.AddPoint(data["geo"], nodecol, pStyle, pSize)
+                        node_drawing_list.append((data["geo"], pStyle, pSize, nodecol))
                     
                     # RENDER NODE DATA AND INDICES -----------------------------
                     
@@ -346,7 +332,7 @@ class RenderKnitNetwork(component):
                             nodecol = colLeaf
                         elif data["leaf"] == False and data["end"] == False:
                             nodecol = colRegular
-                        viz.AddText(tagTxt, nodecol)
+                        data_drawing_list.append((tagTxt, nodecol))
                         
                         if RenderNodeData:
                             nodeLabel = [(k, data[k]) for k in data \
@@ -363,10 +349,17 @@ class RenderKnitNetwork(component):
                                                           NodeTextPlane,
                                                           NodeTextHeight*0.3)
                             nodeTxt.FontFace = nodeFontFace
-                            viz.AddText(nodeTxt, nodecol)
+                            data_drawing_list.append((nodeTxt, nodecol))
+            
+            # set attributes and draw
+            self.drawing_nodes = node_drawing_list
+            self.drawing_edges = edge_drawing_list
+            self.drawing_data = data_drawing_list
             
         else:
-            if Toggle and not KN:
+            if not KN:
+                self.drawing_nodes = []
+                self.drawing_edges = []
+                self.drawing_data = []
                 rml = self.RuntimeMessageLevel.Warning
                 self.AddRuntimeMessage(rml, "No KnitNetwork input!")
-            viz = self.custom_display(False)
