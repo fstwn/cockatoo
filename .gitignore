@@ -1,5 +1,7 @@
-UserObjects_deprecated/
-usrobj_src_deprecated/
+__pycache__/
 
-modules/cockatoo/_backup.py
-modules/cockatoo/_sketches_reference.py
+/UserObjects_deprecated/
+/usrobj_src_deprecated/
+
+/modules/cockatoo/_backup.py
+/modules/cockatoo/_sketches_reference.py
