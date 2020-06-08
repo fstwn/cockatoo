@@ -10,7 +10,7 @@ gradient coloured curves. Will work with any type of curve, actually.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200607
+        Version: 200608
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -26,6 +26,12 @@ import rhinoscriptsyntax as rs
 # ADDITIONAL RHINO IMPORTS
 from scriptcontext import sticky as st
 
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "RenderKnitContours"
+ghenv.Component.NickName ="RKC"
+ghenv.Component.Category = "Cockatoo"
+ghenv.Component.SubCategory = "7 Visualisation"
+
 # LOCAL MODULE IMPORTS
 try:
     from cockatoo.utilities import map_values_as_colors
@@ -35,12 +41,6 @@ except ImportError:
              "path, see README for instructions!."
     raise ImportError(errMsg)
 
-# GHENV COMPONENT SETTINGS
-ghenv.Component.Name = "RenderKnitContours"
-ghenv.Component.NickName ="RKC"
-ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "7 Visualisation"
-
 class RenderKnitContours(component):
     
     def __init__(self):
@@ -48,7 +48,7 @@ class RenderKnitContours(component):
         
         self.drawing_curves = []
     
-    def get_BoundingBox(self):
+    def get_ClippingBox(self):
         return Rhino.Geometry.BoundingBox()
     
     def DrawViewportWires(self, args):
