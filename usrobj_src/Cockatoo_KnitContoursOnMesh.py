@@ -53,7 +53,7 @@ https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200603
+        Version: 200608
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -70,6 +70,12 @@ import Grasshopper, GhPython
 import System
 import Rhino
 import rhinoscriptsyntax as rs
+
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "KnitContoursOnMesh"
+ghenv.Component.NickName ="KCOM"
+ghenv.Component.Category = "Cockatoo"
+ghenv.Component.SubCategory = "5 Contouring"
 
 # KANGAROO 2 IMPORT
 k2import = False
@@ -106,12 +112,6 @@ except ImportError:
              "installed! Please make sure the module is in you search " + \
              "path, see README for instructions!."
     raise ImportError(errMsg)
-
-# GHENV COMPONENT SETTINGS
-ghenv.Component.Name = "KnitContoursOnMesh"
-ghenv.Component.NickName ="KCOM"
-ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "5 Contouring"
 
 class KnitContoursOnMesh(component):
     
