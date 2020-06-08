@@ -43,7 +43,7 @@ https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
     Remarks:
         Author: Max Eschenbach, based on an approach by Anders Holden Deleuran
         License: Apache License 2.0
-        Version: 200603
+        Version: 200608
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -64,6 +64,12 @@ import rhinoscriptsyntax as rs
 
 # CUSTOM RHINO IMPORTS
 import scriptcontext as sc
+
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "FindApproximateGeodesicsOnMesh"
+ghenv.Component.NickName ="FAGOM"
+ghenv.Component.Category = "Cockatoo"
+ghenv.Component.SubCategory = "9 Utilities"
 
 # KANGAROO 2 IMPORT
 k2import = False
@@ -91,12 +97,6 @@ if not k2import:
         raise RuntimeError("KangarooSolver.dll was not found! please add the " + \
                            "folder to your module search paths manually!")
 import KangarooSolver as ks
-
-# GHENV COMPONENT SETTINGS
-ghenv.Component.Name = "FindApproximateGeodesicsOnMesh"
-ghenv.Component.NickName ="FAGOM"
-ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "9 Utilities"
 
 class ConstructGeodesicsOnMesh(component):
     
