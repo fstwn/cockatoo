@@ -10,7 +10,7 @@ TODO: Update docstring!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200603
+        Version: 200608
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -23,6 +23,12 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "MakeRenderGraph"
+ghenv.Component.NickName ="MRG"
+ghenv.Component.Category = "Cockatoo"
+ghenv.Component.SubCategory = "7 Visualisation"
+
 # LOCAL MODULE IMPORTS
 try:
     import cockatoo
@@ -31,12 +37,6 @@ except ImportError:
              "installed! Please make sure the module is in you search " + \
              "path, see README for instructions!."
     raise ImportError(errMsg)
-
-# GHENV COMPONENT SETTINGS
-ghenv.Component.Name = "MakeRenderGraph"
-ghenv.Component.NickName ="MRG"
-ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "7 Visualisation"
 
 class MakeRenderGraph(component):
     
