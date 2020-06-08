@@ -7,7 +7,10 @@ import math
 from operator import itemgetter
 
 # DUNDER -----------------------------------------------------------------------
-__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
+__author__ = "Max Eschenbach (post@maxeschenbach.com)"
+__copyright__  = "Copyright 2020 / Max Eschenbach"
+__license__    = "Apache License 2.0"
+__email__      = ['<post@maxeschenbach.com>']
 __all__ = [
     "KnitMappingNetwork"
 ]
@@ -25,10 +28,17 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
     Datastructure representing a mapping between connected chains of 'weft'
     edges in a KnitNetwork for final creation of 'weft' and 'warp' edges.
 
+    Inherits from :class:`networkx.MultiGraph`, :class:`KnitNetworkBase`
+    For more info, see [13]_.
+
     Notes
     -----
     Not intended to be instantiated separately. Should only be instantiated
     by the KnitNetwork.create_mapping_network method!
+
+    The implemented algorithms are strongly based on [1]_. Also see [2]_.
+    The implementation is further influenced by concepts and ideas presented
+    in [3]_, [4]_ and [5]_.
     """
 
     # TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------
@@ -83,13 +93,37 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
         Parameters
         ----------
-        way_segments : list
-            list of way segments
+        way_segments : :obj:`list`
+            List of segments that is filled during method execution. The list
+            should contain the start segment when calling this method!
 
-        down : bool
+        down : bool, optional
+            If ``True``, will traverse until a downwards 'warp' edge is
+            discovered, otherwise will traverse antil an upwards 'warp' edge
+            is discovered.
 
-        by_end : bool
+            Defaults to ``False``
+
+        by_end : bool, optional
+            If ``True``, will traverse the 'segment' edges in the opposite
+            direction.
+
+            Defaults to ``False``.
+
+        Returns
+        -------
+        segments : :obj:`list`
+            List of segments representing a chain.
+
+        Raises
+        ------
+        ValueError:
+            If ``way_segments`` is empty at call.
         """
+        if len(way_segments) == 0:
+            errMsg = "Argument way_segments has to contain the starting " + \
+                     "segment when calling this method!"
+            raise ValueError(errMsg)
 
         segment_list = way_segments
         flag = False
@@ -158,6 +192,21 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         """
         Method for building source and target chains from segment
         contour edges.
+
+        Parameters
+        ----------
+        source_as_dict : bool
+            If ``True``, will return the source chains as a dictionary indexed
+            by their chain value.
+
+        target_as_dict : bool
+            If ``True``, will return the target chains as a dictionary indexed
+            by their chain value.
+
+        Returns
+        -------
+        chains : :obj:`tuple` of :obj:`list`
+            2-tuple in the form of (source_chains, target_chains).
         """
 
         # get all warp edges of this mappingnetwork
