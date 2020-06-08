@@ -24,7 +24,7 @@ https://en.wikipedia.org/wiki/Topological_sorting
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200603
+        Version: 200608
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -40,6 +40,12 @@ import rhinoscriptsyntax as rs
 # THIRD PARTY MODULE IMPORTS
 from ghpythonlib import treehelpers as th
 
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "MakePatternData"
+ghenv.Component.NickName ="MPD"
+ghenv.Component.Category = "Cockatoo"
+ghenv.Component.SubCategory = "8 Pattern Data"
+
 # LOCAL MODULE IMPORTS
 try:
     from cockatoo.exception import KnitNetworkTopologyError
@@ -48,12 +54,6 @@ except ImportError:
              "installed! Please make sure the module is in you search " + \
              "path, see README for instructions!."
     raise ImportError(errMsg)
-
-# GHENV COMPONENT SETTINGS
-ghenv.Component.Name = "MakePatternData"
-ghenv.Component.NickName ="MPD"
-ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "8 Pattern Data"
 
 class MakePatternData(component):
     
