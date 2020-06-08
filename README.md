@@ -11,6 +11,8 @@
 
 The purpose of this project is to enable Rhino and Grasshopper to derive (3d-)knitting patterns for computerized knitting machines from NURBS surfaces and polygon meshes. The absence of such an open-source toolkit for use directly within conventional CAD-software marks the origin point for this project.
 
+This project constitutes the practical part of my diploma in the [product design department](https://produktdesignkassel.de/) at [Kunsthochschule Kassel](https://www.kunsthochschulekassel.de/).
+
 ## Software Structure
 
 - All datastructures, core logic and algorithms are defined in the `cockatoo` python module.
@@ -69,3 +71,8 @@ The purpose of this project is to enable Rhino and Grasshopper to derive (3d-)kn
 
 - If Rhino was running during the installation process, you'll have to restart it for the changes to take effect!
 
+## Sources & References
+
+This section states the most important sources used in writing this software.
+
+- Popescu, Mariana et al. *[Automated Generation of Knit Patterns for Non-developable Surfaces](https://block.arch.ethz.ch/brg/files/POPESCU_DMSP-2017_automated-generation-knit-patterns_1505737906.pdf)*
