@@ -103,7 +103,7 @@ class KnitNetwork(KnitNetworkBase):
            Matusik, Wojciech; Mankoff, Jen; Hodgins, Jessica
            *A Compiler for 3D Machine Knitting*
 
-           See: `A Comiler for 3D Machine Knitting
+           See: `A Compiler for 3D Machine Knitting
            <https://la.disneyresearch.com/publication/machine-knitting-compiler/>`_
     """
 
