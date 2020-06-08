@@ -45,7 +45,6 @@ Classes
 cockatoo.KnitConstraint
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-
 .. autoclass:: cockatoo.KnitConstraint
    :members:
    :undoc-members:
@@ -88,7 +87,10 @@ cockatoo.KnitMappingNetwork
 from __future__ import absolute_import
 
 # DUNDER -----------------------------------------------------------------------
-__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
+__author__ = "Max Eschenbach (post@maxeschenbach.com)"
+__copyright__  = "Copyright 2020 / Max Eschenbach"
+__license__    = "Apache License 2.0"
+__email__      = ['<post@maxeschenbach.com>']
 __all__ = [
     "environment",
     "exception",
