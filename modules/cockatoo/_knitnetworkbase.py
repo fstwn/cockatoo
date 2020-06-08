@@ -51,7 +51,7 @@ class KnitNetworkBase(nx.Graph):
     ----------
     .. [13] Hagberg, Aric; Schult, Dan; Swart, Pieter *NetworkX 1.5*
 
-            See: `NetworkX <https://networkx.github.io/documentation/networkx-1.5/_downloads/networkx_reference.pdf>`_
+            See: `NetworkX 1.5 <https://networkx.github.io/documentation/networkx-1.5/_downloads/networkx_reference.pdf>`_
     """
 
     # REPRESENTATION OF NETWORK ------------------------------------------------
