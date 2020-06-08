@@ -35,7 +35,7 @@ the max_valence value.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200603
+        Version: 200608
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -48,6 +48,12 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "CreateMeshFromKnitNetwork"
+ghenv.Component.NickName ="CMFKN"
+ghenv.Component.Category = "Cockatoo"
+ghenv.Component.SubCategory = "6 KnitNetwork"
+
 # LOCAL MODULE IMPORTS
 try:
     from cockatoo import KnitNetwork
@@ -57,12 +63,6 @@ except ImportError:
              "installed! Please make sure the module is in you search " + \
              "path, see README for instructions!."
     raise ImportError(errMsg)
-
-# GHENV COMPONENT SETTINGS
-ghenv.Component.Name = "CreateMeshFromKnitNetwork"
-ghenv.Component.NickName ="CMFKN"
-ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "6 KnitNetwork"
 
 class CreateMeshFromKnitNetwork(component):
     
