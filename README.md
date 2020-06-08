@@ -43,9 +43,12 @@ This open-source software prototype constitutes the practical part of my diploma
 
 ### 2. Install python modules
 
-- Open the scripts folder of Rhino 6 by opening explorer and navigating to
-  
+- Open the scripts folder of Rhino 6
+  - On Windows:
   `C:\Users\%USERNAME%\AppData\Roaming\McNeel\Rhinoceros\6.0\scripts`
+  
+  - On Mac:
+  `Mac_Folder\Here`
 - Move all the Content from inside the `modules` directory to this scripts folder.
 
 ### 3. Install Cockatoo UserObjects
