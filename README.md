@@ -11,7 +11,7 @@
 
 The purpose of this project is to enable Rhino and Grasshopper to derive (3d-)knitting patterns for computerized knitting machines from NURBS surfaces and polygon meshes. The absence of such an open-source toolkit for use directly within conventional CAD-software marks the origin point for this project.
 
-This project constitutes the practical part of my diploma in the [product design department](https://produktdesignkassel.de/) at [Kunsthochschule Kassel](https://www.kunsthochschulekassel.de/).
+This open-source software constitutes the practical part of my diploma project in the [product design department](https://produktdesignkassel.de/) at [Kunsthochschule Kassel](https://www.kunsthochschulekassel.de/).
 
 ## Software Structure
 
@@ -73,11 +73,12 @@ This project constitutes the practical part of my diploma in the [product design
 
 ## Sources & References
 
-This section states the most important sources used in writing this software.
+This section states the most important sources used in writing this software. The full list of sources is - of course - available in the written version of the diploma project.
 
-- Popescu, Mariana et al. *[Automated Generation of Knit Patterns for Non-developable Surfaces](https://block.arch.ethz.ch/brg/files/POPESCU_DMSP-2017_automated-generation-knit-patterns_1505737906.pdf)*
-- Popescu, Mariana *[KnitCrete - Stay-in-place knitted formworks for complex concrete structures](https://block.arch.ethz.ch/brg/files/POPESCU_2019_ETHZ_PhD_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures_small_1586266206.pdf)*
-- Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian; McCann, James *[Automatic Machine Knitting of 3D Meshes](https://textiles-lab.github.io/publications/2018-autoknit/)*
-- Narayanan, Vidya; Wu, Kui et al. *[Visual Knitting Machine Programming](https://textiles-lab.github.io/publications/2019-visualknit/)*
-- McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April; Matusik, Wojciech; Mankoff, Jen; Hodgins, Jessica *[A Compiler for 3D Machine Knitting](https://la.disneyresearch.com/publication/machine-knitting-compiler/)*
-- Hagberg, Aric; Schult, Dan; Swart, Pieter *[NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/_downloads/networkx_reference.pdf)*
+- [1] Popescu, Mariana et al. *[Automated Generation of Knit Patterns for Non-developable Surfaces](https://block.arch.ethz.ch/brg/files/POPESCU_DMSP-2017_automated-generation-knit-patterns_1505737906.pdf)*
+- [2] Popescu, Mariana *[KnitCrete - Stay-in-place knitted formworks for complex concrete structures](https://block.arch.ethz.ch/brg/files/POPESCU_2019_ETHZ_PhD_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures_small_1586266206.pdf)*
+- [3] Van Mele, Tom et al. *[COMPAS: A framework for computational research in architecture and structures](https://compas-dev.github.io/)*
+- [4] Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian; McCann, James *[Automatic Machine Knitting of 3D Meshes](https://textiles-lab.github.io/publications/2018-autoknit/)*
+- [5] Narayanan, Vidya; Wu, Kui et al. *[Visual Knitting Machine Programming](https://textiles-lab.github.io/publications/2019-visualknit/)*
+- [6] McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April; Matusik, Wojciech; Mankoff, Jen; Hodgins, Jessica *[A Compiler for 3D Machine Knitting](https://la.disneyresearch.com/publication/machine-knitting-compiler/)*
+- [7] Hagberg, Aric; Schult, Dan; Swart, Pieter *[NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/_downloads/networkx_reference.pdf)*
