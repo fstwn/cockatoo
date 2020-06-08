@@ -80,3 +80,4 @@ This section states the most important sources used in writing this software.
 - Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian; McCann, James *[Automatic Machine Knitting of 3D Meshes](https://textiles-lab.github.io/publications/2018-autoknit/)*
 - Narayanan, Vidya; Wu, Kui et al. *[Visual Knitting Machine Programming](https://textiles-lab.github.io/publications/2019-visualknit/)*
 - McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April; Matusik, Wojciech; Mankoff, Jen; Hodgins, Jessica *[A Compiler for 3D Machine Knitting](https://la.disneyresearch.com/publication/machine-knitting-compiler/)*
+- Hagberg, Aric; Schult, Dan; Swart, Pieter *[NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/_downloads/networkx_reference.pdf)*
