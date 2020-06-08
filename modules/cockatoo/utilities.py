@@ -23,7 +23,10 @@ from math import degrees
 from math import pi
 
 # DUNDER -----------------------------------------------------------------------
-__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
+__author__ = "Max Eschenbach (post@maxeschenbach.com)"
+__copyright__  = "Copyright 2020 / Max Eschenbach"
+__license__    = "Apache License 2.0"
+__email__      = ['<post@maxeschenbach.com>']
 __all__ = [
     "break_polyline",
     "map_values_as_colors",
@@ -53,10 +56,30 @@ else:
 
 # RHINO GEOMETRY ---------------------------------------------------------------
 
-def break_polyline(polyline, break_angle):
+def break_polyline(polyline, break_angle, as_crv=False):
     """
     Breaks a polyline at kinks based on a specified angle. Will move the seam
     of closed polylines to the first kink discovered.
+
+    Parameters
+    ----------
+    polyline : Rhino.Geometry.Polyline
+        Polyline to break apart at angles.
+
+    break_angle : float
+        The angle at which to break apart the polyline (in radians).
+
+    as_crv : bool, optional
+        If ``True``, will return a Rhino.Geometry.PolylineCurve object.
+
+        Defaults to ``False``.
+
+    Returns
+    -------
+    broken_polyline_segments : list of Rhino.Geometry.Polyline or Rhino.Geometry.PolylineCurve
+        A list of the broken segments. The return type will depend on the
+        as_crv setting!
+
     """
 
     # get all the polyline segments
@@ -78,7 +101,7 @@ def break_polyline(polyline, break_angle):
         if len(segments) == 1:
             ln = segments.popleft()
             pl.Add(ln.To)
-            plcs.append(pl.ToPolylineCurve())
+            plcs.append(pl)
             break
 
         # get unitized directions of this and next segment
@@ -102,7 +125,7 @@ def break_polyline(polyline, break_angle):
                 ln = segments.popleft()
                 pl.Add(ln.From)
                 pl.Add(ln.To)
-                plcs.append(pl.ToPolylineCurve())
+                plcs.append(pl)
                 pl = RhinoPolyline()
         else:
             if not closedSeamAtKink:
@@ -110,11 +133,36 @@ def break_polyline(polyline, break_angle):
             else:
                 pl.Add(segments.popleft().From)
 
-    return plcs
+    if as_crv:
+        return [pl.ToPolylineCurve() for pl in plcs]
+    else:
+        return plcs
 
 def tween_planes(pa, pb, t):
     """
     Tweens between two planes using quaternion rotation.
+
+    Parameters
+    ----------
+    pa : Rhino.Geometry.Plane
+        The start plane for the tween.
+
+    pb : Rhino.Geometry.Plane
+        The end plane for the tween.
+
+    t : float
+        The parameter for the tweened plane. 0.5 will result in the average
+        between the two input planes.
+
+    Returns
+    -------
+    tweened_plane : Rhino.Geometry.Plane
+        The plane between ``pa`` and ``pb`` at ``t``.
+
+    Raises
+    ------
+    SystemNotPresentError
+        If the ``System`` module cannot be imported.
     """
 
     # handle dotnet dependency in a nice way
@@ -147,7 +195,7 @@ def tween_planes(pa, pb, t):
 
 # RHINO DISPLAY ----------------------------------------------------------------
 
-def map_values_as_colors(values, srcMin, srcMax, targetMin = 0.0, targetMax = 0.7):
+def map_values_as_colors(values, srcMin, srcMax, targetMin=0.0, targetMax=0.7):
     """
     Make a list of HSL colors where the values are mapped onto a
     targetMin-targetMax hue domain. Meaning that low values will be red, medium
@@ -164,13 +212,15 @@ def map_values_as_colors(values, srcMin, srcMax, targetMin = 0.0, targetMax = 0.
     srcMax : float
         Upper bounds of the value domain.
 
-    targetMin : float
+    targetMin : float, optional
         Lower bounds of the target (color) domain.
-        Defaults to 0.
 
-    targetMax : float
+        Defaults to ``0``.
+
+    targetMax : float, optional
         Upper bounds of the target (color) domain.
-        Defaults to 0.7 .
+
+        Defaults to ``0.7`` .
 
     Returns
     -------
@@ -186,22 +236,25 @@ def map_values_as_colors(values, srcMin, srcMax, targetMin = 0.0, targetMax = 0.
     References
     ----------
     .. [10] mapValuesAsColors.py - gist by Anders Holden Deleuran
-           See: https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea
+
+            See: `mapValuesAsColors.py <https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea>`_
     """
 
     # Remap numbers into new numeric domain
     remappedValues = []
     for v in values:
         if srcMax-srcMin > 0:
-            rv = ((v-srcMin)/(srcMax-srcMin))*(targetMax-targetMin)+targetMin
+            rv = ((v - srcMin) / (srcMax - srcMin)) \
+                 * (targetMax - targetMin) \
+                 + targetMin
         else:
-            rv = (targetMin+targetMax)/2
+            rv = (targetMin + targetMax) / 2
         remappedValues.append(rv)
 
     # Make colors and return
     colors = []
     for v in remappedValues:
-        c = RhinoColorHSL(v,1.0,0.5).ToArgbColor()
+        c = RhinoColorHSL(v, 1.0, 0.5).ToArgbColor()
         colors.append(c)
 
     return colors
@@ -257,6 +310,35 @@ def resolve_order_by_backtracking(G):
     all nodes in the graph. Nodes are only inserted into the output list if
     all their dependencies (predecessor nodes) are already inside the output
     list, otherwise the algorithm will first resolve all open dependencies.
+
+    Parameters
+    ----------
+    G : networkx.Graph
+        The graph on which to perform topological sorting.
+
+    Returns
+    -------
+    ordered_nodes : list
+        List of hashable node identifiers.
+
+    Raises
+    ------
+    ValueError
+        If the input graph is not directed.
+
+    Warning
+    -------
+    For this to work, the input gaph must be a DAG (directed acyclic graph).
+    For more info,see [11]_ and [12]_.
+
+    References
+    ----------
+    .. [11] Directed acyclic graph on Wikipedia.
+
+            See: `Directed acyclic graph <https://en.wikipedia.org/wiki/Directed_acyclic_graph>`_
+    .. [12] Topological sorting on Wikipedia.
+
+            See: `Topological sorting <https://en.wikipedia.org/wiki/Topological_sorting>`_
     """
 
     # rais if graph is not directed
@@ -309,14 +391,18 @@ def is_ccw_xy(a, b, c, colinear=False):
     Notes
     -----
     Based on an implementation inside the COMPAS framework.
-    For more info, see [2]_ and [3]_.
+    For more info, see [14]_ and [15]_.
 
     References
     ----------
-    .. [2] Van Mele, Tom *COMPAS - open-source, Python-based framework for computational research and collaboration in architecture, engineering and digital fabrication*.
-           See: https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/geometry/_core/queries.py#L61
-    .. [3] Marsh, C. *Computational Geometry in Python: From Theory to Application*.
-           Available at: https://www.toptal.com/python/computational-geometry-in-python-from-theory-to-implementation
+    .. [14] Van Mele, Tom et al. *COMPAS: A framework for computational
+           research in architecture and structures*.
+
+           See: `is_ccw_xy() inside COMPAS <https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/geometry/_core/queries.py#L61>`_
+    .. [15] Marsh, C. *Computational Geometry in Python: From Theory to
+           Application*.
+
+           See: `Computational Geometry in Python <https://www.toptal.com/python/computational-geometry-in-python-from-theory-to-implementation>`_
 
     Examples
     --------
@@ -363,12 +449,13 @@ def pairwise(iterable):
 
     Notes
     -----
-    For more info see [4]_ .
+    For more info see [16]_ .
 
     References
     ----------
-    .. [4] Python itertools Recipes.
-           See: https://docs.python.org/2.7/library/itertools.html#recipes
+    .. [16] Python itertools Recipes
+
+           See: `Python itertools Recipes <https://docs.python.org/2.7/library/itertools.html#recipes>`_
 
     """
     a, b = tee(iterable)

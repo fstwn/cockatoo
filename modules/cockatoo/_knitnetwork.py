@@ -9,7 +9,10 @@ from math import pi
 from operator import itemgetter
 
 # DUNDER -----------------------------------------------------------------------
-__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
+__author__ = "Max Eschenbach (post@maxeschenbach.com)"
+__copyright__  = "Copyright 2020 / Max Eschenbach"
+__license__    = "Apache License 2.0"
+__email__      = ['<post@maxeschenbach.com>']
 __all__ = [
     "KnitNetwork"
 ]
@@ -62,7 +65,46 @@ class KnitNetwork(KnitNetworkBase):
     Used for the automatic generation of knitting patterns based on mesh or
     NURBS surface geometry.
 
-    Inherits from KnitNetworkBase.
+    Inherits from :class:`KnitNetworkBase`.
+
+    Notes
+    -----
+    The implemented algorithms are strongly based on [1]_. Also see [2]_.
+    The implementation is further influenced by concepts and ideas presented
+    in [3]_, [4]_ and [5]_.
+
+    References
+    ----------
+    .. [1] Popescu, Mariana et al. *Automated Generation of Knit Patterns
+           for Non-developable Surfaces*
+
+           See: `Automated Generation of Knit Patterns for Non-developable
+           Surfaces <https://block.arch.ethz.ch/brg/files/POPESCU_DMSP-2017_automated-generation-knit-patterns_1505737906.pdf>`_
+
+    .. [2] Popescu, Mariana *KnitCrete - Stay-in-place knitted formworks for
+           complex concrete structures*
+
+           See: `KnitCrete - Stay-in-place knitted formworks for complex
+           concrete structures <https://block.arch.ethz.ch/brg/files/POPESCU_2019_ETHZ_PhD_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures_small_1586266206.pdf>`_
+
+    .. [3] Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian;
+           McCann, James *Automatic Machine Knitting of 3D Meshes*
+
+           See: `Automatic Machine Knitting of 3D Meshes
+           <https://textiles-lab.github.io/publications/2018-autoknit/>`_
+
+    .. [4] Narayanan, Vidya; Wu, Kui et al. *Visual Knitting Machine
+           Programming*
+
+           See: `Visual Knitting Machine Programming
+           <https://textiles-lab.github.io/publications/2019-visualknit/>`_
+
+    .. [5] McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April;
+           Matusik, Wojciech; Mankoff, Jen; Hodgins, Jessica
+           *A Compiler for 3D Machine Knitting*
+
+           See: `A Comiler for 3D Machine Knitting
+           <https://la.disneyresearch.com/publication/machine-knitting-compiler/>`_
     """
 
     # INITIALIZATION -----------------------------------------------------------
@@ -106,14 +148,14 @@ class KnitNetwork(KnitNetworkBase):
 
         Parameters
         ----------
-        contours : Curve / Polyline
+        contours : :obj:`list` of :class:`Rhino.Geometry.Polyline` or :class:`Rhino.Geometry.Curve`
             Ordered contours (i.e. isocurves, isolines) to initialize the
             KnitNetwork with.
 
         course_height : float
             The course height for sampling the contours.
 
-        reference_geometry : Mesh / NurbsSurface
+        reference_geometry : :class:`Rhino.Geometry.Mesh` or :class:`Rhino.Geometry.Surface`
             Optional underlying geometry that this network is based on.
 
         Returns
@@ -125,6 +167,12 @@ class KnitNetwork(KnitNetworkBase):
         -----
         This method will automatically call initialize_position_contour_edges() on
         the newly created network!
+
+        Raises
+        ------
+        KnitNetworkGeometryError
+            If a supplied contour is not a valid instance of
+            :obj:`Rhino.Geometry.Polyline` or :obj:`Rhino.Geometry.Curve`.
         """
 
         # create network
@@ -243,6 +291,8 @@ class KnitNetwork(KnitNetworkBase):
         -----
         This method is automatically called when creating a KnitNetwork using
         the create_from_contours method!
+
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # get all nodes by position
@@ -261,6 +311,10 @@ class KnitNetwork(KnitNetworkBase):
         Create all initial connections of the 'leaf' nodes by iterating over
         all position contours and creating 'weft' edges between the 'leaf'
         nodes of the position contours.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # get all leaves
@@ -289,30 +343,37 @@ class KnitNetwork(KnitNetworkBase):
 
         Parameters
         ----------
-        node : node
-            The starting node for the possible 'weft' edge.
+        node : :obj:`tuple`
+            2-tuple representing the source node for the possible 'weft' edge.
 
-        candidate : node
-            The target node for the possible 'weft' edge.
+        candidate ::obj:`tuple`
+            -tuple representing the target node for the possible 'weft' edge.
 
-        source_nodes : list
+        source_nodes : :obj:`list`
             List of nodes on the position contour of node. Used to check if
             the candidate node already has a connection.
 
-        max_connections : int
+        max_connections : int, optional
             The new 'weft' connection will only be made if the candidate nodes
-            number of connected neighbors is below this. Defaults to 4.
+            number of connected neighbors is below this.
 
-        verbose : bool
-            If True, this routine and all its subroutines will print messages
+            Defaults to ``4``.
+
+        verbose : bool, optional
+            If ``True``, this routine and all its subroutines will print messages
             about what is happening to the console.
-            Defaults to False.
+
+            Defaults to ``False``.
 
         Returns
         -------
         bool
-            ``True`` if the connection has been made.
+            ``True`` if the connection has been made,
             ``False`` otherwise.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # define verbose print function
@@ -355,6 +416,10 @@ class KnitNetwork(KnitNetworkBase):
         Private method for creating initial 'weft' connections for the supplied
         set of contours, starting from the first contour in the set and
         propagating to the last contour in the set.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # define verbose print function
@@ -563,6 +628,10 @@ class KnitNetwork(KnitNetworkBase):
         """
         Private method for creating second pass 'weft' connections for the
         given set of contours.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         v_print = print if verbose else lambda *a, **k: None
@@ -860,45 +929,64 @@ class KnitNetwork(KnitNetworkBase):
 
         Parameters
         ----------
-        start_index : int
+        start_index : int, optional
             This value defines at which index the list of contours is split.
             If no index is supplied, will split the list at the longest contour.
-            Defaults to ``None``
 
-        propagate_from_center : bool
+            Defaults to ``None``.
+
+        propagate_from_center : bool, optional
             If ``True``, will propagate left and right set of contours from
             the center contour defined by start_index or the longest contour
             ( < | > ). Otherwise, the propagation of the contours left to the
             center will start at the left boundary ( > | > ).
+
             Defaults to ``False``
 
-        force_continuous_start : bool
+        force_continuous_start : bool, optional
             If ``True``, forces the first row of stitches to be continuous.
-            Defaults to ``False``
 
-        force_continuous_end : bool
+            Defaults to ``False``.
+
+        force_continuous_end : bool, optional
             If ``True``, forces the last row of stitches to be continuous.
-            Defaults to ``False``
 
-        max_connections : int
+            Defaults to ``False``.
+
+        max_connections : int, optional
             The maximum connections a node is allowed to have to be considered
             for an additional 'weft' connection.
-            Defaults to 4.
 
-        least_connected : bool
-            If True, uses the least connected node from the found candidates
+            Defaults to ``4``.
 
-        precise : bool
-            If True, the distance between nodes will be calculated using the
+        least_connected : bool, optional
+            If ``True``, uses the least connected node from the found
+            candidates.
+
+            Defaults to ``False``
+
+        precise : bool, optional
+            If ``True``, the distance between nodes will be calculated using the
             Rhino.Geometry.Point3d.DistanceTo method, otherwise the much faster
             Rhino.Geometry.Point3d.DistanceToSquared method is used.
-            Defaults to False.
 
-        verbose : boolean
-            If True, this routine and all its subroutines will print messages
+            Defaults to ``False``.
+
+        verbose : bool, optional
+            If ``True``, this routine and all its subroutines will print messages
             about what is happening to the console. Great for debugging and
             analysis.
-            Defaults to False.
+
+            Defaults to ``False``.
+
+        Raises
+        ------
+        KnitNetworkError
+            If the supplied splitting index is too high.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # get all the positions / contours
@@ -964,6 +1052,24 @@ class KnitNetwork(KnitNetworkBase):
         """
         Method for initializing first 'warp' connections once all preliminary
         'weft' connections are made.
+
+        Parameters
+        ----------
+        contour_set : :obj:`list`, optional
+            List of lists of nodes to initialize 'warp' edges. If none are
+            supplied, all nodes ordered by thei 'position' attributes are
+            used.
+
+            Defaults to ``None``.
+
+        verbose : bool, optional
+            If ``True``, will print verbose output to the console.
+
+            Defaults to ``False``.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # if no contour set is provided, use all contours of this network
@@ -1090,6 +1196,9 @@ class KnitNetwork(KnitNetworkBase):
         Traverse a path of 'weft' edges starting from an 'end' node until
         another 'end' node is discovered. Set 'segment' attributes to nodes
         and edges along the way.
+
+        start_end_node : :obj:`tuple`
+            2-tuple representing the node to start the traversal.
         """
 
         # get connected weft edges and sort them by their connected node
@@ -1186,8 +1295,12 @@ class KnitNetwork(KnitNetworkBase):
         Returns
         -------
         success : bool
-            ``True`` if the mapping network has been successfully created.
+            ``True`` if the mapping network has been successfully created,
             ``False`` otherwise.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # create a new KnitMappingNetwork instance
@@ -1287,6 +1400,32 @@ class KnitNetwork(KnitNetworkBase):
         """
         Returns all nodes of the network ordered by 'segment' attribute.
         Note: 'end' nodes are not included!
+
+        Parameters
+        ----------
+        data : bool, optional
+            If ``True``, the nodes contained in the output will be represented
+            as 2-tuples in the form of (node_identifier, node_data).
+
+            Defaults to ``False``
+
+        edges : bool, optional
+            If ``True``, the returned output list will contain 3-tuples in the
+            form of (segment_value, segment_nodes, segment_edge).
+
+            Defaults to ``False``.
+
+        Returns
+        -------
+        nodes_by_segment : :obj:`list` of :obj:`tuple`
+            List of 2-tuples in the form of (segment_value, segment_nodes) or
+            3-tuples in the form of (segment_value, segment_nodes, segment_edge)
+            depending on the ``edges`` argument.
+
+        Raises
+        ------
+        MappingNetworkError
+            If the mapping network is not available for this instance.
         """
 
         # retrieve mappingnetwork
@@ -1356,6 +1495,15 @@ class KnitNetwork(KnitNetworkBase):
 
         stitch_width : float
             The width of a single stitch inside the knit.
+
+        Raises
+        ------
+        MappingNetworkError
+            If the mapping network is not available for this instance.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # retrieve mapping network
@@ -1416,6 +1564,10 @@ class KnitNetwork(KnitNetworkBase):
         """
         Loop through all the segment contour edges and create all 'weft'
         connections for this network.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # get all nodes by segment contour
@@ -1460,23 +1612,30 @@ class KnitNetwork(KnitNetworkBase):
         candidate : node
             The target node for the possible 'weft' edge.
 
-        source_nodes : list
+        source_nodes : :obj:`list`
             List of nodes on the position contour of node. Used to check if
             the candidate node already has a connection.
 
-        max_connections : int
+        max_connections : int, optional
             The new 'weft' connection will only be made if the candidate nodes
-            number of connected neighbors is below this. Defaults to 4.
+            number of connected neighbors is below this.
 
-        verbose : bool
-            If True, this routine and all its subroutines will print messages
+            Defaults to ``4``.
+
+        verbose : bool, optional
+            If ``True``, this routine and all its subroutines will print messages
             about what is happening to the console.
-            Defaults to False.
+
+            Defaults to ``False``.
 
         Returns
         -------
         result : bool
             True if the connection has been made, otherwise false.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # define verbose print function
@@ -1511,6 +1670,10 @@ class KnitNetwork(KnitNetworkBase):
         supplied pair of segment chains.
         The pair is only defined as a list of nodes, the nodes have to be
         supplied with their attribute data!
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # define verbose print function
@@ -1696,6 +1859,10 @@ class KnitNetwork(KnitNetworkBase):
         """
         Private method for creating second pass 'warp' connections for the
         given set of contours.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # define verbose print function
@@ -1788,26 +1955,36 @@ class KnitNetwork(KnitNetworkBase):
 
         Parameters
         ----------
-        max_connections : integer
+        max_connections : int, optional
             The number of maximum previous connections a candidate node for a
             'warp' connection is allowed to have.
 
-        include_end_nodes : bool
-            If True, 'end' nodes between adjacent segment contours in a source
-            chain will be included in the first pass of connecting 'warp' edges.
-            Defaults to True.
+            Defaults to ``4``.
+
+        include_end_nodes : bool, optional
+            If ``True``, 'end' nodes between adjacent segment contours in a
+            source chain will be included in the first pass of connecting 'warp'
+            edges.
+
+            Defaults to ``True``.
 
         precise : bool
-            If True, the distance between nodes will be calculated using the
+            If ``True``, the distance between nodes will be calculated using the
             Rhino.Geometry.Point3d.DistanceTo method, otherwise the much faster
             Rhino.Geometry.Point3d.DistanceToSquared method is used.
-            Defaults to False.
 
-        verbose : bool
-            If True, this routine and all its subroutines will print messages
-            about what is happening to the console. Great for debugging and
-            analysis.
-            Defaults to False.
+            Defaults to ``False``.
+
+        verbose : bool, optional
+            If ``True``, this routine and all its subroutines will print
+            messages about what is happening to the console. Great for debugging
+            and analysis.
+
+            Defaults to ``False``.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # define verbose print function
@@ -2499,7 +2676,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Returns
         -------
-        directed_network : KnitDiNetwork
+        directed_network : :class:`KnitDiNetwork`
             The directed representation of this network.
         """
 
@@ -2524,22 +2701,26 @@ class KnitNetwork(KnitNetworkBase):
 
         Parameters
         ----------
-        mode : int
+        mode : int, optional
             Determines how the neighbors of each node are sorted when finding
             cycles for the network.
-            -1 equals to using the world XY plane (default)
-            0 equals to using a plane normal to the origin nodes closest
-            point on the reference geometry
-            1 equals to using a plane normal to the average of the origin
-            and neighbor nodes' closest points on the reference geometry
-            2 equals to using an average plane between a plane fit to the
+            ``-1`` equals to using the world XY plane.
+
+            ``0`` equals to using a plane normal to the origin nodes closest
+            point on the reference geometry.
+
+            ``1`` equals to using a plane normal to the average of the origin
+            and neighbor nodes' closest points on the reference geometry.
+
+            ``2`` equals to using an average plane between a plane fit to the
             origin and its neighbor nodes and a plane normal to the origin
-            nodes closest point on the reference geometry
-            Defaults to -1
+            nodes closest point on the reference geometry.
+
+            Defaults to ``-1``.
 
         Warning
         -------
-        Modes other than -1 (default) are only possible if this network has an
+        Modes other than ``-1`` are only possible if this network has an
         underlying reference geometry in form of a Mesh or NurbsSurface. The
         reference geometry should be assigned when initializing the network by
         assigning the geometry to the "reference_geometry" attribute of the
@@ -2548,12 +2729,7 @@ class KnitNetwork(KnitNetworkBase):
         Notes
         -----
         Based on an implementation inside the COMPAS framework.
-        For more info see [1]_.
-
-        References
-        ----------
-        .. [1] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
-               See: https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L20
+        For more info see [16]_.
         """
 
         return self.to_KnitDiNetwork().find_cycles(mode=mode)
@@ -2565,28 +2741,34 @@ class KnitNetwork(KnitNetworkBase):
 
         Parameters
         ----------
-        mode : int
+        mode : int, optional
             Determines how the neighbors of each node are sorted when finding
             cycles for the network.
-            -1 equals to using the world XY plane (default)
-            0 equals to using a plane normal to the origin nodes closest
-            point on the reference geometry
-            1 equals to using a plane normal to the average of the origin
-            and neighbor nodes' closest points on the reference geometry
-            2 equals to using an average plane between a plane fit to the
-            origin and its neighbor nodes and a plane normal to the origin
-            nodes closest point on the reference geometry
-            Defaults to -1
 
-        max_valence : int
+            ``-1`` equals to using the world XY plane.
+
+            ``0`` equals to using a plane normal to the origin nodes closest
+            point on the reference geometry.
+
+            ``1`` equals to using a plane normal to the average of the origin
+            and neighbor nodes' closest points on the reference geometry.
+
+            ``2`` equals to using an average plane between a plane fit to the
+            origin and its neighbor nodes and a plane normal to the origin
+            nodes closest point on the reference geometry.
+
+            Defaults to ``-1``.
+
+        max_valence : int, optional
             Sets the maximum edge valence of the faces. If this is set to > 4,
             n-gon faces (more than 4 edges) are allowed. Otherwise, their cycles
             are treated as invalid and will be ignored.
-            Defaults to 4.
+
+            Defaults to ``4``.
 
         Warning
         -------
-        Modes other than -1 (default) are only possible if this network has an
+        Modes other than ``-1`` are only possible if this network has an
         underlying reference geometry in form of a Mesh or NurbsSurface. The
         reference geometry should be assigned when initializing the network by
         assigning the geometry to the "reference_geometry" attribute of the
@@ -2598,41 +2780,49 @@ class KnitNetwork(KnitNetworkBase):
 
     # DUALITY ------------------------------------------------------------------
 
-    def create_dual(self, mode=-1, merge_adj_creases=True, mend_trailing_rows=True):
+    def create_dual(self, mode=-1, merge_adj_creases=False, mend_trailing_rows=False):
         """
         Creates the dual of this KnitNetwork while translating current edge
         attributes to the edges of the dual network.
 
         Parameters
         ----------
-        mode : int
+        mode : int, optional
             Determines how the neighbors of each node are sorted when finding
             cycles for the network.
-            -1 equals to using the world XY plane (default)
-            0 equals to using a plane normal to the origin nodes closest
-            point on the reference geometry
-            1 equals to using a plane normal to the average of the origin
-            and neighbor nodes' closest points on the reference geometry
-            2 equals to using an average plane between a plane fit to the
-            origin and its neighbor nodes and a plane normal to the origin
-            nodes closest point on the reference geometry
-            Defaults to -1
 
-        merge_adj_creases : bool
+            ``-1`` equals to using the world XY plane.
+
+            ``0`` equals to using a plane normal to the origin nodes closest
+            point on the reference geometry.
+
+            ``1`` equals to using a plane normal to the average of the origin
+            and neighbor nodes' closest points on the reference geometry.
+
+            ``2`` equals to using an average plane between a plane fit to the
+            origin and its neighbor nodes and a plane normal to the origin
+            nodes closest point on the reference geometry.
+
+            Defaults to ``-1``.
+
+        merge_adj_creases : bool, optional
             If ``True``, will merge adjacent 'increase' and 'decrease' nodes
             connected by a 'weft' edge into a single node. This effectively
             simplifies the pattern, as a decrease is unneccessary to perform
             if an increase is right beside it - both nodes can be replaced by a
             single regular node (stitch).
-            Defaults to ``True``.
 
-        mend_trailing_rows : bool
+            Defaults to ``False``.
+
+        mend_trailing_rows : bool, optional
             If ``True``, will attempt to mend trailing rows by reconnecting
             nodes.
 
+            Defaults to ``False``.
+
         Returns
         -------
-        Dual : KnitDiNetwork
+        dual_network : :class:`KnitDiNetwork`
             The dual network of this KnitNetwork.
 
         Warning
@@ -2642,6 +2832,10 @@ class KnitNetwork(KnitNetworkBase):
         reference geometry  should be assigned when initializing the network by
         assigning the geometry to the 'reference_geometry' attribute of the
         network.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # first find the cycles of this network

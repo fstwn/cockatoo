@@ -5,7 +5,10 @@ from __future__ import print_function
 from collections import OrderedDict
 
 # DUNDER -----------------------------------------------------------------------
-__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
+__author__ = "Max Eschenbach (post@maxeschenbach.com)"
+__copyright__  = "Copyright 2020 / Max Eschenbach"
+__license__    = "Apache License 2.0"
+__email__      = ['<post@maxeschenbach.com>']
 __all__ = [
     "KnitNetworkBase"
 ]
@@ -41,7 +44,14 @@ class KnitNetworkBase(nx.Graph):
     Used as a base class for sharing behaviour between the KnitNetwork,
     KnitMappingNetwork and KnitDiNetwork classes.
 
-    Inherits from networkx.Graph.
+    Inherits from :class:`networkx.Graph`.
+    For more info, see [13]_.
+
+    References
+    ----------
+    .. [13] Hagberg, Aric; Schult, Dan; Swart, Pieter *NetworkX 1.5*
+
+            See: `NetworkX <https://networkx.github.io/documentation/networkx-1.5/_downloads/networkx_reference.pdf>`_
     """
 
     # REPRESENTATION OF NETWORK ------------------------------------------------
@@ -84,7 +94,6 @@ class KnitNetworkBase(nx.Graph):
         data = data.format(nn, ce, wee, wae)
 
         return name + data
-
 
     def ToString(self):
         """
@@ -300,46 +309,53 @@ class KnitNetworkBase(nx.Graph):
 
         Parameters
         ----------
-        node_index : int
+        node_index : hashable
             The index of the node in the network. Usually an integer is used.
 
         pt : :class:`Rhino.Geometry.Point3d`
             A RhinoCommon Point3d object.
 
-        position : hashable
+        position : hashable, optional
             The 'position' attribute of the node identifying the underlying
             contour edge of the network.
-            Defaults to None.
 
-        num : int
+            Defaults to ``None``.
+
+        num : int, optional
             The 'num' attribute of the node representing its index in the
             underlying contour edge of the network.
-            Defaults to None.
 
-        leaf : bool
+            Defaults to ``None``.
+
+        leaf : bool, optional
             The 'leaf' attribute of the node identifying it as a node on the
             first or last course of the knitting pattern.
-            Defaults to False.
 
-        start : bool
+            Defaults to ``False``.
+
+        start : bool, optional
             The 'start' attribute of the node identifying it as the start of
             a course.
-            Defaults to False.
 
-        end : bool
+            Defaults to ``False``.
+
+        end : bool, optional
             The 'end' attribute of the node identifying it as the end of a
             segment or course.
-            Defaults to False.
 
-        segment : :obj:`tuple` of :obj:`int`
+            Defaults to ``False``.
+
+        segment : :obj:`tuple` of :obj:`int`, optional
             The 'segment' attribute of the node identifying its position between
             two 'end' nodes.
-            Defaults to None.
 
-        crease : bool
+            Defaults to ``None``.
+
+        crease : bool, optional
             The 'crease' attribute identifying the node as an increase or
             decrease (needed for translation from dual to 2d knitting pattern).
-            Defaults to False.
+
+            Defaults to ``False``.
         """
 
         # extract node coordinates
@@ -398,7 +414,7 @@ class KnitNetworkBase(nx.Graph):
 
         Returns
         -------
-        xyz : sequence of int
+        xyz : :obj:`tuple` of :obj:`int`
             The XYZ coordinates of the node as a 3-tuple.
         """
         try:
@@ -434,15 +450,16 @@ class KnitNetworkBase(nx.Graph):
         Parameters
         ----------
         position : hashable
-            The index of the position
+            The index of the position.
 
-        data : bool
-            If True, found nodes will be returned with their attribute data.
-            Defaults to False.
+        data : bool, optional
+            If ``True``, found nodes will be returned with their attribute data.
+
+            Defaults to ``False``.
 
         Returns
         -------
-        nodes : list
+        nodes : :obj:`list`
             The nodes sharing the supplied 'position' attribute.
         """
 
@@ -463,13 +480,14 @@ class KnitNetworkBase(nx.Graph):
 
         Parameters
         ----------
-        data : bool
-            If True, found nodes will be returned with their attribute data.
-            Defaults to False.
+        data : bool, optional
+            If ``True``, found nodes will be returned with their attribute data.
+
+            Defaults to ``False``.
 
         Returns
         -------
-        nodes : list of lists
+        nodes : :obj:`list` of :obj:`list`
             All nodes grouped by their 'position' attribute
         """
 
@@ -508,13 +526,14 @@ class KnitNetworkBase(nx.Graph):
         segment : hashable
             The identifier of the segment to look for.
 
-        data : bool
-            If True, found nodes will be returned with their attribute data.
-            Defaults to False.
+        data : bool, optional
+            If ``True``, found nodes will be returned with their attribute data.
+
+            Defaults to ``False``.
 
         Returns
         -------
-        nodes : list
+        nodes : :obj:`list`
             List of nodes sharing the supplied value as their 'segment'
             attribute, ordered by their 'num' attribute.
         """
@@ -537,7 +556,7 @@ class KnitNetworkBase(nx.Graph):
 
         Returns
         -------
-        nodes : list
+        nodes : :obj:`list`
             List of all nodes for which the attribute 'leaf' is ``True``
         """
 
@@ -559,13 +578,14 @@ class KnitNetworkBase(nx.Graph):
         position : hashable
             The index / identifier of the position
 
-        data : bool
-            If True, found nodes will be returned with their attribute data.
-            Defaults to False.
+        data : bool, optional
+            If ``True``, found nodes will be returned with their attribute data.
+
+            Defaults to ``False``.
 
         Returns
         -------
-        nodes : list
+        nodes : :obj:`list`
             List of all nodes for which the attribute 'leaf' is ``True`` and
             which share the supplied value as their 'position' attribute
         """
@@ -582,13 +602,14 @@ class KnitNetworkBase(nx.Graph):
 
         Parameters
         ----------
-        data : bool
-            If True, found nodes will be returned with their attribute data.
-            Defaults to False.
+        data : bool, optional
+            If ``True``, found nodes will be returned with their attribute data.
+
+            Defaults to ``False``.
 
         Returns
         -------
-        nodes : list of lists
+        nodes : :obj:`list` of :obj:`list`
             All nodes for which the attribute 'leaf' is true, grouped by their
             'position' attribute
         """
@@ -640,13 +661,14 @@ class KnitNetworkBase(nx.Graph):
         position : hashable
             The index / identifier of the position
 
-        data : bool
-            If True, found nodes will be returned with their attribute data.
-            Defaults to False.
+        data : bool, optional
+            If ``True``, found nodes will be returned with their attribute data.
+
+            Defaults to ``False``.
 
         Returns
         -------
-        nodes : list
+        nodes : :obj:`list`
             List of all nodes for which the attribute 'end' is ``True`` and
             which share the supplied value as their 'position' attribute
         """
@@ -663,13 +685,14 @@ class KnitNetworkBase(nx.Graph):
 
         Parameters
         ----------
-        data : bool
-            If True, found nodes will be returned with their attribute data.
-            Defaults to False.
+        data : bool, optional
+            If ``True``, found nodes will be returned with their attribute data.
+
+            Defaults to ``False``.
 
         Returns
         -------
-        nodes : list of lists
+        nodes : :obj:`list` of :obj:`list`
             All nodes for which the attribute 'end' is true, grouped by their
             'position' attribute
         """
@@ -708,13 +731,15 @@ class KnitNetworkBase(nx.Graph):
         position : hashable
             The index / identifier of the position
 
-        as_crv : bool
-            If True, will return a PolylineCurve instead of a Polyline.
+        as_crv : bool, optional
+            If ``True``, will return a PolylineCurve instead of a Polyline.
+
+            Defaults to ``False``.
 
         Returns
         -------
-        contour
-            The contour as a Polyline (or PolylineCurve if as_crv is True).
+        contour : :obj:`Rhino.Geometry.Polyline` or :obj:`Rhino.Geometry.PolylineCurve`
+            The contour as a Polyline or PolylineCurve if ``as_crv`` is ``True``.
         """
 
         points = [d["geo"] for n, d in self.nodes_on_position(position, True)]
@@ -729,7 +754,7 @@ class KnitNetworkBase(nx.Graph):
 
         Returns
         -------
-        contour_data : 3-tuple
+        contour_data : :obj:`tuple`
             3-tuple of the 'position' identifier, the contour geometry and its
             length.
         """
@@ -754,10 +779,19 @@ class KnitNetworkBase(nx.Graph):
         Creates an edge neither 'warp' nor 'weft' between two nodes in the
         network.
 
+        Parameters
+        ----------
+        from_node : :obj:`tuple`
+            2-tuple of (node_identifier, node_data) that represents the edges'
+            source node.
+        to_node : :obj:`tuple`
+            2-tuple of (node_identifier, node_data) that represents the edges'
+            target node.
+
         Returns
         -------
         success : bool
-            ``True`` if the edge has been successfully created.
+            ``True`` if the edge has been successfully created,
             ``False`` otherwise.
         """
 
@@ -788,6 +822,18 @@ class KnitNetworkBase(nx.Graph):
     def create_weft_edge(self, from_node, to_node, segment=None):
         """
         Creates a 'weft' edge between two nodes in the network.
+
+        Parameters
+        ----------
+        from_node : :obj:`tuple`
+            2-tuple of (node_identifier, node_data) that represents the edges'
+            source node.
+        to_node : :obj:`tuple`
+            2-tuple of (node_identifier, node_data) that represents the edges'
+            target node.
+        segment : :obj:`tuple`
+            3-tuple that will be used to set the 'segment' attribute of the
+            'weft' edge.
 
         Returns
         -------
@@ -823,6 +869,15 @@ class KnitNetworkBase(nx.Graph):
     def create_warp_edge(self, from_node, to_node):
         """
         Creates a 'warp' edge between two nodes in the network.
+
+        Parameters
+        ----------
+        from_node : :obj:`tuple`
+            2-tuple of (node_identifier, node_data) that represents the edges'
+            source node.
+        to_node : :obj:`tuple`
+            2-tuple of (node_identifier, node_data) that represents the edges'
+            target node.
 
         Returns
         -------
@@ -864,22 +919,25 @@ class KnitNetworkBase(nx.Graph):
 
         Parameters
         ----------
-        from_node : node
-            source node of the edge
+        from_node : :obj:`tuple`
+            2-tuple of (node_identifier, node_data) that represents the edges'
+            source node.
 
-        to_node : node
-            target node of the edge
+        to_node : :obj:`tuple`
+            2-tuple of (node_identifier, node_data) that represents the edges'
+            target node.
 
-        segment_value : 3-tuple of :obj:`int`
-            the segment attribute value of the edge
+        segment_value : :obj:`tuple` of :obj:`int`
+            3-tuple that will be used to set the 'segment' attribute of the
+            'weft' edge.
 
-        segment_geo : list of :class:`Rhino.Geometry.Line`
+        segment_geo : :obj:`list` of :class:`Rhino.Geometry.Line`
             the geometry of all 'weft' edges that make this segment contour edge
 
         Returns
         -------
         success : bool
-            ``True`` if the edge has been successfully created.
+            ``True`` if the edge has been successfully created,
             ``False`` otherwise
         """
 
@@ -926,10 +984,10 @@ class KnitNetworkBase(nx.Graph):
         Parameters
         ----------
         u : hashable
-            Hashable identifier of the edge source node.
+            Hashable identifier of the edges source node.
 
         v : hashable
-            Hashable identifier of the edge target node.
+            Hashable identifier of the edges target node.
 
         Returns
         -------
@@ -1034,14 +1092,15 @@ class KnitNetworkBase(nx.Graph):
         node : hashable
             Hashable identifier of the node to check for 'weft' edges.
 
-        data : bool
-            If True, the edges will be returned as 3-tuples with their
+        data : bool, optional
+            If ``True``, the edges will be returned as 3-tuples with their
             associated attribute data.
-            Defaults to False.
+
+            Defaults to ``False``.
 
         Returns
         -------
-        edges : list
+        edges : :obj:`list`
             List of 'weft' edges connected to the given node. Each item in the
             list will be either a 2-tuple of (u, v) identifiers or a 3-tuple
             of (u, v, d) where d is the attribute data of the edge, depending
@@ -1065,14 +1124,15 @@ class KnitNetworkBase(nx.Graph):
         node : hashable
             Hashable identifier of the node to check for 'warp' edges.
 
-        data : bool
-            If True, the edges will be returned as 3-tuples with their
+        data : bool, optional
+            If ``True``, the edges will be returned as 3-tuples with their
             associated attribute data.
-            Defaults to False.
+
+            Defaults to ``False``.
 
         Returns
         -------
-        edges : list
+        edges : :obj:`list`
             List of 'warp' edges connected to the given node. Each item in the
             list will be either a 2-tuple of (u, v) identifiers or a 3-tuple
             of (u, v, d) where d is the attribute data of the edge, depending
@@ -1098,14 +1158,15 @@ class KnitNetworkBase(nx.Graph):
             Hashable identifier of the node to check for edges marked neither
             'warp' nor 'weft'.
 
-        data : bool
-            If True, the edges will be returned as 3-tuples with their
+        data : bool, optional
+            If ``True``, the edges will be returned as 3-tuples with their
             associated attribute data.
-            Defaults to False.
+
+            Defaults to ``False``.
 
         Returns
         -------
-        edges : list
+        edges : :obj:`list`
             List of edges marked neither 'warp' nor 'weft' connected to the
             given node. Each item in the list will be either a 2-tuple of (u, v)
             identifiers or a 3-tuple of (u, v, d) where d is the attribute data
@@ -1134,14 +1195,15 @@ class KnitNetworkBase(nx.Graph):
         node : hashable
             Hashable identifier of the node to check for connected segments.
 
-        data : bool
-            If True, the edges will be returned as 3-tuples with their
+        data : bool, optional
+            If ``True``, the edges will be returned as 3-tuples with their
             associated attribute data.
-            Defaults to False.
+
+            Defaults to ``False``.
 
         Returns
         -------
-        edges : list
+        edges : :obj:`list`
             List of edges. Each item will be either a 2-tuple of (u, v)
             identifiers or a 3-tuple of (u, v, d) where d is the attribute data
             of the edge, depending on the data parameter.
@@ -1173,10 +1235,11 @@ class KnitNetworkBase(nx.Graph):
         node : hashable
             Hashable identifier of the node to check for connected segments.
 
-        data : bool
-            If True, the edges will be returned as 3-tuples with their
+        data : bool, optional
+            If ``True``, the edges will be returned as 3-tuples with their
             associated attribute data.
-            Defaults to False.
+
+            Defaults to ``False``.
 
         Returns
         -------
