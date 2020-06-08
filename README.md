@@ -54,12 +54,15 @@ This open-source software prototype constitutes the practical part of my diploma
 ### 3. Install Cockatoo UserObjects
 
 - Navigate to the Grasshopper UserObjects folder. This can be done in two ways:
-  - *Either* open explorer and go to
-    
+  - *Either* open the following folder:
+    - On Windows:
     `C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects`
+    
+    - On Mac:
+    `Mac_Folder\Here`
   - *Or* open Rhino & Grasshopper and in the Grasshopper Window click on
 
-    `File` >> `Special Folders` >> `User Object Folder`
+    `File` > `Special Folders` > `User Object Folder`
 - Move the whole `Cockatoo` directory to the UserObjects folder.
 
 ### 4. Unblock the new UserObjects!
