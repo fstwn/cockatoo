@@ -1,0 +1,339 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cockatoo.exception &mdash; Cockatoo 0.1.0.0-alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/jquery.fancybox.min.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../_static/glpi.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Cockatoo 0.1.0.0-alpha documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Cockatoo
+          
+
+          
+          </a>
+
+          
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cockatoo.html">cockatoo module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Cockatoo</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>cockatoo.exception</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cockatoo.exception</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. currentmodule:: cockatoo.exception</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">    :nosignatures:</span>
+
+<span class="sd">    CockatooException</span>
+<span class="sd">    CockatooImportException</span>
+<span class="sd">    RhinoNotPresentError</span>
+<span class="sd">    SystemNotPresentError</span>
+<span class="sd">    NetworkXNotPresentError</span>
+<span class="sd">    NetworkXVersionError</span>
+<span class="sd">    KnitNetworkError</span>
+<span class="sd">    KnitNetworkGeometryError</span>
+<span class="sd">    MappingNetworkError</span>
+<span class="sd">    KnitNetworkTopologyError</span>
+<span class="sd">    NoWeftEdgesError</span>
+<span class="sd">    NoWarpEdgesError</span>
+<span class="sd">    NoEndNodesError</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># DUNDER -----------------------------------------------------------------------</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Max Eschenbach (post@maxeschenbach.com)&quot;</span>
+<span class="n">__copyright__</span>  <span class="o">=</span> <span class="s2">&quot;Copyright 2020 / Max Eschenbach&quot;</span>
+<span class="n">__license__</span>    <span class="o">=</span> <span class="s2">&quot;Apache License 2.0&quot;</span>
+<span class="n">__email__</span>      <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&lt;post@maxeschenbach.com&gt;&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;CockatooException&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CockatooImportException&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RhinoNotPresentError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SystemNotPresentError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NetworkXNotPresentError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NetworkXVersionError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;KnitNetworkError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;KnitNetworkGeometryError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MappingNetworkError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;KnitNetworkTopologyError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NoWeftEdgesError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NoWarpEdgesError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NoEndNodesError&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># COCKATOO BASE EXCEPTION ------------------------------------------------------</span>
+
+<div class="viewcode-block" id="CockatooException"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.CockatooException">[docs]</a><span class="k">class</span> <span class="nc">CockatooException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for exceptions in Cockatoo.&quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="CockatooImportException"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.CockatooImportException">[docs]</a><span class="k">class</span> <span class="nc">CockatooImportException</span><span class="p">(</span><span class="ne">ImportError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for import errors in Cockatoo.&quot;&quot;&quot;</span></div>
+
+<span class="c1"># DEPENDENCY EXCEPTIONS --------------------------------------------------------</span>
+
+<div class="viewcode-block" id="RhinoNotPresentError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.RhinoNotPresentError">[docs]</a><span class="k">class</span> <span class="nc">RhinoNotPresentError</span><span class="p">(</span><span class="n">CockatooImportException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception raised when import of Rhino fails.&quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="SystemNotPresentError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.SystemNotPresentError">[docs]</a><span class="k">class</span> <span class="nc">SystemNotPresentError</span><span class="p">(</span><span class="n">CockatooImportException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception raised when import of System fails.&quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="NetworkXNotPresentError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.NetworkXNotPresentError">[docs]</a><span class="k">class</span> <span class="nc">NetworkXNotPresentError</span><span class="p">(</span><span class="n">CockatooImportException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception raised when import of NetworkX fails.&quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="NetworkXVersionError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.NetworkXVersionError">[docs]</a><span class="k">class</span> <span class="nc">NetworkXVersionError</span><span class="p">(</span><span class="n">CockatooException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception raised when NetworkX version is not 1.5.&quot;&quot;&quot;</span></div>
+
+<span class="c1"># CALLBACK EXCEPTIONS ----------------------------------------------------------</span>
+
+<span class="k">class</span> <span class="nc">CockatooCallbackError</span><span class="p">(</span><span class="n">CockatooException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception raised when a supplied callback is not callable.&quot;&quot;&quot;</span>
+
+<span class="c1"># KNITNETWORK EXCEPTIONS -------------------------------------------------------</span>
+
+<div class="viewcode-block" id="KnitNetworkError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.KnitNetworkError">[docs]</a><span class="k">class</span> <span class="nc">KnitNetworkError</span><span class="p">(</span><span class="n">CockatooException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception for a serious error in a KnitNetwork of Cockatoo.&quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="KnitNetworkGeometryError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.KnitNetworkGeometryError">[docs]</a><span class="k">class</span> <span class="nc">KnitNetworkGeometryError</span><span class="p">(</span><span class="n">KnitNetworkError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception raised when vital geometry operations fail.&quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="MappingNetworkError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.MappingNetworkError">[docs]</a><span class="k">class</span> <span class="nc">MappingNetworkError</span><span class="p">(</span><span class="n">KnitNetworkError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised by methods relying on a mapping network if no mapping</span>
+<span class="sd">    network has been assigned to the current KnitNetwork instance yet.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="KnitNetworkTopologyError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.KnitNetworkTopologyError">[docs]</a><span class="k">class</span> <span class="nc">KnitNetworkTopologyError</span><span class="p">(</span><span class="n">KnitNetworkError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised by methods which rely on a certain topology of a network if</span>
+<span class="sd">    that topology could not be verified.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="NoWeftEdgesError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.NoWeftEdgesError">[docs]</a><span class="k">class</span> <span class="nc">NoWeftEdgesError</span><span class="p">(</span><span class="n">KnitNetworkError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised by methods relying on &#39;weft&#39; edges if there are no &#39;weft&#39;</span>
+<span class="sd">    edges in the network.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="NoWarpEdgesError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.NoWarpEdgesError">[docs]</a><span class="k">class</span> <span class="nc">NoWarpEdgesError</span><span class="p">(</span><span class="n">KnitNetworkError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised by methods relying on &#39;warp&#39; edges if there are no &#39;warp&#39;</span>
+<span class="sd">    edges in the network.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="NoEndNodesError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.NoEndNodesError">[docs]</a><span class="k">class</span> <span class="nc">NoEndNodesError</span><span class="p">(</span><span class="n">KnitNetworkError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised by methods relying on &#39;end&#39; nodes if there are no &#39;end&#39;</span>
+<span class="sd">    nodes in the network.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<span class="c1"># MAIN -------------------------------------------------------------------------</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Max Eschenbach.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.0.0-alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" src="../../_static/jquery.fancybox.min.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+  <script type="text/javascript">
+    $(function(){
+      $('.image-reference').fancybox();
+    })
+  </script>
+
+</body>
+</html>
