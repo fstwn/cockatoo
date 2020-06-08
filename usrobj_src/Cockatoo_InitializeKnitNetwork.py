@@ -18,7 +18,7 @@ methods like meshing or creating a dual might fail without it.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200603
+        Version: 200608
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -31,6 +31,12 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "InitializeKnitNetwork"
+ghenv.Component.NickName ="IKN"
+ghenv.Component.Category = "Cockatoo"
+ghenv.Component.SubCategory = "6 KnitNetwork"
+
 # LOCAL MODULE IMPORTS
 try:
     import cockatoo
@@ -39,12 +45,6 @@ except ImportError:
              "installed! Please make sure the module is in you search " + \
              "path, see README for instructions!."
     raise ImportError(errMsg)
-
-# GHENV COMPONENT SETTINGS
-ghenv.Component.Name = "InitializeKnitNetwork"
-ghenv.Component.NickName ="IKN"
-ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "6 KnitNetwork"
 
 class InitializeKnitNetwork(component):
     
