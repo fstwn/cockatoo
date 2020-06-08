@@ -56,7 +56,7 @@ substantial amount of time!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200607
+        Version: 200608
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -69,6 +69,12 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "RenderKnitNetwork"
+ghenv.Component.NickName ="RKN"
+ghenv.Component.Category = "Cockatoo"
+ghenv.Component.SubCategory = "7 Visualisation"
+
 # LOCAL MODULE IMPORTS
 try:
     from cockatoo import KnitNetwork
@@ -77,12 +83,6 @@ except ImportError:
              "installed! Please make sure the module is in you search " + \
              "path, see README for instructions!."
     raise ImportError(errMsg)
-
-# GHENV COMPONENT SETTINGS
-ghenv.Component.Name = "RenderKnitNetwork"
-ghenv.Component.NickName ="RKN"
-ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "7 Visualisation"
 
 class RenderKnitNetwork(component):
     
@@ -94,7 +94,7 @@ class RenderKnitNetwork(component):
         self.drawing_data = []
         self.draw_directional = False
     
-    def get_BoundingBox(self):
+    def get_ClippingBox(self):
         return Rhino.Geometry.BoundingBox()
     
     def DrawViewportWires(self, args):
