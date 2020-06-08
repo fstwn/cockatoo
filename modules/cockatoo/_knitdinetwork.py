@@ -8,7 +8,10 @@ import math
 from operator import itemgetter
 
 # DUNDER -----------------------------------------------------------------------
-__author__ = """Max Eschenbach (post@maxeschenbach.com)"""
+__author__ = "Max Eschenbach (post@maxeschenbach.com)"
+__copyright__  = "Copyright 2020 / Max Eschenbach"
+__license__    = "Apache License 2.0"
+__email__      = ['<post@maxeschenbach.com>']
 __all__ = [
     "KnitDiNetwork"
 ]
@@ -48,7 +51,14 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     Datastructure representing a directed graph of nodes aswell as 'weft'
     and 'warp' edges. Used in the automatic generation of knitting patterns.
 
-    Inherits from KnitNetworkBase and networkx.DiGraph
+    Inherits from :class:`networkx.DiGraph`, :class:`KnitNetworkBase`.
+    For more info, see [13]_
+
+    Notes
+    -----
+    The implemented algorithms are strongly based on [1]_. Also see [2]_.
+    The implementation is further influenced by concepts and ideas presented
+    in [3]_, [4]_ and [5]_.
     """
 
     # INITIALIZATION -----------------------------------------------------------
@@ -136,6 +146,22 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     def node_weft_edges_out(self, node, data=False):
         """
         Gets the outgoing 'weft' edges connected to the given node.
+
+        Parameters
+        ----------
+        node : hashable
+            Hashable identifier of the node to check for outgoing 'weft' edges.
+
+        data : bool, optional
+            If ``True``, will also return the edges associated data attribute
+            dictionary.
+
+            Defaults to ``False``.
+
+        Returns
+        -------
+        weft_edges : :obj:`list`
+            List of outgoing 'weft' edges.
         """
 
         weft_edges = [(s, e, d) for s, e, d in \
@@ -148,7 +174,23 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
     def node_weft_edges_in(self, node, data=False):
         """
-        Gets the incmoing 'weft' edges connected to the given node.
+        Gets the incoming 'weft' edges connected to the given node.
+
+        Parameters
+        ----------
+        node : hashable
+            Hashable identifier of the node to check for incoming 'weft' edges.
+
+        data : bool, optional
+            If ``True``, will also return the edges associated data attribute
+            dictionary.
+
+            Defaults to ``False``.
+
+        Returns
+        -------
+        weft_edges : :obj:`list`
+            List of incoming 'weft' edges.
         """
 
         weft_edges = [(s, e, d) for s, e, d in \
@@ -162,6 +204,23 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     def node_weft_edges(self, node, data=False):
         """
         Gets incoming and outgoing 'weft' edges connected to the given node.
+
+        Parameters
+        ----------
+        node : hashable
+            Hashable identifier of the node to check for incoming and outgoing
+            'weft' edges.
+
+        data : bool, optional
+            If ``True``, will also return the edges associated data attribute
+            dictionary.
+
+            Defaults to ``False``.
+
+        Returns
+        -------
+        weft_edges : :obj:`list`
+            List of incoming and outgoing 'weft' edges.
         """
 
         weft_edges = [(s, e, d) for s, e, d in \
@@ -179,6 +238,22 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     def node_warp_edges_out(self, node, data=False):
         """
         Gets the outgoing 'warp' edges connected to the given node.
+
+        Parameters
+        ----------
+        node : hashable
+            Hashable identifier of the node to check for outgoing 'warp' edges.
+
+        data : bool, optional
+            If ``True``, will also return the edges associated data attribute
+            dictionary.
+
+            Defaults to ``False``.
+
+        Returns
+        -------
+        weft_edges : :obj:`list`
+            List of outgoing 'warp' edges.
         """
 
         warp_edges = [(s, e, d) for s, e, d in \
@@ -192,6 +267,22 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     def node_warp_edges_in(self, node, data=False):
         """
         Gets the incoming 'warp' edges connected to the given node.
+
+        Parameters
+        ----------
+        node : hashable
+            Hashable identifier of the node to check for incoming 'warp' edges.
+
+        data : bool, optional
+            If ``True``, will also return the edges associated data attribute
+            dictionary.
+
+            Defaults to ``False``.
+
+        Returns
+        -------
+        weft_edges : :obj:`list`
+            List of incoming 'warp' edges.
         """
 
         warp_edges = [(s, e, d) for s, e, d in \
@@ -205,6 +296,23 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     def node_warp_edges(self, node, data=False):
         """
         Gets the incoming and outgoing 'warp' edges connected to the given node.
+
+        Parameters
+        ----------
+        node : hashable
+            Hashable identifier of the node to check for incoming and outgoing
+            'warp' edges.
+
+        data : bool, optional
+            If ``True``, will also return the edges associated data attribute
+            dictionary.
+
+            Defaults to ``False``.
+
+        Returns
+        -------
+        weft_edges : :obj:`list`
+            List of incoming and outgoing 'warp' edges.
         """
 
         warp_edges = [(s, e, d) for s, e, d in \
@@ -223,6 +331,23 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         """
         Gets the outgoing edges marked neither 'warp' nor 'weft' connected to
         the given node.
+
+        Parameters
+        ----------
+        node : hashable
+            Hashable identifier of the node to check for outgoing edges neither
+            'weft' nor 'warp'.
+
+        data : bool, optional
+            If ``True``, will also return the edges associated data attribute
+            dictionary.
+
+            Defaults to ``False``.
+
+        Returns
+        -------
+        weft_edges : :obj:`list`
+            List of outgoing edges neither 'weft' nor 'warp'.
         """
 
         contour_edges = [(s, e, d) for s, e, d in \
@@ -238,6 +363,23 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         """
         Gets the incoming edges marked neither 'warp' nor 'weft' connected to
         the given node.
+
+        Parameters
+        ----------
+        node : hashable
+            Hashable identifier of the node to check for incoming edges neither
+            'weft' nor 'warp'.
+
+        data : bool, optional
+            If ``True``, will also return the edges associated data attribute
+            dictionary.
+
+            Defaults to ``False``.
+
+        Returns
+        -------
+        weft_edges : :obj:`list`
+            List of incoming edges neither 'weft' nor 'warp'.
         """
 
         contour_edges = [(s, e, d) for s, e, d in \
@@ -253,6 +395,23 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         """
         Gets the incoming and outcoing edges marked neither 'warp' nor 'weft'
         connected to the given node.
+
+        Parameters
+        ----------
+        node : hashable
+            Hashable identifier of the node to check for incoming and outgoing
+            edges neither 'weft' nor 'warp'.
+
+        data : bool, optional
+            If ``True``, will also return the edges associated data attribute
+            dictionary.
+
+            Defaults to ``False``.
+
+        Returns
+        -------
+        weft_edges : :obj:`list`
+            List of incoming and outgoing edges neither 'weft' nor 'warp'.
         """
 
         contour_edges = [(s, e, d) for s, e, d in \
@@ -276,12 +435,14 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Notes
         -----
         Based on an implementation inside the COMPAS framework.
-        For more info see [9]_.
+        For more info see [7]_.
 
         References
         ----------
-        .. [9] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
-               See: https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L132
+        .. [7] Van Mele, Tom et al. *COMPAS: A framework for computational
+               research in architecture and structures*.
+
+               See: `sort_node_neighbors() inside COMPAS <https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L132>`_
         """
 
         # if there is only one neighbor we don't need to sort anything
@@ -407,8 +568,10 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         References
         ----------
-        .. [8] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
-               See: https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L121
+        .. [8] Van Mele, Tom et al. *COMPAS: A framework for computational
+               research in architecture and structures*.
+
+               See: `sort_neighbors() inside COMPAS <https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L121>`_
         """
 
         # initialize sorted neighbors dict
@@ -457,12 +620,14 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Notes
         -----
         Based on an implementation inside the COMPAS framework.
-        For more info see [7]_.
+        For more info see [9]_.
 
         References
         ----------
-        .. [7] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
-               See: https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L103
+        .. [9] Van Mele, Tom et al. *COMPAS: A framework for computational
+               research in architecture and structures*.
+
+               See: `find_first_node_neighbor() inside COMPAS <https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L103>`_
         """
 
         # get all node neighbors
@@ -508,8 +673,10 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         References
         ----------
-        .. [6] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
-               See: https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L161
+        .. [6] Van Mele, Tom et al. *COMPAS: A framework for computational
+               research in architecture and structures*.
+
+               See: `find_edge_cycle() inside COMPAS <https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L161>`_
         """
         cycle = [u]
         while True:
@@ -528,18 +695,23 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         Parameters
         ----------
-        mode : int
+        mode : int, optional
             Determines how the neighbors of each node are sorted when finding
             cycles for the network.
-            -1 equals to using the world XY plane (default)
-            0 equals to using a plane normal to the origin nodes closest
-            point on the reference geometry
-            1 equals to using a plane normal to the average of the origin
-            and neighbor nodes' closest points on the reference geometry
-            2 equals to using an average plane between a plane fit to the
+
+            ``-1`` equals to using the world XY plane.
+
+            ``0`` equals to using a plane normal to the origin nodes closest
+            point on the reference geometry.
+
+            ``1`` equals to using a plane normal to the average of the origin
+            and neighbor nodes' closest points on the reference geometry.
+
+            ``2`` equals to using an average plane between a plane fit to the
             origin and its neighbor nodes and a plane normal to the origin
-            nodes closest point on the reference geometry
-            Defaults to -1
+            nodes closest point on the reference geometry.
+
+            Defaults to ``-1``.
 
         Warning
         -------
@@ -551,12 +723,14 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Notes
         -----
         Based on an implementation inside the COMPAS framework.
-        For more info see [5]_.
+        For more info see [17]_.
 
         References
         ----------
-        .. [5] Van Mele, Tom et al. *COMPAS: A framework for computational research in architecture and structures*.
-               See: https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L20
+        .. [17] Van Mele, Tom et al. *COMPAS: A framework for computational
+               research in architecture and structures*.
+
+               See: `find_cycles() inside COMPAS <https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L20>`_
         """
 
         # initialize the halfedge dict of the directed network
@@ -642,28 +816,34 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         Parameters
         ----------
-        mode : int
+        mode : int, optional
             Determines how the neighbors of each node are sorted when finding
             cycles for the network.
-            -1 equals to using the world XY plane (default)
-            0 equals to using a plane normal to the origin nodes closest
-            point on the reference geometry
-            1 equals to using a plane normal to the average of the origin
-            and neighbor nodes' closest points on the reference geometry
-            2 equals to using an average plane between a plane fit to the
-            origin and its neighbor nodes and a plane normal to the origin
-            nodes closest point on the reference geometry
-            Defaults to -1
 
-        max_valence : int
+            ``-1`` equals to using the world XY plane.
+
+            ``0`` equals to using a plane normal to the origin nodes closest
+            point on the reference geometry.
+
+            ``1`` equals to using a plane normal to the average of the origin
+            and neighbor nodes' closest points on the reference geometry.
+
+            ``2`` equals to using an average plane between a plane fit to the
+            origin and its neighbor nodes and a plane normal to the origin
+            nodes closest point on the reference geometry.
+
+            Defaults to ``-1``.
+
+        max_valence : int, optional
             Sets the maximum edge valence of the faces. If this is set to > 4,
             n-gon faces (more than 4 edges) are allowed. Otherwise, their cycles
             are treated as invalid and will be ignored.
-            Defaults to 4.
+
+            Defaults to ``4``.
 
         Warning
         -------
-        Modes other than -1 (default) are only possible if this network has an
+        Modes other than ``-1`` are only possible if this network has an
         underlying reference geometry in form of a Mesh or NurbsSurface. The
         reference geometry should be assigned when initializing the network by
         assigning the geometry to the "reference_geometry" attribute of the
@@ -741,8 +921,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Returns
         -------
         bool
-            ``True`` on success.
-            ``False`` otherwise.
+            ``True`` on success, ``False`` otherwise.
         """
 
         # check every single node
@@ -795,7 +974,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         Returns
         -------
-        pattern_data
+        pattern_data : :obj:`list` of :obj:`list`
             List (rows) of lists (column values) where every value represents
             a node.
 
@@ -804,6 +983,10 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         KnitNetworkTopologyError
             if the network does not satisfy the topology constraints needed for
             this operation and the outcome would be unfeasible or unpredictable.
+
+        Notes
+        -----
+        Closely resembles the implementation descriped in [1]_ and [2]_.
         """
 
         # initialize dict for seen nodes and list for storage of rows
