@@ -77,7 +77,7 @@ using tree branches
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200608
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -85,6 +85,12 @@ from __future__ import division
 import clr
 import math
 from os import path
+
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "QuadReMeshExtendedParallel"
+ghenv.Component.NickName = "QRMExP"
+ghenv.Component.Category = "Cockatoo"
+ghenv.Component.SubCategory = "2 Meshing & Remeshing"
 
 # KANGAROO 2 IMPORT
 k2import = False
@@ -124,11 +130,6 @@ import Rhino
 # ADDITIONAL RHINO IMPORTS
 from System.Collections.Generic import List
 import scriptcontext as sc
-
-ghenv.Component.Name = "QuadReMeshExtendedParallel"
-ghenv.Component.NickName = "QRMExP"
-ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "2 Meshing & Remeshing"
 
 class QuadReMeshExtendedParallel(component):
     
