@@ -13,7 +13,7 @@ TODO: Update docstring
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200603
+        Version: 200608
 """
 
 # PYTHON LIBRARY IMPORTS
@@ -26,6 +26,12 @@ import Grasshopper, GhPython
 import System
 import Rhino
 import rhinoscriptsyntax as rs
+
+# COMPONENT SETTINGS
+ghenv.Component.Name = "RebuildPlanktonMesh"
+ghenv.Component.NickName = "RPM"
+ghenv.Component.Category = "Cockatoo"
+ghenv.Component.SubCategory = "2 Meshing & Remeshing"
 
 # CUSTOM MODULE IMPORTS
 planktonimport = False
@@ -51,11 +57,6 @@ if not planktonimport:
         raise RuntimeError("Plankton could not be imported! Please install it")
 import Plankton
 import PlanktonGh
-
-ghenv.Component.Name = "RebuildPlanktonMesh"
-ghenv.Component.NickName = "RPM"
-ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "2 Meshing & Remeshing"
 
 class RebuildPlanktonMesh(component):
     
