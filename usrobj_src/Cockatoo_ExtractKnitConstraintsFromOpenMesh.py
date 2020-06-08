@@ -1,8 +1,8 @@
 """
-Extracts the necessary constraints to create KnitContours for a mesh based on
-specified parameters. The constraints consist of a start, end as well as a left
-and right boundary. Preview shows the start course in red and the end course in
-green.
+Extracts the necessary constraints to create KnitContours for a open mesh based
+on specified parameters. The constraints consist of a start, end as well as a
+left and right boundary. Preview shows the start course in red and the end
+course in green.
 To extract the constraints, the boundary of the mesh is broken apart at kinks
 which exceed the specified break angle. The 'Start' and 'End' parameters define
 indices for the resulting list of polylines.
@@ -22,8 +22,9 @@ indices for the resulting list of polylines.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200607
+        Version: 200608
 """
+
 
 # PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
@@ -35,6 +36,12 @@ import System
 import Rhino
 import rhinoscriptsyntax as rs
 
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "ExtractKnitConstraintsFromOpenMesh"
+ghenv.Component.NickName ="EKCFOM"
+ghenv.Component.Category = "Cockatoo"
+ghenv.Component.SubCategory = "4 Constraint Extraction"
+
 # LOCAL MODULE IMPORTS
 try:
     from cockatoo import KnitConstraint
@@ -45,29 +52,23 @@ except ImportError as e:
              "path, see README for instructions!."
     raise ImportError(errMsg)
 
-# GHENV COMPONENT SETTINGS
-ghenv.Component.Name = "ExtractKnitConstraintsFromMesh"
-ghenv.Component.NickName ="EKCFM"
-ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "4 Constraint Extraction"
+class ExtractKnitConstraintsFromOpenMesh(component):
 
-class ExtractKnitConstraintsFromMesh(component):
-    
     def __init__(self):
-        super(ExtractKnitConstraintsFromMesh, self).__init__()
+        super(ExtractKnitConstraintsFromOpenMesh, self).__init__()
         self.SC = None
         self.EC = None
         self.LB = []
         self.RB = []
-    
-    def get_BoundingBox(self):
+
+    def get_ClippingBox(self):
         return Rhino.Geometry.BoundingBox()
-    
+
     def DrawViewportWires(self, args):
         try:
             # get display from args
             display = args.Display
-            
+
             if self.SC and self.EC:
                 # diplay colors for start and end in custom display
                 scol = System.Drawing.Color.Red
@@ -75,18 +76,18 @@ class ExtractKnitConstraintsFromMesh(component):
                 # add start and end to customdisplay
                 display.DrawCurve(self.SC, scol, 3)
                 display.DrawCurve(self.EC, ecol, 3)
-            
+
         except Exception, e:
             System.Windows.Forms.MessageBox.Show(str(e),
                                                  "Error while drawing preview!")
-    
+
     def RunScript(self, Mesh, BreakAngle, Start, End):
         # define default break angle for mesh boundary
         if BreakAngle == None:
             BreakAngle = 1.0
-        
+
         NullTree = Grasshopper.DataTree[object]()
-        
+
         if not Mesh or Start == None or End == None:
             if not Mesh:
                 rml = self.RuntimeMessageLevel.Warning
@@ -98,23 +99,23 @@ class ExtractKnitConstraintsFromMesh(component):
                 rml = self.RuntimeMessageLevel.Warning
                 self.AddRuntimeMessage(rml, "No End input!")
             return NullTree
-        
+
         # get naked edges of the mesh boundary
         meshBoundary = list(Mesh.GetNakedEdges())
         if len(meshBoundary) > 1:
             raise NotImplementedError("Meshes with multiple closed boundaries"+
                                       " are not supported yet!")
             return Grasshopper.DataTree[object]()
-        
+
         # break the boundary polyline based on angles
-        boundarysegments = break_polyline(meshBoundary[0], BreakAngle)
-        
+        boundarysegments = break_polyline(meshBoundary[0], BreakAngle, as_crv=True)
+
         # sanitize start and end inputs
         if Start > len(boundarysegments)-1:
             Start = len(boundarysegments)-1
         if End > len(boundarysegments)-1:
             End = len(boundarysegments)-1
-        
+
         # extract left and right boundaries by indices
         if Start == End:
             rml = self.RuntimeMessageLevel.Warning
@@ -127,11 +128,11 @@ class ExtractKnitConstraintsFromMesh(component):
         elif End > Start:
             Right = boundarysegments[Start+1:End]
             Left = boundarysegments[0:Start] + boundarysegments[End+1:]
-        
+
         # extract start and end course polyline by index
         StartCourse = boundarysegments[Start]
         EndCourse = boundarysegments[End]
-        
+
         # join the boundary curves
         if len(Left) > 0:
             LeftBoundary = list(Rhino.Geometry.Curve.JoinCurves(Left))[0]
@@ -145,7 +146,7 @@ class ExtractKnitConstraintsFromMesh(component):
             print StartCourse.PointAtStart == EndCourse.PointAtEnd
             raise NotImplementedError("Touching start and end courses are " +
                                       "not supported yet!")
-        
+
         # StartBoundary startpoint
         ssp = StartCourse.PointAtStart
         # EndBoundary startpoint
@@ -154,11 +155,11 @@ class ExtractKnitConstraintsFromMesh(component):
         lsp = LeftBoundary.PointAtStart
         # RightBoundary startpoint
         rsp = RightBoundary.PointAtStart
-        
+
         # define maximum distance for boundary direction flipping as 10 * abstol
         md = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance
         md = md * 10
-        
+
         # check for flipping of left and right boundaries
         lbsccp = StartCourse.ClosestPoint(lsp, md)
         rbsccp = StartCourse.ClosestPoint(rsp, md)
@@ -166,7 +167,7 @@ class ExtractKnitConstraintsFromMesh(component):
             LeftBoundary.Reverse()
         if not rbsccp[0]:
             RightBoundary.Reverse()
-        
+
         # check for flipping of start and end courses
         scrbcp = LeftBoundary.ClosestPoint(ssp, md)
         ecrbcp = LeftBoundary.ClosestPoint(esp, md)
@@ -174,25 +175,25 @@ class ExtractKnitConstraintsFromMesh(component):
             StartCourse.Reverse()
         if not ecrbcp[0]:
             EndCourse.Reverse()
-        
+
         # Break apart left and right boundaries again so we don't have to do
         # it yet again in the next step
-        LeftBoundary = break_polyline(LeftBoundary.ToPolyline(), BreakAngle)
-        RightBoundary = break_polyline(RightBoundary.ToPolyline(), BreakAngle)
-        
+        LeftBoundary = break_polyline(LeftBoundary.ToPolyline(), BreakAngle, as_crv=True)
+        RightBoundary = break_polyline(RightBoundary.ToPolyline(), BreakAngle, as_crv=True)
+
         # set left and right for preview drawing
         self.SC = StartCourse
         self.EC = EndCourse
         self.LB = LeftBoundary
         self.RB = RightBoundary
-        
+
         KC = KnitConstraint(StartCourse, EndCourse, LeftBoundary, RightBoundary)
-        
+
         KnitConstraints = Grasshopper.DataTree[object]()
         KnitConstraints.Add(StartCourse, Grasshopper.Kernel.Data.GH_Path(0))
         KnitConstraints.Add(EndCourse, Grasshopper.Kernel.Data.GH_Path(1))
         KnitConstraints.AddRange(LeftBoundary, Grasshopper.Kernel.Data.GH_Path(2))
         KnitConstraints.AddRange(RightBoundary, Grasshopper.Kernel.Data.GH_Path(3))
-        
+
         # return outputs if you have them; here I try it for you:
         return KC
