@@ -3,7 +3,7 @@
 - Cockatoo is a prototypical open-source software toolkit for generating (3d-)knitting patterns from NURBS surface and mesh geometry.
 - It is implemented as a [Python](https://www.python.org/) module for use within [McNeel Rhinoceros 6](https://www.rhino3d.com/) aswell as [Grasshopper](https://www.rhino3d.com/6/new/grasshopper).
 
-### [...Yeah, yeah... Knitting... Rhino... Python... I get it. Just tell me how to install and use it!](#installation--usage)
+#### [...Yeah, yeah... Knitting... Rhino... Python... I get it. Just tell me how to install and use it!](#installation--usage)
 
 ---
 
@@ -11,7 +11,7 @@
 
 The purpose of this project is to enable Rhino and Grasshopper to derive (3d-)knitting patterns for computerized knitting machines from NURBS surfaces and polygon meshes. The absence of such an open-source toolkit for use directly within conventional CAD-software marks the origin point for this project.
 
-This open-source software constitutes the practical part of my diploma project in the [product design department](https://produktdesignkassel.de/) at [Kunsthochschule Kassel](https://www.kunsthochschulekassel.de/).
+This open-source software prototype constitutes the practical part of my diploma project in the [product design department](https://produktdesignkassel.de/) at [Kunsthochschule Kassel](https://www.kunsthochschulekassel.de/).
 
 ## Software Structure
 
