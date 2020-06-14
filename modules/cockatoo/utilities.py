@@ -4,6 +4,7 @@
 .. autosummary::
     :nosignatures:
 
+    blend_colors
     break_polyline
     map_values_as_colors
     tween_planes
@@ -25,8 +26,8 @@ from math import sqrt
 
 # DUNDER -----------------------------------------------------------------------
 __all__ = [
-    "break_polyline",
     "blend_colors",
+    "break_polyline",
     "map_values_as_colors",
     "tween_planes",
     "is_ccw_xy",
@@ -199,11 +200,11 @@ def blend_colors(col_a, col_b, t=0.5):
 
     Parameters
     ----------
-    col_a : sequence of int
-        3-tuple of (R, G, B) that defines the color value.
+    col_a : sequence of :obj:`int`
+        Sequence of (R, G, B) that defines the color value.
 
-    col_b : sequence of int
-        3-tuple of (R, G, B) that defines the color value.
+    col_b : sequence of :obj:`int`
+        Sequence of (R, G, B) that defines the color value.
 
     t : float, optional
         Blend parameter.
