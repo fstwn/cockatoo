@@ -14,12 +14,20 @@ This open-source software prototype constitutes the practical part of my diploma
 
 ## Software Structure
 
+### Python Module
 - All datastructures, core logic and algorithms are defined in the `cockatoo` python module.
+- This module is developed to be compatible with [IronPython](https://ironpython.net/) (for more info, see the [Pecularities](#pecularities) section).
 - The [RhinoCommon API](https://developer.rhino3d.com/guides/rhinocommon/what-is-rhinocommon/) is used to handle all geometric operations.
 - The `networkx` module is used to handle all the necessary graph operations (for more info, see the [Pecularities](#pecularities) section).
-- The `cockatoo` module can be used from within RhinoPython scripts as well as from within Grasshopper through the GHPython scriptable component.
-- Cockatoo also includes a set of Grasshopper components (`UserObjects`), which provide a user interface to the underlying python module without the need of scripting.
-- The python module as well as the UserObjects are designed to be open for extension.
+
+### Rhino Integration
+- The `cockatoo` module can be used from within Rhino.Python scripts as well as from within Grasshopper through the GHPython scriptable component.
+
+### Grasshopper Components
+- Cockatoo includes a set of Grasshopper components (`UserObjects`), which provide a user interface to the underlying python module without the need of scripting.
+
+### Extendability
+- The python module as well as the UserObjects are designed to be open for extension. Everything is open-source.
 
 ## Pecularities
 
