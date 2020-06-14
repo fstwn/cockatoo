@@ -177,14 +177,12 @@
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">cos</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">degrees</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
 
 <span class="c1"># DUNDER -----------------------------------------------------------------------</span>
-<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Max Eschenbach (post@maxeschenbach.com)&quot;</span>
-<span class="n">__copyright__</span>  <span class="o">=</span> <span class="s2">&quot;Copyright 2020 / Max Eschenbach&quot;</span>
-<span class="n">__license__</span>    <span class="o">=</span> <span class="s2">&quot;Apache License 2.0&quot;</span>
-<span class="n">__email__</span>      <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&lt;post@maxeschenbach.com&gt;&#39;</span><span class="p">]</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;break_polyline&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;blend_colors&quot;</span><span class="p">,</span>
     <span class="s2">&quot;map_values_as_colors&quot;</span><span class="p">,</span>
     <span class="s2">&quot;tween_planes&quot;</span><span class="p">,</span>
     <span class="s2">&quot;is_ccw_xy&quot;</span><span class="p">,</span>
@@ -351,7 +349,45 @@
 
 <span class="c1"># RHINO DISPLAY ----------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="map_values_as_colors"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.map_values_as_colors">[docs]</a><span class="k">def</span> <span class="nf">map_values_as_colors</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">srcMin</span><span class="p">,</span> <span class="n">srcMax</span><span class="p">,</span> <span class="n">targetMin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">targetMax</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
+<div class="viewcode-block" id="blend_colors"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.blend_colors">[docs]</a><span class="k">def</span> <span class="nf">blend_colors</span><span class="p">(</span><span class="n">col_a</span><span class="p">,</span> <span class="n">col_b</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Blend between two colors using ...</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    col_a : sequence of int</span>
+<span class="sd">        3-tuple of (R, G, B) that defines the color value.</span>
+
+<span class="sd">    col_b : sequence of int</span>
+<span class="sd">        3-tuple of (R, G, B) that defines the color value.</span>
+
+<span class="sd">    t : float, optional</span>
+<span class="sd">        Blend parameter.</span>
+
+<span class="sd">        Defaults to ``0.5``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    color : tuple</span>
+<span class="sd">        3-tuple of (R, G, B) that defines the new color.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># unpack colors in r, g, b values</span>
+    <span class="n">a_r</span><span class="p">,</span> <span class="n">a_g</span><span class="p">,</span> <span class="n">a_b</span> <span class="o">=</span> <span class="n">col_a</span>
+    <span class="n">b_r</span><span class="p">,</span> <span class="n">b_g</span><span class="p">,</span> <span class="n">b_b</span> <span class="o">=</span> <span class="n">col_b</span>
+
+    <span class="n">new_r</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">a_r</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">b_r</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">new_g</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">a_g</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">b_g</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">new_b</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">a_b</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">b_b</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">new_r</span><span class="p">,</span> <span class="n">new_g</span><span class="p">,</span> <span class="n">new_b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="map_values_as_colors"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.map_values_as_colors">[docs]</a><span class="k">def</span> <span class="nf">map_values_as_colors</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">src_min</span><span class="p">,</span> <span class="n">src_max</span><span class="p">,</span> <span class="n">target_min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">target_max</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Make a list of HSL colors where the values are mapped onto a</span>
 <span class="sd">    targetMin-targetMax hue domain. Meaning that low values will be red, medium</span>
@@ -362,18 +398,18 @@
 <span class="sd">    values : list</span>
 <span class="sd">        List of values to map as colors.</span>
 
-<span class="sd">    srcMin : float</span>
+<span class="sd">    src_min : float</span>
 <span class="sd">        Lower bounds of the value domain.</span>
 
-<span class="sd">    srcMax : float</span>
+<span class="sd">    src_max : float</span>
 <span class="sd">        Upper bounds of the value domain.</span>
 
-<span class="sd">    targetMin : float, optional</span>
+<span class="sd">    target_min : float, optional</span>
 <span class="sd">        Lower bounds of the target (color) domain.</span>
 
 <span class="sd">        Defaults to ``0``.</span>
 
-<span class="sd">    targetMax : float, optional</span>
+<span class="sd">    target_max : float, optional</span>
 <span class="sd">        Upper bounds of the target (color) domain.</span>
 
 <span class="sd">        Defaults to ``0.7`` .</span>
@@ -391,25 +427,25 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    .. [10] mapValuesAsColors.py - gist by Anders Holden Deleuran</span>
+<span class="sd">    .. [10] Deleuran, Anders Holden *mapValuesAsColors.py*</span>
 
-<span class="sd">            See: `mapValuesAsColors.py &lt;https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea&gt;`_</span>
+<span class="sd">            See: `mapValuesAsColors.py gist &lt;https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Remap numbers into new numeric domain</span>
-    <span class="n">remappedValues</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># remap numbers into new numeric domain</span>
+    <span class="n">remapped_values</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">srcMax</span><span class="o">-</span><span class="n">srcMin</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">rv</span> <span class="o">=</span> <span class="p">((</span><span class="n">v</span> <span class="o">-</span> <span class="n">srcMin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">srcMax</span> <span class="o">-</span> <span class="n">srcMin</span><span class="p">))</span> \
-                 <span class="o">*</span> <span class="p">(</span><span class="n">targetMax</span> <span class="o">-</span> <span class="n">targetMin</span><span class="p">)</span> \
-                 <span class="o">+</span> <span class="n">targetMin</span>
+        <span class="k">if</span> <span class="n">src_max</span> <span class="o">-</span> <span class="n">src_min</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">rv</span> <span class="o">=</span> <span class="p">((</span><span class="n">v</span> <span class="o">-</span> <span class="n">src_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">src_max</span> <span class="o">-</span> <span class="n">src_min</span><span class="p">))</span> \
+                 <span class="o">*</span> <span class="p">(</span><span class="n">target_max</span> <span class="o">-</span> <span class="n">target_min</span><span class="p">)</span> \
+                 <span class="o">+</span> <span class="n">target_min</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">rv</span> <span class="o">=</span> <span class="p">(</span><span class="n">targetMin</span> <span class="o">+</span> <span class="n">targetMax</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-        <span class="n">remappedValues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rv</span><span class="p">)</span>
+            <span class="n">rv</span> <span class="o">=</span> <span class="p">(</span><span class="n">target_min</span> <span class="o">+</span> <span class="n">target_max</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">remapped_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rv</span><span class="p">)</span>
 
-    <span class="c1"># Make colors and return</span>
+    <span class="c1"># make rgb colors and return</span>
     <span class="n">colors</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">remappedValues</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">remapped_values</span><span class="p">:</span>
         <span class="n">c</span> <span class="o">=</span> <span class="n">RhinoColorHSL</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">ToArgbColor</span><span class="p">()</span>
         <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 

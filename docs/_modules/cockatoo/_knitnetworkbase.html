@@ -161,10 +161,6 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 
 <span class="c1"># DUNDER -----------------------------------------------------------------------</span>
-<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Max Eschenbach (post@maxeschenbach.com)&quot;</span>
-<span class="n">__copyright__</span>  <span class="o">=</span> <span class="s2">&quot;Copyright 2020 / Max Eschenbach&quot;</span>
-<span class="n">__license__</span>    <span class="o">=</span> <span class="s2">&quot;Apache License 2.0&quot;</span>
-<span class="n">__email__</span>      <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&lt;post@maxeschenbach.com&gt;&#39;</span><span class="p">]</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;KnitNetworkBase&quot;</span>
 <span class="p">]</span>
@@ -201,13 +197,16 @@
 <span class="sd">    KnitMappingNetwork and KnitDiNetwork classes.</span>
 
 <span class="sd">    Inherits from :class:`networkx.Graph`.</span>
-<span class="sd">    For more info, see [13]_.</span>
+<span class="sd">    For more info, see *NetworkX* [13]_.</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    .. [13] Hagberg, Aric; Schult, Dan; Swart, Pieter *NetworkX 1.5*</span>
+<span class="sd">    .. [13] Hagberg, Aric A.; Schult, Daniel A.; Swart, Pieter J.</span>
+<span class="sd">            *Exploring Network Structure, Dynamics, and Function using NetworkX*</span>
+<span class="sd">            In: *Varoquaux, Vaught et al. (Hg.) 2008 - Proceedings of the 7th</span>
+<span class="sd">            Python in Science Conference* pp. 11-15</span>
 
-<span class="sd">            See: `NetworkX &lt;https://networkx.github.io/documentation/networkx-1.5/_downloads/networkx_reference.pdf&gt;`_</span>
+<span class="sd">            See: `NetworkX 1.5 &lt;https://networkx.github.io/documentation/networkx-1.5/&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># REPRESENTATION OF NETWORK ------------------------------------------------</span>
@@ -459,7 +458,7 @@
 
     <span class="c1"># NODE CREATION ------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="KnitNetworkBase.node_from_point3d"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.node_from_point3d">[docs]</a>    <span class="k">def</span> <span class="nf">node_from_point3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_index</span><span class="p">,</span> <span class="n">pt</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">leaf</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">segment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">increase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decrease</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="KnitNetworkBase.node_from_point3d"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.node_from_point3d">[docs]</a>    <span class="k">def</span> <span class="nf">node_from_point3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_index</span><span class="p">,</span> <span class="n">pt</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">leaf</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">segment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">increase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decrease</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a network node from a Rhino Point3d and attributes.</span>
 
@@ -507,11 +506,23 @@
 
 <span class="sd">            Defaults to ``None``.</span>
 
-<span class="sd">        crease : bool, optional</span>
-<span class="sd">            The &#39;crease&#39; attribute identifying the node as an increase or</span>
-<span class="sd">            decrease (needed for translation from dual to 2d knitting pattern).</span>
+<span class="sd">        increase : bool, optional</span>
+<span class="sd">            The &#39;increase&#39; attribute identifying the node as an increase</span>
+<span class="sd">            (needed for translation from dual to 2d knitting pattern).</span>
 
 <span class="sd">            Defaults to ``False``.</span>
+
+<span class="sd">        decrease : bool, optional</span>
+<span class="sd">            The &#39;decrease&#39; attribute identifying the node as a decrease</span>
+<span class="sd">            (needed for translation from dual to 2d knitting pattern).</span>
+
+<span class="sd">            Defaults to ``False``.</span>
+
+<span class="sd">        color : :obj:`System.Drawing.Color`, optional</span>
+<span class="sd">            The &#39;color&#39; attribute of the node, representing the color of the</span>
+<span class="sd">            pixel when translating the network to a 2d knitting pattern.</span>
+
+<span class="sd">            Defaults to ``None``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># extract node coordinates</span>
@@ -531,7 +542,8 @@
                            <span class="s2">&quot;segment&quot;</span><span class="p">:</span> <span class="n">segment</span><span class="p">,</span>
                            <span class="s2">&quot;increase&quot;</span><span class="p">:</span> <span class="n">increase</span><span class="p">,</span>
                            <span class="s2">&quot;decrease&quot;</span><span class="p">:</span> <span class="n">decrease</span><span class="p">,</span>
-                           <span class="s2">&quot;geo&quot;</span><span class="p">:</span> <span class="n">pt</span><span class="p">}</span>
+                           <span class="s2">&quot;geo&quot;</span><span class="p">:</span> <span class="n">pt</span><span class="p">,</span>
+                           <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">color</span><span class="p">}</span>
 
         <span class="c1"># add the node to the network instance</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node_index</span><span class="p">,</span> <span class="n">attr_dict</span><span class="o">=</span><span class="n">node_attributes</span><span class="p">)</span></div>

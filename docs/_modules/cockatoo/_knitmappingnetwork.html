@@ -163,10 +163,6 @@
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
 
 <span class="c1"># DUNDER -----------------------------------------------------------------------</span>
-<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Max Eschenbach (post@maxeschenbach.com)&quot;</span>
-<span class="n">__copyright__</span>  <span class="o">=</span> <span class="s2">&quot;Copyright 2020 / Max Eschenbach&quot;</span>
-<span class="n">__license__</span>    <span class="o">=</span> <span class="s2">&quot;Apache License 2.0&quot;</span>
-<span class="n">__email__</span>      <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&lt;post@maxeschenbach.com&gt;&#39;</span><span class="p">]</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;KnitMappingNetwork&quot;</span>
 <span class="p">]</span>
@@ -185,16 +181,22 @@
 <span class="sd">    edges in a KnitNetwork for final creation of &#39;weft&#39; and &#39;warp&#39; edges.</span>
 
 <span class="sd">    Inherits from :class:`networkx.MultiGraph`, :class:`KnitNetworkBase`</span>
-<span class="sd">    For more info, see [13]_.</span>
+<span class="sd">    For more info, see *NetworkX* [13]_.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    Not intended to be instantiated separately. Should only be instantiated</span>
 <span class="sd">    by the KnitNetwork.create_mapping_network method!</span>
 
-<span class="sd">    The implemented algorithms are strongly based on [1]_. Also see [2]_.</span>
-<span class="sd">    The implementation is further influenced by concepts and ideas presented</span>
-<span class="sd">    in [3]_, [4]_ and [5]_.</span>
+<span class="sd">    The implemented algorithms are strongly based on the paper</span>
+<span class="sd">    *Automated Generation of Knit Patterns for Non-developable Surfaces* [1]_.</span>
+<span class="sd">    Also see *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
+<span class="sd">    structures* [2]_.</span>
+
+<span class="sd">    The implementation was further influenced by concepts and ideas presented</span>
+<span class="sd">    in the papers *Automatic Machine Knitting of 3D Meshes* [3]_,</span>
+<span class="sd">    *Visual Knitting Machine Programming* [4]_ and</span>
+<span class="sd">    *A Compiler for 3D Machine Knitting* [5]_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------</span>
@@ -245,7 +247,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method for traversing a path of &#39;segment&#39; edges until a &#39;warp&#39;</span>
 <span class="sd">        edge is discovered which points to the previous or the next segment.</span>
-<span class="sd">        Returns the ids of the segment array</span>
+<span class="sd">        Returns the ids of the segment array.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

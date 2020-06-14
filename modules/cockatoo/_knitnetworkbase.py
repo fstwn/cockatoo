@@ -41,7 +41,7 @@ class KnitNetworkBase(nx.Graph):
     KnitMappingNetwork and KnitDiNetwork classes.
 
     Inherits from :class:`networkx.Graph`.
-    For more info, see *NetworkX*[13]_.
+    For more info, see *NetworkX* [13]_.
 
     References
     ----------

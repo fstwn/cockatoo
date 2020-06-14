@@ -164,10 +164,6 @@
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
 
 <span class="c1"># DUNDER -----------------------------------------------------------------------</span>
-<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Max Eschenbach (post@maxeschenbach.com)&quot;</span>
-<span class="n">__copyright__</span>  <span class="o">=</span> <span class="s2">&quot;Copyright 2020 / Max Eschenbach&quot;</span>
-<span class="n">__license__</span>    <span class="o">=</span> <span class="s2">&quot;Apache License 2.0&quot;</span>
-<span class="n">__email__</span>      <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&lt;post@maxeschenbach.com&gt;&#39;</span><span class="p">]</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;KnitDiNetwork&quot;</span>
 <span class="p">]</span>
@@ -208,13 +204,19 @@
 <span class="sd">    and &#39;warp&#39; edges. Used in the automatic generation of knitting patterns.</span>
 
 <span class="sd">    Inherits from :class:`networkx.DiGraph`, :class:`KnitNetworkBase`.</span>
-<span class="sd">    For more info, see [13]_</span>
+<span class="sd">    For more info, see *NetworkX* [13]_.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    The implemented algorithms are strongly based on [1]_. Also see [2]_.</span>
-<span class="sd">    The implementation is further influenced by concepts and ideas presented</span>
-<span class="sd">    in [3]_, [4]_ and [5]_.</span>
+<span class="sd">    The implemented algorithms are strongly based on the paper</span>
+<span class="sd">    *Automated Generation of Knit Patterns for Non-developable Surfaces* [1]_.</span>
+<span class="sd">    Also see *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
+<span class="sd">    structures* [2]_.</span>
+
+<span class="sd">    The implementation was further influenced by concepts and ideas presented</span>
+<span class="sd">    in the papers *Automatic Machine Knitting of 3D Meshes* [3]_,</span>
+<span class="sd">    *Visual Knitting Machine Programming* [4]_ and</span>
+<span class="sd">    *A Compiler for 3D Machine Knitting* [5]_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># INITIALIZATION -----------------------------------------------------------</span>
@@ -1120,7 +1122,8 @@
 
 <div class="viewcode-block" id="KnitDiNetwork.make_pattern_data"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.make_pattern_data">[docs]</a>    <span class="k">def</span> <span class="nf">make_pattern_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">consolidate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Topological sort this network to represent it as rows and columns.</span>
+<span class="sd">        Topological sort this network to represent it as 2d knitting pattern</span>
+<span class="sd">        consisting of rows and columns.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1142,7 +1145,9 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation descriped in [1]_ and [2]_.</span>
+<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see *KnitCrete</span>
+<span class="sd">        - Stay-in-place knitted formworks for complex concrete structures* [2]_.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># initialize dict for seen nodes and list for storage of rows</span>

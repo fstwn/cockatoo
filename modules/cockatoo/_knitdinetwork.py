@@ -48,19 +48,19 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     and 'warp' edges. Used in the automatic generation of knitting patterns.
 
     Inherits from :class:`networkx.DiGraph`, :class:`KnitNetworkBase`.
-    For more info, see *NetworkX*[13]_.
+    For more info, see *NetworkX* [13]_.
 
     Notes
     -----
     The implemented algorithms are strongly based on the paper
-    *Automated Generation of Knit Patterns for Non-developable Surfaces*[1]_.
+    *Automated Generation of Knit Patterns for Non-developable Surfaces* [1]_.
     Also see *KnitCrete - Stay-in-place knitted formworks for complex concrete
-    structures*[2]_.
+    structures* [2]_.
 
     The implementation was further influenced by concepts and ideas presented
-    in the papers *Automatic Machine Knitting of 3D Meshes*[3]_,
-    *Visual Knitting Machine Programming*[4]_ and
-    *A Compiler for 3D Machine Knitting*[5]_.
+    in the papers *Automatic Machine Knitting of 3D Meshes* [3]_,
+    *Visual Knitting Machine Programming* [4]_ and
+    *A Compiler for 3D Machine Knitting* [5]_.
     """
 
     # INITIALIZATION -----------------------------------------------------------
@@ -990,8 +990,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Notes
         -----
         Closely resembles the implementation described in Automated Generation
-        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
-        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
+        of Knit Patterns for Non-developable Surfaces* [1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures* [2]_.
         """
 
         # initialize dict for seen nodes and list for storage of rows
