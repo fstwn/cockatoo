@@ -9,10 +9,6 @@ from math import pi
 from operator import itemgetter
 
 # DUNDER -----------------------------------------------------------------------
-__author__ = "Max Eschenbach (post@maxeschenbach.com)"
-__copyright__  = "Copyright 2020 / Max Eschenbach"
-__license__    = "Apache License 2.0"
-__email__      = ['<post@maxeschenbach.com>']
 __all__ = [
     "KnitNetwork"
 ]
@@ -69,9 +65,15 @@ class KnitNetwork(KnitNetworkBase):
 
     Notes
     -----
-    The implemented algorithms are strongly based on [1]_. Also see [2]_.
-    The implementation is further influenced by concepts and ideas presented
-    in [3]_, [4]_ and [5]_.
+    The implemented algorithms are strongly based on the paper
+    *Automated Generation of Knit Patterns for Non-developable Surfaces*[1]_.
+    Also see *KnitCrete - Stay-in-place knitted formworks for complex concrete
+    structures*[2]_.
+
+    The implementation was further influenced by concepts and ideas presented
+    in the papers *Automatic Machine Knitting of 3D Meshes*[3]_,
+    *Visual Knitting Machine Programming*[4]_ and
+    *A Compiler for 3D Machine Knitting*[5]_.
 
     References
     ----------
@@ -227,7 +229,8 @@ class KnitNetwork(KnitNetworkBase):
                                           end=False,
                                           segment=None,
                                           increase=False,
-                                          decrease=False)
+                                          decrease=False,
+                                          color=None)
 
                 # increment counter
                 nodenum += 1
@@ -292,7 +295,9 @@ class KnitNetwork(KnitNetworkBase):
         This method is automatically called when creating a KnitNetwork using
         the create_from_contours method!
 
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # get all nodes by position
@@ -314,7 +319,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # get all leaves
@@ -360,8 +367,8 @@ class KnitNetwork(KnitNetworkBase):
             Defaults to ``4``.
 
         verbose : bool, optional
-            If ``True``, this routine and all its subroutines will print messages
-            about what is happening to the console.
+            If ``True``, this routine and all its subroutines will print
+            messages about what is happening to the console.
 
             Defaults to ``False``.
 
@@ -373,7 +380,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # define verbose print function
@@ -419,7 +428,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # define verbose print function
@@ -587,8 +598,14 @@ class KnitNetwork(KnitNetworkBase):
                         normalB = RhinoVector3d.CrossProduct(prevDir, dirB)
 
                         # measure the angles
-                        angleA = RhinoVector3d.VectorAngle(prevDir, dirA, normalA)
-                        angleB = RhinoVector3d.VectorAngle(prevDir, dirB, normalB)
+                        angleA = RhinoVector3d.VectorAngle(
+                                                        prevDir,
+                                                        dirA,
+                                                        normalA)
+                        angleB = RhinoVector3d.VectorAngle(
+                                                        prevDir,
+                                                        dirB,
+                                                        normalB)
 
                         # select final candidate for connection by angle
                         if angleA < angleB:
@@ -597,7 +614,8 @@ class KnitNetwork(KnitNetworkBase):
                             fCand = mpB
 
                         # attempt to connect to final candidate
-                        res = self.attempt_weft_connection(node,
+                        res = self.attempt_weft_connection(
+                                                node,
                                                 fCand,
                                                 initial_nodes,
                                                 max_connections=max_connections,
@@ -615,7 +633,8 @@ class KnitNetwork(KnitNetworkBase):
                         fCand = most_perpendicular[0]
 
                         # attempt to connect to final candidate node
-                        res = self.attempt_weft_connection(node,
+                        res = self.attempt_weft_connection(
+                                                node,
                                                 fCand,
                                                 initial_nodes,
                                                 max_connections=max_connections,
@@ -631,7 +650,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         v_print = print if verbose else lambda *a, **k: None
@@ -973,9 +994,9 @@ class KnitNetwork(KnitNetworkBase):
             Defaults to ``False``.
 
         verbose : bool, optional
-            If ``True``, this routine and all its subroutines will print messages
-            about what is happening to the console. Great for debugging and
-            analysis.
+            If ``True``, this routine and all its subroutines will print
+            messages about what is happening to the console. Great for debugging
+            and analysis.
 
             Defaults to ``False``.
 
@@ -986,7 +1007,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # get all the positions / contours
@@ -1019,30 +1042,34 @@ class KnitNetwork(KnitNetworkBase):
         rightContours = AllPositions[start_index:]
 
         # create the initial weft connections
-        self._create_initial_weft_connections(leftContours,
-                                              force_continuous_start=force_continuous_start,
-                                              force_continuous_end=force_continuous_end,
-                                              max_connections=max_connections,
-                                              precise=precise,
-                                              verbose=verbose)
+        self._create_initial_weft_connections(
+                            leftContours,
+                            force_continuous_start=force_continuous_start,
+                            force_continuous_end=force_continuous_end,
+                            max_connections=max_connections,
+                            precise=precise,
+                            verbose=verbose)
 
-        self._create_initial_weft_connections(rightContours,
-                                              force_continuous_start=force_continuous_start,
-                                              force_continuous_end=force_continuous_end,
-                                              max_connections=max_connections,
-                                              precise=precise,
-                                              verbose=verbose)
+        self._create_initial_weft_connections(
+                            rightContours,
+                            force_continuous_start=force_continuous_start,
+                            force_continuous_end=force_continuous_end,
+                            max_connections=max_connections,
+                            precise=precise,
+                            verbose=verbose)
 
         # create second pass weft connections
-        self._create_second_pass_weft_connections(leftContours,
-                                                  least_connected,
-                                                  precise=precise,
-                                                  verbose=verbose)
+        self._create_second_pass_weft_connections(
+                                            leftContours,
+                                            least_connected,
+                                            precise=precise,
+                                            verbose=verbose)
 
-        self._create_second_pass_weft_connections(rightContours,
-                                                  least_connected,
-                                                  precise=precise,
-                                                  verbose=verbose)
+        self._create_second_pass_weft_connections(
+                                            rightContours,
+                                            least_connected,
+                                            precise=precise,
+                                            verbose=verbose)
 
         return True
 
@@ -1069,7 +1096,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # if no contour set is provided, use all contours of this network
@@ -1182,12 +1211,13 @@ class KnitNetwork(KnitNetworkBase):
                 way_nodes.append(connected_node[0])
                 way_edges.append(fwec)
                 # call this method recursively until a 'end' node is found
-                return self._traverse_weft_edge_until_end(start_end_node,
-                                                 connected_node,
-                                                 seen_segments,
-                                                 way_nodes,
-                                                 way_edges,
-                                                 end_nodes)
+                return self._traverse_weft_edge_until_end(
+                                                    start_end_node,
+                                                    connected_node,
+                                                    seen_segments,
+                                                    way_nodes,
+                                                    way_edges,
+                                                    end_nodes)
         else:
             return seen_segments
 
@@ -1300,7 +1330,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # create a new KnitMappingNetwork instance
@@ -1339,10 +1371,11 @@ class KnitNetwork(KnitNetworkBase):
             # get all the geometry of the individual edges
             segment_geo = [e[2]["geo"] for e in segment_edges]
             # create a segment contour edge in the mapping network
-            res = MappingNetwork.create_segment_contour_edge(start_node,
-                                                             endNode,
-                                                             id,
-                                                             segment_geo)
+            res = MappingNetwork.create_segment_contour_edge(
+                                                        start_node,
+                                                        endNode,
+                                                        id,
+                                                        segment_geo)
             if not res:
                 errMsg = ("SegmentContourEdge at segment id {} could not be " +
                           "created!")
@@ -1503,7 +1536,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # retrieve mapping network
@@ -1545,16 +1580,18 @@ class KnitNetwork(KnitNetworkBase):
             # add all the nodes to the network
             for j, pt in enumerate(divPts):
                 # add node to network
-                self.node_from_point3d(nodeindex,
-                                       pt,
-                                       position=None,
-                                       num=j,
-                                       leaf=nodeLeaf,
-                                       start=False,
-                                       end=False,
-                                       segment=seg[2]["segment"],
-                                       increase=False,
-                                       decrease=False)
+                self.node_from_point3d(
+                                    nodeindex,
+                                    pt,
+                                    position=None,
+                                    num=j,
+                                    leaf=nodeLeaf,
+                                    start=False,
+                                    end=False,
+                                    segment=seg[2]["segment"],
+                                    increase=False,
+                                    decrease=False,
+                                    color = None)
                 # increment node index
                 nodeindex += 1
 
@@ -1567,7 +1604,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # get all nodes by segment contour
@@ -1623,8 +1662,8 @@ class KnitNetwork(KnitNetworkBase):
             Defaults to ``4``.
 
         verbose : bool, optional
-            If ``True``, this routine and all its subroutines will print messages
-            about what is happening to the console.
+            If ``True``, this routine and all its subroutines will print
+            messages about what is happening to the console.
 
             Defaults to ``False``.
 
@@ -1635,7 +1674,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # define verbose print function
@@ -1673,7 +1714,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # define verbose print function
@@ -1739,7 +1782,8 @@ class KnitNetwork(KnitNetworkBase):
             elif len(possible_connections) == 1:
                 # attempt to connect to only possible candidate
                 fCand = possible_connections[0]
-                res = self.attempt_warp_connection(node,
+                res = self.attempt_warp_connection(
+                                                node,
                                                 fCand,
                                                 initial_nodes,
                                                 max_connections=max_connections,
@@ -1775,11 +1819,15 @@ class KnitNetwork(KnitNetworkBase):
             deltas = [abs(a - (0.5 * pi)) for a in angles]
 
             # sort possible connections first by distance, then by delta
-            allDists, deltas, angles, most_perpendicular = zip(
-                                *sorted(zip(allDists,
-                                            deltas,
-                                            angles,
-                                            possible_connections[:]),
+            allDists, \
+            deltas, \
+            angles, \
+            most_perpendicular = zip(*sorted(
+                                            zip(
+                                                allDists,
+                                                deltas,
+                                                angles,
+                                                possible_connections[:]),
                                             key = itemgetter(0, 1)))
 
             # compute angle difference
@@ -1828,7 +1876,8 @@ class KnitNetwork(KnitNetworkBase):
                     fCand = mpB
 
                 # attempt connection to final candidate
-                res = self.attempt_warp_connection(node,
+                res = self.attempt_warp_connection(
+                                                node,
                                                 fCand,
                                                 initial_nodes,
                                                 max_connections=max_connections,
@@ -1846,7 +1895,8 @@ class KnitNetwork(KnitNetworkBase):
                 # define final candidate node
                 fCand = most_perpendicular[0]
                 # attempt connection to final candidate
-                res = self.attempt_warp_connection(node,
+                res = self.attempt_warp_connection(
+                                                node,
                                                 fCand,
                                                 initial_nodes,
                                                 max_connections=max_connections,
@@ -1862,7 +1912,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # define verbose print function
@@ -1984,7 +2036,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # define verbose print function
@@ -2835,7 +2889,9 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # first find the cycles of this network
@@ -2879,8 +2935,16 @@ class KnitNetwork(KnitNetworkBase):
             centroid = [sum(cx) / clen, sum(cy) / clen, sum(cz) / clen]
             centroid_pt = RhinoPoint3d(*centroid)
 
-            # get node attributes
+            # get node 'leaf' attributes
             is_leaf = True in [node_data[k]["leaf"] for k in cycle]
+
+            # get node 'color' attributes. only if all colors of the cycle
+            # match, the color attribute will be set!
+            colors = [node_data[k]["color"] for k in cycle]
+            if all(x == colors[0] for x in colors):
+                cycle_color = colors[0]
+            else:
+                cycle_color = None
 
             # add node to dual network
             DualNetwork.node_from_point3d(ckey,
@@ -2892,7 +2956,8 @@ class KnitNetwork(KnitNetworkBase):
                                           end=False,
                                           segment=None,
                                           increase=False,
-                                          decrease=False)
+                                          decrease=False,
+                                          color=cycle_color)
 
         # CREATE EDGES IN DUAL -------------------------------------------------
 
@@ -3069,10 +3134,12 @@ class KnitNetwork(KnitNetworkBase):
         # ATTEMPT TO MEND TRAILING ROWS ----------------------------------------
 
         if mend_trailing_rows:
+
             # TODO: find a safer / more robust implementation attempt!
             errMsg = "This option is not satisfyingly implemented for this " + \
-                     "method and yet. Therefore, it is deactivated for now."
+                     "method, yet. Therefore, it is deactivated for now."
             raise NotImplementedError(errMsg)
+
             # get all nodes which are 'leaf' and 'end' (right side)
             # and all nodes which are 'leaf' and 'start' (left side)
             trailing = sorted([(n, d) for n, d in \
@@ -3103,8 +3170,12 @@ class KnitNetwork(KnitNetworkBase):
                     continue
                 weft_out = weft_out[0]
                 # check the target of the 'weft' edge for incoming 'warp'
-                warp_in = DualNetwork.node_warp_edges_in(weft_out[1], data=True)
-                warp_out = DualNetwork.node_warp_edges_out(weft_out[1], data=True)
+                warp_in = DualNetwork.node_warp_edges_in(
+                                                        weft_out[1],
+                                                        data=True)
+                warp_out = DualNetwork.node_warp_edges_out(
+                                                        weft_out[1],
+                                                        data=True)
                 if not warp_in:
                     continue
                 warp_in = warp_in[0]

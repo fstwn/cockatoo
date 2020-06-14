@@ -5,10 +5,6 @@ from __future__ import print_function
 from collections import OrderedDict
 
 # DUNDER -----------------------------------------------------------------------
-__author__ = "Max Eschenbach (post@maxeschenbach.com)"
-__copyright__  = "Copyright 2020 / Max Eschenbach"
-__license__    = "Apache License 2.0"
-__email__      = ['<post@maxeschenbach.com>']
 __all__ = [
     "KnitNetworkBase"
 ]
@@ -45,13 +41,16 @@ class KnitNetworkBase(nx.Graph):
     KnitMappingNetwork and KnitDiNetwork classes.
 
     Inherits from :class:`networkx.Graph`.
-    For more info, see [13]_.
+    For more info, see *NetworkX*[13]_.
 
     References
     ----------
-    .. [13] Hagberg, Aric; Schult, Dan; Swart, Pieter *NetworkX 1.5*
+    .. [13] Hagberg, Aric A.; Schult, Daniel A.; Swart, Pieter J.
+            *Exploring Network Structure, Dynamics, and Function using NetworkX*
+            In: *Varoquaux, Vaught et al. (Hg.) 2008 - Proceedings of the 7th
+            Python in Science Conference* pp. 11-15
 
-            See: `NetworkX 1.5 <https://networkx.github.io/documentation/networkx-1.5/_downloads/networkx_reference.pdf>`_
+            See: `NetworkX 1.5 <https://networkx.github.io/documentation/networkx-1.5/>`_
     """
 
     # REPRESENTATION OF NETWORK ------------------------------------------------
@@ -303,7 +302,7 @@ class KnitNetworkBase(nx.Graph):
 
     # NODE CREATION ------------------------------------------------------------
 
-    def node_from_point3d(self, node_index, pt, position=None, num=None, leaf=False, start=False, end=False, segment=None, increase=False, decrease=False):
+    def node_from_point3d(self, node_index, pt, position=None, num=None, leaf=False, start=False, end=False, segment=None, increase=False, decrease=False, color=None):
         """
         Creates a network node from a Rhino Point3d and attributes.
 
@@ -351,11 +350,23 @@ class KnitNetworkBase(nx.Graph):
 
             Defaults to ``None``.
 
-        crease : bool, optional
-            The 'crease' attribute identifying the node as an increase or
-            decrease (needed for translation from dual to 2d knitting pattern).
+        increase : bool, optional
+            The 'increase' attribute identifying the node as an increase
+            (needed for translation from dual to 2d knitting pattern).
 
             Defaults to ``False``.
+
+        decrease : bool, optional
+            The 'decrease' attribute identifying the node as a decrease
+            (needed for translation from dual to 2d knitting pattern).
+
+            Defaults to ``False``.
+
+        color : :obj:`System.Drawing.Color`, optional
+            The 'color' attribute of the node, representing the color of the
+            pixel when translating the network to a 2d knitting pattern.
+
+            Defaults to ``None``.
         """
 
         # extract node coordinates
@@ -375,7 +386,8 @@ class KnitNetworkBase(nx.Graph):
                            "segment": segment,
                            "increase": increase,
                            "decrease": decrease,
-                           "geo": pt}
+                           "geo": pt,
+                           "color": color}
 
         # add the node to the network instance
         self.add_node(node_index, attr_dict=node_attributes)

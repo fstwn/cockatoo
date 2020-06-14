@@ -8,10 +8,6 @@ import math
 from operator import itemgetter
 
 # DUNDER -----------------------------------------------------------------------
-__author__ = "Max Eschenbach (post@maxeschenbach.com)"
-__copyright__  = "Copyright 2020 / Max Eschenbach"
-__license__    = "Apache License 2.0"
-__email__      = ['<post@maxeschenbach.com>']
 __all__ = [
     "KnitDiNetwork"
 ]
@@ -52,13 +48,19 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     and 'warp' edges. Used in the automatic generation of knitting patterns.
 
     Inherits from :class:`networkx.DiGraph`, :class:`KnitNetworkBase`.
-    For more info, see [13]_
+    For more info, see *NetworkX*[13]_.
 
     Notes
     -----
-    The implemented algorithms are strongly based on [1]_. Also see [2]_.
-    The implementation is further influenced by concepts and ideas presented
-    in [3]_, [4]_ and [5]_.
+    The implemented algorithms are strongly based on the paper
+    *Automated Generation of Knit Patterns for Non-developable Surfaces*[1]_.
+    Also see *KnitCrete - Stay-in-place knitted formworks for complex concrete
+    structures*[2]_.
+
+    The implementation was further influenced by concepts and ideas presented
+    in the papers *Automatic Machine Knitting of 3D Meshes*[3]_,
+    *Visual Knitting Machine Programming*[4]_ and
+    *A Compiler for 3D Machine Knitting*[5]_.
     """
 
     # INITIALIZATION -----------------------------------------------------------
@@ -964,7 +966,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
     def make_pattern_data(self, consolidate=False):
         """
-        Topological sort this network to represent it as rows and columns.
+        Topological sort this network to represent it as 2d knitting pattern
+        consisting of rows and columns.
 
         Parameters
         ----------
@@ -986,7 +989,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation descriped in [1]_ and [2]_.
+        Closely resembles the implementation described in Automated Generation
+        of Knit Patterns for Non-developable Surfaces*[1]_. Also see *KnitCrete
+        - Stay-in-place knitted formworks for complex concrete structures*[2]_.
         """
 
         # initialize dict for seen nodes and list for storage of rows

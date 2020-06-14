@@ -21,14 +21,12 @@ from math import acos
 from math import cos
 from math import degrees
 from math import pi
+from math import sqrt
 
 # DUNDER -----------------------------------------------------------------------
-__author__ = "Max Eschenbach (post@maxeschenbach.com)"
-__copyright__  = "Copyright 2020 / Max Eschenbach"
-__license__    = "Apache License 2.0"
-__email__      = ['<post@maxeschenbach.com>']
 __all__ = [
     "break_polyline",
+    "blend_colors",
     "map_values_as_colors",
     "tween_planes",
     "is_ccw_xy",
@@ -195,7 +193,45 @@ def tween_planes(pa, pb, t):
 
 # RHINO DISPLAY ----------------------------------------------------------------
 
-def map_values_as_colors(values, srcMin, srcMax, targetMin=0.0, targetMax=0.7):
+def blend_colors(col_a, col_b, t=0.5):
+    """
+    Blend between two colors using ...
+
+    Parameters
+    ----------
+    col_a : sequence of int
+        3-tuple of (R, G, B) that defines the color value.
+
+    col_b : sequence of int
+        3-tuple of (R, G, B) that defines the color value.
+
+    t : float, optional
+        Blend parameter.
+
+        Defaults to ``0.5``.
+
+    Returns
+    -------
+    color : tuple
+        3-tuple of (R, G, B) that defines the new color.
+    """
+
+    if t < 0:
+        t = 0
+    elif t > 1:
+        t = 1
+
+    # unpack colors in r, g, b values
+    a_r, a_g, a_b = col_a
+    b_r, b_g, b_b = col_b
+
+    new_r = sqrt((1 - t) * a_r ** 2 + t * b_r ** 2)
+    new_g = sqrt((1 - t) * a_g ** 2 + t * b_g ** 2)
+    new_b = sqrt((1 - t) * a_b ** 2 + t * b_b ** 2)
+
+    return (new_r, new_g, new_b)
+
+def map_values_as_colors(values, src_min, src_max, target_min=0.0, target_max=0.7):
     """
     Make a list of HSL colors where the values are mapped onto a
     targetMin-targetMax hue domain. Meaning that low values will be red, medium
@@ -206,18 +242,18 @@ def map_values_as_colors(values, srcMin, srcMax, targetMin=0.0, targetMax=0.7):
     values : list
         List of values to map as colors.
 
-    srcMin : float
+    src_min : float
         Lower bounds of the value domain.
 
-    srcMax : float
+    src_max : float
         Upper bounds of the value domain.
 
-    targetMin : float, optional
+    target_min : float, optional
         Lower bounds of the target (color) domain.
 
         Defaults to ``0``.
 
-    targetMax : float, optional
+    target_max : float, optional
         Upper bounds of the target (color) domain.
 
         Defaults to ``0.7`` .
@@ -235,25 +271,25 @@ def map_values_as_colors(values, srcMin, srcMax, targetMin=0.0, targetMax=0.7):
 
     References
     ----------
-    .. [10] mapValuesAsColors.py - gist by Anders Holden Deleuran
+    .. [10] Deleuran, Anders Holden *mapValuesAsColors.py*
 
-            See: `mapValuesAsColors.py <https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea>`_
+            See: `mapValuesAsColors.py gist <https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea>`_
     """
 
-    # Remap numbers into new numeric domain
-    remappedValues = []
+    # remap numbers into new numeric domain
+    remapped_values = []
     for v in values:
-        if srcMax-srcMin > 0:
-            rv = ((v - srcMin) / (srcMax - srcMin)) \
-                 * (targetMax - targetMin) \
-                 + targetMin
+        if src_max - src_min > 0:
+            rv = ((v - src_min) / (src_max - src_min)) \
+                 * (target_max - target_min) \
+                 + target_min
         else:
-            rv = (targetMin + targetMax) / 2
-        remappedValues.append(rv)
+            rv = (target_min + target_max) / 2
+        remapped_values.append(rv)
 
-    # Make colors and return
+    # make rgb colors and return
     colors = []
-    for v in remappedValues:
+    for v in remapped_values:
         c = RhinoColorHSL(v, 1.0, 0.5).ToArgbColor()
         colors.append(c)
 

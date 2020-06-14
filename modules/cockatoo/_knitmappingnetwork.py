@@ -7,10 +7,6 @@ import math
 from operator import itemgetter
 
 # DUNDER -----------------------------------------------------------------------
-__author__ = "Max Eschenbach (post@maxeschenbach.com)"
-__copyright__  = "Copyright 2020 / Max Eschenbach"
-__license__    = "Apache License 2.0"
-__email__      = ['<post@maxeschenbach.com>']
 __all__ = [
     "KnitMappingNetwork"
 ]
@@ -29,16 +25,22 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
     edges in a KnitNetwork for final creation of 'weft' and 'warp' edges.
 
     Inherits from :class:`networkx.MultiGraph`, :class:`KnitNetworkBase`
-    For more info, see [13]_.
+    For more info, see *NetworkX*[13]_.
 
     Notes
     -----
     Not intended to be instantiated separately. Should only be instantiated
     by the KnitNetwork.create_mapping_network method!
 
-    The implemented algorithms are strongly based on [1]_. Also see [2]_.
-    The implementation is further influenced by concepts and ideas presented
-    in [3]_, [4]_ and [5]_.
+    The implemented algorithms are strongly based on the paper
+    *Automated Generation of Knit Patterns for Non-developable Surfaces*[1]_.
+    Also see *KnitCrete - Stay-in-place knitted formworks for complex concrete
+    structures*[2]_.
+
+    The implementation was further influenced by concepts and ideas presented
+    in the papers *Automatic Machine Knitting of 3D Meshes*[3]_,
+    *Visual Knitting Machine Programming*[4]_ and
+    *A Compiler for 3D Machine Knitting*[5]_.
     """
 
     # TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------
@@ -89,7 +91,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
         """
         Method for traversing a path of 'segment' edges until a 'warp'
         edge is discovered which points to the previous or the next segment.
-        Returns the ids of the segment array
+        Returns the ids of the segment array.
 
         Parameters
         ----------
