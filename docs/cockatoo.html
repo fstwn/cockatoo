@@ -409,23 +409,46 @@ nodes in the network.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.utilities.break_polyline" title="cockatoo.utilities.break_polyline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">break_polyline</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.utilities.blend_colors" title="cockatoo.utilities.blend_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">blend_colors</span></code></a></p></td>
+<td><p>Blend between two colors using …</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.utilities.break_polyline" title="cockatoo.utilities.break_polyline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">break_polyline</span></code></a></p></td>
 <td><p>Breaks a polyline at kinks based on a specified angle.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.utilities.map_values_as_colors" title="cockatoo.utilities.map_values_as_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_values_as_colors</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.utilities.map_values_as_colors" title="cockatoo.utilities.map_values_as_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_values_as_colors</span></code></a></p></td>
 <td><p>Make a list of HSL colors where the values are mapped onto a targetMin-targetMax hue domain.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.utilities.tween_planes" title="cockatoo.utilities.tween_planes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tween_planes</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.utilities.tween_planes" title="cockatoo.utilities.tween_planes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tween_planes</span></code></a></p></td>
 <td><p>Tweens between two planes using quaternion rotation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.utilities.is_ccw_xy" title="cockatoo.utilities.is_ccw_xy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_ccw_xy</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.utilities.is_ccw_xy" title="cockatoo.utilities.is_ccw_xy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_ccw_xy</span></code></a></p></td>
 <td><p>Determine if c is on the left of ab when looking from a to b, and assuming that all points lie in the XY plane.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.utilities.resolve_order_by_backtracking" title="cockatoo.utilities.resolve_order_by_backtracking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_order_by_backtracking</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.utilities.resolve_order_by_backtracking" title="cockatoo.utilities.resolve_order_by_backtracking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_order_by_backtracking</span></code></a></p></td>
 <td><p>Resolve topological order of a networkx DiGraph through backtracking of all nodes in the graph.</p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py function">
+<dt id="cockatoo.utilities.blend_colors">
+<code class="sig-prename descclassname">cockatoo.utilities.</code><code class="sig-name descname">blend_colors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col_a</span></em>, <em class="sig-param"><span class="n">col_b</span></em>, <em class="sig-param"><span class="n">t</span><span class="o">=</span><span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/utilities.html#blend_colors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.utilities.blend_colors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Blend between two colors using …</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>col_a</strong> (sequence of <a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Sequence of (R, G, B) that defines the color value.</p></li>
+<li><p><strong>col_b</strong> (sequence of <a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Sequence of (R, G, B) that defines the color value.</p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>, </em><em>optional</em>) – <p>Blend parameter.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>color</strong> (<em>tuple</em>) – 3-tuple of (R, G, B) that defines the new color.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt id="cockatoo.utilities.break_polyline">
 <code class="sig-prename descclassname">cockatoo.utilities.</code><code class="sig-name descname">break_polyline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">polyline</span></em>, <em class="sig-param"><span class="n">break_angle</span></em>, <em class="sig-param"><span class="n">as_crv</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/utilities.html#break_polyline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.utilities.break_polyline" title="Permalink to this definition">¶</a></dt>
@@ -444,26 +467,6 @@ of closed polylines to the first kink discovered.</p>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>broken_polyline_segments</strong> (<em>list of Rhino.Geometry.Polyline or Rhino.Geometry.PolylineCurve</em>) – A list of the broken segments. The return type will depend on the
 as_crv setting!</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="cockatoo.utilities.blend_colors">
-<code class="sig-prename descclassname">cockatoo.utilities.</code><code class="sig-name descname">blend_colors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col_a</span></em>, <em class="sig-param"><span class="n">col_b</span></em>, <em class="sig-param"><span class="n">t</span><span class="o">=</span><span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/utilities.html#blend_colors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.utilities.blend_colors" title="Permalink to this definition">¶</a></dt>
-<dd><p>Blend between two colors using …</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>col_a</strong> (<em>sequence of int</em>) – 3-tuple of (R, G, B) that defines the color value.</p></li>
-<li><p><strong>col_b</strong> (<em>sequence of int</em>) – 3-tuple of (R, G, B) that defines the color value.</p></li>
-<li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>, </em><em>optional</em>) – <p>Blend parameter.</p>
-<p>Defaults to <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.</p>
-</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>color</strong> (<em>tuple</em>) – 3-tuple of (R, G, B) that defines the new color.</p>
 </dd>
 </dl>
 </dd></dl>
