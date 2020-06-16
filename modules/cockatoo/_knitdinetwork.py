@@ -606,7 +606,15 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         # loop over all nodes in network
         for key in self.nodes_iter():
             nbrs = self[key].keys()
-            sorted_neighbors[key] = self._sort_node_neighbors(key, nbrs, xyz, geo, cbp, nrm, mode=mode, ccw=ccw)
+            sorted_neighbors[key] = self._sort_node_neighbors(
+                                                            key,
+                                                            nbrs,
+                                                            xyz,
+                                                            geo,
+                                                            cbp,
+                                                            nrm,
+                                                            mode=mode,
+                                                            ccw=ccw)
 
         # set the sorted neighbors list as an attribute to the nodes
         for key, nbrs in sorted_neighbors.items():
@@ -1277,8 +1285,6 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         except nx.NetworkXUnfeasible as e:
             raise KnitNetworkTopologyError(str(e.message))
 
-
-
         # insert filler identifier (-1)
         for i, col in enumerate(ordered_column_stack):
             # get column nodes
@@ -1329,10 +1335,12 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                         if self.node[popped_row_item]["start"]:
                             row_has_started[j] = True
                             insert_all_unstarted = True
-                        elif not self.node[popped_row_item]["start"] and self.node[popped_row_item]["end"]:
+                        elif (not self.node[popped_row_item]["start"] \
+                              and self.node[popped_row_item]["end"]):
                             row_has_ended[j] = True
                             insert_all_unstarted = True
-                        elif self.node[popped_row_item]["start"] and self.node[popped_row_item]["end"]:
+                        elif (self.node[popped_row_item]["start"] \
+                              and self.node[popped_row_item]["end"]):
                             row_has_ended[j] = True
                             insert_all_unstarted = True
 
