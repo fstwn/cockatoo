@@ -25,7 +25,7 @@ from scriptcontext import sticky as st
 ghenv.Component.Name = "GeometryWatchDog"
 ghenv.Component.NickName = "GWD"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "1 Pipeline Controlling"
+ghenv.Component.SubCategory = "01 Pipeline Controlling"
 
 class GeometryWatchDog(component):
     
