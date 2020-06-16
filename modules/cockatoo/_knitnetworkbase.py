@@ -110,9 +110,9 @@ class KnitNetworkBase(nx.Graph):
 
         return repr(self)
 
-    def make_render_graph(self, allcircles=False):
+    def prepare_for_graphviz(self):
         """
-        Creates a new graph with attributes for visualising this networkx
+        Creates a new graph with attributes for visualising this network
         using GraphViz.
 
         Based on code by Anders Holden Deleuran
@@ -123,109 +123,156 @@ class KnitNetworkBase(nx.Graph):
         edgeFontSize = 3.75
         arrowSize = 0.4
 
+        # shapes
+        circle = "circle"
+
         # colors
         black = "black"
         white = "white"
-        grey = "grey"
-        blue = "blue"
         red = "red"
-        green = "green"
-        orange = "orange"
+        blue = "blue"
 
-        # node shapes
-        circle = "circle"
-        trapez = "trapezium"
-        triangle = "triangle"
-        invtriangle = "invtriangle"
-        square = "square"
-        parallelogram = "parallelogram"
-        diamond = "diamond"
+        col_regular = "black"
+        col_start = "green"
+        col_start_leaf = "seagreen"
+        col_start_leaf_end = "orange"
+        col_start_end = "darkgreen"
+        col_end = "blue"
+        col_leaf = "cyan"
+        col_end_leaf = "magenta"
+        col_increase_end = "purple"
+        col_decrease_end = "darkorchid4"
+        col_increase = "red"
+        col_decrease = "darkred"
 
-        font = "Lato"
+        font = "Helvetica"
 
+        # choose graph type for new graph depending on current graph
         if isinstance(self, nx.MultiGraph):
-            RenderGraph = nx.MultiDiGraph()
+            DotGraph = nx.MultiDiGraph()
         else:
-            RenderGraph = nx.DiGraph()
+            DotGraph = nx.DiGraph()
 
-        kmn_nodes = self.nodes(data=True)
-        kmn_edges = self.edges(data=True)
+        # get all nodes and all edges
+        network_nodes = self.nodes(data=True)
+        network_edges = self.edges(data=True)
 
-        # add all nodes to the render graph
-        for node in kmn_nodes:
-            if node[1]["end"] and not node[1]["leaf"]:
-                nType = "E"
-                nCol = red
-                nFCol = black
-                if allcircles:
-                    nodeShape = circle
+        # process all nodes and add them to the dot graph
+        for node in network_nodes:
+            ndata = node[1]
+
+            # END BUT NOT LEAF
+            if ndata["end"] and not ndata["leaf"]:
+                if not ndata["increase"] and not ndata["decrease"]:
+                    if ndata["start"]:
+                        node_type = "S"
+                        node_color = col_start_end
+                        node_txt_color = black
+                    else:
+                        node_type = "E"
+                        node_color = col_end
+                        node_txt_color = white
+
+                elif ndata["increase"] and not ndata["decrease"]:
+                    node_type = "Ei"
+                    node_color = col_increase_end
+                    node_txt_color = black
+                elif not ndata["increase"] and ndata["decrease"]:
+                    node_type = "Ed"
+                    node_color = col_decrease_end
+                    node_txt_color = black
+
+                node_shape = circle
+
+            # LEAF BUT NOT END
+            elif ndata["leaf"] and not ndata["end"]:
+                if ndata["start"]:
+                    node_type = "SL"
+                    node_color = col_start_leaf
                 else:
-                    nodeShape = triangle
-            elif node[1]["leaf"] and not node[1]["end"]:
-                nType = "L"
-                nCol = green
-                nFCol = black
-                if allcircles:
-                    nodeShape = circle
+                    node_type = "L"
+                    node_color = col_leaf
+
+                node_txt_color = black
+                node_shape = circle
+
+            # END AND LEAF
+            elif ndata["leaf"] and ndata["end"]:
+                if ndata["start"]:
+                    node_type = "SEL"
+                    node_color = col_start_leaf_end
                 else:
-                    nodeShape = invtriangle
-            elif node[1]["leaf"] and node[1]["end"]:
-                nType = "EL"
-                nCol = orange
-                nFCol = black
-                if allcircles:
-                    nodeShape = circle
+                    node_type = "EL"
+                    node_color = col_end_leaf
+
+                node_txt_color = black
+                node_shape = circle
+
+            # NO END NO LEAF
+            elif not ndata["leaf"] and not ndata["end"]:
+                # INCREASE
+                if ndata["increase"] and not ndata["decrease"]:
+                    node_type = "i"
+                    node_color = col_increase
+                # DECREASE
+                elif not ndata["increase"] and ndata["decrease"]:
+                    node_type = "d"
+                    node_color = col_decrease
                 else:
-                    nodeShape = diamond
-            else:
-                nType = ""
-                nCol = black
-                nFCol = white
-                if allcircles:
-                    nodeShape = circle
-                else:
-                    nodeShape = square
+                    node_type = "R"
+                    node_color = col_regular
+
+                node_txt_color = white
+                node_shape = circle
 
             if node[1]["segment"]:
-                nLabel = str(node[0]) + nType + "\n" + str(node[1]["segment"])
+                node_label = str(node[0]) + "\n" + node_type + "\n" + \
+                             str(node[1]["segment"])
             else:
-                nLabel = str(node[0]) + nType
+                node_label = str(node[0]) + node_type
 
-            RenderGraph.add_node(node[0],
-                                 label=nLabel,
-                                 shape=nodeShape,
-                                 fontname=font,
-                                 style="filled",
-                                 fillcolor=nCol,
-                                 fontcolor=nFCol,
-                                 fontsize=nodeFontSize,
-                                 margin=0.0001)
+            DotGraph.add_node(
+                            node[0],
+                            label=node_label,
+                            shape=node_shape,
+                            fontname=font,
+                            style="filled",
+                            fillcolor=node_color,
+                            fontcolor=node_txt_color,
+                            fontsize=nodeFontSize,
+                            margin=0.0001)
 
-        # ad all edges to the render graph
-        for edge in kmn_edges:
+        # make edge types and labels and add them to the graph
+        for edge in network_edges:
             padding = "  "
             if edge[2]["weft"]:
-                eType = "WFT"
-                eCol = blue
+                edge_type = "WP"
+                edge_color = blue
             elif edge[2]["warp"]:
-                eType = "WRP"
-                eCol = red
+                edge_type = "WT"
+                edge_color = red
             elif not edge[2]["weft"] and not edge[2]["warp"]:
-                eType = "C"
-                eCol = black
+                edge_type = "C"
+                edge_color = black
 
-            eInfo = str(edge[0]) + ">" + str(edge[1])
-            eLabel = eInfo + eType + "\n" + str(edge[2]["segment"])
+            edge_info = str(edge[0]) + ">" + str(edge[1])
+            edge_segment = edge[2]["segment"]
+            if edge_segment:
+                edge_label = edge_info + edge_type + "\n" + str(edge_segment)
+            else:
+                edge_label = edge_info + edge_type
 
-            RenderGraph.add_edge(edge[0], edge[1],
-                                 label=eLabel,
-                                 fontname=font,
-                                 fontcolor=black,
-                                 color=eCol,
-                                 fontsize=edgeFontSize,
-                                 arrowsize=arrowSize)
+            DotGraph.add_edge(
+                            edge[0],
+                            edge[1],
+                            label=edge_label,
+                            fontname=font,
+                            fontcolor=black,
+                            color=edge_color,
+                            fontsize=edgeFontSize,
+                            arrowsize=arrowSize)
 
-        return RenderGraph
+        return DotGraph
 
     def make_gephi_graph(self):
         """
@@ -251,50 +298,50 @@ class KnitNetworkBase(nx.Graph):
         else:
             GephiGraph = nx.DiGraph()
 
-        kmn_nodes = self.nodes(data=True)
-        kmn_edges = self.edges(data=True)
+        network_nodes = self.nodes(data=True)
+        network_edges = self.edges(data=True)
 
         # add all nodes to the render graph
-        for node in kmn_nodes:
+        for node in network_nodes:
             if node[1]["end"] and not node[1]["leaf"]:
-                nType = "end"
-                nCol = red
-                nodeShape = circle
+                node_type = "end"
+                node_color = red
+                node_shape = circle
 
             elif node[1]["leaf"] and not node[1]["end"]:
-                nType = "leaf"
-                nCol = green
-                nodeShape = circle
+                node_type = "leaf"
+                node_color = green
+                node_shape = circle
 
             elif node[1]["leaf"] and node[1]["end"]:
-                nType = "end leaf"
-                nCol = orange
-                nodeShape = circle
+                node_type = "end leaf"
+                node_color = orange
+                node_shape = circle
 
             else:
-                nType = "regular"
-                nCol = black
-                nodeShape = circle
+                node_type = "regular"
+                node_color = black
+                node_shape = circle
 
-            nodeAttrs = {"color": nCol,
-                         "shape": nodeShape,
-                         "type": nType}
+            nodeAttrs = {"color": node_color,
+                         "shape": node_shape,
+                         "type": node_type}
 
             GephiGraph.add_node(node[0], attr_dict=nodeAttrs)
 
         # ad all edges to the render graph
-        for edge in kmn_edges:
+        for edge in network_edges:
             if edge[2]["weft"]:
-                eType = "weft"
-                eCol = blue
+                edge_type = "weft"
+                edge_color = blue
             elif edge[2]["warp"]:
-                eType = "warp"
-                eCol = red
+                edge_type = "warp"
+                edge_color = red
             elif not edge[2]["weft"] and not edge[2]["warp"]:
                 continue
 
-            edgeAttrs = {"color": eCol,
-                         "type": eType}
+            edgeAttrs = {"color": edge_color,
+                         "type": edge_type}
 
             GephiGraph.add_edge(edge[0], edge[1], attr_dict=edgeAttrs)
 
