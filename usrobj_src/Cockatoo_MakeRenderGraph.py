@@ -10,7 +10,7 @@ TODO: Update docstring!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200608
+        Version: 200615
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -27,7 +27,7 @@ import rhinoscriptsyntax as rs
 ghenv.Component.Name = "MakeRenderGraph"
 ghenv.Component.NickName ="MRG"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "7 Visualisation"
+ghenv.Component.SubCategory = "08 Visualisation"
 
 # LOCAL MODULE IMPORTS
 try:
