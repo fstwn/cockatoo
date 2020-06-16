@@ -16,9 +16,9 @@ from cockatoo.exception import *
 if RHINOINSIDE:
     import rhinoinside
     rhinoinside.load()
-    from Rhino.Geometry import PolylineCurve as RhinoPolylineCurve
+    from Rhino.Geometry import Curve as RhinoCurve
 else:
-    from Rhino.Geometry import PolylineCurve as RhinoPolylineCurve
+    from Rhino.Geometry import Curve as RhinoCurve
 
 # CLASS DECLARATION ------------------------------------------------------------
 class KnitConstraint(object):
@@ -28,24 +28,24 @@ class KnitConstraint(object):
     """
 
     def __init__(self, start_course, end_course, left_boundary, right_boundary):
-        if not isinstance(start_course, RhinoPolylineCurve):
-            raise ValueError("start_course has to be of type PolylineCurve!")
-        if not isinstance(end_course, RhinoPolylineCurve):
-            raise ValueError("end_course has to be of type PolylineCurve!")
+        if not isinstance(start_course, RhinoCurve):
+            raise ValueError("start_course has to be of type Curve!")
+        if not isinstance(end_course, RhinoCurve):
+            raise ValueError("end_course has to be of type Curve!")
         self.cons = {"start" : start_course,
                      "end" : end_course,
                      "left" : [],
                      "right" : []}
         for lb in left_boundary:
-            if not isinstance(lb, RhinoPolylineCurve):
+            if not isinstance(lb, RhinoCurve):
                 errMsg = "All items of left_boundary have to be of type " + \
-                         "PolylineCurve!"
+                         "Curve!"
                 raise ValueError(errMsg)
             self.cons["left"].append(lb)
         for rb in right_boundary:
-            if not isinstance(rb, RhinoPolylineCurve):
+            if not isinstance(rb, RhinoCurve):
                 errMsg = "All items of right_boundary have to be of type " + \
-                         "PolylineCurve!"
+                         "Curve!"
                 raise ValueError()
             self.cons["right"].append(rb)
 
