@@ -10,7 +10,7 @@ gradient coloured curves. Will work with any type of curve, actually.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200608
+        Version: 200615
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -30,7 +30,7 @@ from scriptcontext import sticky as st
 ghenv.Component.Name = "RenderKnitContours"
 ghenv.Component.NickName ="RKC"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "7 Visualisation"
+ghenv.Component.SubCategory = "08 Visualisation"
 
 # LOCAL MODULE IMPORTS
 try:
