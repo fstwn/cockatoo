@@ -1242,20 +1242,6 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
             [col_map.add_edge(col_id, tid) for tid in target_ids]
 
-        # FILL ROWS WITH -1 MARKER FOR WASTE YARN ------------------------------
-
-        # fill all the rows to minimum row length with placeholder values (-1)
-        minrl = max([len(row) for row in rows])
-        # loop over all rows and fill until minimum length
-        for key in id2row.keys():
-            row = id2row[key]
-            for j in range(minrl):
-                try:
-                    node = row[j]
-                except IndexError:
-                    row.append(-2)
-            id2row[key] = row
-
         # TOPOLOGICAL SORT OF ROWS ---------------------------------------------
 
         # own method of topological sort for rows (in utilities)
@@ -1285,7 +1271,20 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         except nx.NetworkXUnfeasible as e:
             raise KnitNetworkTopologyError(str(e.message))
 
-        # insert filler identifier (-1)
+        # SPREAD OUT BY FILLING WITH -1 FILLER ---------------------------------
+
+        # fill all the rows to minimum row length with placeholder values (-1)
+        minrl = max([len(row) for row in rows])
+        # loop over all rows and fill until minimum length
+        for key in id2row.keys():
+            row = id2row[key]
+            for j in range(minrl):
+                try:
+                    node = row[j]
+                except IndexError:
+                    row.append(-2)
+            id2row[key] = row
+
         for i, col in enumerate(ordered_column_stack):
             # get column nodes
             colnodes = id2col[col]
