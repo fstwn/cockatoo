@@ -1,5 +1,24 @@
 """
-Renders the nodes and edges of a given KnitNetwork to the Rhino viewport.
+Renders the nodes and edges of a given KnitNetwork to the Rhino viewport
+according to the following rules:
+[NODES]
+'LEAF' : Cyan
+'START' : Green
+'END' : Blue
+'INCREASE' : Red
+'DECREASE' : Dark Red
+'LEAF' + 'START' : Sea Green
+'LEAF' + 'END' : Magenta
+'LEAF' + 'START' + 'END' : Orange
+'START' + 'END' : DarkGreen
+'INCREASE' + 'END' : Purple
+'DECREASE' + 'END' : Dark Violet
+REGULAR NODES : Node Color or Black/White if no 'color' attribute is set.
+---
+[EDGES]
+'WEFT' : Blue
+'WARP' : Red
+NEITHER 'WARP' NOR 'WEFT' : Gray
 ---
 [WARNING] Rendering the associated data (attributes) as text or the directions
 of the edges (DirectionalDisplay) can be **VERY** computation-intensive,
@@ -56,7 +75,7 @@ substantial amount of time!
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200608
+        Version: 200615
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -73,7 +92,7 @@ import rhinoscriptsyntax as rs
 ghenv.Component.Name = "RenderKnitNetwork"
 ghenv.Component.NickName ="RKN"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "7 Visualisation"
+ghenv.Component.SubCategory = "08 Visualisation"
 
 # LOCAL MODULE IMPORTS
 try:
@@ -311,7 +330,11 @@ class RenderKnitNetwork(component):
                             pStyle = psEnd
                             pSize = 3
                         else:
-                            nodecol = colRegular
+                            if data["color"]:
+                                nodecol = System.Drawing.Color.FromArgb(
+                                                            *data["color"])
+                            else:
+                                nodecol = colRegular
                             pStyle = psRegular
                             pSize = 2
                     
