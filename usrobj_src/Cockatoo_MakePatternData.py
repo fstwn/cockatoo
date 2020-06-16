@@ -109,6 +109,10 @@ class MakePatternData(component):
         
         if DualNetwork:
             # CREATE PATTERN DATA (ROWS AND COLUMNS) ---------------------------
+            
+            PatternData = DualNetwork.make_pattern_data(
+                                                    consolidate=Consolidate)
+            
             try:
                 PatternData = DualNetwork.make_pattern_data(
                                                     consolidate=Consolidate)
@@ -151,7 +155,12 @@ class MakePatternData(component):
                                                             *blend)
                                 pixel_row.append(sysblend)
                             else:
-                                pixel_row.append(EndColor)
+                                if node_data["increase"]:
+                                    pixel_row.append(IncreaseColor)
+                                elif node_data["decrease"]:
+                                    pixel_row.append(DecreaseColor)
+                                else:
+                                    pixel_row.append(EndColor)
                         
                         # INCREASE NODE PIXEL COLOR ----------------------------
                         elif node_data["increase"]:
