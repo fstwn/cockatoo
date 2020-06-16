@@ -9,7 +9,7 @@ Listens for changes in a list of values and sends a True value if anything chang
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200615
 """
 
 # GHPYTHON SDK IMPORTS
@@ -25,7 +25,7 @@ from scriptcontext import sticky as st
 ghenv.Component.Name = "ValueWatchdog"
 ghenv.Component.NickName = "VWD"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "1 Pipeline Controlling"
+ghenv.Component.SubCategory = "01 Pipeline Controlling"
 
 class ValueWatchDog(component):
     
