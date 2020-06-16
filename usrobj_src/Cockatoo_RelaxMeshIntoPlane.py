@@ -34,7 +34,7 @@ is used for reference and updated at every iteration
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200615
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -58,7 +58,7 @@ from scriptcontext import sticky as st
 ghenv.Component.Name = "RelaxMeshIntoPlane"
 ghenv.Component.NickName ="RMIP"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "9 Utilities"
+ghenv.Component.SubCategory = "10 Utilities"
 
 class RelaxMeshIntoPlane(component):
     
