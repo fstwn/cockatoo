@@ -231,16 +231,19 @@ class KnitNetworkBase(nx.Graph):
             else:
                 node_label = str(node[0]) + node_type
 
-            DotGraph.add_node(
-                            node[0],
-                            label=node_label,
-                            shape=node_shape,
-                            fontname=font,
-                            style="filled",
-                            fillcolor=node_color,
-                            fontcolor=node_txt_color,
-                            fontsize=nodeFontSize,
-                            margin=0.0001)
+            node_attributes = {"x" : ndata["x"],
+                               "y" : ndata["y"],
+                               "z" : ndata["z"],
+                               "label" : node_label,
+                               "shape" : node_shape,
+                               "fontname" : font,
+                               "style" : "filled",
+                               "fillcolor" : node_color,
+                               "fontcolor" : node_txt_color,
+                               "fontsize" : nodeFontSize,
+                               "margin" : 0.0001}
+
+            DotGraph.add_node(node[0], attr_dict=node_attributes)
 
         # make edge types and labels and add them to the graph
         for edge in network_edges:
