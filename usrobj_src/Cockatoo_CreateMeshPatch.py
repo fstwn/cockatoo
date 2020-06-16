@@ -63,7 +63,7 @@ of the Rhino.Geometry.Mesh.CreatePatch method.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200615
 """
 
 # GHPYTHON SDK IMPORTS
@@ -76,7 +76,7 @@ import rhinoscriptsyntax as rs
 ghenv.Component.Name = "CreateMeshPatch"
 ghenv.Component.NickName = "CMP"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "2 Meshing & Remeshing"
+ghenv.Component.SubCategory = "02 Meshing & Remeshing"
 
 class CreateMeshPatch(component):
     
