@@ -18,7 +18,7 @@ methods like meshing or creating a dual might fail without it.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200608
+        Version: 200615
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -35,7 +35,7 @@ import rhinoscriptsyntax as rs
 ghenv.Component.Name = "InitializeKnitNetwork"
 ghenv.Component.NickName ="IKN"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "6 KnitNetwork"
+ghenv.Component.SubCategory = "06 KnitNetwork"
 
 # LOCAL MODULE IMPORTS
 try:
@@ -57,7 +57,7 @@ class InitializeKnitNetwork(component):
                                                            ReferenceGeometry)
         elif not KnitContours:
             rml = self.RuntimeMessageLevel.Warning
-            rMsg = "No KnitNetwork input!"
+            rMsg = "No KnitContours input!"
             self.AddRuntimeMessage(rml, rMsg)
             return Grasshopper.DataTree[object]()
         elif not CourseHeight:
