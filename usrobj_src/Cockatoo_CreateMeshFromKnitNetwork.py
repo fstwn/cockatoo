@@ -15,11 +15,11 @@ the max_valence value.
     Inputs:
         Toggle: Set to True to activate the component.
                 {item, boolean}
-        KnitNetwork: The KnitNetwork to mesh.
+        KnitNetwork: The KnitNetwork to create the mesh from.
                      {item, KnitNetwork}
         CyclesMode: Determines how the neighbors of each node are sorted when
                     finding the cycles of the network.
-                    [-1] equals to using the world XY plane (default)
+                    [-1] equals to using the World XY plane
                     [0] equals to using a plane normal to the origin nodes 
                         closest point on the geometrybase
                     [1] equals to using a plane normal to the average of the 
@@ -35,7 +35,7 @@ the max_valence value.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200608
+        Version: 200615
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -52,7 +52,7 @@ import rhinoscriptsyntax as rs
 ghenv.Component.Name = "CreateMeshFromKnitNetwork"
 ghenv.Component.NickName ="CMFKN"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "6 KnitNetwork"
+ghenv.Component.SubCategory = "06 KnitNetwork"
 
 # LOCAL MODULE IMPORTS
 try:
@@ -76,15 +76,15 @@ class CreateMeshFromKnitNetwork(component):
         elif CyclesMode > 2:
             CyclesMode = 2
         
-        if not KN:
-            rml = self.RuntimeMessageLevel.Warning
-            rMsg = "No KnitNetwork input!"
-            self.AddRuntimeMessage(rml, rMsg)
-        
         # initialize Mesh
         Mesh = Grasshopper.DataTree[Rhino.Geometry.Mesh]()
         
         if Toggle and KN:
+            if CyclesMode != -1 and not KN.graph["reference_geometry"]:
+                errMsg = "KnitNetwork has no reference geometry " + \
+                         "attached! Will fall back to World XY plane."
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, errMsg)
             # create mesh from knitnetwork
             if isinstance(KN, KnitNetwork):
                 Mesh = KN.create_mesh(mode=CyclesMode,
@@ -92,5 +92,10 @@ class CreateMeshFromKnitNetwork(component):
             elif isinstance(KN, KnitDiNetwork):
                 if KN.verify_dual_form():
                     Mesh = KnitNetwork(KN).create_mesh(mode=CyclesMode,
-                                                      max_valence=4)
+                                                       max_valence=4)
+        elif Toggle and not KN:
+            rml = self.RuntimeMessageLevel.Warning
+            rMsg = "No KnitNetwork input!"
+            self.AddRuntimeMessage(rml, rMsg)
+        
         return Mesh
