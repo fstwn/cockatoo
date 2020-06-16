@@ -14,7 +14,7 @@ Provides an interface to work with interactive geometry pipelines.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200615
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -40,7 +40,7 @@ from System.Drawing import Color
 ghenv.Component.Name = "PipelineController"
 ghenv.Component.NickName = "PC"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "1 Pipeline Controlling"
+ghenv.Component.SubCategory = "01 Pipeline Controlling"
 
 class PipelineController(component):
     
