@@ -23,7 +23,7 @@ generation.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200608
+        Version: 200615
 """
 
 # GPYTHON SDK IMPORTS
@@ -37,7 +37,7 @@ import rhinoscriptsyntax as rs
 ghenv.Component.Name = "BuildMappingNetwork"
 ghenv.Component.NickName ="BMN"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "6 KnitNetwork"
+ghenv.Component.SubCategory = "06 KnitNetwork"
 
 # LOCAL MODULE IMPORTS
 try:
@@ -87,7 +87,7 @@ class BuildMappingNetwork(component):
             
         elif not Toggle and KN:
             return KN
-        else:
+        elif Toggle and not KN:
             rml = self.RuntimeMessageLevel.Warning
             self.AddRuntimeMessage(rml, "No KnitNetwork input!")
             return Grasshopper.DataTree[object](), Grasshopper.DataTree[object]()
