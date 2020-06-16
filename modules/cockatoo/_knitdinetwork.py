@@ -1249,14 +1249,17 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         # use nx topological sort for rows
         try:
-            ordered_row_stack = nx.topological_sort_recursive(row_map)
+            ordered_row_ids = nx.topological_sort_recursive(row_map)
         except nx.NetworkXError as e:
             raise KnitNetworkTopologyError(str(e.message))
         except nx.NetworkXUnfeasible as e:
             raise KnitNetworkTopologyError(str(e.message))
 
-        # get the rows with the backtracing result
-        toposort_rows = [id2row[id] for id in ordered_row_stack]
+        # get the rows with the backtracking result
+        toposort_rows = [id2row[id] for id in ordered_row_ids]
+        for i, row in enumerate(toposort_rows):
+            for n in row:
+                self.node[n]["chain"] = i
 
         # TOPOLOGICAL SORT OF COLUMNS ------------------------------------------
 
@@ -1311,7 +1314,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         if consolidate:
             # swap / transpose rows and columns
-            spread_columns = deque(map(list, zip(*toposort_rows[:])))
+            spread_columns = list(map(list, zip(*toposort_rows[:])))
 
             row_has_started = {i : False for i in range(len(toposort_rows))}
             row_has_ended = {i : False for i in range(len(toposort_rows))}
@@ -1319,44 +1322,46 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             consolidated_rows = [[] for i in range(len(toposort_rows))]
             toposort_rows = [deque(row) for row in toposort_rows]
 
-            while len(spread_columns) > 0:
-                popped_column = spread_columns.popleft()
 
-                insert_all_unstarted = False
-                insert_all_started = False
 
-                # for each column, loop over all row indices
-                for j in range(len(popped_column)):
-
-                    popped_row_item = toposort_rows[j].popleft()
-
-                    if popped_row_item != -1:
-                        if self.node[popped_row_item]["start"]:
-                            row_has_started[j] = True
-                            insert_all_unstarted = True
-                        elif (not self.node[popped_row_item]["start"] \
-                              and self.node[popped_row_item]["end"]):
-                            row_has_ended[j] = True
-                            insert_all_unstarted = True
-                        elif (self.node[popped_row_item]["start"] \
-                              and self.node[popped_row_item]["end"]):
-                            row_has_ended[j] = True
-                            insert_all_unstarted = True
-
-                        consolidated_rows[j].append(popped_row_item)
-
-                    elif popped_row_item == -1:
-                        if row_has_started[j] and not row_has_ended[j]:
-                            continue
-                        elif row_has_started[j] and row_has_ended[j]:
-                            consolidated_rows[j].append(-1)
-                        elif not row_has_started[j] and not row_has_ended[j]:
-                            continue
-
-                if insert_all_unstarted:
-                    for k, row in enumerate(consolidated_rows):
-                        if not row_has_started[k]:
-                            consolidated_rows[k].append(-1)
+            # while len(spread_columns) > 0:
+            #     popped_column = spread_columns.popleft()
+            #
+            #     insert_all_unstarted = False
+            #     insert_all_started = False
+            #
+            #     # for each column, loop over all row indices
+            #     for j in range(len(popped_column)):
+            #
+            #         popped_row_item = toposort_rows[j].popleft()
+            #
+            #         if popped_row_item != -1:
+            #             if self.node[popped_row_item]["start"]:
+            #                 row_has_started[j] = True
+            #                 insert_all_unstarted = True
+            #             elif (not self.node[popped_row_item]["start"] \
+            #                   and self.node[popped_row_item]["end"]):
+            #                 row_has_ended[j] = True
+            #                 insert_all_unstarted = True
+            #             elif (self.node[popped_row_item]["start"] \
+            #                   and self.node[popped_row_item]["end"]):
+            #                 row_has_ended[j] = True
+            #                 insert_all_unstarted = True
+            #
+            #             consolidated_rows[j].append(popped_row_item)
+            #
+            #         elif popped_row_item == -1:
+            #             if row_has_started[j] and not row_has_ended[j]:
+            #                 continue
+            #             elif row_has_started[j] and row_has_ended[j]:
+            #                 consolidated_rows[j].append(-1)
+            #             elif not row_has_started[j] and not row_has_ended[j]:
+            #                 continue
+            #
+            #     if insert_all_unstarted:
+            #         for k, row in enumerate(consolidated_rows):
+            #             if not row_has_started[k]:
+            #                 consolidated_rows[k].append(-1)
 
             return consolidated_rows
 
