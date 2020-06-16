@@ -1080,6 +1080,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                             next_weft = [nw for nw in self.node_weft_edges_in(
                                          row_nodes[-1], data=True) \
                                          if nw[0] != row_nodes[-2]]
+
                             # try to reverse them as a failsafe for imperfect
                             # topological dual graphs
                             if len(next_weft) == 1:
@@ -1184,7 +1185,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         # BUILD ROW MAPPING FOR TOPOLOGICAL SORT -------------------------------
 
-        # initialize mapping for backtracking of rows
+        # initialize mapping for topological sort of rows
         row_map = nx.DiGraph()
         row_ids = id2row.keys()
         # find all targets of all rows by checking all row nodes
