@@ -40,7 +40,7 @@ class WriteKnittingPatternToBitmap(component):
             PixelData.reverse()
             
             # Get number of columns and rows in csv data
-            columns = len(PixelData[0])
+            columns = max([len(row) for row in PixelData])
             rows = len(PixelData)
             
             # initialize empty bitmap
