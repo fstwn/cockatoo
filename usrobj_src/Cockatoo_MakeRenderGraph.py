@@ -6,7 +6,7 @@ TODO: Update docstring!
         Toggle: {item, boolean}
         KnitNetwork: An initialized KnitNetwork. {item, KnitNetwork}
     Output:
-        RenderGraph: The KnitNetwork with 'weft' connections created. {item, polyline}
+        GraphVizGraph: The KnitNetwork with 'weft' connections created. {item, polyline}
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
@@ -32,6 +32,7 @@ ghenv.Component.SubCategory = "08 Visualisation"
 # LOCAL MODULE IMPORTS
 try:
     import cockatoo
+    import networkx as nx
 except ImportError:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
@@ -43,9 +44,9 @@ class MakeRenderGraph(component):
     def RunScript(self, Toggle, KN):
         
         if Toggle and KN:
-            RenderGraph = KN.make_render_graph(True)
+            GraphVizGraph = KN.prepare_for_graphviz()
         else:
-            RenderGraph = Grasshopper.DataTree[object]()
+            GraphVizGraph = Grasshopper.DataTree[object]()
         
         # return outputs if you have them; here I try it for you:
-        return RenderGraph
+        return GraphVizGraph
