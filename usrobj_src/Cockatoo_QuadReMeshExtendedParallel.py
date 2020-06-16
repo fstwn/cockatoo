@@ -77,7 +77,7 @@ using tree branches
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200608
+        Version: 200615
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -90,7 +90,7 @@ from os import path
 ghenv.Component.Name = "QuadReMeshExtendedParallel"
 ghenv.Component.NickName = "QRMExP"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "2 Meshing & Remeshing"
+ghenv.Component.SubCategory = "02 Meshing & Remeshing"
 
 # KANGAROO 2 IMPORT
 k2import = False
