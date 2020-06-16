@@ -43,7 +43,7 @@ https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
     Remarks:
         Author: Max Eschenbach, based on an approach by Anders Holden Deleuran
         License: Apache License 2.0
-        Version: 200615
+        Version: 200616
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -162,7 +162,7 @@ class ConstructGeodesicsOnMesh(component):
                     
             return geodesics, iterations
     
-    def discretize_destination_lines(self, line, mode, resolution):
+    def discretize_destination_line(self, line, mode, resolution):
         """Discretizes a destination line into a polyline with
         equally sized segments."""
         
@@ -244,7 +244,7 @@ class ConstructGeodesicsOnMesh(component):
                 Destinations[i] = Rhino.Geometry.Line(sCP, eCP)
         
         # discretize the destination lines
-        Polylines = [self.discretize_destination_lines(d,
+        Polylines = [self.discretize_destination_line(d,
                                                     Mode,
                                                     Resolution)
                                                     for d in Destinations]
