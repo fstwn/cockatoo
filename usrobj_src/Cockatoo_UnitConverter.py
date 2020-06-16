@@ -7,7 +7,7 @@ Converts units specified in millimeters or with a signed string into document un
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200602
+        Version: 200615
 """
 
 # PYTHON MODULE IMPORTS
@@ -24,7 +24,7 @@ import rhinoscriptsyntax as rs
 ghenv.Component.Name = "UnitConverter"
 ghenv.Component.NickName = "UC"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "9 Utilities"
+ghenv.Component.SubCategory = "10 Utilities"
 
 class UnitConverter(component):
     
