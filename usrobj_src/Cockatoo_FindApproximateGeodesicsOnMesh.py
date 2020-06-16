@@ -43,7 +43,7 @@ https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
     Remarks:
         Author: Max Eschenbach, based on an approach by Anders Holden Deleuran
         License: Apache License 2.0
-        Version: 200608
+        Version: 200615
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -69,7 +69,7 @@ import scriptcontext as sc
 ghenv.Component.Name = "FindApproximateGeodesicsOnMesh"
 ghenv.Component.NickName ="FAGOM"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "9 Utilities"
+ghenv.Component.SubCategory = "10 Utilities"
 
 # KANGAROO 2 IMPORT
 k2import = False
