@@ -53,7 +53,7 @@ https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200608
+        Version: 200615
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -75,7 +75,7 @@ import rhinoscriptsyntax as rs
 ghenv.Component.Name = "KnitContoursOnMesh"
 ghenv.Component.NickName ="KCOM"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "5 Contouring"
+ghenv.Component.SubCategory = "05 Contouring"
 
 # KANGAROO 2 IMPORT
 k2import = False
