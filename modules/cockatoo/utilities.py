@@ -196,7 +196,8 @@ def tween_planes(pa, pb, t):
 
 def blend_colors(col_a, col_b, t=0.5):
     """
-    Blend between two colors using ...
+    Blend between two colors using the square root of photon flux. For more
+    info see *Algorithm for additive color mixing for RGB values* [17]_.
 
     Parameters
     ----------
@@ -207,7 +208,7 @@ def blend_colors(col_a, col_b, t=0.5):
         Sequence of (R, G, B) that defines the color value.
 
     t : float, optional
-        Blend parameter.
+        Parameter to define the blend location between the two colors.
 
         Defaults to ``0.5``.
 
@@ -215,8 +216,15 @@ def blend_colors(col_a, col_b, t=0.5):
     -------
     color : tuple
         3-tuple of (R, G, B) that defines the new color.
+
+    References
+    ----------
+    .. [17] *Algorithm for additive color mixing for RGB values*
+
+            See: `Thread on stackoverflow <https://stackoverflow.com/a/29321264>`_
     """
 
+    # sanitize the blending parameter
     if t < 0:
         t = 0
     elif t > 1:
@@ -226,10 +234,12 @@ def blend_colors(col_a, col_b, t=0.5):
     a_r, a_g, a_b = col_a
     b_r, b_g, b_b = col_b
 
+    # compute the new rgb values for the blended color
     new_r = sqrt((1 - t) * a_r ** 2 + t * b_r ** 2)
     new_g = sqrt((1 - t) * a_g ** 2 + t * b_g ** 2)
     new_b = sqrt((1 - t) * a_b ** 2 + t * b_b ** 2)
 
+    # return the new color tuple
     return (new_r, new_g, new_b)
 
 def map_values_as_colors(values, src_min, src_max, target_min=0.0, target_max=0.7):
@@ -268,7 +278,7 @@ def map_values_as_colors(values, src_min, src_max, target_min=0.0, target_max=0.
     -----
     Based on code by Anders Holden Deleuran. Code was only changed in regards
     of defaults and names.
-    For more info see [10]_ .
+    For more info see *mapValuesAsColors.py* [10]_ .
 
     References
     ----------
