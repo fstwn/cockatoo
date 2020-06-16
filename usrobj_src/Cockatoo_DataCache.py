@@ -9,12 +9,12 @@ Caches some Data by storing it as Persistent Data (aka internalising it) in a co
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200531
+        Version: 200615
 """
 ghenv.Component.Name = "DataCache"
 ghenv.Component.NickName = "DC"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "9 Utilities"
+ghenv.Component.SubCategory = "10 Utilities"
 
 # GHPYTHON SDK MODE IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
