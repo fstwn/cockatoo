@@ -2459,8 +2459,8 @@ class KnitNetwork(KnitNetworkBase):
 
         # INVOKE SECOND PASS FOR SOURCE ---> TARGET ----------------------------
         for i, current_chain in enumerate(source_to_target):
-            print("-----------------------------------------------------------")
-            print("S>T Current Chain: {}".format(current_chain))
+            v_print("---------------------------------------------------------")
+            v_print("S>T Current Chain: {}".format(current_chain))
             # build a list of nodes containing all nodes in the current chain
             # including all 'end' nodes
             current_chain_nodes = []
@@ -2517,8 +2517,8 @@ class KnitNetwork(KnitNetworkBase):
                 # if the node is not connected to the target chain, we
                 # need to find the end of the window
                 if not node_connected:
-                    print("Node: {}".format(node[0]))
-                    print("Start of window: {}".format(start_of_window))
+                    v_print("Node: {}".format(node[0]))
+                    v_print("Start of window: {}".format(start_of_window))
 
                     # re-check start of window for <.====/ case
                     if len(target_chain_nodes) >= 2 and start_of_window == -1:
@@ -2567,16 +2567,17 @@ class KnitNetwork(KnitNetworkBase):
                             window = target_chain_nodes[start_of_window: \
                                                         end_of_window+1]
 
-                        print("End of window: {}".format(end_of_window))
+                        v_print("End of window: {}".format(end_of_window))
 
                         # execute connection to target
-
                         if cckey <= tckey:
                             rev = False
                         else:
                             rev = True
 
-                        print(cckey, tckey)
+                        v_print("Connecting chain {} to chain {}".format(
+                                                                    cckey,
+                                                                    tckey))
 
                         self._create_second_pass_warp_connection(
                                                             current_chain_nodes,
@@ -2587,12 +2588,12 @@ class KnitNetwork(KnitNetworkBase):
                                                             reverse=rev)
                     else:
                         # print info on verbose setting
-                        print("No valid window for current chain!")
+                        v_print("No valid window for current chain!")
 
         # INVOKE SECOND PASS FOR TARGET ---> SOURCE ----------------------------
         for i, current_chain in enumerate(target_to_source):
-            print("-----------------------------------------------------------")
-            print("T>S Current Chain: {}".format(current_chain))
+            v_print("---------------------------------------------------------")
+            v_print("T>S Current Chain: {}".format(current_chain))
 
             # build a list of nodes containing all nodes in the current chain
             # including all 'end' nodes
@@ -2647,8 +2648,8 @@ class KnitNetwork(KnitNetworkBase):
                 # need to find the end of the window
                 if not node_connected:
                     # print info on verbose output
-                    print("Node: {}".format(node[0]))
-                    print("Start of window: {}".format(start_of_window))
+                    v_print("Node: {}".format(node[0]))
+                    v_print("Start of window: {}".format(start_of_window))
 
                     # re-check start of window for <.====/ case
                     if len(target_chain_nodes) >= 2 and start_of_window == -1:
@@ -2700,7 +2701,7 @@ class KnitNetwork(KnitNetworkBase):
                                                         end_of_window+1]
 
                         # print info on verbose output
-                        print("End of window: {}".format(end_of_window))
+                        v_print("End of window: {}".format(end_of_window))
 
                         # execute connection
                         if cckey < tckey:
@@ -2708,7 +2709,9 @@ class KnitNetwork(KnitNetworkBase):
                         else:
                             rev = True
 
-                        print(cckey, tckey)
+                        v_print("Connecting chain {} to chain {}.".format(
+                                                                        cckey,
+                                                                        tckey))
 
                         self._create_second_pass_warp_connection(
                                                             current_chain_nodes,
@@ -2718,7 +2721,7 @@ class KnitNetwork(KnitNetworkBase):
                                                             verbose=verbose,
                                                             reverse=rev)
                     else:
-                        print("No valid window for current chain!")
+                        v_print("No valid window for current chain!")
 
     # FIND FACES OF NETWORK ----------------------------------------------------
 
