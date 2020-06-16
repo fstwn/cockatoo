@@ -51,6 +51,19 @@ class InitializeKnitNetwork(component):
     def RunScript(self, KnitContours, CourseHeight, ReferenceGeometry):
         
         if KnitContours and CourseHeight:
+            
+            # sanitize reference geometry
+            if not (isinstance(ReferenceGeometry, Rhino.Geometry.Surface)
+            or isinstance(ReferenceGeometry, Rhino.Geometry.NurbsSurface)
+            or isinstance(ReferenceGeometry, Rhino.Geometry.Mesh) 
+            or isinstance(ReferenceGeometry, Rhino.Geometry.Brep)):
+                errMsg = "Input ReferenceGeometry is not a valid Mesh, " + \
+                         "Surface or Brep! 'reference_geometry' attribute " + \
+                         "will not be set!"
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, errMsg)
+                ReferenceGeometry = None
+            
             # create KnitNetwork (inherits from nx.Graph)
             KN = cockatoo.KnitNetwork.create_from_contours(KnitContours,
                                                            CourseHeight,
