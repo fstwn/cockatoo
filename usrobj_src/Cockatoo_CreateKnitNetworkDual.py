@@ -60,12 +60,11 @@ type KnitDiNetwork.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200608
+        Version: 200615
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
-from collections import deque
 
 # GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
@@ -78,7 +77,7 @@ import rhinoscriptsyntax as rs
 ghenv.Component.Name = "CreateKnitNetworkDual"
 ghenv.Component.NickName ="CKND"
 ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "6 KnitNetwork"
+ghenv.Component.SubCategory = "06 KnitNetwork"
 
 # LOCAL MODULE IMPORTS
 try:
@@ -101,15 +100,16 @@ class CreateKnitNetworkDual(component):
         elif CyclesMode > 2:
             CyclesMode = 2
         
-        if not KnitNetwork:
-            rml = self.RuntimeMessageLevel.Warning
-            rMsg = "No KnitNetwork input!"
-            self.AddRuntimeMessage(rml, rMsg)
-        
         # initialize Output
         Dual = Grasshopper.DataTree[object]()
         
         if Toggle and KnitNetwork:
+            
+            if CyclesMode != -1 and not KnitNetwork.graph["reference_geometry"]:
+                errMsg = "KnitNetwork has no reference geometry " + \
+                         "attached! Will fall back to World XY plane."
+                rml = self.RuntimeMessageLevel.Warning
+                self.AddRuntimeMessage(rml, errMsg)
             
             # CREATE DUAL ------------------------------------------------------
             try:
@@ -133,4 +133,10 @@ class CreateKnitNetworkDual(component):
                 self.AddRuntimeMessage(rml, rMsg)
                 self.AddRuntimeMessage(rml, e.message)
         
+        elif Toggle and not KnitNetwork:
+            rml = self.RuntimeMessageLevel.Warning
+            rMsg = "No KnitNetwork input!"
+            self.AddRuntimeMessage(rml, rMsg)
+        
+        # return the result
         return Dual
