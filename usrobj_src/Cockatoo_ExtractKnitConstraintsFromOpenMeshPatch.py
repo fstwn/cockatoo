@@ -1,8 +1,8 @@
 """
-Extracts the necessary constraints to create KnitContours for a open mesh based 
-on specified parameters. The constraints consist of a start, end as well as a 
-left and right boundary. Preview shows the start course in red and the end 
-course in green.
+Extracts the necessary constraints to create KnitContours for an open mesh with
+one closed boundary based  on specified parameters. The constraints consist of
+a start, end as well as a  left and right boundary. Preview shows the start
+course in red, the end course in green and the left/right boundaries in blue.
 To extract the constraints, the boundary of the mesh is broken apart at kinks
 which exceed the specified break angle. The 'Start' and 'End' parameters define
 indices for the resulting list of polylines.
@@ -22,7 +22,7 @@ indices for the resulting list of polylines.
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200615
+        Version: 200616
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -36,8 +36,8 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # GHENV COMPONENT SETTINGS
-ghenv.Component.Name = "ExtractKnitConstraintsFromOpenMesh"
-ghenv.Component.NickName ="EKCFOM"
+ghenv.Component.Name = "ExtractKnitConstraintsFromOpenMeshPatch"
+ghenv.Component.NickName ="EKCFOMP"
 ghenv.Component.Category = "Cockatoo"
 ghenv.Component.SubCategory = "04 Constraints"
 
@@ -51,10 +51,10 @@ except ImportError as e:
              "path, see README for instructions!."
     raise ImportError(errMsg)
 
-class ExtractKnitConstraintsFromOpenMesh(component):
+class ExtractKnitConstraintsFromOpenMeshPatch(component):
     
     def __init__(self):
-        super(ExtractKnitConstraintsFromOpenMesh, self).__init__()
+        super(ExtractKnitConstraintsFromOpenMeshPatch, self).__init__()
         self.SC = None
         self.EC = None
         self.LB = []
@@ -72,9 +72,12 @@ class ExtractKnitConstraintsFromOpenMesh(component):
                 # diplay colors for start and end in custom display
                 scol = System.Drawing.Color.Red
                 ecol = System.Drawing.Color.Green
+                bcol = System.Drawing.Color.SkyBlue
                 # add start and end to customdisplay
                 display.DrawCurve(self.SC, scol, 3)
                 display.DrawCurve(self.EC, ecol, 3)
+                [display.DrawCurve(c, bcol, 2) for c in self.LB]
+                [display.DrawCurve(c, bcol, 2) for c in self.RB]
             
         except Exception, e:
             System.Windows.Forms.MessageBox.Show(str(e),
@@ -188,11 +191,12 @@ class ExtractKnitConstraintsFromOpenMesh(component):
         
         KC = KnitConstraint(StartCourse, EndCourse, LeftBoundary, RightBoundary)
         
-        KnitConstraints = Grasshopper.DataTree[object]()
-        KnitConstraints.Add(StartCourse, Grasshopper.Kernel.Data.GH_Path(0))
-        KnitConstraints.Add(EndCourse, Grasshopper.Kernel.Data.GH_Path(1))
-        KnitConstraints.AddRange(LeftBoundary, Grasshopper.Kernel.Data.GH_Path(2))
-        KnitConstraints.AddRange(RightBoundary, Grasshopper.Kernel.Data.GH_Path(3))
+        # DEPRECATED!
+        # KnitConstraints = Grasshopper.DataTree[object]()
+        # KnitConstraints.Add(StartCourse, Grasshopper.Kernel.Data.GH_Path(0))
+        # KnitConstraints.Add(EndCourse, Grasshopper.Kernel.Data.GH_Path(1))
+        # KnitConstraints.AddRange(LeftBoundary, Grasshopper.Kernel.Data.GH_Path(2))
+        # KnitConstraints.AddRange(RightBoundary, Grasshopper.Kernel.Data.GH_Path(3))
         
         # return outputs if you have them; here I try it for you:
         return KC
