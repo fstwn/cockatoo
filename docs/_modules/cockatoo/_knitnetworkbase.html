@@ -266,9 +266,9 @@
 
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KnitNetworkBase.make_render_graph"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.make_render_graph">[docs]</a>    <span class="k">def</span> <span class="nf">make_render_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">allcircles</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="KnitNetworkBase.prepare_for_graphviz"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.prepare_for_graphviz">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_for_graphviz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a new graph with attributes for visualising this networkx</span>
+<span class="sd">        Creates a new graph with attributes for visualising this network</span>
 <span class="sd">        using GraphViz.</span>
 
 <span class="sd">        Based on code by Anders Holden Deleuran</span>
@@ -279,109 +279,159 @@
         <span class="n">edgeFontSize</span> <span class="o">=</span> <span class="mf">3.75</span>
         <span class="n">arrowSize</span> <span class="o">=</span> <span class="mf">0.4</span>
 
+        <span class="c1"># shapes</span>
+        <span class="n">circle</span> <span class="o">=</span> <span class="s2">&quot;circle&quot;</span>
+
         <span class="c1"># colors</span>
         <span class="n">black</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
         <span class="n">white</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span>
-        <span class="n">grey</span> <span class="o">=</span> <span class="s2">&quot;grey&quot;</span>
-        <span class="n">blue</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
         <span class="n">red</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
-        <span class="n">green</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span>
-        <span class="n">orange</span> <span class="o">=</span> <span class="s2">&quot;orange&quot;</span>
+        <span class="n">blue</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
 
-        <span class="c1"># node shapes</span>
-        <span class="n">circle</span> <span class="o">=</span> <span class="s2">&quot;circle&quot;</span>
-        <span class="n">trapez</span> <span class="o">=</span> <span class="s2">&quot;trapezium&quot;</span>
-        <span class="n">triangle</span> <span class="o">=</span> <span class="s2">&quot;triangle&quot;</span>
-        <span class="n">invtriangle</span> <span class="o">=</span> <span class="s2">&quot;invtriangle&quot;</span>
-        <span class="n">square</span> <span class="o">=</span> <span class="s2">&quot;square&quot;</span>
-        <span class="n">parallelogram</span> <span class="o">=</span> <span class="s2">&quot;parallelogram&quot;</span>
-        <span class="n">diamond</span> <span class="o">=</span> <span class="s2">&quot;diamond&quot;</span>
+        <span class="n">col_regular</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
+        <span class="n">col_start</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span>
+        <span class="n">col_start_leaf</span> <span class="o">=</span> <span class="s2">&quot;seagreen&quot;</span>
+        <span class="n">col_start_leaf_end</span> <span class="o">=</span> <span class="s2">&quot;orange&quot;</span>
+        <span class="n">col_start_end</span> <span class="o">=</span> <span class="s2">&quot;darkgreen&quot;</span>
+        <span class="n">col_end</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
+        <span class="n">col_leaf</span> <span class="o">=</span> <span class="s2">&quot;cyan&quot;</span>
+        <span class="n">col_end_leaf</span> <span class="o">=</span> <span class="s2">&quot;magenta&quot;</span>
+        <span class="n">col_increase_end</span> <span class="o">=</span> <span class="s2">&quot;purple&quot;</span>
+        <span class="n">col_decrease_end</span> <span class="o">=</span> <span class="s2">&quot;darkorchid4&quot;</span>
+        <span class="n">col_increase</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
+        <span class="n">col_decrease</span> <span class="o">=</span> <span class="s2">&quot;darkred&quot;</span>
 
-        <span class="n">font</span> <span class="o">=</span> <span class="s2">&quot;Lato&quot;</span>
+        <span class="n">font</span> <span class="o">=</span> <span class="s2">&quot;Helvetica&quot;</span>
 
+        <span class="c1"># choose graph type for new graph depending on current graph</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nx</span><span class="o">.</span><span class="n">MultiGraph</span><span class="p">):</span>
-            <span class="n">RenderGraph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">MultiDiGraph</span><span class="p">()</span>
+            <span class="n">DotGraph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">MultiDiGraph</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">RenderGraph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+            <span class="n">DotGraph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
 
-        <span class="n">kmn_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">kmn_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># get all nodes and all edges</span>
+        <span class="n">network_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">network_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="c1"># add all nodes to the render graph</span>
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">kmn_nodes</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;end&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;leaf&quot;</span><span class="p">]:</span>
-                <span class="n">nType</span> <span class="o">=</span> <span class="s2">&quot;E&quot;</span>
-                <span class="n">nCol</span> <span class="o">=</span> <span class="n">red</span>
-                <span class="n">nFCol</span> <span class="o">=</span> <span class="n">black</span>
-                <span class="k">if</span> <span class="n">allcircles</span><span class="p">:</span>
-                    <span class="n">nodeShape</span> <span class="o">=</span> <span class="n">circle</span>
+        <span class="c1"># process all nodes and add them to the dot graph</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">network_nodes</span><span class="p">:</span>
+            <span class="n">ndata</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="c1"># END BUT NOT LEAF</span>
+            <span class="k">if</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;increase&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;decrease&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]:</span>
+                        <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;S&quot;</span>
+                        <span class="n">node_color</span> <span class="o">=</span> <span class="n">col_start_end</span>
+                        <span class="n">node_txt_color</span> <span class="o">=</span> <span class="n">black</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;E&quot;</span>
+                        <span class="n">node_color</span> <span class="o">=</span> <span class="n">col_end</span>
+                        <span class="n">node_txt_color</span> <span class="o">=</span> <span class="n">white</span>
+
+                <span class="k">elif</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;increase&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;decrease&quot;</span><span class="p">]:</span>
+                    <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;Ei&quot;</span>
+                    <span class="n">node_color</span> <span class="o">=</span> <span class="n">col_increase_end</span>
+                    <span class="n">node_txt_color</span> <span class="o">=</span> <span class="n">black</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;increase&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;decrease&quot;</span><span class="p">]:</span>
+                    <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;Ed&quot;</span>
+                    <span class="n">node_color</span> <span class="o">=</span> <span class="n">col_decrease_end</span>
+                    <span class="n">node_txt_color</span> <span class="o">=</span> <span class="n">black</span>
+
+                <span class="n">node_shape</span> <span class="o">=</span> <span class="n">circle</span>
+
+            <span class="c1"># LEAF BUT NOT END</span>
+            <span class="k">elif</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]:</span>
+                    <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;SL&quot;</span>
+                    <span class="n">node_color</span> <span class="o">=</span> <span class="n">col_start_leaf</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">nodeShape</span> <span class="o">=</span> <span class="n">triangle</span>
-            <span class="k">elif</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;end&quot;</span><span class="p">]:</span>
-                <span class="n">nType</span> <span class="o">=</span> <span class="s2">&quot;L&quot;</span>
-                <span class="n">nCol</span> <span class="o">=</span> <span class="n">green</span>
-                <span class="n">nFCol</span> <span class="o">=</span> <span class="n">black</span>
-                <span class="k">if</span> <span class="n">allcircles</span><span class="p">:</span>
-                    <span class="n">nodeShape</span> <span class="o">=</span> <span class="n">circle</span>
+                    <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;L&quot;</span>
+                    <span class="n">node_color</span> <span class="o">=</span> <span class="n">col_leaf</span>
+
+                <span class="n">node_txt_color</span> <span class="o">=</span> <span class="n">black</span>
+                <span class="n">node_shape</span> <span class="o">=</span> <span class="n">circle</span>
+
+            <span class="c1"># END AND LEAF</span>
+            <span class="k">elif</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]:</span>
+                    <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;SEL&quot;</span>
+                    <span class="n">node_color</span> <span class="o">=</span> <span class="n">col_start_leaf_end</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">nodeShape</span> <span class="o">=</span> <span class="n">invtriangle</span>
-            <span class="k">elif</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;end&quot;</span><span class="p">]:</span>
-                <span class="n">nType</span> <span class="o">=</span> <span class="s2">&quot;EL&quot;</span>
-                <span class="n">nCol</span> <span class="o">=</span> <span class="n">orange</span>
-                <span class="n">nFCol</span> <span class="o">=</span> <span class="n">black</span>
-                <span class="k">if</span> <span class="n">allcircles</span><span class="p">:</span>
-                    <span class="n">nodeShape</span> <span class="o">=</span> <span class="n">circle</span>
+                    <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;EL&quot;</span>
+                    <span class="n">node_color</span> <span class="o">=</span> <span class="n">col_end_leaf</span>
+
+                <span class="n">node_txt_color</span> <span class="o">=</span> <span class="n">black</span>
+                <span class="n">node_shape</span> <span class="o">=</span> <span class="n">circle</span>
+
+            <span class="c1"># NO END NO LEAF</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]:</span>
+                <span class="c1"># INCREASE</span>
+                <span class="k">if</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;increase&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;decrease&quot;</span><span class="p">]:</span>
+                    <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;i&quot;</span>
+                    <span class="n">node_color</span> <span class="o">=</span> <span class="n">col_increase</span>
+                <span class="c1"># DECREASE</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;increase&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;decrease&quot;</span><span class="p">]:</span>
+                    <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;d&quot;</span>
+                    <span class="n">node_color</span> <span class="o">=</span> <span class="n">col_decrease</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">nodeShape</span> <span class="o">=</span> <span class="n">diamond</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">nType</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-                <span class="n">nCol</span> <span class="o">=</span> <span class="n">black</span>
-                <span class="n">nFCol</span> <span class="o">=</span> <span class="n">white</span>
-                <span class="k">if</span> <span class="n">allcircles</span><span class="p">:</span>
-                    <span class="n">nodeShape</span> <span class="o">=</span> <span class="n">circle</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">nodeShape</span> <span class="o">=</span> <span class="n">square</span>
+                    <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;R&quot;</span>
+                    <span class="n">node_color</span> <span class="o">=</span> <span class="n">col_regular</span>
+
+                <span class="n">node_txt_color</span> <span class="o">=</span> <span class="n">white</span>
+                <span class="n">node_shape</span> <span class="o">=</span> <span class="n">circle</span>
 
             <span class="k">if</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]:</span>
-                <span class="n">nLabel</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">nType</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">])</span>
+                <span class="n">node_label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">node_type</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> \
+                             <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">nLabel</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">nType</span>
+                <span class="n">node_label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">node_type</span>
 
-            <span class="n">RenderGraph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                                 <span class="n">label</span><span class="o">=</span><span class="n">nLabel</span><span class="p">,</span>
-                                 <span class="n">shape</span><span class="o">=</span><span class="n">nodeShape</span><span class="p">,</span>
-                                 <span class="n">fontname</span><span class="o">=</span><span class="n">font</span><span class="p">,</span>
-                                 <span class="n">style</span><span class="o">=</span><span class="s2">&quot;filled&quot;</span><span class="p">,</span>
-                                 <span class="n">fillcolor</span><span class="o">=</span><span class="n">nCol</span><span class="p">,</span>
-                                 <span class="n">fontcolor</span><span class="o">=</span><span class="n">nFCol</span><span class="p">,</span>
-                                 <span class="n">fontsize</span><span class="o">=</span><span class="n">nodeFontSize</span><span class="p">,</span>
-                                 <span class="n">margin</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+            <span class="n">node_attributes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span> <span class="p">:</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+                               <span class="s2">&quot;y&quot;</span> <span class="p">:</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
+                               <span class="s2">&quot;z&quot;</span> <span class="p">:</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">],</span>
+                               <span class="s2">&quot;label&quot;</span> <span class="p">:</span> <span class="n">node_label</span><span class="p">,</span>
+                               <span class="s2">&quot;shape&quot;</span> <span class="p">:</span> <span class="n">node_shape</span><span class="p">,</span>
+                               <span class="s2">&quot;fontname&quot;</span> <span class="p">:</span> <span class="n">font</span><span class="p">,</span>
+                               <span class="s2">&quot;style&quot;</span> <span class="p">:</span> <span class="s2">&quot;filled&quot;</span><span class="p">,</span>
+                               <span class="s2">&quot;fillcolor&quot;</span> <span class="p">:</span> <span class="n">node_color</span><span class="p">,</span>
+                               <span class="s2">&quot;fontcolor&quot;</span> <span class="p">:</span> <span class="n">node_txt_color</span><span class="p">,</span>
+                               <span class="s2">&quot;fontsize&quot;</span> <span class="p">:</span> <span class="n">nodeFontSize</span><span class="p">,</span>
+                               <span class="s2">&quot;margin&quot;</span> <span class="p">:</span> <span class="mf">0.0001</span><span class="p">}</span>
 
-        <span class="c1"># ad all edges to the render graph</span>
-        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">kmn_edges</span><span class="p">:</span>
+            <span class="n">DotGraph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">attr_dict</span><span class="o">=</span><span class="n">node_attributes</span><span class="p">)</span>
+
+        <span class="c1"># make edge types and labels and add them to the graph</span>
+        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">network_edges</span><span class="p">:</span>
             <span class="n">padding</span> <span class="o">=</span> <span class="s2">&quot;  &quot;</span>
             <span class="k">if</span> <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;weft&quot;</span><span class="p">]:</span>
-                <span class="n">eType</span> <span class="o">=</span> <span class="s2">&quot;WFT&quot;</span>
-                <span class="n">eCol</span> <span class="o">=</span> <span class="n">blue</span>
+                <span class="n">edge_type</span> <span class="o">=</span> <span class="s2">&quot;WP&quot;</span>
+                <span class="n">edge_color</span> <span class="o">=</span> <span class="n">blue</span>
             <span class="k">elif</span> <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;warp&quot;</span><span class="p">]:</span>
-                <span class="n">eType</span> <span class="o">=</span> <span class="s2">&quot;WRP&quot;</span>
-                <span class="n">eCol</span> <span class="o">=</span> <span class="n">red</span>
+                <span class="n">edge_type</span> <span class="o">=</span> <span class="s2">&quot;WT&quot;</span>
+                <span class="n">edge_color</span> <span class="o">=</span> <span class="n">red</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;weft&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;warp&quot;</span><span class="p">]:</span>
-                <span class="n">eType</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span>
-                <span class="n">eCol</span> <span class="o">=</span> <span class="n">black</span>
+                <span class="n">edge_type</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span>
+                <span class="n">edge_color</span> <span class="o">=</span> <span class="n">black</span>
 
-            <span class="n">eInfo</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="n">eLabel</span> <span class="o">=</span> <span class="n">eInfo</span> <span class="o">+</span> <span class="n">eType</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">])</span>
+            <span class="n">edge_info</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">edge_segment</span> <span class="o">=</span> <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">edge_segment</span><span class="p">:</span>
+                <span class="n">edge_label</span> <span class="o">=</span> <span class="n">edge_info</span> <span class="o">+</span> <span class="n">edge_type</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">edge_segment</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">edge_label</span> <span class="o">=</span> <span class="n">edge_info</span> <span class="o">+</span> <span class="n">edge_type</span>
 
-            <span class="n">RenderGraph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                                 <span class="n">label</span><span class="o">=</span><span class="n">eLabel</span><span class="p">,</span>
-                                 <span class="n">fontname</span><span class="o">=</span><span class="n">font</span><span class="p">,</span>
-                                 <span class="n">fontcolor</span><span class="o">=</span><span class="n">black</span><span class="p">,</span>
-                                 <span class="n">color</span><span class="o">=</span><span class="n">eCol</span><span class="p">,</span>
-                                 <span class="n">fontsize</span><span class="o">=</span><span class="n">edgeFontSize</span><span class="p">,</span>
-                                 <span class="n">arrowsize</span><span class="o">=</span><span class="n">arrowSize</span><span class="p">)</span>
+            <span class="n">DotGraph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span>
+                            <span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                            <span class="n">label</span><span class="o">=</span><span class="n">edge_label</span><span class="p">,</span>
+                            <span class="n">fontname</span><span class="o">=</span><span class="n">font</span><span class="p">,</span>
+                            <span class="n">fontcolor</span><span class="o">=</span><span class="n">black</span><span class="p">,</span>
+                            <span class="n">color</span><span class="o">=</span><span class="n">edge_color</span><span class="p">,</span>
+                            <span class="n">fontsize</span><span class="o">=</span><span class="n">edgeFontSize</span><span class="p">,</span>
+                            <span class="n">arrowsize</span><span class="o">=</span><span class="n">arrowSize</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">RenderGraph</span></div>
+        <span class="k">return</span> <span class="n">DotGraph</span></div>
 
 <div class="viewcode-block" id="KnitNetworkBase.make_gephi_graph"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.make_gephi_graph">[docs]</a>    <span class="k">def</span> <span class="nf">make_gephi_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -407,50 +457,50 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">GephiGraph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
 
-        <span class="n">kmn_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">kmn_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">network_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">network_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># add all nodes to the render graph</span>
-        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">kmn_nodes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">network_nodes</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;end&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;leaf&quot;</span><span class="p">]:</span>
-                <span class="n">nType</span> <span class="o">=</span> <span class="s2">&quot;end&quot;</span>
-                <span class="n">nCol</span> <span class="o">=</span> <span class="n">red</span>
-                <span class="n">nodeShape</span> <span class="o">=</span> <span class="n">circle</span>
+                <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;end&quot;</span>
+                <span class="n">node_color</span> <span class="o">=</span> <span class="n">red</span>
+                <span class="n">node_shape</span> <span class="o">=</span> <span class="n">circle</span>
 
             <span class="k">elif</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;end&quot;</span><span class="p">]:</span>
-                <span class="n">nType</span> <span class="o">=</span> <span class="s2">&quot;leaf&quot;</span>
-                <span class="n">nCol</span> <span class="o">=</span> <span class="n">green</span>
-                <span class="n">nodeShape</span> <span class="o">=</span> <span class="n">circle</span>
+                <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;leaf&quot;</span>
+                <span class="n">node_color</span> <span class="o">=</span> <span class="n">green</span>
+                <span class="n">node_shape</span> <span class="o">=</span> <span class="n">circle</span>
 
             <span class="k">elif</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;end&quot;</span><span class="p">]:</span>
-                <span class="n">nType</span> <span class="o">=</span> <span class="s2">&quot;end leaf&quot;</span>
-                <span class="n">nCol</span> <span class="o">=</span> <span class="n">orange</span>
-                <span class="n">nodeShape</span> <span class="o">=</span> <span class="n">circle</span>
+                <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;end leaf&quot;</span>
+                <span class="n">node_color</span> <span class="o">=</span> <span class="n">orange</span>
+                <span class="n">node_shape</span> <span class="o">=</span> <span class="n">circle</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">nType</span> <span class="o">=</span> <span class="s2">&quot;regular&quot;</span>
-                <span class="n">nCol</span> <span class="o">=</span> <span class="n">black</span>
-                <span class="n">nodeShape</span> <span class="o">=</span> <span class="n">circle</span>
+                <span class="n">node_type</span> <span class="o">=</span> <span class="s2">&quot;regular&quot;</span>
+                <span class="n">node_color</span> <span class="o">=</span> <span class="n">black</span>
+                <span class="n">node_shape</span> <span class="o">=</span> <span class="n">circle</span>
 
-            <span class="n">nodeAttrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">nCol</span><span class="p">,</span>
-                         <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="n">nodeShape</span><span class="p">,</span>
-                         <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">nType</span><span class="p">}</span>
+            <span class="n">nodeAttrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">node_color</span><span class="p">,</span>
+                         <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="n">node_shape</span><span class="p">,</span>
+                         <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">node_type</span><span class="p">}</span>
 
             <span class="n">GephiGraph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">attr_dict</span><span class="o">=</span><span class="n">nodeAttrs</span><span class="p">)</span>
 
         <span class="c1"># ad all edges to the render graph</span>
-        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">kmn_edges</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">network_edges</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;weft&quot;</span><span class="p">]:</span>
-                <span class="n">eType</span> <span class="o">=</span> <span class="s2">&quot;weft&quot;</span>
-                <span class="n">eCol</span> <span class="o">=</span> <span class="n">blue</span>
+                <span class="n">edge_type</span> <span class="o">=</span> <span class="s2">&quot;weft&quot;</span>
+                <span class="n">edge_color</span> <span class="o">=</span> <span class="n">blue</span>
             <span class="k">elif</span> <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;warp&quot;</span><span class="p">]:</span>
-                <span class="n">eType</span> <span class="o">=</span> <span class="s2">&quot;warp&quot;</span>
-                <span class="n">eCol</span> <span class="o">=</span> <span class="n">red</span>
+                <span class="n">edge_type</span> <span class="o">=</span> <span class="s2">&quot;warp&quot;</span>
+                <span class="n">edge_color</span> <span class="o">=</span> <span class="n">red</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;weft&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;warp&quot;</span><span class="p">]:</span>
                 <span class="k">continue</span>
 
-            <span class="n">edgeAttrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">eCol</span><span class="p">,</span>
-                         <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">eType</span><span class="p">}</span>
+            <span class="n">edgeAttrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">edge_color</span><span class="p">,</span>
+                         <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">edge_type</span><span class="p">}</span>
 
             <span class="n">GephiGraph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">attr_dict</span><span class="o">=</span><span class="n">edgeAttrs</span><span class="p">)</span>
 

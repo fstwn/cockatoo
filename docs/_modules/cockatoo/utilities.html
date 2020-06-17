@@ -352,7 +352,8 @@
 
 <div class="viewcode-block" id="blend_colors"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.blend_colors">[docs]</a><span class="k">def</span> <span class="nf">blend_colors</span><span class="p">(</span><span class="n">col_a</span><span class="p">,</span> <span class="n">col_b</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Blend between two colors using ...</span>
+<span class="sd">    Blend between two colors using the square root of photon flux. For more</span>
+<span class="sd">    info see *Algorithm for additive color mixing for RGB values* [18]_.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -363,7 +364,7 @@
 <span class="sd">        Sequence of (R, G, B) that defines the color value.</span>
 
 <span class="sd">    t : float, optional</span>
-<span class="sd">        Blend parameter.</span>
+<span class="sd">        Parameter to define the blend location between the two colors.</span>
 
 <span class="sd">        Defaults to ``0.5``.</span>
 
@@ -371,8 +372,15 @@
 <span class="sd">    -------</span>
 <span class="sd">    color : tuple</span>
 <span class="sd">        3-tuple of (R, G, B) that defines the new color.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [18] *Algorithm for additive color mixing for RGB values*</span>
+
+<span class="sd">            See: `Thread on stackoverflow &lt;https://stackoverflow.com/a/29321264&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1"># sanitize the blending parameter</span>
     <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">elif</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -382,10 +390,12 @@
     <span class="n">a_r</span><span class="p">,</span> <span class="n">a_g</span><span class="p">,</span> <span class="n">a_b</span> <span class="o">=</span> <span class="n">col_a</span>
     <span class="n">b_r</span><span class="p">,</span> <span class="n">b_g</span><span class="p">,</span> <span class="n">b_b</span> <span class="o">=</span> <span class="n">col_b</span>
 
+    <span class="c1"># compute the new rgb values for the blended color</span>
     <span class="n">new_r</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">a_r</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">b_r</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">new_g</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">a_g</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">b_g</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">new_b</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">a_b</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">b_b</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
 
+    <span class="c1"># return the new color tuple</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">new_r</span><span class="p">,</span> <span class="n">new_g</span><span class="p">,</span> <span class="n">new_b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="map_values_as_colors"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.map_values_as_colors">[docs]</a><span class="k">def</span> <span class="nf">map_values_as_colors</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">src_min</span><span class="p">,</span> <span class="n">src_max</span><span class="p">,</span> <span class="n">target_min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">target_max</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
@@ -424,7 +434,7 @@
 <span class="sd">    -----</span>
 <span class="sd">    Based on code by Anders Holden Deleuran. Code was only changed in regards</span>
 <span class="sd">    of defaults and names.</span>
-<span class="sd">    For more info see [10]_ .</span>
+<span class="sd">    For more info see *mapValuesAsColors.py* [10]_ .</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>

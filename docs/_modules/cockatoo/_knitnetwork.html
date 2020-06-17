@@ -1099,7 +1099,7 @@
                         <span class="k">else</span><span class="p">:</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">create_weft_edge</span><span class="p">(</span><span class="n">fCand</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
 
-<div class="viewcode-block" id="KnitNetwork.initialize_weft_edges"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetwork.initialize_weft_edges">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_weft_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">propagate_from_center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_continuous_start</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_continuous_end</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_connections</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">least_connected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">precise</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="KnitNetwork.initialize_weft_edges"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetwork.initialize_weft_edges">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_weft_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">propagate_from_center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_continuous_start</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_continuous_end</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">angle_threshold</span><span class="o">=</span><span class="n">radians</span><span class="p">(</span><span class="mf">6.0</span><span class="p">),</span> <span class="n">max_connections</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">least_connected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">precise</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Attempts to create all the preliminary &#39;weft&#39; connections for the</span>
 <span class="sd">        network.</span>
@@ -2615,8 +2615,8 @@
 
         <span class="c1"># INVOKE SECOND PASS FOR SOURCE ---&gt; TARGET ----------------------------</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">current_chain</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">source_to_target</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-----------------------------------------------------------&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;S&gt;T Current Chain: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_chain</span><span class="p">))</span>
+            <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------------------------&quot;</span><span class="p">)</span>
+            <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;S&gt;T Current Chain: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_chain</span><span class="p">))</span>
             <span class="c1"># build a list of nodes containing all nodes in the current chain</span>
             <span class="c1"># including all &#39;end&#39; nodes</span>
             <span class="n">current_chain_nodes</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2673,8 +2673,8 @@
                 <span class="c1"># if the node is not connected to the target chain, we</span>
                 <span class="c1"># need to find the end of the window</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">node_connected</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Node: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start of window: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start_of_window</span><span class="p">))</span>
+                    <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;Node: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                    <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;Start of window: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start_of_window</span><span class="p">))</span>
 
                     <span class="c1"># re-check start of window for &lt;.====/ case</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_chain_nodes</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">start_of_window</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
@@ -2723,16 +2723,17 @@
                             <span class="n">window</span> <span class="o">=</span> <span class="n">target_chain_nodes</span><span class="p">[</span><span class="n">start_of_window</span><span class="p">:</span> \
                                                         <span class="n">end_of_window</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
 
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;End of window: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">end_of_window</span><span class="p">))</span>
+                        <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;End of window: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">end_of_window</span><span class="p">))</span>
 
                         <span class="c1"># execute connection to target</span>
-
                         <span class="k">if</span> <span class="n">cckey</span> <span class="o">&lt;=</span> <span class="n">tckey</span><span class="p">:</span>
                             <span class="n">rev</span> <span class="o">=</span> <span class="kc">False</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">rev</span> <span class="o">=</span> <span class="kc">True</span>
 
-                        <span class="nb">print</span><span class="p">(</span><span class="n">cckey</span><span class="p">,</span> <span class="n">tckey</span><span class="p">)</span>
+                        <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;Connecting chain </span><span class="si">{}</span><span class="s2"> to chain </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                                                    <span class="n">cckey</span><span class="p">,</span>
+                                                                    <span class="n">tckey</span><span class="p">))</span>
 
                         <span class="bp">self</span><span class="o">.</span><span class="n">_create_second_pass_warp_connection</span><span class="p">(</span>
                                                             <span class="n">current_chain_nodes</span><span class="p">,</span>
@@ -2743,12 +2744,12 @@
                                                             <span class="n">reverse</span><span class="o">=</span><span class="n">rev</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="c1"># print info on verbose setting</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No valid window for current chain!&quot;</span><span class="p">)</span>
+                        <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;No valid window for current chain!&quot;</span><span class="p">)</span>
 
         <span class="c1"># INVOKE SECOND PASS FOR TARGET ---&gt; SOURCE ----------------------------</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">current_chain</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">target_to_source</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-----------------------------------------------------------&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;T&gt;S Current Chain: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_chain</span><span class="p">))</span>
+            <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------------------------&quot;</span><span class="p">)</span>
+            <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;T&gt;S Current Chain: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_chain</span><span class="p">))</span>
 
             <span class="c1"># build a list of nodes containing all nodes in the current chain</span>
             <span class="c1"># including all &#39;end&#39; nodes</span>
@@ -2803,8 +2804,8 @@
                 <span class="c1"># need to find the end of the window</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">node_connected</span><span class="p">:</span>
                     <span class="c1"># print info on verbose output</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Node: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start of window: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start_of_window</span><span class="p">))</span>
+                    <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;Node: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                    <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;Start of window: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start_of_window</span><span class="p">))</span>
 
                     <span class="c1"># re-check start of window for &lt;.====/ case</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_chain_nodes</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">start_of_window</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
@@ -2856,7 +2857,7 @@
                                                         <span class="n">end_of_window</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
 
                         <span class="c1"># print info on verbose output</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;End of window: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">end_of_window</span><span class="p">))</span>
+                        <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;End of window: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">end_of_window</span><span class="p">))</span>
 
                         <span class="c1"># execute connection</span>
                         <span class="k">if</span> <span class="n">cckey</span> <span class="o">&lt;</span> <span class="n">tckey</span><span class="p">:</span>
@@ -2864,7 +2865,9 @@
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">rev</span> <span class="o">=</span> <span class="kc">True</span>
 
-                        <span class="nb">print</span><span class="p">(</span><span class="n">cckey</span><span class="p">,</span> <span class="n">tckey</span><span class="p">)</span>
+                        <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;Connecting chain </span><span class="si">{}</span><span class="s2"> to chain </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                                                        <span class="n">cckey</span><span class="p">,</span>
+                                                                        <span class="n">tckey</span><span class="p">))</span>
 
                         <span class="bp">self</span><span class="o">.</span><span class="n">_create_second_pass_warp_connection</span><span class="p">(</span>
                                                             <span class="n">current_chain_nodes</span><span class="p">,</span>
@@ -2874,7 +2877,7 @@
                                                             <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
                                                             <span class="n">reverse</span><span class="o">=</span><span class="n">rev</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No valid window for current chain!&quot;</span><span class="p">)</span></div>
+                        <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;No valid window for current chain!&quot;</span><span class="p">)</span></div>
 
     <span class="c1"># FIND FACES OF NETWORK ----------------------------------------------------</span>
 
@@ -3150,12 +3153,16 @@
                 <span class="k">if</span> <span class="n">weft_out</span><span class="p">:</span>
                     <span class="n">node_data</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
-            <span class="c1"># 1 warp edge and 1 weft edge   &gt;&gt; end</span>
+            <span class="c1"># 1 warp edge and 1 weft edge   &gt;&gt; end and increase / decrease</span>
             <span class="k">elif</span> <span class="n">warplen</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">weftlen</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">node_data</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="n">node_data</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">if</span> <span class="n">weft_out</span><span class="p">:</span>
                     <span class="n">node_data</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+                <span class="k">if</span> <span class="n">warp_out</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">node_data</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]:</span>
+                    <span class="n">node_data</span><span class="p">[</span><span class="s2">&quot;increase&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">elif</span> <span class="n">warp_in</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">node_data</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]:</span>
+                    <span class="n">node_data</span><span class="p">[</span><span class="s2">&quot;decrease&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
             <span class="c1"># 2 warp edges and 0 weft edges &gt;&gt; end</span>
             <span class="k">elif</span> <span class="n">warplen</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">weftlen</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
