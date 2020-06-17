@@ -197,7 +197,7 @@ def tween_planes(pa, pb, t):
 def blend_colors(col_a, col_b, t=0.5):
     """
     Blend between two colors using the square root of photon flux. For more
-    info see *Algorithm for additive color mixing for RGB values* [17]_.
+    info see *Algorithm for additive color mixing for RGB values* [18]_.
 
     Parameters
     ----------
@@ -219,7 +219,7 @@ def blend_colors(col_a, col_b, t=0.5):
 
     References
     ----------
-    .. [17] *Algorithm for additive color mixing for RGB values*
+    .. [18] *Algorithm for additive color mixing for RGB values*
 
             See: `Thread on stackoverflow <https://stackoverflow.com/a/29321264>`_
     """
