@@ -29,18 +29,10 @@ This open-source software prototype constitutes the practical part of my diploma
 ### Extendability
 - The python module as well as the UserObjects are designed to be open for extension. Everything is open-source.
 
-## Pecularities
+### Pecularities
 
 - The RhinoPython and GHPython development environments are [very](https://developer.rhino3d.com/guides/rhinopython/what-is-rhinopython/), [very](https://developer.rhino3d.com/guides/rhinopython/ghpython-component/) [special](https://developer.rhino3d.com/guides/rhinopython/python-reference/). I am not going to write in-depth about this here. Everybody who is working with these tools on a regular basis should have come accross their oddities. If not - most information about these topics is available in the [Rhino Developer Docs](https://developer.rhino3d.com/)
 - To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more specific, an older version - [NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/) is used for... well, [reasons](https://www.grasshopper3d.com/forum/topics/ghpython-ironpython-engine-frames). To prevent problems with dead links and for reasons of simplicity, **this specific networkx module is bundled with Cockatoo**!
-
-## Testing & Contributing
-
-### You are invited to participate (yes - you!)
-
-- Contributing is easy as π (well...easier, actually). Whether you are a designer, student, teacher or scientist working with CNC-knitting - just find out what Cockatoo can do for you. In order to make Cockatoo better, we need real-world testing!
-- If Cockatoo doesn't do the things you expected it to do or simply does not work: Tell me about it by [submitting an issue](https://github.com/fstwn/Cockatoo/issues/)!
-- To find out more about how you can help testing this software and making it better, have a look at the contribution guidelines.
 
 ## Installation
 
@@ -85,6 +77,14 @@ This open-source software prototype constitutes the practical part of my diploma
 - If Rhino was running during the installation process, you'll have to restart it for the changes to take effect!
 
 ## Examples & Usage
+
+## Testing & Contributing
+
+### You are invited to participate (yes - you!)
+
+- Contributing is easy as π (well...easier, actually). Whether you are a designer, student, teacher or scientist working with CNC-knitting - just find out what Cockatoo can do for you. In order to make Cockatoo better, we need real-world testing!
+- If Cockatoo doesn't do the things you expected it to do or simply does not work: Tell me about it by [submitting an issue](https://github.com/fstwn/Cockatoo/issues/)!
+- To find out more about how you can help testing this software and making it better, have a look at the contribution guidelines.
 
 ## Sources & References
 
