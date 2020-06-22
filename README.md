@@ -8,9 +8,9 @@
 
 ## Purpose & Origins
 
-The purpose of this project is to enable Rhino and Grasshopper to derive (3d-)knitting patterns for computerized knitting machines from NURBS surfaces and polygon meshes. The absence of such an open-source toolkit that can be used directly within conventional CAD-software marks the origin point for this project.
+The purpose of this project is to enable Rhino and Grasshopper to automatically derive (3d-)knitting patterns for computerized knitting machines from NURBS surfaces and polygon meshes. The absence of such a freely available open-source toolkit marks the origin point for this project.
 
-This open-source software prototype constitutes the practical part of my diploma project in the [product design department](https://produktdesignkassel.de/) at [Kunsthochschule Kassel](https://www.kunsthochschulekassel.de/).
+This open-source software prototype constitutes the practical part of my diploma project *Knit Relaxation - Membrangestricke für die (Innen-) Architektur* in the [product design department](https://produktdesignkassel.de/) at [Kunsthochschule Kassel](https://www.kunsthochschulekassel.de/).
 
 ## Software Structure
 
