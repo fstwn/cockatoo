@@ -42,7 +42,7 @@ This open-source software prototype constitutes the practical part of my diploma
 - If Cockatoo doesn't do the things you expected it to do or simply does not work: Tell me about it by [submitting an issue](https://github.com/fstwn/Cockatoo/issues/)!
 - To find out more about how you can help testing this software and making it better, have a look at the contribution guidelines.
 
-## Installation & Usage
+## Installation
 
 ### 1. Download release files
 
@@ -52,10 +52,10 @@ This open-source software prototype constitutes the practical part of my diploma
 ### 2. Install python modules
 
 - Open the scripts folder of Rhino 6
-  - On Windows:
+  - On **Windows**:
   `C:\Users\%USERNAME%\AppData\Roaming\McNeel\Rhinoceros\6.0\scripts`
   
-  - On Mac:
+  - On **Mac OSX**:
   `Mac_Folder\Here`
 - Move all the Content from inside the `modules` directory to this scripts folder.
 
@@ -63,10 +63,10 @@ This open-source software prototype constitutes the practical part of my diploma
 
 - Navigate to the Grasshopper UserObjects folder. This can be done in two ways:
   - *Either* open the following folder:
-    - On Windows:
+    - On **Windows**:
     `C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects`
     
-    - On Mac:
+    - On **Mac OSX**:
     `Mac_Folder\Here`
   - *Or* open Rhino & Grasshopper and in the Grasshopper Window click on
 
@@ -83,6 +83,8 @@ This open-source software prototype constitutes the practical part of my diploma
 ### 5. Restart Rhino & Grasshopper
 
 - If Rhino was running during the installation process, you'll have to restart it for the changes to take effect!
+
+## Examples & Usage
 
 ## Sources & References
 
