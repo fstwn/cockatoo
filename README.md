@@ -38,7 +38,7 @@ This open-source software prototype constitutes the practical part of my diploma
 
 ### 1. Download release files
 
-- Go to [releases](https://github.com/fstwn/Cockatoo/releases) and download the newest release
+- Go to [releases](https://github.com/fstwn/cockatoo/releases) and download the newest release
 - Unzip the downloaded archive. You should get two folders: `modules` and `Cockatoo`.
 
 ### 2. Install python modules
@@ -83,7 +83,7 @@ This open-source software prototype constitutes the practical part of my diploma
 ### You are invited to participate (yes - you!)
 
 - Contributing is easy as Pi (well...easier, actually). Whether you are a designer, student, teacher or scientist working with CNC-knitting - just find out what Cockatoo can do for you. In order to make Cockatoo better, we need real-world testing!
-- If Cockatoo doesn't do the things you expected it to do or simply does not work: Tell me about it by [submitting an issue](https://github.com/fstwn/Cockatoo/issues/)!
+- If Cockatoo doesn't do the things you expected it to do or simply does not work: Tell me about it by [submitting an issue](https://github.com/fstwn/cockatoo/issues/)!
 - To find out more about how you can help testing this software and making it better, have a look at the contribution guidelines.
 
 ## Sources & References

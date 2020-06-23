@@ -943,7 +943,7 @@ class KnitNetwork(KnitNetworkBase):
                         else:
                             self.create_weft_edge(fCand, node)
 
-    def initialize_weft_edges(self, start_index=None, propagate_from_center=False, force_continuous_start=False, force_continuous_end=False, max_connections=4, least_connected=False, precise=False, verbose=False):
+    def initialize_weft_edges(self, start_index=None, propagate_from_center=False, force_continuous_start=False, force_continuous_end=False, angle_threshold=radians(6.0), max_connections=4, least_connected=False, precise=False, verbose=False):
         """
         Attempts to create all the preliminary 'weft' connections for the
         network.
