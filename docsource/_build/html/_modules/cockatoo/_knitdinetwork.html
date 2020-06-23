@@ -1,0 +1,1604 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cockatoo._knitdinetwork &mdash; Cockatoo 0.1.0.0-alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/jquery.fancybox.min.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../_static/glpi.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Cockatoo 0.1.0.0-alpha documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Cockatoo
+          
+
+          
+          </a>
+
+          
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">COCKATOO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cockatoo.html">cockatoo module API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Cockatoo</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>cockatoo._knitdinetwork</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cockatoo._knitdinetwork</h1><div class="highlight"><pre>
+<span></span><span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
+
+<span class="c1"># DUNDER -----------------------------------------------------------------------</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;KnitDiNetwork&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># LOCAL MODULE IMPORTS ---------------------------------------------------------</span>
+<span class="kn">from</span> <span class="nn">cockatoo._knitnetworkbase</span> <span class="kn">import</span> <span class="n">KnitNetworkBase</span>
+<span class="kn">from</span> <span class="nn">cockatoo.environment</span> <span class="kn">import</span> <span class="n">RHINOINSIDE</span>
+<span class="kn">from</span> <span class="nn">cockatoo.exception</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">cockatoo.utilities</span> <span class="kn">import</span> <span class="n">is_ccw_xy</span>
+<span class="kn">from</span> <span class="nn">cockatoo.utilities</span> <span class="kn">import</span> <span class="n">pairwise</span>
+<span class="kn">from</span> <span class="nn">cockatoo.utilities</span> <span class="kn">import</span> <span class="n">tween_planes</span>
+
+<span class="c1"># THIRD PARTY MODULE IMPORTS ---------------------------------------------------</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+
+<span class="c1"># RHINO IMPORTS ----------------------------------------------------------------</span>
+<span class="k">if</span> <span class="n">RHINOINSIDE</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">rhinoinside</span>
+    <span class="n">rhinoinside</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Mesh</span> <span class="k">as</span> <span class="n">RhinoMesh</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">MeshNgon</span> <span class="k">as</span> <span class="n">RhinoMeshNgon</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">NurbsSurface</span> <span class="k">as</span> <span class="n">RhinoNurbsSurface</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Plane</span> <span class="k">as</span> <span class="n">RhinoPlane</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Point3d</span> <span class="k">as</span> <span class="n">RhinoPoint3d</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Vector3d</span> <span class="k">as</span> <span class="n">RhinoVector3d</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Mesh</span> <span class="k">as</span> <span class="n">RhinoMesh</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">MeshNgon</span> <span class="k">as</span> <span class="n">RhinoMeshNgon</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">NurbsSurface</span> <span class="k">as</span> <span class="n">RhinoNurbsSurface</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Plane</span> <span class="k">as</span> <span class="n">RhinoPlane</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Point3d</span> <span class="k">as</span> <span class="n">RhinoPoint3d</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Vector3d</span> <span class="k">as</span> <span class="n">RhinoVector3d</span>
+
+<span class="c1"># CLASS DECLARATION ------------------------------------------------------------</span>
+<div class="viewcode-block" id="KnitDiNetwork"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork">[docs]</a><span class="k">class</span> <span class="nc">KnitDiNetwork</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">,</span> <span class="n">KnitNetworkBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Datastructure representing a directed graph of nodes aswell as &#39;weft&#39;</span>
+<span class="sd">    and &#39;warp&#39; edges. Used in the automatic generation of knitting patterns.</span>
+
+<span class="sd">    Inherits from :class:`networkx.DiGraph`, :class:`KnitNetworkBase`.</span>
+<span class="sd">    For more info, see *NetworkX* [13]_.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The implemented algorithms are strongly based on the paper</span>
+<span class="sd">    *Automated Generation of Knit Patterns for Non-developable Surfaces* [1]_.</span>
+<span class="sd">    Also see *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
+<span class="sd">    structures* [2]_.</span>
+
+<span class="sd">    The implementation was further influenced by concepts and ideas presented</span>
+<span class="sd">    in the papers *Automatic Machine Knitting of 3D Meshes* [3]_,</span>
+<span class="sd">    *Visual Knitting Machine Programming* [4]_ and</span>
+<span class="sd">    *A Compiler for 3D Machine Knitting* [5]_.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># INITIALIZATION -----------------------------------------------------------</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a KnitNetwork (inherits NetworkX graph with edges, name,</span>
+<span class="sd">        graph attributes.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : input graph</span>
+<span class="sd">            Data to initialize graph.  If data=None (default) an empty</span>
+<span class="sd">            graph is created.  The data can be an edge list, or any</span>
+<span class="sd">            NetworkX graph object.  If the corresponding optional Python</span>
+<span class="sd">            packages are installed the data can also be a NumPy matrix</span>
+<span class="sd">            or 2d ndarray, a SciPy sparse matrix, or a PyGraphviz graph.</span>
+
+<span class="sd">        name : string, optional (default=&#39;&#39;)</span>
+<span class="sd">            An optional name for the graph.</span>
+
+<span class="sd">        attr : keyword arguments, optional (default= no attributes)</span>
+<span class="sd">            Attributes to add to graph as key=value pairs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># initialize using original init method</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">KnitDiNetwork</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">attr</span><span class="p">)</span>
+
+        <span class="c1"># also copy the mapping_network attribute if it is already available</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">KnitDiNetwork</span><span class="p">)</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">mapping_network</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mapping_network</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mapping_network</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mapping_network</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># also copy or initialize the halfedge dict for finding faces</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">KnitDiNetwork</span><span class="p">)</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">halfedge</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">halfedge</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a textual description of the network.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        description : str</span>
+<span class="sd">            A textual description of the network.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;KnitDiNetwork&quot;</span>
+
+        <span class="n">nn</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+        <span class="n">ce</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">contour_edges</span><span class="p">)</span>
+        <span class="n">wee</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weft_edges</span><span class="p">)</span>
+        <span class="n">wae</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">warp_edges</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(</span><span class="si">{}</span><span class="s2"> Nodes, </span><span class="si">{}</span><span class="s2"> Segment Contours, </span><span class="si">{}</span><span class="s2"> Weft, </span><span class="si">{}</span><span class="s2"> Warp)&quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span> <span class="n">ce</span><span class="p">,</span> <span class="n">wee</span><span class="p">,</span> <span class="n">wae</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">name</span> <span class="o">+</span> <span class="n">data</span>
+
+<div class="viewcode-block" id="KnitDiNetwork.ToString"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.ToString">[docs]</a>    <span class="k">def</span> <span class="nf">ToString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a textual description of the network.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        description : str</span>
+<span class="sd">            A textual description of the network.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Used for overloading the Grasshopper display in data parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="c1"># NODE WEFT EDGE METHODS ---------------------------------------------------</span>
+
+<div class="viewcode-block" id="KnitDiNetwork.node_weft_edges_out"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.node_weft_edges_out">[docs]</a>    <span class="k">def</span> <span class="nf">node_weft_edges_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the outgoing &#39;weft&#39; edges connected to the given node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : hashable</span>
+<span class="sd">            Hashable identifier of the node to check for outgoing &#39;weft&#39; edges.</span>
+
+<span class="sd">        data : bool, optional</span>
+<span class="sd">            If ``True``, will also return the edges associated data attribute</span>
+<span class="sd">            dictionary.</span>
+
+<span class="sd">            Defaults to ``False``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        weft_edges : :obj:`list`</span>
+<span class="sd">            List of outgoing &#39;weft&#39; edges.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
+                     <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">weft_edges</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">weft_edges</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="KnitDiNetwork.node_weft_edges_in"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.node_weft_edges_in">[docs]</a>    <span class="k">def</span> <span class="nf">node_weft_edges_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the incoming &#39;weft&#39; edges connected to the given node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : hashable</span>
+<span class="sd">            Hashable identifier of the node to check for incoming &#39;weft&#39; edges.</span>
+
+<span class="sd">        data : bool, optional</span>
+<span class="sd">            If ``True``, will also return the edges associated data attribute</span>
+<span class="sd">            dictionary.</span>
+
+<span class="sd">            Defaults to ``False``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        weft_edges : :obj:`list`</span>
+<span class="sd">            List of incoming &#39;weft&#39; edges.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
+                     <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">weft_edges</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">weft_edges</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="KnitDiNetwork.node_weft_edges"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.node_weft_edges">[docs]</a>    <span class="k">def</span> <span class="nf">node_weft_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets incoming and outgoing &#39;weft&#39; edges connected to the given node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : hashable</span>
+<span class="sd">            Hashable identifier of the node to check for incoming and outgoing</span>
+<span class="sd">            &#39;weft&#39; edges.</span>
+
+<span class="sd">        data : bool, optional</span>
+<span class="sd">            If ``True``, will also return the edges associated data attribute</span>
+<span class="sd">            dictionary.</span>
+
+<span class="sd">            Defaults to ``False``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        weft_edges : :obj:`list`</span>
+<span class="sd">            List of incoming and outgoing &#39;weft&#39; edges.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
+                     <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
+        <span class="n">weft_edges</span><span class="o">.</span><span class="n">extend</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
+                     <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">weft_edges</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">weft_edges</span><span class="p">]</span></div>
+
+    <span class="c1"># NODE WARP EDGE METHODS ---------------------------------------------------</span>
+
+<div class="viewcode-block" id="KnitDiNetwork.node_warp_edges_out"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.node_warp_edges_out">[docs]</a>    <span class="k">def</span> <span class="nf">node_warp_edges_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the outgoing &#39;warp&#39; edges connected to the given node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : hashable</span>
+<span class="sd">            Hashable identifier of the node to check for outgoing &#39;warp&#39; edges.</span>
+
+<span class="sd">        data : bool, optional</span>
+<span class="sd">            If ``True``, will also return the edges associated data attribute</span>
+<span class="sd">            dictionary.</span>
+
+<span class="sd">            Defaults to ``False``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        weft_edges : :obj:`list`</span>
+<span class="sd">            List of outgoing &#39;warp&#39; edges.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
+                     <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">warp_edges</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">warp_edges</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="KnitDiNetwork.node_warp_edges_in"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.node_warp_edges_in">[docs]</a>    <span class="k">def</span> <span class="nf">node_warp_edges_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the incoming &#39;warp&#39; edges connected to the given node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : hashable</span>
+<span class="sd">            Hashable identifier of the node to check for incoming &#39;warp&#39; edges.</span>
+
+<span class="sd">        data : bool, optional</span>
+<span class="sd">            If ``True``, will also return the edges associated data attribute</span>
+<span class="sd">            dictionary.</span>
+
+<span class="sd">            Defaults to ``False``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        weft_edges : :obj:`list`</span>
+<span class="sd">            List of incoming &#39;warp&#39; edges.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
+                     <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">warp_edges</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">warp_edges</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="KnitDiNetwork.node_warp_edges"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.node_warp_edges">[docs]</a>    <span class="k">def</span> <span class="nf">node_warp_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the incoming and outgoing &#39;warp&#39; edges connected to the given node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : hashable</span>
+<span class="sd">            Hashable identifier of the node to check for incoming and outgoing</span>
+<span class="sd">            &#39;warp&#39; edges.</span>
+
+<span class="sd">        data : bool, optional</span>
+<span class="sd">            If ``True``, will also return the edges associated data attribute</span>
+<span class="sd">            dictionary.</span>
+
+<span class="sd">            Defaults to ``False``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        weft_edges : :obj:`list`</span>
+<span class="sd">            List of incoming and outgoing &#39;warp&#39; edges.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
+                     <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
+        <span class="n">warp_edges</span><span class="o">.</span><span class="n">extend</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
+                     <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">warp_edges</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">warp_edges</span><span class="p">]</span></div>
+
+    <span class="c1"># NODE CONTOUR EDGE METHODS ------------------------------------------------</span>
+
+<div class="viewcode-block" id="KnitDiNetwork.node_contour_edges_out"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.node_contour_edges_out">[docs]</a>    <span class="k">def</span> <span class="nf">node_contour_edges_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the outgoing edges marked neither &#39;warp&#39; nor &#39;weft&#39; connected to</span>
+<span class="sd">        the given node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : hashable</span>
+<span class="sd">            Hashable identifier of the node to check for outgoing edges neither</span>
+<span class="sd">            &#39;weft&#39; nor &#39;warp&#39;.</span>
+
+<span class="sd">        data : bool, optional</span>
+<span class="sd">            If ``True``, will also return the edges associated data attribute</span>
+<span class="sd">            dictionary.</span>
+
+<span class="sd">            Defaults to ``False``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        weft_edges : :obj:`list`</span>
+<span class="sd">            List of outgoing edges neither &#39;weft&#39; nor &#39;warp&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">contour_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
+                        <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">contour_edges</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">contour_edges</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="KnitDiNetwork.node_contour_edges_in"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.node_contour_edges_in">[docs]</a>    <span class="k">def</span> <span class="nf">node_contour_edges_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the incoming edges marked neither &#39;warp&#39; nor &#39;weft&#39; connected to</span>
+<span class="sd">        the given node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : hashable</span>
+<span class="sd">            Hashable identifier of the node to check for incoming edges neither</span>
+<span class="sd">            &#39;weft&#39; nor &#39;warp&#39;.</span>
+
+<span class="sd">        data : bool, optional</span>
+<span class="sd">            If ``True``, will also return the edges associated data attribute</span>
+<span class="sd">            dictionary.</span>
+
+<span class="sd">            Defaults to ``False``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        weft_edges : :obj:`list`</span>
+<span class="sd">            List of incoming edges neither &#39;weft&#39; nor &#39;warp&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">contour_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
+                        <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">contour_edges</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">contour_edges</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="KnitDiNetwork.node_contour_edges"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.node_contour_edges">[docs]</a>    <span class="k">def</span> <span class="nf">node_contour_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the incoming and outcoing edges marked neither &#39;warp&#39; nor &#39;weft&#39;</span>
+<span class="sd">        connected to the given node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : hashable</span>
+<span class="sd">            Hashable identifier of the node to check for incoming and outgoing</span>
+<span class="sd">            edges neither &#39;weft&#39; nor &#39;warp&#39;.</span>
+
+<span class="sd">        data : bool, optional</span>
+<span class="sd">            If ``True``, will also return the edges associated data attribute</span>
+<span class="sd">            dictionary.</span>
+
+<span class="sd">            Defaults to ``False``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        weft_edges : :obj:`list`</span>
+<span class="sd">            List of incoming and outgoing edges neither &#39;weft&#39; nor &#39;warp&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">contour_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
+                        <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
+        <span class="n">contour_edges</span><span class="o">.</span><span class="n">extend</span><span class="p">([(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
+                        <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]])</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">contour_edges</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">contour_edges</span><span class="p">]</span></div>
+
+    <span class="c1"># FIND FACES (CYCLES) OF NETWORK -------------------------------------------</span>
+
+    <span class="k">def</span> <span class="nf">_sort_node_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">nbrs</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">geo</span><span class="p">,</span> <span class="n">cbp</span><span class="p">,</span> <span class="n">nrm</span><span class="p">,</span> <span class="n">mode</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ccw</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sort the neighbors of a network node.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Based on an implementation inside the COMPAS framework.</span>
+<span class="sd">        For more info see [7]_.</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        .. [7] Van Mele, Tom et al. *COMPAS: A framework for computational</span>
+<span class="sd">               research in architecture and structures*.</span>
+
+<span class="sd">               See: `sort_node_neighbors() inside COMPAS &lt;https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L132&gt;`_</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># if there is only one neighbor we don&#39;t need to sort anything</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nbrs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">nbrs</span>
+
+        <span class="c1"># initialize the ordered list of neighbors with the first node</span>
+        <span class="n">ordered_nbrs</span> <span class="o">=</span> <span class="n">nbrs</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># retrieve coordinates for current node</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="c1"># compute local orientation if reference geometry data is present</span>
+        <span class="c1"># CASE 1: Plane is determined by mesh normal of origin node</span>
+        <span class="k">if</span> <span class="n">cbp</span> <span class="ow">and</span> <span class="n">nrm</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># construct local reference plane and map coordinates to plane space</span>
+            <span class="n">a_geo</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="n">localplane</span> <span class="o">=</span> <span class="n">RhinoPlane</span><span class="p">(</span><span class="n">a_geo</span><span class="p">,</span> <span class="n">nrm</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+            <span class="n">a_local</span> <span class="o">=</span> <span class="n">localplane</span><span class="o">.</span><span class="n">RemapToPlaneSpace</span><span class="p">(</span><span class="n">a_geo</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a_local</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">a_local</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">a_local</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+            <span class="c1"># compute local plane coordinates for all neighbors</span>
+            <span class="n">xyz_local</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">nbr</span> <span class="ow">in</span> <span class="n">nbrs</span><span class="p">:</span>
+                <span class="c1"># find closest point on plane and remap to plane space</span>
+                <span class="n">nbr_cp</span> <span class="o">=</span> <span class="n">localplane</span><span class="o">.</span><span class="n">ClosestPoint</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="n">nbr</span><span class="p">])</span>
+                <span class="n">local_nbr</span> <span class="o">=</span> <span class="n">localplane</span><span class="o">.</span><span class="n">RemapToPlaneSpace</span><span class="p">(</span><span class="n">nbr_cp</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">nbr_coords</span> <span class="o">=</span> <span class="p">(</span><span class="n">local_nbr</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">local_nbr</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">local_nbr</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+                <span class="c1"># set coordinate dict value</span>
+                <span class="n">xyz_local</span><span class="p">[</span><span class="n">nbr</span><span class="p">]</span> <span class="o">=</span> <span class="n">nbr_coords</span>
+            <span class="c1"># reassign coordinate dictionary for neighbor sorting</span>
+            <span class="n">xyz</span> <span class="o">=</span> <span class="n">xyz_local</span>
+        <span class="c1"># CASE 2: Plane is determined by average normal of origin node and nbrs</span>
+        <span class="k">elif</span> <span class="n">cbp</span> <span class="ow">and</span> <span class="n">nrm</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># construct local reference plane and map coordinates to plane space</span>
+            <span class="n">a_geo</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="c1"># get average normal</span>
+            <span class="n">avg_nrm</span> <span class="o">=</span> <span class="n">nrm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="n">nbr_nrms</span> <span class="o">=</span> <span class="p">[</span><span class="n">nrm</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nbrs</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">nv</span> <span class="ow">in</span> <span class="n">nbr_nrms</span><span class="p">:</span>
+                <span class="n">avg_nrm</span> <span class="o">+=</span> <span class="n">nv</span>
+            <span class="c1"># construct plane based on average normal</span>
+            <span class="n">localplane</span> <span class="o">=</span> <span class="n">RhinoPlane</span><span class="p">(</span><span class="n">a_geo</span><span class="p">,</span> <span class="n">avg_nrm</span><span class="p">)</span>
+            <span class="n">a_local</span> <span class="o">=</span> <span class="n">localplane</span><span class="o">.</span><span class="n">RemapToPlaneSpace</span><span class="p">(</span><span class="n">a_geo</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a_local</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">a_local</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">a_local</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+            <span class="c1"># compute local plane coordinates for all neighbors</span>
+            <span class="n">xyz_local</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">nbr</span> <span class="ow">in</span> <span class="n">nbrs</span><span class="p">:</span>
+                <span class="c1"># find closest point on plane and remap to plane space</span>
+                <span class="n">nbr_cp</span> <span class="o">=</span> <span class="n">localplane</span><span class="o">.</span><span class="n">ClosestPoint</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="n">nbr</span><span class="p">])</span>
+                <span class="n">local_nbr</span> <span class="o">=</span> <span class="n">localplane</span><span class="o">.</span><span class="n">RemapToPlaneSpace</span><span class="p">(</span><span class="n">nbr_cp</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">nbr_coords</span> <span class="o">=</span> <span class="p">(</span><span class="n">local_nbr</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">local_nbr</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">local_nbr</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+                <span class="c1"># set coordinate dict value</span>
+                <span class="n">xyz_local</span><span class="p">[</span><span class="n">nbr</span><span class="p">]</span> <span class="o">=</span> <span class="n">nbr_coords</span>
+            <span class="c1"># reassign coordinate dictionary for neighbor sorting</span>
+            <span class="n">xyz</span> <span class="o">=</span> <span class="n">xyz_local</span>
+        <span class="c1"># CASE 3: Plane is determined by avg between fitplane and avg meshplane</span>
+        <span class="k">elif</span> <span class="n">cbp</span> <span class="ow">and</span> <span class="n">nrm</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># construct local reference plane and map coordinates to plane space</span>
+            <span class="n">a_geo</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="c1"># get average normal</span>
+            <span class="n">avg_nrm</span> <span class="o">=</span> <span class="n">nrm</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="n">nbr_nrms</span> <span class="o">=</span> <span class="p">[</span><span class="n">nrm</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nbrs</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">nv</span> <span class="ow">in</span> <span class="n">nbr_nrms</span><span class="p">:</span>
+                <span class="n">avg_nrm</span> <span class="o">+=</span> <span class="n">nv</span>
+            <span class="c1"># construct plane based on average normal</span>
+            <span class="n">localplane</span> <span class="o">=</span> <span class="n">RhinoPlane</span><span class="p">(</span><span class="n">a_geo</span><span class="p">,</span> <span class="n">avg_nrm</span><span class="p">)</span>
+            <span class="n">fitplane</span> <span class="o">=</span> <span class="n">RhinoPlane</span><span class="o">.</span><span class="n">FitPlaneToPoints</span><span class="p">([</span><span class="n">geo</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nbrs</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
+             <span class="c1"># align fitplane with localplane</span>
+            <span class="k">if</span> <span class="n">fitplane</span><span class="o">.</span><span class="n">Normal</span> <span class="o">*</span> <span class="n">localplane</span><span class="o">.</span><span class="n">Normal</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">fitplane</span><span class="o">.</span><span class="n">Flip</span><span class="p">()</span>
+            <span class="c1"># tween the planes and set origin</span>
+            <span class="n">tweenplane</span> <span class="o">=</span> <span class="n">tween_planes</span><span class="p">(</span><span class="n">localplane</span><span class="p">,</span> <span class="n">fitplane</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">tweenplane</span><span class="o">.</span><span class="n">Origin</span> <span class="o">=</span> <span class="n">a_geo</span>
+            <span class="c1"># remap origin node to plane space</span>
+            <span class="n">a_local</span> <span class="o">=</span> <span class="n">tweenplane</span><span class="o">.</span><span class="n">RemapToPlaneSpace</span><span class="p">(</span><span class="n">a_geo</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a_local</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">a_local</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">a_local</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+            <span class="c1"># compute local plane coordinates for all neighbors</span>
+            <span class="n">xyz_local</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">nbr</span> <span class="ow">in</span> <span class="n">nbrs</span><span class="p">:</span>
+                <span class="c1"># find closest point on plane and remap to plane space</span>
+                <span class="n">nbr_cp</span> <span class="o">=</span> <span class="n">tweenplane</span><span class="o">.</span><span class="n">ClosestPoint</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="n">nbr</span><span class="p">])</span>
+                <span class="n">local_nbr</span> <span class="o">=</span> <span class="n">tweenplane</span><span class="o">.</span><span class="n">RemapToPlaneSpace</span><span class="p">(</span><span class="n">nbr_cp</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">nbr_coords</span> <span class="o">=</span> <span class="p">(</span><span class="n">local_nbr</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">local_nbr</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">local_nbr</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+                <span class="c1"># set coordinate dict value</span>
+                <span class="n">xyz_local</span><span class="p">[</span><span class="n">nbr</span><span class="p">]</span> <span class="o">=</span> <span class="n">nbr_coords</span>
+            <span class="c1"># reassign coordinate dictionary for neighbor sorting</span>
+            <span class="n">xyz</span> <span class="o">=</span> <span class="n">xyz_local</span>
+
+        <span class="c1"># loop over all neighbors except the first one</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">nbr</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nbrs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[</span><span class="n">nbr</span><span class="p">]</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[</span><span class="n">ordered_nbrs</span><span class="p">[</span><span class="n">pos</span><span class="p">]]</span>
+            <span class="k">while</span> <span class="ow">not</span> <span class="n">is_ccw_xy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+                <span class="n">pos</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">pos</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[</span><span class="n">ordered_nbrs</span><span class="p">[</span><span class="n">pos</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">pos</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">pos</span> <span class="o">-=</span> <span class="mi">1</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[</span><span class="n">ordered_nbrs</span><span class="p">[</span><span class="n">pos</span><span class="p">]]</span>
+                <span class="k">while</span> <span class="n">is_ccw_xy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+                    <span class="n">pos</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">ordered_nbrs</span><span class="p">):</span>
+                        <span class="k">break</span>
+                    <span class="n">b</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[</span><span class="n">ordered_nbrs</span><span class="p">[</span><span class="n">pos</span><span class="p">]]</span>
+                <span class="n">pos</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">ordered_nbrs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">nbr</span><span class="p">)</span>
+
+        <span class="c1"># return the ordered neighbors in cw or ccw order</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ccw</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ordered_nbrs</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">ordered_nbrs</span>
+
+    <span class="k">def</span> <span class="nf">_sort_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ccw</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sort the neighbors of all network nodes.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Based on an implementation inside the COMPAS framework.</span>
+<span class="sd">        For more info see [8]_.</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        .. [8] Van Mele, Tom et al. *COMPAS: A framework for computational</span>
+<span class="sd">               research in architecture and structures*.</span>
+
+<span class="sd">               See: `sort_neighbors() inside COMPAS &lt;https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L121&gt;`_</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># initialize sorted neighbors dict</span>
+        <span class="n">sorted_neighbors</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># get dictionary of all coordinates by node index</span>
+        <span class="n">xyz</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="kc">True</span><span class="p">)}</span>
+        <span class="n">geo</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;geo&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="kc">True</span><span class="p">)}</span>
+
+        <span class="c1"># compute local orientation data when reference geometry is present</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">reference_geometry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s2">&quot;reference_geometry&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">reference_geometry</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">reference_geometry</span><span class="p">:</span>
+            <span class="n">cbp</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">nrm</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reference_geometry</span><span class="p">,</span> <span class="n">RhinoMesh</span><span class="p">):</span>
+            <span class="n">cbp</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">reference_geometry</span><span class="o">.</span><span class="n">ClosestMeshPoint</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span> \
+                   <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">()}</span>
+            <span class="n">nrm</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">reference_geometry</span><span class="o">.</span><span class="n">NormalAt</span><span class="p">(</span><span class="n">cbp</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> \
+                   <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">()}</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reference_geometry</span><span class="p">,</span> <span class="n">RhinoNurbsSurface</span><span class="p">):</span>
+            <span class="n">cbp</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">reference_geometry</span><span class="o">.</span><span class="n">ClosestPoint</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="n">k</span><span class="p">])[</span><span class="mi">1</span><span class="p">:]</span> \
+                   <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">()}</span>
+            <span class="n">nrm</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">reference_geometry</span><span class="o">.</span><span class="n">NormalAt</span><span class="p">(</span><span class="n">cbp</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">cbp</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> \
+                   <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">()}</span>
+
+        <span class="c1"># loop over all nodes in network</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">():</span>
+            <span class="n">nbrs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="n">sorted_neighbors</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sort_node_neighbors</span><span class="p">(</span>
+                                                            <span class="n">key</span><span class="p">,</span>
+                                                            <span class="n">nbrs</span><span class="p">,</span>
+                                                            <span class="n">xyz</span><span class="p">,</span>
+                                                            <span class="n">geo</span><span class="p">,</span>
+                                                            <span class="n">cbp</span><span class="p">,</span>
+                                                            <span class="n">nrm</span><span class="p">,</span>
+                                                            <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+                                                            <span class="n">ccw</span><span class="o">=</span><span class="n">ccw</span><span class="p">)</span>
+
+        <span class="c1"># set the sorted neighbors list as an attribute to the nodes</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">nbrs</span> <span class="ow">in</span> <span class="n">sorted_neighbors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;sorted_neighbors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nbrs</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># return the sorted neighbors dict</span>
+        <span class="k">return</span> <span class="n">sorted_neighbors</span>
+
+    <span class="k">def</span> <span class="nf">_find_first_node_neighbor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the first neighbor for a given node in the network.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Based on an implementation inside the COMPAS framework.</span>
+<span class="sd">        For more info see [9]_.</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        .. [9] Van Mele, Tom et al. *COMPAS: A framework for computational</span>
+<span class="sd">               research in architecture and structures*.</span>
+
+<span class="sd">               See: `find_first_node_neighbor() inside COMPAS &lt;https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L103&gt;`_</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get all node neighbors</span>
+        <span class="n">nbrs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="c1"># if there is only one neighbor, we have already found our candidate</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nbrs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">nbrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">ab</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+        <span class="n">rhino_ab</span> <span class="o">=</span> <span class="n">RhinoVector3d</span><span class="p">(</span><span class="o">*</span><span class="n">ab</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coordinates</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">ab</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">ab</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">angles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">nbr</span> <span class="ow">in</span> <span class="n">nbrs</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_coordinates</span><span class="p">(</span><span class="n">nbr</span><span class="p">)</span>
+            <span class="n">ac</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">rhino_ac</span> <span class="o">=</span> <span class="n">RhinoVector3d</span><span class="p">(</span><span class="o">*</span><span class="n">ac</span><span class="p">)</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">RhinoVector3d</span><span class="o">.</span><span class="n">VectorAngle</span><span class="p">(</span><span class="n">rhino_ab</span><span class="p">,</span> <span class="n">rhino_ac</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">is_ccw_xy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+                <span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">alpha</span>
+            <span class="n">angles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">nbrs</span><span class="p">[</span><span class="n">angles</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">angles</span><span class="p">))]</span>
+
+    <span class="k">def</span> <span class="nf">_find_edge_cycle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find a cycle based on the given edge.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u : hashable</span>
+<span class="sd">            Index of the start node of the origin edge for the cycle.</span>
+
+<span class="sd">        v : hashable</span>
+<span class="sd">            Index of the end node of the origin edge for the cycle.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Based on an implementation inside the COMPAS framework.</span>
+<span class="sd">        For more info see [6]_.</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        .. [6] Van Mele, Tom et al. *COMPAS: A framework for computational</span>
+<span class="sd">               research in architecture and structures*.</span>
+
+<span class="sd">               See: `find_edge_cycle() inside COMPAS &lt;https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L161&gt;`_</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cycle</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span><span class="p">]</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">cycle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">nbrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;sorted_neighbors&quot;</span><span class="p">]</span>
+            <span class="n">nbr</span> <span class="o">=</span> <span class="n">nbrs</span><span class="p">[</span><span class="n">nbrs</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">,</span> <span class="n">nbr</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">cycle</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="k">break</span>
+        <span class="k">return</span> <span class="n">cycle</span>
+
+<div class="viewcode-block" id="KnitDiNetwork.find_cycles"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.find_cycles">[docs]</a>    <span class="k">def</span> <span class="nf">find_cycles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds the cycles (faces) of this network by utilizing a wall-follower</span>
+<span class="sd">        mechanism.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mode : int, optional</span>
+<span class="sd">            Determines how the neighbors of each node are sorted when finding</span>
+<span class="sd">            cycles for the network.</span>
+
+<span class="sd">            ``-1`` equals to using the world XY plane.</span>
+
+<span class="sd">            ``0`` equals to using a plane normal to the origin nodes closest</span>
+<span class="sd">            point on the reference geometry.</span>
+
+<span class="sd">            ``1`` equals to using a plane normal to the average of the origin</span>
+<span class="sd">            and neighbor nodes&#39; closest points on the reference geometry.</span>
+
+<span class="sd">            ``2`` equals to using an average plane between a plane fit to the</span>
+<span class="sd">            origin and its neighbor nodes and a plane normal to the origin</span>
+<span class="sd">            nodes closest point on the reference geometry.</span>
+
+<span class="sd">            Defaults to ``-1``.</span>
+
+<span class="sd">        Warning</span>
+<span class="sd">        -------</span>
+<span class="sd">        Modes other than -1 (default) are only possible if this network has an</span>
+<span class="sd">        underlying reference geometry in form of a Mesh or NurbsSurface. The</span>
+<span class="sd">        reference geometry should be assigned when initializing the network by</span>
+<span class="sd">        assigning the geometry to the &quot;reference_geometry&quot; attribute of the network.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Based on an implementation inside the COMPAS framework.</span>
+<span class="sd">        For more info see [17]_.</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        .. [17] Van Mele, Tom et al. *COMPAS: A framework for computational</span>
+<span class="sd">               research in architecture and structures*.</span>
+
+<span class="sd">               See: `find_cycles() inside COMPAS &lt;https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L20&gt;`_</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># initialize the halfedge dict of the directed network</span>
+        <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># sort the all the neighbors for each node of the network</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sort_neighbors</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
+
+        <span class="c1"># find start node</span>
+        <span class="c1"># sort leaf nodes by y and x coordinates</span>
+        <span class="c1"># leaves = self.leaf_nodes</span>
+        <span class="c1"># if leaves:</span>
+        <span class="c1">#     u = sorted(leaves, key=lambda n: (n[1][&quot;y&quot;], n[1][&quot;x&quot;]))[0][0]</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     u = sorted(self.nodes_iter(data=True), key=lambda n: (n[1][&quot;y&quot;], n[1][&quot;x&quot;]))[0][0]</span>
+
+        <span class="c1"># find start node</span>
+        <span class="c1"># sort leaf nodes by node identifier / index</span>
+        <span class="n">leaves</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">leaf_nodes</span>
+        <span class="k">if</span> <span class="n">leaves</span><span class="p">:</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">leaves</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># initialize found and cycles dict</span>
+        <span class="n">cycles</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">ckey</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># find the very first cycle</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_first_node_neighbor</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="n">cycle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_edge_cycle</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="n">frozen</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
+        <span class="n">found</span><span class="p">[</span><span class="n">frozen</span><span class="p">]</span> <span class="o">=</span> <span class="n">ckey</span>
+        <span class="n">cycles</span><span class="p">[</span><span class="n">ckey</span><span class="p">]</span> <span class="o">=</span> <span class="n">cycle</span>
+
+        <span class="c1"># set halfedge dict</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">(</span><span class="n">cycle</span> <span class="o">+</span> <span class="n">cycle</span><span class="p">[:</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">ckey</span>
+        <span class="n">ckey</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># loop over all edges and find cycles</span>
+        <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">():</span>
+            <span class="c1"># find cycles for u -&gt; v edges</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">cycle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_edge_cycle</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                <span class="n">frozen</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">frozen</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">found</span><span class="p">:</span>
+                    <span class="n">found</span><span class="p">[</span><span class="n">frozen</span><span class="p">]</span> <span class="o">=</span> <span class="n">ckey</span>
+                    <span class="n">cycles</span><span class="p">[</span><span class="n">ckey</span><span class="p">]</span> <span class="o">=</span> <span class="n">cycle</span>
+                    <span class="n">ckey</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">(</span><span class="n">cycle</span> <span class="o">+</span> <span class="n">cycle</span><span class="p">[:</span><span class="mi">1</span><span class="p">]):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">found</span><span class="p">[</span><span class="n">frozen</span><span class="p">]</span>
+            <span class="c1"># find cycles for v -&gt; u edges</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">u</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">cycle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_edge_cycle</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+                <span class="n">frozen</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">frozen</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">found</span><span class="p">:</span>
+                    <span class="n">found</span><span class="p">[</span><span class="n">frozen</span><span class="p">]</span> <span class="o">=</span> <span class="n">ckey</span>
+                    <span class="n">cycles</span><span class="p">[</span><span class="n">ckey</span><span class="p">]</span> <span class="o">=</span> <span class="n">cycle</span>
+                    <span class="n">ckey</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">(</span><span class="n">cycle</span> <span class="o">+</span> <span class="n">cycle</span><span class="p">[:</span><span class="mi">1</span><span class="p">]):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">found</span><span class="p">[</span><span class="n">frozen</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">cycles</span></div>
+
+    <span class="c1"># MESHING ------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="KnitDiNetwork.create_mesh"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.create_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">create_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_valence</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructs a mesh from this network by finding cycles and using them as</span>
+<span class="sd">        mesh faces.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mode : int, optional</span>
+<span class="sd">            Determines how the neighbors of each node are sorted when finding</span>
+<span class="sd">            cycles for the network.</span>
+
+<span class="sd">            ``-1`` equals to using the world XY plane.</span>
+
+<span class="sd">            ``0`` equals to using a plane normal to the origin nodes closest</span>
+<span class="sd">            point on the reference geometry.</span>
+
+<span class="sd">            ``1`` equals to using a plane normal to the average of the origin</span>
+<span class="sd">            and neighbor nodes&#39; closest points on the reference geometry.</span>
+
+<span class="sd">            ``2`` equals to using an average plane between a plane fit to the</span>
+<span class="sd">            origin and its neighbor nodes and a plane normal to the origin</span>
+<span class="sd">            nodes closest point on the reference geometry.</span>
+
+<span class="sd">            Defaults to ``-1``.</span>
+
+<span class="sd">        max_valence : int, optional</span>
+<span class="sd">            Sets the maximum edge valence of the faces. If this is set to &gt; 4,</span>
+<span class="sd">            n-gon faces (more than 4 edges) are allowed. Otherwise, their cycles</span>
+<span class="sd">            are treated as invalid and will be ignored.</span>
+
+<span class="sd">            Defaults to ``4``.</span>
+
+<span class="sd">        Warning</span>
+<span class="sd">        -------</span>
+<span class="sd">        Modes other than ``-1`` are only possible if this network has an</span>
+<span class="sd">        underlying reference geometry in form of a Mesh or NurbsSurface. The</span>
+<span class="sd">        reference geometry should be assigned when initializing the network by</span>
+<span class="sd">        assigning the geometry to the &quot;reference_geometry&quot; attribute of the</span>
+<span class="sd">        network.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get cycles dict of this network</span>
+        <span class="n">cycles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_cycles</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
+
+        <span class="c1"># create an empty mesh</span>
+        <span class="n">Mesh</span> <span class="o">=</span> <span class="n">RhinoMesh</span><span class="p">()</span>
+
+        <span class="c1"># intialize mapping of network nodes to mesh vertices</span>
+        <span class="n">node_to_vertex</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">vcount</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># fill mesh and map network nodes to mesh vertices</span>
+        <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">node_to_vertex</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">vcount</span>
+            <span class="n">Mesh</span><span class="o">.</span><span class="n">Vertices</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">])</span>
+            <span class="n">vcount</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># loop over cycles and add faces to the mesh</span>
+        <span class="n">fcount</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">ckey</span> <span class="ow">in</span> <span class="n">cycles</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">cycle</span> <span class="o">=</span> <span class="n">cycles</span><span class="p">[</span><span class="n">ckey</span><span class="p">]</span>
+            <span class="n">c_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">c_len</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">c_len</span> <span class="o">&gt;</span> <span class="n">max_valence</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># find centroid of ngon nodes</span>
+                <span class="n">cycle_coords</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">cycle</span> <span class="p">]</span>
+                <span class="c1"># compute centroid</span>
+                <span class="n">c_x</span><span class="p">,</span> <span class="n">c_y</span><span class="p">,</span> <span class="n">c_z</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">cycle_coords</span><span class="p">)</span>
+                <span class="n">centroid</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">c_x</span><span class="p">)</span> <span class="o">/</span> <span class="n">c_len</span><span class="p">,</span>
+                            <span class="nb">sum</span><span class="p">(</span><span class="n">c_y</span><span class="p">)</span> <span class="o">/</span> <span class="n">c_len</span><span class="p">,</span>
+                            <span class="nb">sum</span><span class="p">(</span><span class="n">c_z</span><span class="p">)</span> <span class="o">/</span> <span class="n">c_len</span><span class="p">]</span>
+                <span class="c1"># add centroid to mesh</span>
+                <span class="n">Mesh</span><span class="o">.</span><span class="n">Vertices</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="o">*</span><span class="n">centroid</span><span class="p">)</span>
+                <span class="c1"># create triangle with centroid for every pair in cycle</span>
+                <span class="n">closed_cycle</span> <span class="o">=</span> <span class="n">cycle</span><span class="p">[:]</span>
+                <span class="n">closed_cycle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cycle</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">ngon_faces</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">(</span><span class="n">closed_cycle</span><span class="p">):</span>
+                    <span class="n">Mesh</span><span class="o">.</span><span class="n">Faces</span><span class="o">.</span><span class="n">AddFace</span><span class="p">(</span><span class="n">node_to_vertex</span><span class="p">[</span><span class="n">a</span><span class="p">],</span>
+                                       <span class="n">node_to_vertex</span><span class="p">[</span><span class="n">b</span><span class="p">],</span>
+                                       <span class="n">vcount</span><span class="p">)</span>
+                    <span class="n">ngon_faces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fcount</span><span class="p">)</span>
+                    <span class="n">fcount</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">ngon_cycle</span> <span class="o">=</span> <span class="p">[</span><span class="n">node_to_vertex</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">cycle</span><span class="p">]</span>
+                <span class="n">NGon</span> <span class="o">=</span> <span class="n">RhinoMeshNgon</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">ngon_cycle</span><span class="p">,</span> <span class="n">ngon_faces</span><span class="p">)</span>
+                <span class="c1"># increment mesh vertex counter</span>
+                <span class="n">vcount</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">c_len</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mesh_cycle</span> <span class="o">=</span> <span class="p">[</span><span class="n">node_to_vertex</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">cycle</span><span class="p">]</span>
+                <span class="n">Mesh</span><span class="o">.</span><span class="n">Faces</span><span class="o">.</span><span class="n">AddFace</span><span class="p">(</span><span class="o">*</span><span class="n">mesh_cycle</span><span class="p">)</span>
+                <span class="n">fcount</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># unify the normals of the mesh</span>
+        <span class="n">Mesh</span><span class="o">.</span><span class="n">UnifyNormals</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">Mesh</span></div>
+
+    <span class="c1"># CONVERSION TO 2D-KNITTINGPATTERN (PIXEL IMAGE) ---------------------------</span>
+
+<div class="viewcode-block" id="KnitDiNetwork.verify_dual_form"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.verify_dual_form">[docs]</a>    <span class="k">def</span> <span class="nf">verify_dual_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verifies this network to have the correct form of a dual as needed for</span>
+<span class="sd">        representing this network as a 2d knitting pattern.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            ``True`` on success, ``False`` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># check every single node</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">():</span>
+            <span class="c1"># verify if all nodes have the correct keys for attributes</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s2">&quot;start&quot;</span><span class="p">]</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s2">&quot;end&quot;</span><span class="p">]</span>
+                <span class="n">inc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s2">&quot;increase&quot;</span><span class="p">]</span>
+                <span class="n">dec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s2">&quot;decrease&quot;</span><span class="p">]</span>
+                <span class="n">lfn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span>
+                <span class="n">geo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s2">&quot;geo&quot;</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="c1"># get all neighbors</span>
+            <span class="n">prd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="n">lpr</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prd</span><span class="p">)</span>
+            <span class="c1"># check for nodes with more than two predecessors</span>
+            <span class="k">if</span> <span class="n">lpr</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="n">suc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">successors</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="n">lsu</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">suc</span><span class="p">)</span>
+            <span class="c1"># check for nodes with more than two successors</span>
+            <span class="k">if</span> <span class="n">lsu</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="n">nbr</span> <span class="o">=</span> <span class="n">prd</span> <span class="o">+</span> <span class="n">suc</span>
+            <span class="n">lnn</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nbr</span><span class="p">)</span>
+            <span class="c1"># check for disconnected nodes</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">lnn</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="c1"># maximum connections per node is four</span>
+            <span class="k">elif</span> <span class="n">lnn</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="KnitDiNetwork.make_pattern_data"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.make_pattern_data">[docs]</a>    <span class="k">def</span> <span class="nf">make_pattern_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">consolidate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Topological sort this network to represent it as 2d knitting pattern</span>
+<span class="sd">        consisting of rows and columns.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        consolidate : bool</span>
+<span class="sd">            If ``True``, will consolidate the final pattern data.</span>
+<span class="sd">            Defaulst to ``False``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pattern_data : :obj:`list` of :obj:`list`</span>
+<span class="sd">            List (rows) of lists (column values) where every value represents</span>
+<span class="sd">            a node.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        KnitNetworkTopologyError</span>
+<span class="sd">            if the network does not satisfy the topology constraints needed for</span>
+<span class="sd">            this operation and the outcome would be unfeasible or unpredictable.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see *KnitCrete</span>
+<span class="sd">        - Stay-in-place knitted formworks for complex concrete structures* [2]_.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># initialize dict for seen nodes and list for storage of rows</span>
+        <span class="n">seenrows</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">seencols</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># initialize mapping dicts for ordering of rows and columns</span>
+        <span class="n">id2row</span><span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">id2col</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">node2rowid</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">node2colid</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+        <span class="c1"># BUILD ROWS -----------------------------------------------------------</span>
+
+        <span class="c1"># every &#39;end&#39; node defines the start of a row</span>
+        <span class="c1"># loop over all &#39;end&#39; nodes</span>
+        <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_nodes</span><span class="p">:</span>
+            <span class="c1"># continue if this node has already been visited</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">seenrows</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># get outgoing &#39;weft&#39; edges of the current &#39;end&#39; node</span>
+            <span class="n">nodeweft_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_weft_edges_out</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">nodeweft_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_weft_edges_in</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># skip &#39;end&#39; nodes which have only incoming &#39;weft&#39; edges</span>
+            <span class="k">if</span> <span class="n">nodeweft_in</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">nodeweft_out</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># if there is more than one outgoing &#39;weft&#39; edge, we have a problem</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodeweft_out</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">errMsg</span> <span class="o">=</span> <span class="s2">&quot;More than one outgoing &#39;weft&#39; edge at &quot;</span> <span class="o">+</span> \
+                         <span class="s2">&quot;first row node </span><span class="si">{}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="n">errMsg</span><span class="p">)</span>
+            <span class="c1"># if this is a singular node, it is a separate row.</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodeweft_out</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodeweft_in</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># append it as a row to the list of rows</span>
+                <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">node</span><span class="p">])</span>
+                <span class="c1"># set the mapping dictionaries</span>
+                <span class="n">row_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+                <span class="n">id2row</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="p">]</span>
+                <span class="n">node2rowid</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">node</span> <span class="p">:</span> <span class="n">row_id</span><span class="p">})</span>
+                <span class="c1"># set the seen marker and continue to next &#39;end&#39; node</span>
+                <span class="n">seenrows</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">continue</span>
+            <span class="c1"># if there is exactly one &#39;weft&#39; edge, traverse until next node</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodeweft_out</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># get the connected node to the current node</span>
+                <span class="n">connected_node</span> <span class="o">=</span> <span class="p">(</span><span class="n">nodeweft_out</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">nodeweft_out</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+                <span class="c1"># define initial row nodes with nodes of the first edge</span>
+                <span class="n">row_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="p">,</span> <span class="n">connected_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="c1"># traverse as long as there is an outgoing next &#39;weft&#39; edge</span>
+                <span class="c1"># until an &#39;end&#39; node is discovered</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="c1"># get &#39;weft&#39; edges of last node in row nodes</span>
+                    <span class="n">next_weft</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_weft_edges_out</span><span class="p">(</span><span class="n">row_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="c1"># if there is more than one connected &#39;weft&#39; edge, we</span>
+                    <span class="c1"># have a problem</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">next_weft</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">errMsg</span> <span class="o">=</span> <span class="s2">&quot;More than one outgoing &#39;weft&#39; edge at &quot;</span> <span class="o">+</span> \
+                                 <span class="s2">&quot;row node </span><span class="si">{}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="n">errMsg</span><span class="p">)</span>
+                    <span class="c1"># if there are no next &#39;weft&#39; edges, row is complete</span>
+                    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">next_weft</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">row_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]][</span><span class="s2">&quot;end&quot;</span><span class="p">]:</span>
+                            <span class="c1"># this is the finishing &#39;end&#39; node; set it seen</span>
+                            <span class="c1"># and complete this row by breaking</span>
+                            <span class="n">seenrows</span><span class="p">[</span><span class="n">row_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span>
+                            <span class="k">break</span>
+                        <span class="c1"># if there are no next &#39;weft&#39; edges but this is not</span>
+                        <span class="c1"># an &#39;end&#39; node, we have a problem</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># see if there are incoming &#39;weft&#39; edges at the</span>
+                            <span class="c1"># current node which are not the way we came from</span>
+                            <span class="n">next_weft</span> <span class="o">=</span> <span class="p">[</span><span class="n">nw</span> <span class="k">for</span> <span class="n">nw</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_weft_edges_in</span><span class="p">(</span>
+                                         <span class="n">row_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+                                         <span class="k">if</span> <span class="n">nw</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">row_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]]</span>
+
+                            <span class="c1"># try to reverse them as a failsafe for imperfect</span>
+                            <span class="c1"># topological dual graphs</span>
+                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">next_weft</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                <span class="c1"># flip geometry first, then the graph edge</span>
+                                <span class="n">nwe</span> <span class="o">=</span> <span class="n">next_weft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                                <span class="n">nw_attr</span> <span class="o">=</span> <span class="n">nwe</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                                <span class="n">nw_attr</span><span class="p">[</span><span class="s2">&quot;geo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">Flip</span><span class="p">()</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">nwe</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nwe</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">nwe</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">nwe</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">attr_dict</span><span class="o">=</span><span class="n">nw_attr</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">errMsg</span> <span class="o">=</span> <span class="s2">&quot;Unexpected end of row. Missing &quot;</span> <span class="o">+</span> \
+                                         <span class="s2">&quot;&#39;end&#39; attribute at node </span><span class="si">{}</span><span class="s2">!&quot;</span>
+                                <span class="n">errMsg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">row_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                                <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="n">errMsg</span><span class="p">)</span>
+
+                    <span class="c1"># if there is a next node over a &#39;weft&#39; edge, append to</span>
+                    <span class="c1"># row and continue</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">next_weft</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">row_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_weft</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="k">continue</span>
+                <span class="c1"># append the completed row to the list of rows</span>
+                <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row_nodes</span><span class="p">)</span>
+                <span class="c1"># set the mapping dictionaries</span>
+                <span class="n">row_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">row_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">id2row</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">row_nodes</span>
+                <span class="n">node2rowid</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">node</span> <span class="p">:</span> <span class="n">row_id</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">row_nodes</span><span class="p">})</span>
+                <span class="c1"># finally, set the current node as seen</span>
+                <span class="n">seenrows</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># BUILD COLUMNS --------------------------------------------------------</span>
+
+        <span class="c1"># every &#39;end&#39; node defines the start of a row</span>
+        <span class="c1"># loop over all &#39;end&#39; nodes</span>
+        <span class="n">col_sources</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+                       <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;increase&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]]</span>
+        <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">col_sources</span><span class="p">:</span>
+            <span class="c1"># continue if this node has already been visited</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">seencols</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># get outgoing &#39;warp&#39; edges of the current node</span>
+            <span class="n">nodewarp_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_warp_edges_out</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">nodewarp_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_warp_edges_in</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># skip nodes which have incoming &#39;warp&#39; edges</span>
+            <span class="k">if</span> <span class="n">nodewarp_in</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># if there is more than one outgoing &#39;warp&#39; edge, we have a problem</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodewarp_out</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">errMsg</span> <span class="o">=</span> <span class="s2">&quot;More than one outgoing &#39;warp&#39; edge at &quot;</span> <span class="o">+</span> \
+                         <span class="s2">&quot;first column node </span><span class="si">{}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="n">errMsg</span><span class="p">)</span>
+            <span class="c1"># if this is a singular node, it is a separate column (?)</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodewarp_out</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodewarp_in</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># errMsg = &quot;Absolutely no &#39;warp&#39; edges at node {}!&quot;.format(node)</span>
+                <span class="c1"># raise KnitNetworkTopologyError(errMsg)</span>
+
+                <span class="c1"># append it as a column to the list of columns</span>
+                <span class="n">cols</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">node</span><span class="p">])</span>
+                <span class="c1"># set the mapping dictionaries</span>
+                <span class="n">col_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+                <span class="n">id2col</span><span class="p">[</span><span class="n">col_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="p">]</span>
+                <span class="n">node2colid</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">node</span> <span class="p">:</span> <span class="n">col_id</span><span class="p">})</span>
+                <span class="c1"># set the seen marker and continue to next node</span>
+                <span class="n">seencols</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">continue</span>
+            <span class="c1"># if there is exactly one &#39;warp&#39; edge, traverse until next node</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodewarp_out</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># get the connected node to the current node</span>
+                <span class="n">connected_node</span> <span class="o">=</span> <span class="p">(</span><span class="n">nodewarp_out</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">nodewarp_out</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+                <span class="c1"># define initial column nodes with nodes of the first edge</span>
+                <span class="n">col_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="p">,</span> <span class="n">connected_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="c1"># traverse as long as there is an outgoing next &#39;warp&#39; edge</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="c1"># get &#39;warp&#39; edges of last node in row nodes</span>
+                    <span class="n">next_warp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_warp_edges_out</span><span class="p">(</span><span class="n">col_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="c1"># if there is more than one connected &#39;warp&#39; edge, we</span>
+                    <span class="c1"># have a problem</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">next_warp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">errMsg</span> <span class="o">=</span> <span class="s2">&quot;More than one outgoing &#39;warp&#39; edge at &quot;</span> <span class="o">+</span> \
+                                 <span class="s2">&quot;col node </span><span class="si">{}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="n">errMsg</span><span class="p">)</span>
+                    <span class="c1"># if there are no next &#39;warp&#39; edges, column is complete</span>
+                    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">next_warp</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">seencols</span><span class="p">[</span><span class="n">col_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="k">break</span>
+                    <span class="c1"># if there is a next node over a &#39;warp&#39; edge, append to</span>
+                    <span class="c1"># column and continue</span>
+                    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">next_warp</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">col_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_warp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="k">continue</span>
+                <span class="c1"># append the completed column to the list of columns</span>
+                <span class="n">cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col_nodes</span><span class="p">)</span>
+                <span class="c1"># set the mapping dictionaries</span>
+                <span class="n">col_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">col_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">col_nodes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">id2col</span><span class="p">[</span><span class="n">col_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">col_nodes</span>
+                <span class="n">node2colid</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">node</span> <span class="p">:</span> <span class="n">col_id</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">col_nodes</span><span class="p">})</span>
+                <span class="c1"># finally, set the current node as seen</span>
+                <span class="n">seencols</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># BUILD ROW MAPPING FOR TOPOLOGICAL SORT -------------------------------</span>
+
+        <span class="c1"># initialize mapping for topological sort of rows</span>
+        <span class="n">row_map</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+        <span class="n">row_ids</span> <span class="o">=</span> <span class="n">id2row</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="c1"># find all targets of all rows by checking all row nodes</span>
+        <span class="c1"># for targets and getting the corresponding row</span>
+        <span class="k">for</span> <span class="n">row_id</span> <span class="ow">in</span> <span class="n">row_ids</span><span class="p">:</span>
+            <span class="c1"># get row from mapping dict</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">id2row</span><span class="p">[</span><span class="n">row_id</span><span class="p">]</span>
+            <span class="c1"># initialize list for storage of targets</span>
+            <span class="n">target_ids</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># loop over all nodes in the current row</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="c1"># check the node for outgoing &#39;warp&#39; edges and get its successor</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">node_suc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_warp_edges_out</span><span class="p">(</span><span class="n">node</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># find the id of the row which contains the &#39;warp&#39; edge</span>
+                <span class="c1"># successor node</span>
+                <span class="n">target_id</span> <span class="o">=</span> <span class="n">node2rowid</span><span class="p">[</span><span class="n">node_suc</span><span class="p">]</span>
+                <span class="c1"># if we already found this id before, continue</span>
+                <span class="k">if</span> <span class="n">target_id</span> <span class="ow">in</span> <span class="n">target_ids</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># if its a new id, append it to the list of found target ids</span>
+                <span class="n">target_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target_id</span><span class="p">)</span>
+
+            <span class="p">[</span><span class="n">row_map</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">row_id</span><span class="p">,</span> <span class="n">tid</span><span class="p">)</span> <span class="k">for</span> <span class="n">tid</span> <span class="ow">in</span> <span class="n">target_ids</span><span class="p">]</span>
+
+        <span class="c1"># BUILD COLUMN MAPPING FOR TOPOLOGICAL SORT ----------------------------</span>
+
+        <span class="c1"># initialize mapping for backtracking of columns</span>
+        <span class="n">col_map</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+        <span class="n">col_ids</span> <span class="o">=</span> <span class="n">id2col</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="c1"># find all targets of all columns by checking all column nodes</span>
+        <span class="c1"># for targets and getting the corresponding column</span>
+        <span class="k">for</span> <span class="n">col_id</span> <span class="ow">in</span> <span class="n">col_ids</span><span class="p">:</span>
+            <span class="c1"># get column from mapping dict</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">id2col</span><span class="p">[</span><span class="n">col_id</span><span class="p">]</span>
+            <span class="c1"># initialize list for storage of targets</span>
+            <span class="n">target_ids</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># loop over all nodes in the current column</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">col</span><span class="p">:</span>
+                <span class="c1"># check the node for outgoing &#39;weft&#39; edges and get its successor</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">node_suc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_weft_edges_out</span><span class="p">(</span><span class="n">node</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># find the id of the column which contains the &#39;weft&#39; edge</span>
+                <span class="c1"># successor node</span>
+                <span class="n">target_id</span> <span class="o">=</span> <span class="n">node2colid</span><span class="p">[</span><span class="n">node_suc</span><span class="p">]</span>
+                <span class="c1"># if we already found this id before, continue</span>
+                <span class="k">if</span> <span class="n">target_id</span> <span class="ow">in</span> <span class="n">target_ids</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># if its a new id, append it to the list of found target ids</span>
+                <span class="n">target_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target_id</span><span class="p">)</span>
+
+            <span class="p">[</span><span class="n">col_map</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">col_id</span><span class="p">,</span> <span class="n">tid</span><span class="p">)</span> <span class="k">for</span> <span class="n">tid</span> <span class="ow">in</span> <span class="n">target_ids</span><span class="p">]</span>
+
+        <span class="c1"># TOPOLOGICAL SORT OF ROWS ---------------------------------------------</span>
+
+        <span class="c1"># own method of topological sort for rows (in utilities)</span>
+        <span class="c1"># ordered_row_stack = resolve_order_by_backtracking(row_map)</span>
+
+        <span class="c1"># use nx topological sort for rows</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ordered_row_ids</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">topological_sort_recursive</span><span class="p">(</span><span class="n">row_map</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">nx</span><span class="o">.</span><span class="n">NetworkXError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">nx</span><span class="o">.</span><span class="n">NetworkXUnfeasible</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+
+        <span class="c1"># get the rows with the backtracking result</span>
+        <span class="n">toposort_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">id2row</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">ordered_row_ids</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">toposort_rows</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="s2">&quot;chain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+
+        <span class="c1"># TOPOLOGICAL SORT OF COLUMNS ------------------------------------------</span>
+
+        <span class="c1"># own method of topological sort for columns (in utilities)</span>
+        <span class="c1"># ordered_column_stack = resolve_order_by_backtracking(col_map)</span>
+
+        <span class="c1"># use nx topological sort for columns</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ordered_column_stack</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">topological_sort_recursive</span><span class="p">(</span><span class="n">col_map</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">nx</span><span class="o">.</span><span class="n">NetworkXError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">nx</span><span class="o">.</span><span class="n">NetworkXUnfeasible</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+
+        <span class="c1"># SPREAD OUT BY FILLING WITH -1 FILLER ---------------------------------</span>
+
+        <span class="c1"># fill all the rows to minimum row length with placeholder values (-1)</span>
+        <span class="n">minrl</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">])</span>
+        <span class="c1"># loop over all rows and fill until minimum length</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">id2row</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">id2row</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">minrl</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">node</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                    <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">id2row</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ordered_column_stack</span><span class="p">):</span>
+            <span class="c1"># get column nodes</span>
+            <span class="n">colnodes</span> <span class="o">=</span> <span class="n">id2col</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+            <span class="c1"># loop over all rows</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">toposort_rows</span><span class="p">):</span>
+                <span class="c1"># check the entry at the current column index</span>
+                <span class="c1"># if this entry is not in colnodes, shift it to the right</span>
+                <span class="n">entry</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">colnodes</span><span class="p">:</span>
+                    <span class="n">toposort_rows</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">entry</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">colnodes</span><span class="p">:</span>
+                    <span class="n">toposort_rows</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># trim final topological sorted rows</span>
+        <span class="n">trim</span> <span class="o">=</span> <span class="n">toposort_rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">toposort_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">btr</span><span class="p">[:</span><span class="n">trim</span><span class="p">]</span> <span class="k">for</span> <span class="n">btr</span> <span class="ow">in</span> <span class="n">toposort_rows</span><span class="p">]</span>
+
+        <span class="c1"># TODO: tune consolidation routine to new idea:</span>
+        <span class="c1">#       if a row is discovered don&#39;t touch it until its start is found</span>
+        <span class="c1">#       then find the previous row to which it connects</span>
+        <span class="c1">#       &#39;pull&#39; the row to the connection index</span>
+
+        <span class="c1"># NOTE: handle increases on the way!</span>
+
+        <span class="k">if</span> <span class="n">consolidate</span><span class="p">:</span>
+            <span class="c1"># swap / transpose rows and columns</span>
+            <span class="n">spread_columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">toposort_rows</span><span class="p">[:])))</span>
+
+            <span class="n">row_has_started</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span> <span class="p">:</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">toposort_rows</span><span class="p">))}</span>
+            <span class="n">row_has_ended</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span> <span class="p">:</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">toposort_rows</span><span class="p">))}</span>
+
+            <span class="n">consolidated_rows</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">toposort_rows</span><span class="p">))]</span>
+            <span class="n">toposort_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">deque</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">toposort_rows</span><span class="p">]</span>
+
+
+
+            <span class="c1"># while len(spread_columns) &gt; 0:</span>
+            <span class="c1">#     popped_column = spread_columns.popleft()</span>
+            <span class="c1">#</span>
+            <span class="c1">#     insert_all_unstarted = False</span>
+            <span class="c1">#     insert_all_started = False</span>
+            <span class="c1">#</span>
+            <span class="c1">#     # for each column, loop over all row indices</span>
+            <span class="c1">#     for j in range(len(popped_column)):</span>
+            <span class="c1">#</span>
+            <span class="c1">#         popped_row_item = toposort_rows[j].popleft()</span>
+            <span class="c1">#</span>
+            <span class="c1">#         if popped_row_item != -1:</span>
+            <span class="c1">#             if self.node[popped_row_item][&quot;start&quot;]:</span>
+            <span class="c1">#                 row_has_started[j] = True</span>
+            <span class="c1">#                 insert_all_unstarted = True</span>
+            <span class="c1">#             elif (not self.node[popped_row_item][&quot;start&quot;] \</span>
+            <span class="c1">#                   and self.node[popped_row_item][&quot;end&quot;]):</span>
+            <span class="c1">#                 row_has_ended[j] = True</span>
+            <span class="c1">#                 insert_all_unstarted = True</span>
+            <span class="c1">#             elif (self.node[popped_row_item][&quot;start&quot;] \</span>
+            <span class="c1">#                   and self.node[popped_row_item][&quot;end&quot;]):</span>
+            <span class="c1">#                 row_has_ended[j] = True</span>
+            <span class="c1">#                 insert_all_unstarted = True</span>
+            <span class="c1">#</span>
+            <span class="c1">#             consolidated_rows[j].append(popped_row_item)</span>
+            <span class="c1">#</span>
+            <span class="c1">#         elif popped_row_item == -1:</span>
+            <span class="c1">#             if row_has_started[j] and not row_has_ended[j]:</span>
+            <span class="c1">#                 continue</span>
+            <span class="c1">#             elif row_has_started[j] and row_has_ended[j]:</span>
+            <span class="c1">#                 consolidated_rows[j].append(-1)</span>
+            <span class="c1">#             elif not row_has_started[j] and not row_has_ended[j]:</span>
+            <span class="c1">#                 continue</span>
+            <span class="c1">#</span>
+            <span class="c1">#     if insert_all_unstarted:</span>
+            <span class="c1">#         for k, row in enumerate(consolidated_rows):</span>
+            <span class="c1">#             if not row_has_started[k]:</span>
+            <span class="c1">#                 consolidated_rows[k].append(-1)</span>
+
+            <span class="k">return</span> <span class="n">consolidated_rows</span>
+
+        <span class="c1"># return all sorted rows</span>
+        <span class="k">return</span> <span class="n">toposort_rows</span></div></div>
+
+<span class="c1"># MAIN -------------------------------------------------------------------------</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Max Eschenbach.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.0.0-alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" src="../../_static/jquery.fancybox.min.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+  <script type="text/javascript">
+    $(function(){
+      $('.image-reference').fancybox();
+    })
+  </script>
+
+</body>
+</html>

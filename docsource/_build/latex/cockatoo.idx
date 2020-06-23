@@ -1,0 +1,111 @@
+\indexentry{module@\spxentry{module}!cockatoo@\spxentry{cockatoo}|hyperpage}{4}
+\indexentry{cockatoo@\spxentry{cockatoo}!module@\spxentry{module}|hyperpage}{4}
+\indexentry{module@\spxentry{module}!cockatoo.environment@\spxentry{cockatoo.environment}|hyperpage}{5}
+\indexentry{cockatoo.environment@\spxentry{cockatoo.environment}!module@\spxentry{module}|hyperpage}{5}
+\indexentry{is\_rhino\_inside() (in module cockatoo.environment)@\spxentry{is\_rhino\_inside()}\spxextra{in module cockatoo.environment}|hyperpage}{5}
+\indexentry{RHINOINSIDE (in module cockatoo.environment)@\spxentry{RHINOINSIDE}\spxextra{in module cockatoo.environment}|hyperpage}{5}
+\indexentry{networkx\_version() (in module cockatoo.environment)@\spxentry{networkx\_version()}\spxextra{in module cockatoo.environment}|hyperpage}{5}
+\indexentry{NXVERSION (in module cockatoo.environment)@\spxentry{NXVERSION}\spxextra{in module cockatoo.environment}|hyperpage}{5}
+\indexentry{module@\spxentry{module}!cockatoo.exception@\spxentry{cockatoo.exception}|hyperpage}{6}
+\indexentry{cockatoo.exception@\spxentry{cockatoo.exception}!module@\spxentry{module}|hyperpage}{6}
+\indexentry{CockatooException@\spxentry{CockatooException}|hyperpage}{6}
+\indexentry{CockatooImportException@\spxentry{CockatooImportException}|hyperpage}{6}
+\indexentry{RhinoNotPresentError@\spxentry{RhinoNotPresentError}|hyperpage}{6}
+\indexentry{SystemNotPresentError@\spxentry{SystemNotPresentError}|hyperpage}{6}
+\indexentry{NetworkXNotPresentError@\spxentry{NetworkXNotPresentError}|hyperpage}{6}
+\indexentry{NetworkXVersionError@\spxentry{NetworkXVersionError}|hyperpage}{6}
+\indexentry{KnitNetworkError@\spxentry{KnitNetworkError}|hyperpage}{6}
+\indexentry{KnitNetworkGeometryError@\spxentry{KnitNetworkGeometryError}|hyperpage}{6}
+\indexentry{MappingNetworkError@\spxentry{MappingNetworkError}|hyperpage}{7}
+\indexentry{KnitNetworkTopologyError@\spxentry{KnitNetworkTopologyError}|hyperpage}{7}
+\indexentry{NoWeftEdgesError@\spxentry{NoWeftEdgesError}|hyperpage}{7}
+\indexentry{NoWarpEdgesError@\spxentry{NoWarpEdgesError}|hyperpage}{7}
+\indexentry{NoEndNodesError@\spxentry{NoEndNodesError}|hyperpage}{7}
+\indexentry{module@\spxentry{module}!cockatoo.utilities@\spxentry{cockatoo.utilities}|hyperpage}{7}
+\indexentry{cockatoo.utilities@\spxentry{cockatoo.utilities}!module@\spxentry{module}|hyperpage}{7}
+\indexentry{blend\_colors() (in module cockatoo.utilities)@\spxentry{blend\_colors()}\spxextra{in module cockatoo.utilities}|hyperpage}{7}
+\indexentry{break\_polyline() (in module cockatoo.utilities)@\spxentry{break\_polyline()}\spxextra{in module cockatoo.utilities}|hyperpage}{8}
+\indexentry{map\_values\_as\_colors() (in module cockatoo.utilities)@\spxentry{map\_values\_as\_colors()}\spxextra{in module cockatoo.utilities}|hyperpage}{8}
+\indexentry{tween\_planes() (in module cockatoo.utilities)@\spxentry{tween\_planes()}\spxextra{in module cockatoo.utilities}|hyperpage}{9}
+\indexentry{is\_ccw\_xy() (in module cockatoo.utilities)@\spxentry{is\_ccw\_xy()}\spxextra{in module cockatoo.utilities}|hyperpage}{9}
+\indexentry{resolve\_order\_by\_backtracking() (in module cockatoo.utilities)@\spxentry{resolve\_order\_by\_backtracking()}\spxextra{in module cockatoo.utilities}|hyperpage}{9}
+\indexentry{pairwise() (in module cockatoo.utilities)@\spxentry{pairwise()}\spxextra{in module cockatoo.utilities}|hyperpage}{10}
+\indexentry{KnitConstraint (class in cockatoo)@\spxentry{KnitConstraint}\spxextra{class in cockatoo}|hyperpage}{11}
+\indexentry{ToString() (cockatoo.KnitConstraint method)@\spxentry{ToString()}\spxextra{cockatoo.KnitConstraint method}|hyperpage}{11}
+\indexentry{end\_course() (cockatoo.KnitConstraint property)@\spxentry{end\_course()}\spxextra{cockatoo.KnitConstraint property}|hyperpage}{11}
+\indexentry{left\_boundary() (cockatoo.KnitConstraint property)@\spxentry{left\_boundary()}\spxextra{cockatoo.KnitConstraint property}|hyperpage}{11}
+\indexentry{right\_boundary() (cockatoo.KnitConstraint property)@\spxentry{right\_boundary()}\spxextra{cockatoo.KnitConstraint property}|hyperpage}{11}
+\indexentry{start\_course() (cockatoo.KnitConstraint property)@\spxentry{start\_course()}\spxextra{cockatoo.KnitConstraint property}|hyperpage}{11}
+\indexentry{KnitNetworkBase (class in cockatoo)@\spxentry{KnitNetworkBase}\spxextra{class in cockatoo}|hyperpage}{11}
+\indexentry{ToString() (cockatoo.KnitNetworkBase method)@\spxentry{ToString()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{12}
+\indexentry{all\_ends\_by\_position() (cockatoo.KnitNetworkBase method)@\spxentry{all\_ends\_by\_position()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{12}
+\indexentry{all\_leaves\_by\_position() (cockatoo.KnitNetworkBase method)@\spxentry{all\_leaves\_by\_position()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{12}
+\indexentry{all\_nodes\_by\_position() (cockatoo.KnitNetworkBase method)@\spxentry{all\_nodes\_by\_position()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{12}
+\indexentry{contour\_edges() (cockatoo.KnitNetworkBase property)@\spxentry{contour\_edges()}\spxextra{cockatoo.KnitNetworkBase property}|hyperpage}{12}
+\indexentry{create\_contour\_edge() (cockatoo.KnitNetworkBase method)@\spxentry{create\_contour\_edge()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{12}
+\indexentry{create\_segment\_contour\_edge() (cockatoo.KnitNetworkBase method)@\spxentry{create\_segment\_contour\_edge()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{12}
+\indexentry{create\_warp\_edge() (cockatoo.KnitNetworkBase method)@\spxentry{create\_warp\_edge()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{13}
+\indexentry{create\_weft\_edge() (cockatoo.KnitNetworkBase method)@\spxentry{create\_weft\_edge()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{13}
+\indexentry{edge\_geometry\_direction() (cockatoo.KnitNetworkBase method)@\spxentry{edge\_geometry\_direction()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{13}
+\indexentry{end\_node\_segments\_by\_end() (cockatoo.KnitNetworkBase method)@\spxentry{end\_node\_segments\_by\_end()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{13}
+\indexentry{end\_node\_segments\_by\_start() (cockatoo.KnitNetworkBase method)@\spxentry{end\_node\_segments\_by\_start()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{14}
+\indexentry{end\_nodes() (cockatoo.KnitNetworkBase property)@\spxentry{end\_nodes()}\spxextra{cockatoo.KnitNetworkBase property}|hyperpage}{14}
+\indexentry{ends\_on\_position() (cockatoo.KnitNetworkBase method)@\spxentry{ends\_on\_position()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{14}
+\indexentry{geometry\_at\_position\_contour() (cockatoo.KnitNetworkBase method)@\spxentry{geometry\_at\_position\_contour()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{14}
+\indexentry{leaf\_nodes() (cockatoo.KnitNetworkBase property)@\spxentry{leaf\_nodes()}\spxextra{cockatoo.KnitNetworkBase property}|hyperpage}{14}
+\indexentry{leaves\_on\_position() (cockatoo.KnitNetworkBase method)@\spxentry{leaves\_on\_position()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{14}
+\indexentry{longest\_position\_contour() (cockatoo.KnitNetworkBase method)@\spxentry{longest\_position\_contour()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{15}
+\indexentry{make\_gephi\_graph() (cockatoo.KnitNetworkBase method)@\spxentry{make\_gephi\_graph()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{15}
+\indexentry{node\_contour\_edges() (cockatoo.KnitNetworkBase method)@\spxentry{node\_contour\_edges()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{15}
+\indexentry{node\_coordinates() (cockatoo.KnitNetworkBase method)@\spxentry{node\_coordinates()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{15}
+\indexentry{node\_from\_point3d() (cockatoo.KnitNetworkBase method)@\spxentry{node\_from\_point3d()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{15}
+\indexentry{node\_geometry() (cockatoo.KnitNetworkBase method)@\spxentry{node\_geometry()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{16}
+\indexentry{node\_warp\_edges() (cockatoo.KnitNetworkBase method)@\spxentry{node\_warp\_edges()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{16}
+\indexentry{node\_weft\_edges() (cockatoo.KnitNetworkBase method)@\spxentry{node\_weft\_edges()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{16}
+\indexentry{nodes\_on\_position() (cockatoo.KnitNetworkBase method)@\spxentry{nodes\_on\_position()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{17}
+\indexentry{nodes\_on\_segment() (cockatoo.KnitNetworkBase method)@\spxentry{nodes\_on\_segment()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{17}
+\indexentry{prepare\_for\_graphviz() (cockatoo.KnitNetworkBase method)@\spxentry{prepare\_for\_graphviz()}\spxextra{cockatoo.KnitNetworkBase method}|hyperpage}{17}
+\indexentry{segment\_contour\_edges() (cockatoo.KnitNetworkBase property)@\spxentry{segment\_contour\_edges()}\spxextra{cockatoo.KnitNetworkBase property}|hyperpage}{17}
+\indexentry{total\_positions() (cockatoo.KnitNetworkBase property)@\spxentry{total\_positions()}\spxextra{cockatoo.KnitNetworkBase property}|hyperpage}{17}
+\indexentry{warp\_edges() (cockatoo.KnitNetworkBase property)@\spxentry{warp\_edges()}\spxextra{cockatoo.KnitNetworkBase property}|hyperpage}{17}
+\indexentry{weft\_edges() (cockatoo.KnitNetworkBase property)@\spxentry{weft\_edges()}\spxextra{cockatoo.KnitNetworkBase property}|hyperpage}{17}
+\indexentry{KnitNetwork (class in cockatoo)@\spxentry{KnitNetwork}\spxextra{class in cockatoo}|hyperpage}{18}
+\indexentry{ToString() (cockatoo.KnitNetwork method)@\spxentry{ToString()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{18}
+\indexentry{all\_nodes\_by\_segment() (cockatoo.KnitNetwork method)@\spxentry{all\_nodes\_by\_segment()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{18}
+\indexentry{assign\_segment\_attributes() (cockatoo.KnitNetwork method)@\spxentry{assign\_segment\_attributes()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{19}
+\indexentry{attempt\_warp\_connection() (cockatoo.KnitNetwork method)@\spxentry{attempt\_warp\_connection()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{19}
+\indexentry{attempt\_weft\_connection() (cockatoo.KnitNetwork method)@\spxentry{attempt\_weft\_connection()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{19}
+\indexentry{create\_dual() (cockatoo.KnitNetwork method)@\spxentry{create\_dual()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{20}
+\indexentry{create\_final\_warp\_connections() (cockatoo.KnitNetwork method)@\spxentry{create\_final\_warp\_connections()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{20}
+\indexentry{create\_final\_weft\_connections() (cockatoo.KnitNetwork method)@\spxentry{create\_final\_weft\_connections()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{21}
+\indexentry{create\_from\_contours() (cockatoo.KnitNetwork class method)@\spxentry{create\_from\_contours()}\spxextra{cockatoo.KnitNetwork class method}|hyperpage}{21}
+\indexentry{create\_mapping\_network() (cockatoo.KnitNetwork method)@\spxentry{create\_mapping\_network()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{22}
+\indexentry{create\_mesh() (cockatoo.KnitNetwork method)@\spxentry{create\_mesh()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{22}
+\indexentry{find\_cycles() (cockatoo.KnitNetwork method)@\spxentry{find\_cycles()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{22}
+\indexentry{initialize\_leaf\_connections() (cockatoo.KnitNetwork method)@\spxentry{initialize\_leaf\_connections()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{23}
+\indexentry{initialize\_position\_contour\_edges() (cockatoo.KnitNetwork method)@\spxentry{initialize\_position\_contour\_edges()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{23}
+\indexentry{initialize\_warp\_edges() (cockatoo.KnitNetwork method)@\spxentry{initialize\_warp\_edges()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{23}
+\indexentry{initialize\_weft\_edges() (cockatoo.KnitNetwork method)@\spxentry{initialize\_weft\_edges()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{24}
+\indexentry{mapping\_network() (cockatoo.KnitNetwork property)@\spxentry{mapping\_network()}\spxextra{cockatoo.KnitNetwork property}|hyperpage}{25}
+\indexentry{sample\_segment\_contours() (cockatoo.KnitNetwork method)@\spxentry{sample\_segment\_contours()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{25}
+\indexentry{to\_KnitDiNetwork() (cockatoo.KnitNetwork method)@\spxentry{to\_KnitDiNetwork()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{25}
+\indexentry{traverse\_weft\_edges\_and\_set\_attributes() (cockatoo.KnitNetwork method)@\spxentry{traverse\_weft\_edges\_and\_set\_attributes()}\spxextra{cockatoo.KnitNetwork method}|hyperpage}{25}
+\indexentry{KnitDiNetwork (class in cockatoo)@\spxentry{KnitDiNetwork}\spxextra{class in cockatoo}|hyperpage}{25}
+\indexentry{ToString() (cockatoo.KnitDiNetwork method)@\spxentry{ToString()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{26}
+\indexentry{create\_mesh() (cockatoo.KnitDiNetwork method)@\spxentry{create\_mesh()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{26}
+\indexentry{find\_cycles() (cockatoo.KnitDiNetwork method)@\spxentry{find\_cycles()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{26}
+\indexentry{make\_pattern\_data() (cockatoo.KnitDiNetwork method)@\spxentry{make\_pattern\_data()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{27}
+\indexentry{node\_contour\_edges() (cockatoo.KnitDiNetwork method)@\spxentry{node\_contour\_edges()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{27}
+\indexentry{node\_contour\_edges\_in() (cockatoo.KnitDiNetwork method)@\spxentry{node\_contour\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{27}
+\indexentry{node\_contour\_edges\_out() (cockatoo.KnitDiNetwork method)@\spxentry{node\_contour\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{28}
+\indexentry{node\_warp\_edges() (cockatoo.KnitDiNetwork method)@\spxentry{node\_warp\_edges()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{28}
+\indexentry{node\_warp\_edges\_in() (cockatoo.KnitDiNetwork method)@\spxentry{node\_warp\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{28}
+\indexentry{node\_warp\_edges\_out() (cockatoo.KnitDiNetwork method)@\spxentry{node\_warp\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{28}
+\indexentry{node\_weft\_edges() (cockatoo.KnitDiNetwork method)@\spxentry{node\_weft\_edges()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{28}
+\indexentry{node\_weft\_edges\_in() (cockatoo.KnitDiNetwork method)@\spxentry{node\_weft\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{29}
+\indexentry{node\_weft\_edges\_out() (cockatoo.KnitDiNetwork method)@\spxentry{node\_weft\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{29}
+\indexentry{verify\_dual\_form() (cockatoo.KnitDiNetwork method)@\spxentry{verify\_dual\_form()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{29}
+\indexentry{KnitMappingNetwork (class in cockatoo)@\spxentry{KnitMappingNetwork}\spxextra{class in cockatoo}|hyperpage}{29}
+\indexentry{ToString() (cockatoo.KnitMappingNetwork method)@\spxentry{ToString()}\spxextra{cockatoo.KnitMappingNetwork method}|hyperpage}{30}
+\indexentry{build\_chains() (cockatoo.KnitMappingNetwork method)@\spxentry{build\_chains()}\spxextra{cockatoo.KnitMappingNetwork method}|hyperpage}{30}
+\indexentry{traverse\_segments\_until\_warp() (cockatoo.KnitMappingNetwork method)@\spxentry{traverse\_segments\_until\_warp()}\spxextra{cockatoo.KnitMappingNetwork method}|hyperpage}{30}

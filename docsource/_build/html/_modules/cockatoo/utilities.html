@@ -1,0 +1,740 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cockatoo.utilities &mdash; Cockatoo 0.1.0.0-alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/jquery.fancybox.min.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../_static/glpi.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Cockatoo 0.1.0.0-alpha documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Cockatoo
+          
+
+          
+          </a>
+
+          
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">COCKATOO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cockatoo.html">cockatoo module API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Cockatoo</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>cockatoo.utilities</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cockatoo.utilities</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. currentmodule:: cockatoo.utilities</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">    :nosignatures:</span>
+
+<span class="sd">    blend_colors</span>
+<span class="sd">    break_polyline</span>
+<span class="sd">    map_values_as_colors</span>
+<span class="sd">    tween_planes</span>
+<span class="sd">    is_ccw_xy</span>
+<span class="sd">    resolve_order_by_backtracking</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">tee</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">acos</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">cos</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">degrees</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+
+<span class="c1"># DUNDER -----------------------------------------------------------------------</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;blend_colors&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;break_polyline&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;map_values_as_colors&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tween_planes&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_ccw_xy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;resolve_order_by_backtracking&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pairwise&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># LOCAL MODULE IMPORTS ---------------------------------------------------------</span>
+<span class="kn">from</span> <span class="nn">cockatoo.environment</span> <span class="kn">import</span> <span class="n">RHINOINSIDE</span>
+<span class="kn">from</span> <span class="nn">cockatoo.exception</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># RHINO IMPORTS ----------------------------------------------------------------</span>
+<span class="k">if</span> <span class="n">RHINOINSIDE</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">rhinoinside</span>
+    <span class="n">rhinoinside</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Display</span> <span class="kn">import</span> <span class="n">ColorHSL</span> <span class="k">as</span> <span class="n">RhinoColorHSL</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Polyline</span> <span class="k">as</span> <span class="n">RhinoPolyline</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Quaternion</span> <span class="k">as</span> <span class="n">RhinoQuaternion</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Vector3d</span> <span class="k">as</span> <span class="n">RhinoVector3d</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Display</span> <span class="kn">import</span> <span class="n">ColorHSL</span> <span class="k">as</span> <span class="n">RhinoColorHSL</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Polyline</span> <span class="k">as</span> <span class="n">RhinoPolyline</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Quaternion</span> <span class="k">as</span> <span class="n">RhinoQuaternion</span>
+    <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Vector3d</span> <span class="k">as</span> <span class="n">RhinoVector3d</span>
+
+<span class="c1"># RHINO GEOMETRY ---------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="break_polyline"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.break_polyline">[docs]</a><span class="k">def</span> <span class="nf">break_polyline</span><span class="p">(</span><span class="n">polyline</span><span class="p">,</span> <span class="n">break_angle</span><span class="p">,</span> <span class="n">as_crv</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Breaks a polyline at kinks based on a specified angle. Will move the seam</span>
+<span class="sd">    of closed polylines to the first kink discovered.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    polyline : Rhino.Geometry.Polyline</span>
+<span class="sd">        Polyline to break apart at angles.</span>
+
+<span class="sd">    break_angle : float</span>
+<span class="sd">        The angle at which to break apart the polyline (in radians).</span>
+
+<span class="sd">    as_crv : bool, optional</span>
+<span class="sd">        If ``True``, will return a Rhino.Geometry.PolylineCurve object.</span>
+
+<span class="sd">        Defaults to ``False``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    broken_polyline_segments : list of Rhino.Geometry.Polyline or Rhino.Geometry.PolylineCurve</span>
+<span class="sd">        A list of the broken segments. The return type will depend on the</span>
+<span class="sd">        as_crv setting!</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># get all the polyline segments</span>
+    <span class="n">segments</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">polyline</span><span class="o">.</span><span class="n">GetSegments</span><span class="p">())</span>
+
+    <span class="c1"># check if polyline in closed</span>
+    <span class="k">if</span> <span class="n">polyline</span><span class="o">.</span><span class="n">IsClosed</span><span class="p">:</span>
+        <span class="n">closedSeamAtKink</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">closedSeamAtKink</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># initialize containers</span>
+    <span class="n">plcs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">pl</span> <span class="o">=</span> <span class="n">RhinoPolyline</span><span class="p">()</span>
+
+    <span class="c1"># process all segments</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># if there is only one segment left, add the endpoint to the new pl</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">ln</span> <span class="o">=</span> <span class="n">segments</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="n">pl</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">ln</span><span class="o">.</span><span class="n">To</span><span class="p">)</span>
+            <span class="n">plcs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pl</span><span class="p">)</span>
+            <span class="k">break</span>
+
+        <span class="c1"># get unitized directions of this and next segment</span>
+        <span class="n">thisdir</span> <span class="o">=</span> <span class="n">segments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Direction</span>
+        <span class="n">nextdir</span> <span class="o">=</span> <span class="n">segments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Direction</span>
+        <span class="n">thisdir</span><span class="o">.</span><span class="n">Unitize</span><span class="p">()</span>
+        <span class="n">nextdir</span><span class="o">.</span><span class="n">Unitize</span><span class="p">()</span>
+
+        <span class="c1"># compute angle</span>
+        <span class="n">vdp</span> <span class="o">=</span> <span class="n">thisdir</span> <span class="o">*</span> <span class="n">nextdir</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">vdp</span> <span class="o">/</span> <span class="p">(</span><span class="n">thisdir</span><span class="o">.</span><span class="n">Length</span> <span class="o">*</span> <span class="n">nextdir</span><span class="o">.</span><span class="n">Length</span><span class="p">))</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">RhinoVector3d</span><span class="o">.</span><span class="n">VectorAngle</span><span class="p">(</span><span class="n">thisdir</span><span class="p">,</span> <span class="n">nextdir</span><span class="p">)</span>
+
+        <span class="c1"># check angles and execute breaks</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="o">&gt;=</span> <span class="n">break_angle</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">closedSeamAtKink</span><span class="p">:</span>
+                <span class="n">segments</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">pl</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">segments</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span><span class="o">.</span><span class="n">From</span><span class="p">)</span>
+                <span class="n">closedSeamAtKink</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="n">closedSeamAtKink</span><span class="p">:</span>
+                <span class="n">ln</span> <span class="o">=</span> <span class="n">segments</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+                <span class="n">pl</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">ln</span><span class="o">.</span><span class="n">From</span><span class="p">)</span>
+                <span class="n">pl</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">ln</span><span class="o">.</span><span class="n">To</span><span class="p">)</span>
+                <span class="n">plcs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pl</span><span class="p">)</span>
+                <span class="n">pl</span> <span class="o">=</span> <span class="n">RhinoPolyline</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">closedSeamAtKink</span><span class="p">:</span>
+                <span class="n">segments</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pl</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">segments</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span><span class="o">.</span><span class="n">From</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">as_crv</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">pl</span><span class="o">.</span><span class="n">ToPolylineCurve</span><span class="p">()</span> <span class="k">for</span> <span class="n">pl</span> <span class="ow">in</span> <span class="n">plcs</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">plcs</span></div>
+
+<div class="viewcode-block" id="tween_planes"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.tween_planes">[docs]</a><span class="k">def</span> <span class="nf">tween_planes</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span> <span class="n">pb</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tweens between two planes using quaternion rotation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pa : Rhino.Geometry.Plane</span>
+<span class="sd">        The start plane for the tween.</span>
+
+<span class="sd">    pb : Rhino.Geometry.Plane</span>
+<span class="sd">        The end plane for the tween.</span>
+
+<span class="sd">    t : float</span>
+<span class="sd">        The parameter for the tweened plane. 0.5 will result in the average</span>
+<span class="sd">        between the two input planes.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tweened_plane : Rhino.Geometry.Plane</span>
+<span class="sd">        The plane between ``pa`` and ``pb`` at ``t``.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    SystemNotPresentError</span>
+<span class="sd">        If the ``System`` module cannot be imported.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># handle dotnet dependency in a nice way</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">clr</span> <span class="kn">import</span> <span class="n">Reference</span>
+        <span class="kn">from</span> <span class="nn">System</span> <span class="kn">import</span> <span class="n">Double</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">errMsg</span> <span class="o">=</span> <span class="s2">&quot;Could not import System. This function cannot execute!&quot;</span>
+        <span class="k">raise</span> <span class="n">SystemNotPresentError</span><span class="p">(</span><span class="n">errMsg</span><span class="p">)</span>
+
+    <span class="c1"># create the quternion rotation between the two input planes</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">RhinoQuaternion</span><span class="o">.</span><span class="n">Rotation</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span> <span class="n">pb</span><span class="p">)</span>
+
+    <span class="c1"># prepare out parameters</span>
+    <span class="n">qAngle</span> <span class="o">=</span> <span class="n">Reference</span><span class="p">[</span><span class="n">Double</span><span class="p">]()</span>
+    <span class="n">qAxis</span> <span class="o">=</span> <span class="n">Reference</span><span class="p">[</span><span class="n">RhinoVector3d</span><span class="p">]()</span>
+
+    <span class="c1"># get the rotation of the quaternion</span>
+    <span class="n">Q</span><span class="o">.</span><span class="n">GetRotation</span><span class="p">(</span><span class="n">qAngle</span><span class="p">,</span> <span class="n">qAxis</span><span class="p">)</span>
+
+    <span class="n">axis</span> <span class="o">=</span> <span class="n">RhinoVector3d</span><span class="p">(</span><span class="n">qAxis</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">qAxis</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">qAxis</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">qAngle</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">qAngle</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">pi</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">qAngle</span><span class="p">)</span>
+
+    <span class="n">out_plane</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Clone</span><span class="p">()</span>
+    <span class="n">out_plane</span><span class="o">.</span><span class="n">Rotate</span><span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">angle</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">out_plane</span><span class="o">.</span><span class="n">Origin</span><span class="p">)</span>
+    <span class="n">translation</span> <span class="o">=</span> <span class="n">RhinoVector3d</span><span class="p">(</span><span class="n">pb</span><span class="o">.</span><span class="n">Origin</span> <span class="o">-</span> <span class="n">pa</span><span class="o">.</span><span class="n">Origin</span><span class="p">)</span>
+    <span class="n">out_plane</span><span class="o">.</span><span class="n">Translate</span><span class="p">(</span><span class="n">translation</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out_plane</span></div>
+
+<span class="c1"># RHINO DISPLAY ----------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="blend_colors"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.blend_colors">[docs]</a><span class="k">def</span> <span class="nf">blend_colors</span><span class="p">(</span><span class="n">col_a</span><span class="p">,</span> <span class="n">col_b</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Blend between two colors using the square root of photon flux. For more</span>
+<span class="sd">    info see *Algorithm for additive color mixing for RGB values* [18]_.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    col_a : sequence of :obj:`int`</span>
+<span class="sd">        Sequence of (R, G, B) that defines the color value.</span>
+
+<span class="sd">    col_b : sequence of :obj:`int`</span>
+<span class="sd">        Sequence of (R, G, B) that defines the color value.</span>
+
+<span class="sd">    t : float, optional</span>
+<span class="sd">        Parameter to define the blend location between the two colors.</span>
+
+<span class="sd">        Defaults to ``0.5``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    color : tuple</span>
+<span class="sd">        3-tuple of (R, G, B) that defines the new color.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [18] *Algorithm for additive color mixing for RGB values*</span>
+
+<span class="sd">            See: `Thread on stackoverflow &lt;https://stackoverflow.com/a/29321264&gt;`_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># sanitize the blending parameter</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">elif</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># unpack colors in r, g, b values</span>
+    <span class="n">a_r</span><span class="p">,</span> <span class="n">a_g</span><span class="p">,</span> <span class="n">a_b</span> <span class="o">=</span> <span class="n">col_a</span>
+    <span class="n">b_r</span><span class="p">,</span> <span class="n">b_g</span><span class="p">,</span> <span class="n">b_b</span> <span class="o">=</span> <span class="n">col_b</span>
+
+    <span class="c1"># compute the new rgb values for the blended color</span>
+    <span class="n">new_r</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">a_r</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">b_r</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">new_g</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">a_g</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">b_g</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">new_b</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">a_b</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">b_b</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># return the new color tuple</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">new_r</span><span class="p">,</span> <span class="n">new_g</span><span class="p">,</span> <span class="n">new_b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="map_values_as_colors"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.map_values_as_colors">[docs]</a><span class="k">def</span> <span class="nf">map_values_as_colors</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">src_min</span><span class="p">,</span> <span class="n">src_max</span><span class="p">,</span> <span class="n">target_min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">target_max</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Make a list of HSL colors where the values are mapped onto a</span>
+<span class="sd">    targetMin-targetMax hue domain. Meaning that low values will be red, medium</span>
+<span class="sd">    values green and large values blue if targetMin: 0.0 and targetMax: 0.7</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    values : list</span>
+<span class="sd">        List of values to map as colors.</span>
+
+<span class="sd">    src_min : float</span>
+<span class="sd">        Lower bounds of the value domain.</span>
+
+<span class="sd">    src_max : float</span>
+<span class="sd">        Upper bounds of the value domain.</span>
+
+<span class="sd">    target_min : float, optional</span>
+<span class="sd">        Lower bounds of the target (color) domain.</span>
+
+<span class="sd">        Defaults to ``0``.</span>
+
+<span class="sd">    target_max : float, optional</span>
+<span class="sd">        Upper bounds of the target (color) domain.</span>
+
+<span class="sd">        Defaults to ``0.7`` .</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    colors : list</span>
+<span class="sd">        List of RGB colors corresponding to the input values.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Based on code by Anders Holden Deleuran. Code was only changed in regards</span>
+<span class="sd">    of defaults and names.</span>
+<span class="sd">    For more info see *mapValuesAsColors.py* [10]_ .</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [10] Deleuran, Anders Holden *mapValuesAsColors.py*</span>
+
+<span class="sd">            See: `mapValuesAsColors.py gist &lt;https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea&gt;`_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># remap numbers into new numeric domain</span>
+    <span class="n">remapped_values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">src_max</span> <span class="o">-</span> <span class="n">src_min</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">rv</span> <span class="o">=</span> <span class="p">((</span><span class="n">v</span> <span class="o">-</span> <span class="n">src_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">src_max</span> <span class="o">-</span> <span class="n">src_min</span><span class="p">))</span> \
+                 <span class="o">*</span> <span class="p">(</span><span class="n">target_max</span> <span class="o">-</span> <span class="n">target_min</span><span class="p">)</span> \
+                 <span class="o">+</span> <span class="n">target_min</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rv</span> <span class="o">=</span> <span class="p">(</span><span class="n">target_min</span> <span class="o">+</span> <span class="n">target_max</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">remapped_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rv</span><span class="p">)</span>
+
+    <span class="c1"># make rgb colors and return</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">remapped_values</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">RhinoColorHSL</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">ToArgbColor</span><span class="p">()</span>
+        <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">colors</span></div>
+
+<span class="c1"># FUNCTIONAL GRAPH UTILITIES ---------------------------------------------------</span>
+
+<span class="k">def</span> <span class="nf">_backtrack_node</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">ordered_stack</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Backtracks a node until no new predecessors are found and</span>
+<span class="sd">    inserts the node and all dependencies in order into the</span>
+<span class="sd">    ordered stack list.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># check the node for dependencies</span>
+    <span class="n">dependencies</span> <span class="o">=</span> <span class="p">[</span><span class="n">pred</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">predecessors_iter</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> \
+                    <span class="k">if</span> <span class="n">pred</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ordered_stack</span><span class="p">]</span>
+
+    <span class="c1"># if node has no dependencies that are not already in the stack,</span>
+    <span class="c1"># insert into the ordered stack of nodes and increment the pointer</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dependencies</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ordered_stack</span><span class="p">:</span>
+            <span class="n">ordered_stack</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+            <span class="n">pos</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">pos</span><span class="p">,</span> <span class="n">ordered_stack</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># if node has dependencies, build a local stack of dependencies</span>
+        <span class="n">dependencies</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">dependencies</span><span class="p">)</span>
+
+        <span class="c1"># backtrack all dependencies</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">dependencies</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dependency</span> <span class="o">=</span> <span class="n">dependencies</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">pos</span><span class="p">,</span> <span class="n">ordered_stack</span> <span class="o">=</span> <span class="n">_backtrack_node</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                                                 <span class="n">dependency</span><span class="p">,</span>
+                                                 <span class="n">pos</span><span class="p">,</span>
+                                                 <span class="n">ordered_stack</span><span class="p">)</span>
+
+            <span class="c1"># after all its dependencies are solved, insert the</span>
+            <span class="c1"># dependent node at the current pointer position</span>
+            <span class="k">if</span> <span class="n">dependency</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ordered_stack</span><span class="p">:</span>
+                <span class="n">ordered_stack</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">dependency</span><span class="p">)</span>
+                <span class="n">pos</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># after dependencies and sub-dependencies are solved, insert the node</span>
+        <span class="n">ordered_stack</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+        <span class="n">pos</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># return the current pos and the filled ordered stack</span>
+    <span class="k">return</span> <span class="n">pos</span><span class="p">,</span> <span class="n">ordered_stack</span>
+
+<div class="viewcode-block" id="resolve_order_by_backtracking"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.resolve_order_by_backtracking">[docs]</a><span class="k">def</span> <span class="nf">resolve_order_by_backtracking</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Resolve topological order of a networkx DiGraph through backtracking of</span>
+<span class="sd">    all nodes in the graph. Nodes are only inserted into the output list if</span>
+<span class="sd">    all their dependencies (predecessor nodes) are already inside the output</span>
+<span class="sd">    list, otherwise the algorithm will first resolve all open dependencies.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : networkx.Graph</span>
+<span class="sd">        The graph on which to perform topological sorting.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ordered_nodes : list</span>
+<span class="sd">        List of hashable node identifiers.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the input graph is not directed.</span>
+
+<span class="sd">    Warning</span>
+<span class="sd">    -------</span>
+<span class="sd">    For this to work, the input gaph must be a DAG (directed acyclic graph).</span>
+<span class="sd">    For more info,see [11]_ and [12]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [11] Directed acyclic graph on Wikipedia.</span>
+
+<span class="sd">            See: `Directed acyclic graph &lt;https://en.wikipedia.org/wiki/Directed_acyclic_graph&gt;`_</span>
+<span class="sd">    .. [12] Topological sorting on Wikipedia.</span>
+
+<span class="sd">            See: `Topological sorting &lt;https://en.wikipedia.org/wiki/Topological_sorting&gt;`_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># rais if graph is not directed</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">G</span><span class="o">.</span><span class="n">is_directed</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This works only on directed graphs!&quot;</span><span class="p">)</span>
+
+    <span class="c1"># stack is every node that has not been inserted yet</span>
+    <span class="n">stack</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="c1"># pos is the current pointer for insertion</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># ordered stack is the target list for insertion</span>
+    <span class="n">ordered_stack</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># backtrack the whole stack</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># pop an arbitrary node from the stack</span>
+        <span class="n">current_node</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="c1"># backtrack that node and resolve all its dependencies</span>
+        <span class="n">pos</span><span class="p">,</span> <span class="n">ordered_stack</span> <span class="o">=</span> <span class="n">_backtrack_node</span><span class="p">(</span><span class="n">G</span><span class="p">,</span>
+                                             <span class="n">current_node</span><span class="p">,</span>
+                                             <span class="n">pos</span><span class="p">,</span>
+                                             <span class="n">ordered_stack</span><span class="p">)</span>
+    <span class="c1"># return the ordered stack</span>
+    <span class="k">return</span> <span class="n">ordered_stack</span></div>
+
+<span class="c1"># PURE PYTHON GEOMETRY ---------------------------------------------------------</span>
+
+<div class="viewcode-block" id="is_ccw_xy"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.is_ccw_xy">[docs]</a><span class="k">def</span> <span class="nf">is_ccw_xy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">colinear</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine if c is on the left of ab when looking from a to b,</span>
+<span class="sd">    and assuming that all points lie in the XY plane.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : sequence of float</span>
+<span class="sd">        XY(Z) coordinates of the base point.</span>
+<span class="sd">    b : sequence of float</span>
+<span class="sd">        XY(Z) coordinates of the first end point.</span>
+<span class="sd">    c : sequence of float</span>
+<span class="sd">        XY(Z) coordinates of the second end point.</span>
+<span class="sd">    colinear : bool, optional</span>
+<span class="sd">        Allow points to be colinear.</span>
+<span class="sd">        Default is ``False``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        ``True`` if ccw.</span>
+<span class="sd">        ``False`` otherwise.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Based on an implementation inside the COMPAS framework.</span>
+<span class="sd">    For more info, see [14]_ and [15]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [14] Van Mele, Tom et al. *COMPAS: A framework for computational</span>
+<span class="sd">           research in architecture and structures*.</span>
+
+<span class="sd">           See: `is_ccw_xy() inside COMPAS &lt;https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/geometry/_core/queries.py#L61&gt;`_</span>
+<span class="sd">    .. [15] Marsh, C. *Computational Geometry in Python: From Theory to</span>
+<span class="sd">           Application*.</span>
+
+<span class="sd">           See: `Computational Geometry in Python &lt;https://www.toptal.com/python/computational-geometry-in-python-from-theory-to-implementation&gt;`_</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; print(is_ccw_xy([0,0,0], [0,1,0], [-1, 0, 0]))</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; print(is_ccw_xy([0,0,0], [0,1,0], [+1, 0, 0]))</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; print(is_ccw_xy([0,0,0], [1,0,0], [2,0,0]))</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; print(is_ccw_xy([0,0,0], [1,0,0], [2,0,0], True))</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ab_x</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">ab_y</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ac_x</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">ac_y</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">colinear</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ab_x</span> <span class="o">*</span> <span class="n">ac_y</span> <span class="o">-</span> <span class="n">ab_y</span> <span class="o">*</span> <span class="n">ac_x</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">ab_x</span> <span class="o">*</span> <span class="n">ac_y</span> <span class="o">-</span> <span class="n">ab_y</span> <span class="o">*</span> <span class="n">ac_x</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+<span class="c1"># PYTHON HELPERS AND UTILITIES -------------------------------------------------</span>
+
+<div class="viewcode-block" id="pairwise"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.pairwise">[docs]</a><span class="k">def</span> <span class="nf">pairwise</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the data of iterable in pairs (2-tuples).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    iterable : iterable</span>
+<span class="sd">        An iterable sequence of items.</span>
+
+<span class="sd">    Yields</span>
+<span class="sd">    ------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        Two items per iteration, if there are at least two items in the iterable.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; print(pairwise(range(4))):</span>
+<span class="sd">    ...</span>
+<span class="sd">    [(0, 1), (1, 2), (2, 3)]</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    For more info see [16]_ .</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [16] Python itertools Recipes</span>
+
+<span class="sd">           See: `Python itertools Recipes &lt;https://docs.python.org/2.7/library/itertools.html#recipes&gt;`_</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">tee</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="nb">next</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Max Eschenbach.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.0.0-alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" src="../../_static/jquery.fancybox.min.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+  <script type="text/javascript">
+    $(function(){
+      $('.image-reference').fancybox();
+    })
+  </script>
+
+</body>
+</html>

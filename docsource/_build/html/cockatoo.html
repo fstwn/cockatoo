@@ -1,0 +1,2363 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cockatoo module API &mdash; Cockatoo 0.1.0.0-alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/jquery.fancybox.min.css" type="text/css" />
+  
+    <link rel="stylesheet" href="_static/glpi.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Cockatoo 0.1.0.0-alpha documentation" href="index.html"/>
+        <link rel="prev" title="Welcome to Cockatoo’s documentation!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Cockatoo
+          
+
+          
+          </a>
+
+          
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">cockatoo module API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-cockatoo.environment">cockatoo.environment module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-cockatoo.exception">cockatoo.exception module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-cockatoo.utilities">cockatoo.utilities module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#classes">Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cockatoo-knitconstraint">cockatoo.KnitConstraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cockatoo-knitnetworkbase">cockatoo.KnitNetworkBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cockatoo-knitnetwork">cockatoo.KnitNetwork</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cockatoo-knitdinetwork">cockatoo.KnitDiNetwork</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cockatoo-knitmappingnetwork">cockatoo.KnitMappingNetwork</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Cockatoo</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>cockatoo module API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/cockatoo.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to Cockatoo’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+  </div>
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-cockatoo"></span><div class="section" id="cockatoo-module-api">
+<h1>cockatoo module API<a class="headerlink" href="#cockatoo-module-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-cockatoo.environment">
+<span id="cockatoo-environment-module"></span><h3>cockatoo.environment module<a class="headerlink" href="#module-cockatoo.environment" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.environment.is_rhino_inside" title="cockatoo.environment.is_rhino_inside"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_rhino_inside</span></code></a></p></td>
+<td><p>Check if Rhino is running using rhinoinside.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.environment.RHINOINSIDE" title="cockatoo.environment.RHINOINSIDE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RHINOINSIDE</span></code></a></p></td>
+<td><p>Will be <code class="docutils literal notranslate"><span class="pre">True</span></code> if Rhino is running using rhinoinside, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.environment.networkx_version" title="cockatoo.environment.networkx_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">networkx_version</span></code></a></p></td>
+<td><p>Return the version of the used networkx module.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.environment.NXVERSION" title="cockatoo.environment.NXVERSION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NXVERSION</span></code></a></p></td>
+<td><p>The version string of the networkx module that is being used.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt id="cockatoo.environment.is_rhino_inside">
+<code class="sig-prename descclassname">cockatoo.environment.</code><code class="sig-name descname">is_rhino_inside</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/environment.html#is_rhino_inside"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.environment.is_rhino_inside" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if Rhino is running using rhinoinside.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>bool</em> – <code class="docutils literal notranslate"><span class="pre">True</span></code> if Rhino is running using rhinoinside, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#cockatoo.exception.RhinoNotPresentError" title="cockatoo.exception.RhinoNotPresentError"><strong>RhinoNotPresentError</strong></a> – If import of Rhino fails.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt id="cockatoo.environment.RHINOINSIDE">
+<code class="sig-prename descclassname">cockatoo.environment.</code><code class="sig-name descname">RHINOINSIDE</code><em class="property"> = False</em><a class="headerlink" href="#cockatoo.environment.RHINOINSIDE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Will be <code class="docutils literal notranslate"><span class="pre">True</span></code> if Rhino is running using rhinoinside, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="cockatoo.environment.networkx_version">
+<code class="sig-prename descclassname">cockatoo.environment.</code><code class="sig-name descname">networkx_version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/environment.html#networkx_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.environment.networkx_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the version of the used networkx module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>str</em> – The version string of the used networkx module.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#cockatoo.exception.NetworkXNotPresentError" title="cockatoo.exception.NetworkXNotPresentError"><strong>NetworkXNotPresentError</strong></a> – If the networkx module cannot be found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt id="cockatoo.environment.NXVERSION">
+<code class="sig-prename descclassname">cockatoo.environment.</code><code class="sig-name descname">NXVERSION</code><em class="property"> = '1.5'</em><a class="headerlink" href="#cockatoo.environment.NXVERSION" title="Permalink to this definition">¶</a></dt>
+<dd><p>The version string of the networkx module that is being used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-cockatoo.exception">
+<span id="cockatoo-exception-module"></span><h3>cockatoo.exception module<a class="headerlink" href="#module-cockatoo.exception" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.exception.CockatooException" title="cockatoo.exception.CockatooException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CockatooException</span></code></a></p></td>
+<td><p>Base class for exceptions in Cockatoo.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.exception.CockatooImportException" title="cockatoo.exception.CockatooImportException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CockatooImportException</span></code></a></p></td>
+<td><p>Base class for import errors in Cockatoo.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.exception.RhinoNotPresentError" title="cockatoo.exception.RhinoNotPresentError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RhinoNotPresentError</span></code></a></p></td>
+<td><p>Exception raised when import of Rhino fails.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.exception.SystemNotPresentError" title="cockatoo.exception.SystemNotPresentError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SystemNotPresentError</span></code></a></p></td>
+<td><p>Exception raised when import of System fails.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.exception.NetworkXNotPresentError" title="cockatoo.exception.NetworkXNotPresentError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NetworkXNotPresentError</span></code></a></p></td>
+<td><p>Exception raised when import of NetworkX fails.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.exception.NetworkXVersionError" title="cockatoo.exception.NetworkXVersionError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NetworkXVersionError</span></code></a></p></td>
+<td><p>Exception raised when NetworkX version is not 1.5.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.exception.KnitNetworkError" title="cockatoo.exception.KnitNetworkError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KnitNetworkError</span></code></a></p></td>
+<td><p>Exception for a serious error in a KnitNetwork of Cockatoo.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.exception.KnitNetworkGeometryError" title="cockatoo.exception.KnitNetworkGeometryError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KnitNetworkGeometryError</span></code></a></p></td>
+<td><p>Exception raised when vital geometry operations fail.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.exception.MappingNetworkError" title="cockatoo.exception.MappingNetworkError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MappingNetworkError</span></code></a></p></td>
+<td><p>Exception raised by methods relying on a mapping network if no mapping network has been assigned to the current KnitNetwork instance yet.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.exception.KnitNetworkTopologyError" title="cockatoo.exception.KnitNetworkTopologyError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KnitNetworkTopologyError</span></code></a></p></td>
+<td><p>Exception raised by methods which rely on a certain topology of a network if that topology could not be verified.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.exception.NoWeftEdgesError" title="cockatoo.exception.NoWeftEdgesError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoWeftEdgesError</span></code></a></p></td>
+<td><p>Exception raised by methods relying on ‘weft’ edges if there are no ‘weft’ edges in the network.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.exception.NoWarpEdgesError" title="cockatoo.exception.NoWarpEdgesError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoWarpEdgesError</span></code></a></p></td>
+<td><p>Exception raised by methods relying on ‘warp’ edges if there are no ‘warp’ edges in the network.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.exception.NoEndNodesError" title="cockatoo.exception.NoEndNodesError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoEndNodesError</span></code></a></p></td>
+<td><p>Exception raised by methods relying on ‘end’ nodes if there are no ‘end’ nodes in the network.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py exception">
+<dt id="cockatoo.exception.CockatooException">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">CockatooException</code><a class="reference internal" href="_modules/cockatoo/exception.html#CockatooException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.CockatooException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Base class for exceptions in Cockatoo.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="cockatoo.exception.CockatooImportException">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">CockatooImportException</code><a class="reference internal" href="_modules/cockatoo/exception.html#CockatooImportException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.CockatooImportException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ImportError</span></code></p>
+<p>Base class for import errors in Cockatoo.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="cockatoo.exception.RhinoNotPresentError">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">RhinoNotPresentError</code><a class="reference internal" href="_modules/cockatoo/exception.html#RhinoNotPresentError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.RhinoNotPresentError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cockatoo.exception.CockatooImportException" title="cockatoo.exception.CockatooImportException"><code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo.exception.CockatooImportException</span></code></a></p>
+<p>Exception raised when import of Rhino fails.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="cockatoo.exception.SystemNotPresentError">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">SystemNotPresentError</code><a class="reference internal" href="_modules/cockatoo/exception.html#SystemNotPresentError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.SystemNotPresentError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cockatoo.exception.CockatooImportException" title="cockatoo.exception.CockatooImportException"><code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo.exception.CockatooImportException</span></code></a></p>
+<p>Exception raised when import of System fails.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="cockatoo.exception.NetworkXNotPresentError">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">NetworkXNotPresentError</code><a class="reference internal" href="_modules/cockatoo/exception.html#NetworkXNotPresentError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.NetworkXNotPresentError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cockatoo.exception.CockatooImportException" title="cockatoo.exception.CockatooImportException"><code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo.exception.CockatooImportException</span></code></a></p>
+<p>Exception raised when import of NetworkX fails.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="cockatoo.exception.NetworkXVersionError">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">NetworkXVersionError</code><a class="reference internal" href="_modules/cockatoo/exception.html#NetworkXVersionError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.NetworkXVersionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cockatoo.exception.CockatooException" title="cockatoo.exception.CockatooException"><code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo.exception.CockatooException</span></code></a></p>
+<p>Exception raised when NetworkX version is not 1.5.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="cockatoo.exception.KnitNetworkError">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">KnitNetworkError</code><a class="reference internal" href="_modules/cockatoo/exception.html#KnitNetworkError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.KnitNetworkError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cockatoo.exception.CockatooException" title="cockatoo.exception.CockatooException"><code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo.exception.CockatooException</span></code></a></p>
+<p>Exception for a serious error in a KnitNetwork of Cockatoo.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="cockatoo.exception.KnitNetworkGeometryError">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">KnitNetworkGeometryError</code><a class="reference internal" href="_modules/cockatoo/exception.html#KnitNetworkGeometryError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.KnitNetworkGeometryError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cockatoo.exception.KnitNetworkError" title="cockatoo.exception.KnitNetworkError"><code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo.exception.KnitNetworkError</span></code></a></p>
+<p>Exception raised when vital geometry operations fail.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="cockatoo.exception.MappingNetworkError">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">MappingNetworkError</code><a class="reference internal" href="_modules/cockatoo/exception.html#MappingNetworkError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.MappingNetworkError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cockatoo.exception.KnitNetworkError" title="cockatoo.exception.KnitNetworkError"><code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo.exception.KnitNetworkError</span></code></a></p>
+<p>Exception raised by methods relying on a mapping network if no mapping
+network has been assigned to the current KnitNetwork instance yet.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="cockatoo.exception.KnitNetworkTopologyError">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">KnitNetworkTopologyError</code><a class="reference internal" href="_modules/cockatoo/exception.html#KnitNetworkTopologyError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.KnitNetworkTopologyError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cockatoo.exception.KnitNetworkError" title="cockatoo.exception.KnitNetworkError"><code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo.exception.KnitNetworkError</span></code></a></p>
+<p>Exception raised by methods which rely on a certain topology of a network if
+that topology could not be verified.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="cockatoo.exception.NoWeftEdgesError">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">NoWeftEdgesError</code><a class="reference internal" href="_modules/cockatoo/exception.html#NoWeftEdgesError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.NoWeftEdgesError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cockatoo.exception.KnitNetworkError" title="cockatoo.exception.KnitNetworkError"><code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo.exception.KnitNetworkError</span></code></a></p>
+<p>Exception raised by methods relying on ‘weft’ edges if there are no ‘weft’
+edges in the network.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="cockatoo.exception.NoWarpEdgesError">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">NoWarpEdgesError</code><a class="reference internal" href="_modules/cockatoo/exception.html#NoWarpEdgesError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.NoWarpEdgesError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cockatoo.exception.KnitNetworkError" title="cockatoo.exception.KnitNetworkError"><code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo.exception.KnitNetworkError</span></code></a></p>
+<p>Exception raised by methods relying on ‘warp’ edges if there are no ‘warp’
+edges in the network.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="cockatoo.exception.NoEndNodesError">
+<em class="property">exception </em><code class="sig-prename descclassname">cockatoo.exception.</code><code class="sig-name descname">NoEndNodesError</code><a class="reference internal" href="_modules/cockatoo/exception.html#NoEndNodesError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.exception.NoEndNodesError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cockatoo.exception.KnitNetworkError" title="cockatoo.exception.KnitNetworkError"><code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo.exception.KnitNetworkError</span></code></a></p>
+<p>Exception raised by methods relying on ‘end’ nodes if there are no ‘end’
+nodes in the network.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-cockatoo.utilities">
+<span id="cockatoo-utilities-module"></span><h3>cockatoo.utilities module<a class="headerlink" href="#module-cockatoo.utilities" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.utilities.blend_colors" title="cockatoo.utilities.blend_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">blend_colors</span></code></a></p></td>
+<td><p>Blend between two colors using the square root of photon flux.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.utilities.break_polyline" title="cockatoo.utilities.break_polyline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">break_polyline</span></code></a></p></td>
+<td><p>Breaks a polyline at kinks based on a specified angle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.utilities.map_values_as_colors" title="cockatoo.utilities.map_values_as_colors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_values_as_colors</span></code></a></p></td>
+<td><p>Make a list of HSL colors where the values are mapped onto a targetMin-targetMax hue domain.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.utilities.tween_planes" title="cockatoo.utilities.tween_planes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tween_planes</span></code></a></p></td>
+<td><p>Tweens between two planes using quaternion rotation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.utilities.is_ccw_xy" title="cockatoo.utilities.is_ccw_xy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_ccw_xy</span></code></a></p></td>
+<td><p>Determine if c is on the left of ab when looking from a to b, and assuming that all points lie in the XY plane.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.utilities.resolve_order_by_backtracking" title="cockatoo.utilities.resolve_order_by_backtracking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_order_by_backtracking</span></code></a></p></td>
+<td><p>Resolve topological order of a networkx DiGraph through backtracking of all nodes in the graph.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt id="cockatoo.utilities.blend_colors">
+<code class="sig-prename descclassname">cockatoo.utilities.</code><code class="sig-name descname">blend_colors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col_a</span></em>, <em class="sig-param"><span class="n">col_b</span></em>, <em class="sig-param"><span class="n">t</span><span class="o">=</span><span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/utilities.html#blend_colors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.utilities.blend_colors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Blend between two colors using the square root of photon flux. For more
+info see <em>Algorithm for additive color mixing for RGB values</em> <a class="footnote-reference brackets" href="#id2" id="id1">18</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>col_a</strong> (sequence of <a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Sequence of (R, G, B) that defines the color value.</p></li>
+<li><p><strong>col_b</strong> (sequence of <a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Sequence of (R, G, B) that defines the color value.</p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>, </em><em>optional</em>) – <p>Parameter to define the blend location between the two colors.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>color</strong> (<em>tuple</em>) – 3-tuple of (R, G, B) that defines the new color.</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">18</a></span></dt>
+<dd><p><em>Algorithm for additive color mixing for RGB values</em></p>
+<p>See: <a class="reference external" href="https://stackoverflow.com/a/29321264">Thread on stackoverflow</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="cockatoo.utilities.break_polyline">
+<code class="sig-prename descclassname">cockatoo.utilities.</code><code class="sig-name descname">break_polyline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">polyline</span></em>, <em class="sig-param"><span class="n">break_angle</span></em>, <em class="sig-param"><span class="n">as_crv</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/utilities.html#break_polyline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.utilities.break_polyline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Breaks a polyline at kinks based on a specified angle. Will move the seam
+of closed polylines to the first kink discovered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>polyline</strong> (<em>Rhino.Geometry.Polyline</em>) – Polyline to break apart at angles.</p></li>
+<li><p><strong>break_angle</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – The angle at which to break apart the polyline (in radians).</p></li>
+<li><p><strong>as_crv</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will return a Rhino.Geometry.PolylineCurve object.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>broken_polyline_segments</strong> (<em>list of Rhino.Geometry.Polyline or Rhino.Geometry.PolylineCurve</em>) – A list of the broken segments. The return type will depend on the
+as_crv setting!</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="cockatoo.utilities.map_values_as_colors">
+<code class="sig-prename descclassname">cockatoo.utilities.</code><code class="sig-name descname">map_values_as_colors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">src_min</span></em>, <em class="sig-param"><span class="n">src_max</span></em>, <em class="sig-param"><span class="n">target_min</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">target_max</span><span class="o">=</span><span class="default_value">0.7</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/utilities.html#map_values_as_colors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.utilities.map_values_as_colors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a list of HSL colors where the values are mapped onto a
+targetMin-targetMax hue domain. Meaning that low values will be red, medium
+values green and large values blue if targetMin: 0.0 and targetMax: 0.7</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> (<em>list</em>) – List of values to map as colors.</p></li>
+<li><p><strong>src_min</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Lower bounds of the value domain.</p></li>
+<li><p><strong>src_max</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Upper bounds of the value domain.</p></li>
+<li><p><strong>target_min</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>, </em><em>optional</em>) – <p>Lower bounds of the target (color) domain.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</p></li>
+<li><p><strong>target_max</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>, </em><em>optional</em>) – <p>Upper bounds of the target (color) domain.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">0.7</span></code> .</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>colors</strong> (<em>list</em>) – List of RGB colors corresponding to the input values.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Based on code by Anders Holden Deleuran. Code was only changed in regards
+of defaults and names.
+For more info see <em>mapValuesAsColors.py</em> <a class="footnote-reference brackets" href="#id4" id="id3">10</a> .</p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id3">10</a></span></dt>
+<dd><p>Deleuran, Anders Holden <em>mapValuesAsColors.py</em></p>
+<p>See: <a class="reference external" href="https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea">mapValuesAsColors.py gist</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="cockatoo.utilities.tween_planes">
+<code class="sig-prename descclassname">cockatoo.utilities.</code><code class="sig-name descname">tween_planes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pa</span></em>, <em class="sig-param"><span class="n">pb</span></em>, <em class="sig-param"><span class="n">t</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/utilities.html#tween_planes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.utilities.tween_planes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tweens between two planes using quaternion rotation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pa</strong> (<em>Rhino.Geometry.Plane</em>) – The start plane for the tween.</p></li>
+<li><p><strong>pb</strong> (<em>Rhino.Geometry.Plane</em>) – The end plane for the tween.</p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – The parameter for the tweened plane. 0.5 will result in the average
+between the two input planes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>tweened_plane</strong> (<em>Rhino.Geometry.Plane</em>) – The plane between <code class="docutils literal notranslate"><span class="pre">pa</span></code> and <code class="docutils literal notranslate"><span class="pre">pb</span></code> at <code class="docutils literal notranslate"><span class="pre">t</span></code>.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cockatoo.exception.SystemNotPresentError" title="cockatoo.exception.SystemNotPresentError"><strong>SystemNotPresentError</strong></a> – If the <code class="docutils literal notranslate"><span class="pre">System</span></code> module cannot be imported.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="cockatoo.utilities.is_ccw_xy">
+<code class="sig-prename descclassname">cockatoo.utilities.</code><code class="sig-name descname">is_ccw_xy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em>, <em class="sig-param"><span class="n">c</span></em>, <em class="sig-param"><span class="n">colinear</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/utilities.html#is_ccw_xy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.utilities.is_ccw_xy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if c is on the left of ab when looking from a to b,
+and assuming that all points lie in the XY plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>sequence of float</em>) – XY(Z) coordinates of the base point.</p></li>
+<li><p><strong>b</strong> (<em>sequence of float</em>) – XY(Z) coordinates of the first end point.</p></li>
+<li><p><strong>c</strong> (<em>sequence of float</em>) – XY(Z) coordinates of the second end point.</p></li>
+<li><p><strong>colinear</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Allow points to be colinear.
+Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>bool</em> – <code class="docutils literal notranslate"><span class="pre">True</span></code> if ccw.
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Based on an implementation inside the COMPAS framework.
+For more info, see <a class="footnote-reference brackets" href="#id7" id="id5">14</a> and <a class="footnote-reference brackets" href="#id8" id="id6">15</a>.</p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id5">14</a></span></dt>
+<dd><p>Van Mele, Tom et al. <em>COMPAS: A framework for computational
+research in architecture and structures</em>.</p>
+<p>See: <a class="reference external" href="https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/geometry/_core/queries.py#L61">is_ccw_xy() inside COMPAS</a></p>
+</dd>
+<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id6">15</a></span></dt>
+<dd><p>Marsh, C. <em>Computational Geometry in Python: From Theory to
+Application</em>.</p>
+<p>See: <a class="reference external" href="https://www.toptal.com/python/computational-geometry-in-python-from-theory-to-implementation">Computational Geometry in Python</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">is_ccw_xy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">is_ccw_xy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">is_ccw_xy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">is_ccw_xy</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="kc">True</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="cockatoo.utilities.resolve_order_by_backtracking">
+<code class="sig-prename descclassname">cockatoo.utilities.</code><code class="sig-name descname">resolve_order_by_backtracking</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/utilities.html#resolve_order_by_backtracking"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.utilities.resolve_order_by_backtracking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resolve topological order of a networkx DiGraph through backtracking of
+all nodes in the graph. Nodes are only inserted into the output list if
+all their dependencies (predecessor nodes) are already inside the output
+list, otherwise the algorithm will first resolve all open dependencies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>G</strong> (<em>networkx.Graph</em>) – The graph on which to perform topological sorting.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ordered_nodes</strong> (<em>list</em>) – List of hashable node identifiers.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the input graph is not directed.</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>For this to work, the input gaph must be a DAG (directed acyclic graph).
+For more info,see <a class="footnote-reference brackets" href="#id11" id="id9">11</a> and <a class="footnote-reference brackets" href="#id12" id="id10">12</a>.</p>
+</div>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id11"><span class="brackets"><a class="fn-backref" href="#id9">11</a></span></dt>
+<dd><p>Directed acyclic graph on Wikipedia.</p>
+<p>See: <a class="reference external" href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">Directed acyclic graph</a></p>
+</dd>
+<dt class="label" id="id12"><span class="brackets"><a class="fn-backref" href="#id10">12</a></span></dt>
+<dd><p>Topological sorting on Wikipedia.</p>
+<p>See: <a class="reference external" href="https://en.wikipedia.org/wiki/Topological_sorting">Topological sorting</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="cockatoo.utilities.pairwise">
+<code class="sig-prename descclassname">cockatoo.utilities.</code><code class="sig-name descname">pairwise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/utilities.html#pairwise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.utilities.pairwise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the data of iterable in pairs (2-tuples).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – An iterable sequence of items.</p>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>tuple</em> – Two items per iteration, if there are at least two items in the iterable.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pairwise</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))):</span>
+<span class="gp">...</span>
+<span class="go">[(0, 1), (1, 2), (2, 3)]</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>For more info see <a class="footnote-reference brackets" href="#id14" id="id13">16</a> .</p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id14"><span class="brackets">16</span><span class="fn-backref">(<a href="#id13">1</a>,<a href="#id39">2</a>)</span></dt>
+<dd><p>Python itertools Recipes</p>
+<p>See: <a class="reference external" href="https://docs.python.org/2.7/library/itertools.html#recipes">Python itertools Recipes</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.KnitConstraint" title="cockatoo.KnitConstraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cockatoo.KnitConstraint</span></code></a></p></td>
+<td><p>Datastructure for representing constraints derived from a mesh.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.KnitNetworkBase" title="cockatoo.KnitNetworkBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cockatoo.KnitNetworkBase</span></code></a></p></td>
+<td><p>Abstract datastructure for representing a network (graph) consisting of nodes with special attributes aswell as ‘warp’ edges, ‘weft’ edges and contour edges which are neither ‘warp’ nor ‘weft’.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.KnitNetwork" title="cockatoo.KnitNetwork"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cockatoo.KnitNetwork</span></code></a></p></td>
+<td><p>Datastructure for representing a network (graph) consisting of nodes with special attributes aswell as ‘warp’ edges, ‘weft’ edges and contour edges which are neither ‘warp’ nor ‘weft’.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cockatoo.KnitDiNetwork" title="cockatoo.KnitDiNetwork"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cockatoo.KnitDiNetwork</span></code></a></p></td>
+<td><p>Datastructure representing a directed graph of nodes aswell as ‘weft’ and ‘warp’ edges.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cockatoo.KnitMappingNetwork" title="cockatoo.KnitMappingNetwork"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cockatoo.KnitMappingNetwork</span></code></a></p></td>
+<td><p>Datastructure representing a mapping between connected chains of ‘weft’ edges in a KnitNetwork for final creation of ‘weft’ and ‘warp’ edges.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="cockatoo-knitconstraint">
+<h3>cockatoo.KnitConstraint<a class="headerlink" href="#cockatoo-knitconstraint" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="cockatoo.KnitConstraint">
+<em class="property">class </em><code class="sig-prename descclassname">cockatoo.</code><code class="sig-name descname">KnitConstraint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_course</span></em>, <em class="sig-param"><span class="n">end_course</span></em>, <em class="sig-param"><span class="n">left_boundary</span></em>, <em class="sig-param"><span class="n">right_boundary</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitconstraint.html#KnitConstraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitConstraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Datastructure for representing constraints derived from a mesh. Used for
+the automatic generation of knitting patterns.</p>
+<dl class="py method">
+<dt id="cockatoo.KnitConstraint.ToString">
+<code class="sig-name descname">ToString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitconstraint.html#KnitConstraint.ToString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitConstraint.ToString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a textual description of the constraint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>description</strong> (<em>str</em>) – A textual description of the constraint.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Used for overloading the Grasshopper display in data parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitConstraint.end_course">
+<em class="property">property </em><code class="sig-name descname">end_course</code><a class="headerlink" href="#cockatoo.KnitConstraint.end_course" title="Permalink to this definition">¶</a></dt>
+<dd><p>The end course of the KnitConstraint</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitConstraint.left_boundary">
+<em class="property">property </em><code class="sig-name descname">left_boundary</code><a class="headerlink" href="#cockatoo.KnitConstraint.left_boundary" title="Permalink to this definition">¶</a></dt>
+<dd><p>The left boundary of the KnitConstraint</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitConstraint.right_boundary">
+<em class="property">property </em><code class="sig-name descname">right_boundary</code><a class="headerlink" href="#cockatoo.KnitConstraint.right_boundary" title="Permalink to this definition">¶</a></dt>
+<dd><p>The right boundary of the KnitConstraint</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitConstraint.start_course">
+<em class="property">property </em><code class="sig-name descname">start_course</code><a class="headerlink" href="#cockatoo.KnitConstraint.start_course" title="Permalink to this definition">¶</a></dt>
+<dd><p>The start course of the KnitConstraint</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="cockatoo-knitnetworkbase">
+<h3>cockatoo.KnitNetworkBase<a class="headerlink" href="#cockatoo-knitnetworkbase" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="cockatoo.KnitNetworkBase">
+<em class="property">class </em><code class="sig-prename descclassname">cockatoo.</code><code class="sig-name descname">KnitNetworkBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">attr</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.classes.graph.Graph</span></code></p>
+<p>Abstract datastructure for representing a network (graph) consisting of
+nodes with special attributes aswell as ‘warp’ edges, ‘weft’ edges and
+contour edges which are neither ‘warp’ nor ‘weft’.</p>
+<p>Used as a base class for sharing behaviour between the KnitNetwork,
+KnitMappingNetwork and KnitDiNetwork classes.</p>
+<p>Inherits from <code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code>.
+For more info, see <em>NetworkX</em> <a class="footnote-reference brackets" href="#id16" id="id15">13</a>.</p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id16"><span class="brackets">13</span><span class="fn-backref">(<a href="#id15">1</a>,<a href="#id50">2</a>,<a href="#id60">3</a>)</span></dt>
+<dd><p>Hagberg, Aric A.; Schult, Daniel A.; Swart, Pieter J.
+<em>Exploring Network Structure, Dynamics, and Function using NetworkX</em>
+In: <em>Varoquaux, Vaught et al. (Hg.) 2008 - Proceedings of the 7th
+Python in Science Conference</em> pp. 11-15</p>
+<p>See: <a class="reference external" href="https://networkx.github.io/documentation/networkx-1.5/">NetworkX 1.5</a></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.ToString">
+<code class="sig-name descname">ToString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.ToString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.ToString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a textual description of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>description</strong> (<em>str</em>) – A textual description of the network.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Used for overloading the Grasshopper display in data parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.all_ends_by_position">
+<code class="sig-name descname">all_ends_by_position</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.all_ends_by_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.all_ends_by_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all ‘end’ nodes ordered by their ‘position’ attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, found nodes will be returned with their attribute data.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>nodes</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – All nodes for which the attribute ‘end’ is true, grouped by their
+‘position’ attribute</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.all_leaves_by_position">
+<code class="sig-name descname">all_leaves_by_position</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.all_leaves_by_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.all_leaves_by_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all ‘leaf’ nodes ordered by their ‘position’ attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, found nodes will be returned with their attribute data.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>nodes</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – All nodes for which the attribute ‘leaf’ is true, grouped by their
+‘position’ attribute</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.all_nodes_by_position">
+<code class="sig-name descname">all_nodes_by_position</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.all_nodes_by_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.all_nodes_by_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all the nodes of the network, ordered by the values of their
+‘position’ attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, found nodes will be returned with their attribute data.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>nodes</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – All nodes grouped by their ‘position’ attribute</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.contour_edges">
+<em class="property">property </em><code class="sig-name descname">contour_edges</code><a class="headerlink" href="#cockatoo.KnitNetworkBase.contour_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>The contour edges of the network marked neither ‘weft’ nor ‘warp’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.create_contour_edge">
+<code class="sig-name descname">create_contour_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">from_node</span></em>, <em class="sig-param"><span class="n">to_node</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.create_contour_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.create_contour_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an edge neither ‘warp’ nor ‘weft’ between two nodes in the
+network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>from_node</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – 2-tuple of (node_identifier, node_data) that represents the edges’
+source node.</p></li>
+<li><p><strong>to_node</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – 2-tuple of (node_identifier, node_data) that represents the edges’
+target node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>success</strong> (<em>bool</em>) – <code class="docutils literal notranslate"><span class="pre">True</span></code> if the edge has been successfully created,
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.create_segment_contour_edge">
+<code class="sig-name descname">create_segment_contour_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">from_node</span></em>, <em class="sig-param"><span class="n">to_node</span></em>, <em class="sig-param"><span class="n">segment_value</span></em>, <em class="sig-param"><span class="n">segment_geo</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.create_segment_contour_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.create_segment_contour_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a mapping edge between two ‘end’ nodes in the network. The
+geometry of this edge will be a polyline built from all the given
+former ‘weft’ edges. returns True if the edge has been successfully
+created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>from_node</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – 2-tuple of (node_identifier, node_data) that represents the edges’
+source node.</p></li>
+<li><p><strong>to_node</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – 2-tuple of (node_identifier, node_data) that represents the edges’
+target node.</p></li>
+<li><p><strong>segment_value</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a> of <a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – 3-tuple that will be used to set the ‘segment’ attribute of the
+‘weft’ edge.</p></li>
+<li><p><strong>segment_geo</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">Rhino.Geometry.Line</span></code>) – the geometry of all ‘weft’ edges that make this segment contour edge</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>success</strong> (<em>bool</em>) – <code class="docutils literal notranslate"><span class="pre">True</span></code> if the edge has been successfully created,
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.create_warp_edge">
+<code class="sig-name descname">create_warp_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">from_node</span></em>, <em class="sig-param"><span class="n">to_node</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.create_warp_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.create_warp_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a ‘warp’ edge between two nodes in the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>from_node</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – 2-tuple of (node_identifier, node_data) that represents the edges’
+source node.</p></li>
+<li><p><strong>to_node</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – 2-tuple of (node_identifier, node_data) that represents the edges’
+target node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>success</strong> (<em>bool</em>) – <code class="docutils literal notranslate"><span class="pre">True</span></code> if the edge has been successfully created.
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.create_weft_edge">
+<code class="sig-name descname">create_weft_edge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">from_node</span></em>, <em class="sig-param"><span class="n">to_node</span></em>, <em class="sig-param"><span class="n">segment</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.create_weft_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.create_weft_edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a ‘weft’ edge between two nodes in the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>from_node</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – 2-tuple of (node_identifier, node_data) that represents the edges’
+source node.</p></li>
+<li><p><strong>to_node</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – 2-tuple of (node_identifier, node_data) that represents the edges’
+target node.</p></li>
+<li><p><strong>segment</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – 3-tuple that will be used to set the ‘segment’ attribute of the
+‘weft’ edge.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>success</strong> (<em>bool</em>) – <code class="docutils literal notranslate"><span class="pre">True</span></code> if the edge has been successfully created.
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.edge_geometry_direction">
+<code class="sig-name descname">edge_geometry_direction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.edge_geometry_direction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.edge_geometry_direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a given edge in order with reference to the direction of the
+associated geometry (line).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>hashable</em>) – Hashable identifier of the edges source node.</p></li>
+<li><p><strong>v</strong> (<em>hashable</em>) – Hashable identifier of the edges target node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>edge</strong> (<em>2-tuple</em>) – 2-tuple of (u, v) or (v, u) depending on the directions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.end_node_segments_by_end">
+<code class="sig-name descname">end_node_segments_by_end</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.end_node_segments_by_end"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.end_node_segments_by_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all the edges with a ‘segment’ attribute marked neither ‘weft’ nor
+‘warp’ and share a given ‘end’ node at the end, sorted by the values
+of their ‘segment’ attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for connected segments.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the edges will be returned as 3-tuples with their
+associated attribute data.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>edges</strong> (<em>list</em>) – List of edges. Each item will be either a 2-tuple of (u, v)
+identifiers or a 3-tuple of (u, v, d) where d is the attribute data
+of the edge, depending on the data parameter.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.end_node_segments_by_start">
+<code class="sig-name descname">end_node_segments_by_start</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.end_node_segments_by_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.end_node_segments_by_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all the edges with a ‘segment’ attribute marked neither ‘weft’ nor
+‘warp’ and share a given ‘end’ node at the start, sorted by the values
+of their ‘segment’ attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for connected segments.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the edges will be returned as 3-tuples with their
+associated attribute data.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of edges. Each item will be either a 2-tuple of (u, v)
+identifiers or a 3-tuple of (u, v, d) where d is the attribute data
+of the edge, depending on the data parameter.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.end_nodes">
+<em class="property">property </em><code class="sig-name descname">end_nodes</code><a class="headerlink" href="#cockatoo.KnitNetworkBase.end_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>All ‘end’ nodes of the network</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.ends_on_position">
+<code class="sig-name descname">ends_on_position</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">position</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.ends_on_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.ends_on_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all ‘end’ nodes which share the supplied value as their ‘position’
+attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> (<em>hashable</em>) – The index / identifier of the position</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, found nodes will be returned with their attribute data.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>nodes</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of all nodes for which the attribute ‘end’ is <code class="docutils literal notranslate"><span class="pre">True</span></code> and
+which share the supplied value as their ‘position’ attribute</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.geometry_at_position_contour">
+<code class="sig-name descname">geometry_at_position_contour</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">position</span></em>, <em class="sig-param"><span class="n">as_crv</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.geometry_at_position_contour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.geometry_at_position_contour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the contour polyline at a given position by making a polyline
+from all nodes which share the specified ‘position’ attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> (<em>hashable</em>) – The index / identifier of the position</p></li>
+<li><p><strong>as_crv</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will return a PolylineCurve instead of a Polyline.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>contour</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.Polyline</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.PolylineCurve</span></code>) – The contour as a Polyline or PolylineCurve if <code class="docutils literal notranslate"><span class="pre">as_crv</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.leaf_nodes">
+<em class="property">property </em><code class="sig-name descname">leaf_nodes</code><a class="headerlink" href="#cockatoo.KnitNetworkBase.leaf_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>All ‘leaf’ nodes of the network.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.leaves_on_position">
+<code class="sig-name descname">leaves_on_position</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">position</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.leaves_on_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.leaves_on_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all ‘leaf’ nodes which share the supplied value as their ‘position’
+attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> (<em>hashable</em>) – The index / identifier of the position</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, found nodes will be returned with their attribute data.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>nodes</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of all nodes for which the attribute ‘leaf’ is <code class="docutils literal notranslate"><span class="pre">True</span></code> and
+which share the supplied value as their ‘position’ attribute</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.longest_position_contour">
+<code class="sig-name descname">longest_position_contour</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.longest_position_contour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.longest_position_contour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the longest contour ‘position’, geometry andgeometric length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>contour_data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – 3-tuple of the ‘position’ identifier, the contour geometry and its
+length.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.make_gephi_graph">
+<code class="sig-name descname">make_gephi_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.make_gephi_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.make_gephi_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new graph with attributes for visualising this network
+using Gephi.</p>
+<p>Based on code by Anders Holden Deleuran</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.node_contour_edges">
+<code class="sig-name descname">node_contour_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.node_contour_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.node_contour_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the edges marked neither ‘warp’ nor ‘weft’ connected to the
+given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for edges marked neither
+‘warp’ nor ‘weft’.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the edges will be returned as 3-tuples with their
+associated attribute data.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of edges marked neither ‘warp’ nor ‘weft’ connected to the
+given node. Each item in the list will be either a 2-tuple of (u, v)
+identifiers or a 3-tuple of (u, v, d) where d is the attribute data
+of the edge, depending on the data parameter.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.node_coordinates">
+<code class="sig-name descname">node_coordinates</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_index</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.node_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.node_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the node coordinates from the ‘x’, ‘y’ and ‘z’ attributes of the
+supplied node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> (<em>hashable</em>) – The unique identifier of the node, an int in most cases.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>xyz</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a> of <a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – The XYZ coordinates of the node as a 3-tuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.node_from_point3d">
+<code class="sig-name descname">node_from_point3d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_index</span></em>, <em class="sig-param"><span class="n">pt</span></em>, <em class="sig-param"><span class="n">position</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">num</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">leaf</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">start</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">end</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">segment</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">increase</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">decrease</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">color</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.node_from_point3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.node_from_point3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a network node from a Rhino Point3d and attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_index</strong> (<em>hashable</em>) – The index of the node in the network. Usually an integer is used.</p></li>
+<li><p><strong>pt</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Rhino.Geometry.Point3d</span></code>) – A RhinoCommon Point3d object.</p></li>
+<li><p><strong>position</strong> (<em>hashable</em><em>, </em><em>optional</em>) – <p>The ‘position’ attribute of the node identifying the underlying
+contour edge of the network.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</p></li>
+<li><p><strong>num</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>The ‘num’ attribute of the node representing its index in the
+underlying contour edge of the network.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</p></li>
+<li><p><strong>leaf</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>The ‘leaf’ attribute of the node identifying it as a node on the
+first or last course of the knitting pattern.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+<li><p><strong>start</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>The ‘start’ attribute of the node identifying it as the start of
+a course.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+<li><p><strong>end</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>The ‘end’ attribute of the node identifying it as the end of a
+segment or course.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+<li><p><strong>segment</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a> of <a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>, optional) – <p>The ‘segment’ attribute of the node identifying its position between
+two ‘end’ nodes.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</p></li>
+<li><p><strong>increase</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>The ‘increase’ attribute identifying the node as an increase
+(needed for translation from dual to 2d knitting pattern).</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+<li><p><strong>decrease</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>The ‘decrease’ attribute identifying the node as a decrease
+(needed for translation from dual to 2d knitting pattern).</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+<li><p><strong>color</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">System.Drawing.Color</span></code>, optional) – <p>The ‘color’ attribute of the node, representing the color of the
+pixel when translating the network to a 2d knitting pattern.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.node_geometry">
+<code class="sig-name descname">node_geometry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_index</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.node_geometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.node_geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the geometry from the ‘geo’ attribute of the supplied node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node_index</strong> (<em>hashable</em>) – The unique identifier of the node, an int in most cases.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>geometry</strong> (<em>data</em>) – The data of the ‘geo’ attribute of the specified node or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+if the node is not present or has no ‘geo’ attribute.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.node_warp_edges">
+<code class="sig-name descname">node_warp_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.node_warp_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.node_warp_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the ‘warp’ edges connected to the given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for ‘warp’ edges.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the edges will be returned as 3-tuples with their
+associated attribute data.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of ‘warp’ edges connected to the given node. Each item in the
+list will be either a 2-tuple of (u, v) identifiers or a 3-tuple
+of (u, v, d) where d is the attribute data of the edge, depending
+on the data parameter.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.node_weft_edges">
+<code class="sig-name descname">node_weft_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.node_weft_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.node_weft_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the ‘weft’ edges connected to a given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for ‘weft’ edges.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the edges will be returned as 3-tuples with their
+associated attribute data.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of ‘weft’ edges connected to the given node. Each item in the
+list will be either a 2-tuple of (u, v) identifiers or a 3-tuple
+of (u, v, d) where d is the attribute data of the edge, depending
+on the data parameter.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.nodes_on_position">
+<code class="sig-name descname">nodes_on_position</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">position</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.nodes_on_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.nodes_on_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the nodes on a given position (i.e. contour) by returning all
+nodes which share the given value as their ‘position’ attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> (<em>hashable</em>) – The index of the position.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, found nodes will be returned with their attribute data.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>nodes</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – The nodes sharing the supplied ‘position’ attribute.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.nodes_on_segment">
+<code class="sig-name descname">nodes_on_segment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">segment</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.nodes_on_segment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.nodes_on_segment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all nodes on a given segment by finding all nodes which share the
+specified value as their ‘segment’ attribute, ordered by the value of
+their ‘num’ attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segment</strong> (<em>hashable</em>) – The identifier of the segment to look for.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, found nodes will be returned with their attribute data.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>nodes</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of nodes sharing the supplied value as their ‘segment’
+attribute, ordered by their ‘num’ attribute.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.prepare_for_graphviz">
+<code class="sig-name descname">prepare_for_graphviz</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.prepare_for_graphviz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.prepare_for_graphviz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new graph with attributes for visualising this network
+using GraphViz.</p>
+<p>Based on code by Anders Holden Deleuran</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.segment_contour_edges">
+<em class="property">property </em><code class="sig-name descname">segment_contour_edges</code><a class="headerlink" href="#cockatoo.KnitNetworkBase.segment_contour_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>The edges of the network marked neither ‘warp’ nor ‘weft’ and which have a ‘segment’ attribute assigned to them.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.total_positions">
+<em class="property">property </em><code class="sig-name descname">total_positions</code><a class="headerlink" href="#cockatoo.KnitNetworkBase.total_positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total number of positions (i.e. contours) inside the network</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.warp_edges">
+<em class="property">property </em><code class="sig-name descname">warp_edges</code><a class="headerlink" href="#cockatoo.KnitNetworkBase.warp_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>The edges of the network marked ‘warp’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.weft_edges">
+<em class="property">property </em><code class="sig-name descname">weft_edges</code><a class="headerlink" href="#cockatoo.KnitNetworkBase.weft_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>The edges of the network marked ‘weft’.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="cockatoo-knitnetwork">
+<h3>cockatoo.KnitNetwork<a class="headerlink" href="#cockatoo-knitnetwork" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="cockatoo.KnitNetwork">
+<em class="property">class </em><code class="sig-prename descclassname">cockatoo.</code><code class="sig-name descname">KnitNetwork</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">attr</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo._knitnetworkbase.KnitNetworkBase</span></code></p>
+<p>Datastructure for representing a network (graph) consisting of nodes with
+special attributes aswell as ‘warp’ edges, ‘weft’ edges and contour edges
+which are neither ‘warp’ nor ‘weft’.</p>
+<p>Used for the automatic generation of knitting patterns based on mesh or
+NURBS surface geometry.</p>
+<p>Inherits from <a class="reference internal" href="#cockatoo.KnitNetworkBase" title="cockatoo.KnitNetworkBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">KnitNetworkBase</span></code></a>.</p>
+<p class="rubric">Notes</p>
+<p>The implemented algorithms are strongly based on the paper
+<em>Automated Generation of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id22" id="id17">1</a>.
+Also see <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
+structures</em> <a class="footnote-reference brackets" href="#id23" id="id18">2</a>.</p>
+<p>The implementation was further influenced by concepts and ideas presented
+in the papers <em>Automatic Machine Knitting of 3D Meshes</em> <a class="footnote-reference brackets" href="#id24" id="id19">3</a>,
+<em>Visual Knitting Machine Programming</em> <a class="footnote-reference brackets" href="#id25" id="id20">4</a> and
+<em>A Compiler for 3D Machine Knitting</em> <a class="footnote-reference brackets" href="#id26" id="id21">5</a>.</p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id22"><span class="brackets">1</span><span class="fn-backref">(<a href="#id17">1</a>,<a href="#id27">2</a>,<a href="#id29">3</a>,<a href="#id31">4</a>,<a href="#id33">5</a>,<a href="#id35">6</a>,<a href="#id37">7</a>,<a href="#id40">8</a>,<a href="#id42">9</a>,<a href="#id44">10</a>,<a href="#id46">11</a>,<a href="#id48">12</a>,<a href="#id51">13</a>,<a href="#id58">14</a>,<a href="#id61">15</a>)</span></dt>
+<dd><p>Popescu, Mariana et al. <em>Automated Generation of Knit Patterns
+for Non-developable Surfaces</em></p>
+<p>See: <a class="reference external" href="https://block.arch.ethz.ch/brg/files/POPESCU_DMSP-2017_automated-generation-knit-patterns_1505737906.pdf">Automated Generation of Knit Patterns for Non-developable
+Surfaces</a></p>
+</dd>
+<dt class="label" id="id23"><span class="brackets">2</span><span class="fn-backref">(<a href="#id18">1</a>,<a href="#id28">2</a>,<a href="#id30">3</a>,<a href="#id32">4</a>,<a href="#id34">5</a>,<a href="#id36">6</a>,<a href="#id38">7</a>,<a href="#id41">8</a>,<a href="#id43">9</a>,<a href="#id45">10</a>,<a href="#id47">11</a>,<a href="#id49">12</a>,<a href="#id52">13</a>,<a href="#id59">14</a>,<a href="#id62">15</a>)</span></dt>
+<dd><p>Popescu, Mariana <em>KnitCrete - Stay-in-place knitted formworks for
+complex concrete structures</em></p>
+<p>See: <a class="reference external" href="https://block.arch.ethz.ch/brg/files/POPESCU_2019_ETHZ_PhD_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures_small_1586266206.pdf">KnitCrete - Stay-in-place knitted formworks for complex
+concrete structures</a></p>
+</dd>
+<dt class="label" id="id24"><span class="brackets">3</span><span class="fn-backref">(<a href="#id19">1</a>,<a href="#id53">2</a>,<a href="#id63">3</a>)</span></dt>
+<dd><p>Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian;
+McCann, James <em>Automatic Machine Knitting of 3D Meshes</em></p>
+<p>See: <a class="reference external" href="https://textiles-lab.github.io/publications/2018-autoknit/">Automatic Machine Knitting of 3D Meshes</a></p>
+</dd>
+<dt class="label" id="id25"><span class="brackets">4</span><span class="fn-backref">(<a href="#id20">1</a>,<a href="#id54">2</a>,<a href="#id64">3</a>)</span></dt>
+<dd><p>Narayanan, Vidya; Wu, Kui et al. <em>Visual Knitting Machine
+Programming</em></p>
+<p>See: <a class="reference external" href="https://textiles-lab.github.io/publications/2019-visualknit/">Visual Knitting Machine Programming</a></p>
+</dd>
+<dt class="label" id="id26"><span class="brackets">5</span><span class="fn-backref">(<a href="#id21">1</a>,<a href="#id55">2</a>,<a href="#id65">3</a>)</span></dt>
+<dd><p>McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April;
+Matusik, Wojciech; Mankoff, Jen; Hodgins, Jessica
+<em>A Compiler for 3D Machine Knitting</em></p>
+<p>See: <a class="reference external" href="https://la.disneyresearch.com/publication/machine-knitting-compiler/">A Compiler for 3D Machine Knitting</a></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.ToString">
+<code class="sig-name descname">ToString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.ToString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.ToString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a textual description of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>description</strong> (<em>str</em>) – A textual description of the network.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Used for overloading the Grasshopper display in data parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.all_nodes_by_segment">
+<code class="sig-name descname">all_nodes_by_segment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">edges</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.all_nodes_by_segment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.all_nodes_by_segment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all nodes of the network ordered by ‘segment’ attribute.
+Note: ‘end’ nodes are not included!</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the nodes contained in the output will be represented
+as 2-tuples in the form of (node_identifier, node_data).</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</p></li>
+<li><p><strong>edges</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the returned output list will contain 3-tuples in the
+form of (segment_value, segment_nodes, segment_edge).</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>nodes_by_segment</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – List of 2-tuples in the form of (segment_value, segment_nodes) or
+3-tuples in the form of (segment_value, segment_nodes, segment_edge)
+depending on the <code class="docutils literal notranslate"><span class="pre">edges</span></code> argument.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cockatoo.exception.MappingNetworkError" title="cockatoo.exception.MappingNetworkError"><strong>MappingNetworkError</strong></a> – If the mapping network is not available for this instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.assign_segment_attributes">
+<code class="sig-name descname">assign_segment_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.assign_segment_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.assign_segment_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the segmentation for loop generation and assign ‘segment’ attributes
+to ‘weft’ edges and nodes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.attempt_warp_connection">
+<code class="sig-name descname">attempt_warp_connection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">candidate</span></em>, <em class="sig-param"><span class="n">source_nodes</span></em>, <em class="sig-param"><span class="n">max_connections</span><span class="o">=</span><span class="default_value">4</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.attempt_warp_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.attempt_warp_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for attempting a ‘warp’ connection to a candidate
+node based on certain parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>node</em>) – The starting node for the possible ‘weft’ edge.</p></li>
+<li><p><strong>candidate</strong> (<em>node</em>) – The target node for the possible ‘weft’ edge.</p></li>
+<li><p><strong>source_nodes</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of nodes on the position contour of node. Used to check if
+the candidate node already has a connection.</p></li>
+<li><p><strong>max_connections</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>The new ‘weft’ connection will only be made if the candidate nodes
+number of connected neighbors is below this.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">4</span></code>.</p>
+</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, this routine and all its subroutines will print
+messages about what is happening to the console.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> (<em>bool</em>) – True if the connection has been made, otherwise false.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Closely resembles the implementation described in Automated Generation
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id27">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id28">2</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.attempt_weft_connection">
+<code class="sig-name descname">attempt_weft_connection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">candidate</span></em>, <em class="sig-param"><span class="n">source_nodes</span></em>, <em class="sig-param"><span class="n">max_connections</span><span class="o">=</span><span class="default_value">4</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.attempt_weft_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.attempt_weft_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for attempting a ‘weft’ connection to a candidate
+node based on certain parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – 2-tuple representing the source node for the possible ‘weft’ edge.</p></li>
+<li><p><strong>candidate</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>) – -tuple representing the target node for the possible ‘weft’ edge.</p></li>
+<li><p><strong>source_nodes</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of nodes on the position contour of node. Used to check if
+the candidate node already has a connection.</p></li>
+<li><p><strong>max_connections</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>The new ‘weft’ connection will only be made if the candidate nodes
+number of connected neighbors is below this.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">4</span></code>.</p>
+</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, this routine and all its subroutines will print
+messages about what is happening to the console.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>bool</em> – <code class="docutils literal notranslate"><span class="pre">True</span></code> if the connection has been made,
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Closely resembles the implementation described in Automated Generation
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id29">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id30">2</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.create_dual">
+<code class="sig-name descname">create_dual</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">merge_adj_creases</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">mend_trailing_rows</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.create_dual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.create_dual" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the dual of this KnitNetwork while translating current edge
+attributes to the edges of the dual network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>Determines how the neighbors of each node are sorted when finding
+cycles for the network.</p>
+<p><code class="docutils literal notranslate"><span class="pre">-1</span></code> equals to using the world XY plane.</p>
+<p><code class="docutils literal notranslate"><span class="pre">0</span></code> equals to using a plane normal to the origin nodes closest
+point on the reference geometry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> equals to using a plane normal to the average of the origin
+and neighbor nodes’ closest points on the reference geometry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">2</span></code> equals to using an average plane between a plane fit to the
+origin and its neighbor nodes and a plane normal to the origin
+nodes closest point on the reference geometry.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
+</p></li>
+<li><p><strong>merge_adj_creases</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will merge adjacent ‘increase’ and ‘decrease’ nodes
+connected by a ‘weft’ edge into a single node. This effectively
+simplifies the pattern, as a decrease is unneccessary to perform
+if an increase is right beside it - both nodes can be replaced by a
+single regular node (stitch).</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+<li><p><strong>mend_trailing_rows</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will attempt to mend trailing rows by reconnecting
+nodes.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dual_network</strong> (<a class="reference internal" href="#cockatoo.KnitDiNetwork" title="cockatoo.KnitDiNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">KnitDiNetwork</span></code></a>) – The dual network of this KnitNetwork.</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Modes other than -1 (default) are only possible if this network has an
+underlying reference geometry in form of a Mesh or NurbsSurface. The
+reference geometry  should be assigned when initializing the network by
+assigning the geometry to the ‘reference_geometry’ attribute of the
+network.</p>
+</div>
+<p class="rubric">Notes</p>
+<p>Closely resembles the implementation described in Automated Generation
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id31">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id32">2</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.create_final_warp_connections">
+<code class="sig-name descname">create_final_warp_connections</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">max_connections</span><span class="o">=</span><span class="default_value">4</span></em>, <em class="sig-param"><span class="n">include_end_nodes</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">precise</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.create_final_warp_connections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.create_final_warp_connections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the final ‘warp’ connections by building chains of segment
+contour edges and connecting them.</p>
+<p>For each source chain, a target chain is found using an
+‘educated guessing’ strategy. This means that the possible target chains
+are guessed by leveraging known topology facts about the network and its
+special ‘end’ nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_connections</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>The number of maximum previous connections a candidate node for a
+‘warp’ connection is allowed to have.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">4</span></code>.</p>
+</p></li>
+<li><p><strong>include_end_nodes</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, ‘end’ nodes between adjacent segment contours in a
+source chain will be included in the first pass of connecting ‘warp’
+edges.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</p></li>
+<li><p><strong>precise</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the distance between nodes will be calculated using the
+Rhino.Geometry.Point3d.DistanceTo method, otherwise the much faster
+Rhino.Geometry.Point3d.DistanceToSquared method is used.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, this routine and all its subroutines will print
+messages about what is happening to the console. Great for debugging
+and analysis.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Closely resembles the implementation described in Automated Generation
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id33">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id34">2</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.create_final_weft_connections">
+<code class="sig-name descname">create_final_weft_connections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.create_final_weft_connections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.create_final_weft_connections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loop through all the segment contour edges and create all ‘weft’
+connections for this network.</p>
+<p class="rubric">Notes</p>
+<p>Closely resembles the implementation described in Automated Generation
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id35">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id36">2</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.create_from_contours">
+<em class="property">classmethod </em><code class="sig-name descname">create_from_contours</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">contours</span></em>, <em class="sig-param"><span class="n">course_height</span></em>, <em class="sig-param"><span class="n">reference_geometry</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.create_from_contours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.create_from_contours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and initialize a KnitNetwork based on a set of contours, a
+given course height and an optional reference geometry.
+The reference geometry is a mesh or surface which should be described by the
+network. While it is optional, it is <strong>HIGHLY</strong> recommended to provide
+it!</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contours</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">Rhino.Geometry.Polyline</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Rhino.Geometry.Curve</span></code>) – Ordered contours (i.e. isocurves, isolines) to initialize the
+KnitNetwork with.</p></li>
+<li><p><strong>course_height</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – The course height for sampling the contours.</p></li>
+<li><p><strong>reference_geometry</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Rhino.Geometry.Mesh</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Rhino.Geometry.Surface</span></code>) – Optional underlying geometry that this network is based on.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>KnitNetwork</strong> (<em>KnitNetwork</em>) – A new, initialized KnitNetwork instance.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This method will automatically call initialize_position_contour_edges() on
+the newly created network!</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cockatoo.exception.KnitNetworkGeometryError" title="cockatoo.exception.KnitNetworkGeometryError"><strong>KnitNetworkGeometryError</strong></a> – If a supplied contour is not a valid instance of
+    <code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.Polyline</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.Curve</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.create_mapping_network">
+<code class="sig-name descname">create_mapping_network</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.create_mapping_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.create_mapping_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the corresponding mapping network for the final loop generation
+from a KnitNetwork instance with fully assigned ‘segment’ attributes.</p>
+<p>The created mapping network will be part of the KnitNetwork instance.
+It can be accessed using the mapping_network property.</p>
+<p class="rubric">Notes</p>
+<p>All nodes without an ‘end’ attribute as well as all ‘weft’ edges are
+removed by this step. Final nodes as well as final ‘weft’ and ‘warp’
+edges can only be created using the mapping network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>success</strong> (<em>bool</em>) – <code class="docutils literal notranslate"><span class="pre">True</span></code> if the mapping network has been successfully created,
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Closely resembles the implementation described in Automated Generation
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id37">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id38">2</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.create_mesh">
+<code class="sig-name descname">create_mesh</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">max_valence</span><span class="o">=</span><span class="default_value">4</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.create_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.create_mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a mesh from this network by finding cycles and using them as
+mesh faces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>Determines how the neighbors of each node are sorted when finding
+cycles for the network.</p>
+<p><code class="docutils literal notranslate"><span class="pre">-1</span></code> equals to using the world XY plane.</p>
+<p><code class="docutils literal notranslate"><span class="pre">0</span></code> equals to using a plane normal to the origin nodes closest
+point on the reference geometry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> equals to using a plane normal to the average of the origin
+and neighbor nodes’ closest points on the reference geometry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">2</span></code> equals to using an average plane between a plane fit to the
+origin and its neighbor nodes and a plane normal to the origin
+nodes closest point on the reference geometry.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
+</p></li>
+<li><p><strong>max_valence</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>Sets the maximum edge valence of the faces. If this is set to &gt; 4,
+n-gon faces (more than 4 edges) are allowed. Otherwise, their cycles
+are treated as invalid and will be ignored.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">4</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Modes other than <code class="docutils literal notranslate"><span class="pre">-1</span></code> are only possible if this network has an
+underlying reference geometry in form of a Mesh or NurbsSurface. The
+reference geometry should be assigned when initializing the network by
+assigning the geometry to the “reference_geometry” attribute of the
+network.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.find_cycles">
+<code class="sig-name descname">find_cycles</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.find_cycles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.find_cycles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the cycles (faces) of this network by utilizing a wall-follower
+mechanism.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>Determines how the neighbors of each node are sorted when finding
+cycles for the network.
+<code class="docutils literal notranslate"><span class="pre">-1</span></code> equals to using the world XY plane.</p>
+<p><code class="docutils literal notranslate"><span class="pre">0</span></code> equals to using a plane normal to the origin nodes closest
+point on the reference geometry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> equals to using a plane normal to the average of the origin
+and neighbor nodes’ closest points on the reference geometry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">2</span></code> equals to using an average plane between a plane fit to the
+origin and its neighbor nodes and a plane normal to the origin
+nodes closest point on the reference geometry.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
+</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Modes other than <code class="docutils literal notranslate"><span class="pre">-1</span></code> are only possible if this network has an
+underlying reference geometry in form of a Mesh or NurbsSurface. The
+reference geometry should be assigned when initializing the network by
+assigning the geometry to the “reference_geometry” attribute of the
+network.</p>
+</div>
+<p class="rubric">Notes</p>
+<p>Based on an implementation inside the COMPAS framework.
+For more info see <a class="footnote-reference brackets" href="#id14" id="id39">16</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.initialize_leaf_connections">
+<code class="sig-name descname">initialize_leaf_connections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.initialize_leaf_connections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.initialize_leaf_connections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create all initial connections of the ‘leaf’ nodes by iterating over
+all position contours and creating ‘weft’ edges between the ‘leaf’
+nodes of the position contours.</p>
+<p class="rubric">Notes</p>
+<p>Closely resembles the implementation described in Automated Generation
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id40">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id41">2</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.initialize_position_contour_edges">
+<code class="sig-name descname">initialize_position_contour_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.initialize_position_contour_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.initialize_position_contour_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates all initial position contour edges as neither ‘warp’ nor ‘weft’
+by iterating over all nodes in the network and grouping them based on
+their ‘position’ attribute.</p>
+<p class="rubric">Notes</p>
+<p>This method is automatically called when creating a KnitNetwork using
+the create_from_contours method!</p>
+<p>Closely resembles the implementation described in Automated Generation
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id42">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id43">2</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.initialize_warp_edges">
+<code class="sig-name descname">initialize_warp_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">contour_set</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.initialize_warp_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.initialize_warp_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for initializing first ‘warp’ connections once all preliminary
+‘weft’ connections are made.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contour_set</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>, optional) – <p>List of lists of nodes to initialize ‘warp’ edges. If none are
+supplied, all nodes ordered by thei ‘position’ attributes are
+used.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will print verbose output to the console.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Closely resembles the implementation described in Automated Generation
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id44">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id45">2</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.initialize_weft_edges">
+<code class="sig-name descname">initialize_weft_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_index</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">propagate_from_center</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">force_continuous_start</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">force_continuous_end</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">angle_threshold</span><span class="o">=</span><span class="default_value">0.10471975511965978</span></em>, <em class="sig-param"><span class="n">max_connections</span><span class="o">=</span><span class="default_value">4</span></em>, <em class="sig-param"><span class="n">least_connected</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">precise</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.initialize_weft_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.initialize_weft_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempts to create all the preliminary ‘weft’ connections for the
+network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_index</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>This value defines at which index the list of contours is split.
+If no index is supplied, will split the list at the longest contour.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</p></li>
+<li><p><strong>propagate_from_center</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will propagate left and right set of contours from
+the center contour defined by start_index or the longest contour
+( &lt; | &gt; ). Otherwise, the propagation of the contours left to the
+center will start at the left boundary ( &gt; | &gt; ).</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</p></li>
+<li><p><strong>force_continuous_start</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, forces the first row of stitches to be continuous.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+<li><p><strong>force_continuous_end</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, forces the last row of stitches to be continuous.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+<li><p><strong>max_connections</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>The maximum connections a node is allowed to have to be considered
+for an additional ‘weft’ connection.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">4</span></code>.</p>
+</p></li>
+<li><p><strong>least_connected</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, uses the least connected node from the found
+candidates.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</p></li>
+<li><p><strong>precise</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the distance between nodes will be calculated using the
+Rhino.Geometry.Point3d.DistanceTo method, otherwise the much faster
+Rhino.Geometry.Point3d.DistanceToSquared method is used.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, this routine and all its subroutines will print
+messages about what is happening to the console. Great for debugging
+and analysis.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#cockatoo.exception.KnitNetworkError" title="cockatoo.exception.KnitNetworkError"><strong>KnitNetworkError</strong></a> – If the supplied splitting index is too high.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Closely resembles the implementation described in Automated Generation
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id46">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id47">2</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.mapping_network">
+<em class="property">property </em><code class="sig-name descname">mapping_network</code><a class="headerlink" href="#cockatoo.KnitNetwork.mapping_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>The associated mapping network of this                                KnitNetwork instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.sample_segment_contours">
+<code class="sig-name descname">sample_segment_contours</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stitch_width</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.sample_segment_contours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.sample_segment_contours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Samples the segment contours of the mapping network with the given
+stitch width. The resulting points are added to the network as nodes
+and a ‘segment’ attribute is assigned to them based on their origin
+segment contour edge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>stitch_width</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – The width of a single stitch inside the knit.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#cockatoo.exception.MappingNetworkError" title="cockatoo.exception.MappingNetworkError"><strong>MappingNetworkError</strong></a> – If the mapping network is not available for this instance.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Closely resembles the implementation described in Automated Generation
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id48">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id49">2</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.to_KnitDiNetwork">
+<code class="sig-name descname">to_KnitDiNetwork</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.to_KnitDiNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.to_KnitDiNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs and returns a directed KnitDiNetwork based on this network
+by duplicating all edges so that [u -&gt; v] and [v -&gt; u] for every
+edge [u - v] in this undirected network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>directed_network</strong> (<a class="reference internal" href="#cockatoo.KnitDiNetwork" title="cockatoo.KnitDiNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">KnitDiNetwork</span></code></a>) – The directed representation of this network.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitNetwork.traverse_weft_edges_and_set_attributes">
+<code class="sig-name descname">traverse_weft_edges_and_set_attributes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_end_node</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetwork.html#KnitNetwork.traverse_weft_edges_and_set_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetwork.traverse_weft_edges_and_set_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Traverse a path of ‘weft’ edges starting from an ‘end’ node until
+another ‘end’ node is discovered. Set ‘segment’ attributes to nodes
+and edges along the way.</p>
+<dl>
+<dt>start_end_node<span class="classifier"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a></span></dt><dd><p>2-tuple representing the node to start the traversal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="cockatoo-knitdinetwork">
+<h3>cockatoo.KnitDiNetwork<a class="headerlink" href="#cockatoo-knitdinetwork" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="cockatoo.KnitDiNetwork">
+<em class="property">class </em><code class="sig-prename descclassname">cockatoo.</code><code class="sig-name descname">KnitDiNetwork</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">attr</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.classes.digraph.DiGraph</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo._knitnetworkbase.KnitNetworkBase</span></code></p>
+<p>Datastructure representing a directed graph of nodes aswell as ‘weft’
+and ‘warp’ edges. Used in the automatic generation of knitting patterns.</p>
+<p>Inherits from <code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.DiGraph</span></code>, <a class="reference internal" href="#cockatoo.KnitNetworkBase" title="cockatoo.KnitNetworkBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">KnitNetworkBase</span></code></a>.
+For more info, see <em>NetworkX</em> <a class="footnote-reference brackets" href="#id16" id="id50">13</a>.</p>
+<p class="rubric">Notes</p>
+<p>The implemented algorithms are strongly based on the paper
+<em>Automated Generation of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id22" id="id51">1</a>.
+Also see <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
+structures</em> <a class="footnote-reference brackets" href="#id23" id="id52">2</a>.</p>
+<p>The implementation was further influenced by concepts and ideas presented
+in the papers <em>Automatic Machine Knitting of 3D Meshes</em> <a class="footnote-reference brackets" href="#id24" id="id53">3</a>,
+<em>Visual Knitting Machine Programming</em> <a class="footnote-reference brackets" href="#id25" id="id54">4</a> and
+<em>A Compiler for 3D Machine Knitting</em> <a class="footnote-reference brackets" href="#id26" id="id55">5</a>.</p>
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.ToString">
+<code class="sig-name descname">ToString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.ToString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.ToString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a textual description of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>description</strong> (<em>str</em>) – A textual description of the network.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Used for overloading the Grasshopper display in data parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.create_mesh">
+<code class="sig-name descname">create_mesh</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">max_valence</span><span class="o">=</span><span class="default_value">4</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.create_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.create_mesh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a mesh from this network by finding cycles and using them as
+mesh faces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>Determines how the neighbors of each node are sorted when finding
+cycles for the network.</p>
+<p><code class="docutils literal notranslate"><span class="pre">-1</span></code> equals to using the world XY plane.</p>
+<p><code class="docutils literal notranslate"><span class="pre">0</span></code> equals to using a plane normal to the origin nodes closest
+point on the reference geometry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> equals to using a plane normal to the average of the origin
+and neighbor nodes’ closest points on the reference geometry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">2</span></code> equals to using an average plane between a plane fit to the
+origin and its neighbor nodes and a plane normal to the origin
+nodes closest point on the reference geometry.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
+</p></li>
+<li><p><strong>max_valence</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>Sets the maximum edge valence of the faces. If this is set to &gt; 4,
+n-gon faces (more than 4 edges) are allowed. Otherwise, their cycles
+are treated as invalid and will be ignored.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">4</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Modes other than <code class="docutils literal notranslate"><span class="pre">-1</span></code> are only possible if this network has an
+underlying reference geometry in form of a Mesh or NurbsSurface. The
+reference geometry should be assigned when initializing the network by
+assigning the geometry to the “reference_geometry” attribute of the
+network.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.find_cycles">
+<code class="sig-name descname">find_cycles</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.find_cycles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.find_cycles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the cycles (faces) of this network by utilizing a wall-follower
+mechanism.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>Determines how the neighbors of each node are sorted when finding
+cycles for the network.</p>
+<p><code class="docutils literal notranslate"><span class="pre">-1</span></code> equals to using the world XY plane.</p>
+<p><code class="docutils literal notranslate"><span class="pre">0</span></code> equals to using a plane normal to the origin nodes closest
+point on the reference geometry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> equals to using a plane normal to the average of the origin
+and neighbor nodes’ closest points on the reference geometry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">2</span></code> equals to using an average plane between a plane fit to the
+origin and its neighbor nodes and a plane normal to the origin
+nodes closest point on the reference geometry.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
+</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Modes other than -1 (default) are only possible if this network has an
+underlying reference geometry in form of a Mesh or NurbsSurface. The
+reference geometry should be assigned when initializing the network by
+assigning the geometry to the “reference_geometry” attribute of the network.</p>
+</div>
+<p class="rubric">Notes</p>
+<p>Based on an implementation inside the COMPAS framework.
+For more info see <a class="footnote-reference brackets" href="#id57" id="id56">17</a>.</p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id57"><span class="brackets"><a class="fn-backref" href="#id56">17</a></span></dt>
+<dd><p>Van Mele, Tom et al. <em>COMPAS: A framework for computational
+research in architecture and structures</em>.</p>
+<p>See: <a class="reference external" href="https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L20">find_cycles() inside COMPAS</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.make_pattern_data">
+<code class="sig-name descname">make_pattern_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">consolidate</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.make_pattern_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.make_pattern_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Topological sort this network to represent it as 2d knitting pattern
+consisting of rows and columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>consolidate</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will consolidate the final pattern data.
+Defaulst to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>pattern_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List (rows) of lists (column values) where every value represents
+a node.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cockatoo.exception.KnitNetworkTopologyError" title="cockatoo.exception.KnitNetworkTopologyError"><strong>KnitNetworkTopologyError</strong></a> – if the network does not satisfy the topology constraints needed for
+    this operation and the outcome would be unfeasible or unpredictable.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Closely resembles the implementation described in Automated Generation
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id58">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id59">2</a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.node_contour_edges">
+<code class="sig-name descname">node_contour_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.node_contour_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.node_contour_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the incoming and outcoing edges marked neither ‘warp’ nor ‘weft’
+connected to the given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for incoming and outgoing
+edges neither ‘weft’ nor ‘warp’.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will also return the edges associated data attribute
+dictionary.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>weft_edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of incoming and outgoing edges neither ‘weft’ nor ‘warp’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.node_contour_edges_in">
+<code class="sig-name descname">node_contour_edges_in</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.node_contour_edges_in"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.node_contour_edges_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the incoming edges marked neither ‘warp’ nor ‘weft’ connected to
+the given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for incoming edges neither
+‘weft’ nor ‘warp’.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will also return the edges associated data attribute
+dictionary.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>weft_edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of incoming edges neither ‘weft’ nor ‘warp’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.node_contour_edges_out">
+<code class="sig-name descname">node_contour_edges_out</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.node_contour_edges_out"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.node_contour_edges_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the outgoing edges marked neither ‘warp’ nor ‘weft’ connected to
+the given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for outgoing edges neither
+‘weft’ nor ‘warp’.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will also return the edges associated data attribute
+dictionary.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>weft_edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of outgoing edges neither ‘weft’ nor ‘warp’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.node_warp_edges">
+<code class="sig-name descname">node_warp_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.node_warp_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.node_warp_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the incoming and outgoing ‘warp’ edges connected to the given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for incoming and outgoing
+‘warp’ edges.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will also return the edges associated data attribute
+dictionary.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>weft_edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of incoming and outgoing ‘warp’ edges.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.node_warp_edges_in">
+<code class="sig-name descname">node_warp_edges_in</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.node_warp_edges_in"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.node_warp_edges_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the incoming ‘warp’ edges connected to the given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for incoming ‘warp’ edges.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will also return the edges associated data attribute
+dictionary.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>weft_edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of incoming ‘warp’ edges.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.node_warp_edges_out">
+<code class="sig-name descname">node_warp_edges_out</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.node_warp_edges_out"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.node_warp_edges_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the outgoing ‘warp’ edges connected to the given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for outgoing ‘warp’ edges.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will also return the edges associated data attribute
+dictionary.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>weft_edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of outgoing ‘warp’ edges.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.node_weft_edges">
+<code class="sig-name descname">node_weft_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.node_weft_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.node_weft_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets incoming and outgoing ‘weft’ edges connected to the given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for incoming and outgoing
+‘weft’ edges.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will also return the edges associated data attribute
+dictionary.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>weft_edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of incoming and outgoing ‘weft’ edges.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.node_weft_edges_in">
+<code class="sig-name descname">node_weft_edges_in</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.node_weft_edges_in"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.node_weft_edges_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the incoming ‘weft’ edges connected to the given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for incoming ‘weft’ edges.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will also return the edges associated data attribute
+dictionary.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>weft_edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of incoming ‘weft’ edges.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.node_weft_edges_out">
+<code class="sig-name descname">node_weft_edges_out</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.node_weft_edges_out"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.node_weft_edges_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the outgoing ‘weft’ edges connected to the given node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<em>hashable</em>) – Hashable identifier of the node to check for outgoing ‘weft’ edges.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will also return the edges associated data attribute
+dictionary.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>weft_edges</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of outgoing ‘weft’ edges.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitDiNetwork.verify_dual_form">
+<code class="sig-name descname">verify_dual_form</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.verify_dual_form"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.verify_dual_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies this network to have the correct form of a dual as needed for
+representing this network as a 2d knitting pattern.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>bool</em> – <code class="docutils literal notranslate"><span class="pre">True</span></code> on success, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="cockatoo-knitmappingnetwork">
+<h3>cockatoo.KnitMappingNetwork<a class="headerlink" href="#cockatoo-knitmappingnetwork" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="cockatoo.KnitMappingNetwork">
+<em class="property">class </em><code class="sig-prename descclassname">cockatoo.</code><code class="sig-name descname">KnitMappingNetwork</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">attr</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitmappingnetwork.html#KnitMappingNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitMappingNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.classes.multigraph.MultiGraph</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">cockatoo._knitnetworkbase.KnitNetworkBase</span></code></p>
+<p>Datastructure representing a mapping between connected chains of ‘weft’
+edges in a KnitNetwork for final creation of ‘weft’ and ‘warp’ edges.</p>
+<p>Inherits from <code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.MultiGraph</span></code>, <a class="reference internal" href="#cockatoo.KnitNetworkBase" title="cockatoo.KnitNetworkBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">KnitNetworkBase</span></code></a>
+For more info, see <em>NetworkX</em> <a class="footnote-reference brackets" href="#id16" id="id60">13</a>.</p>
+<p class="rubric">Notes</p>
+<p>Not intended to be instantiated separately. Should only be instantiated
+by the KnitNetwork.create_mapping_network method!</p>
+<p>The implemented algorithms are strongly based on the paper
+<em>Automated Generation of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id22" id="id61">1</a>.
+Also see <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
+structures</em> <a class="footnote-reference brackets" href="#id23" id="id62">2</a>.</p>
+<p>The implementation was further influenced by concepts and ideas presented
+in the papers <em>Automatic Machine Knitting of 3D Meshes</em> <a class="footnote-reference brackets" href="#id24" id="id63">3</a>,
+<em>Visual Knitting Machine Programming</em> <a class="footnote-reference brackets" href="#id25" id="id64">4</a> and
+<em>A Compiler for 3D Machine Knitting</em> <a class="footnote-reference brackets" href="#id26" id="id65">5</a>.</p>
+<dl class="py method">
+<dt id="cockatoo.KnitMappingNetwork.ToString">
+<code class="sig-name descname">ToString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitmappingnetwork.html#KnitMappingNetwork.ToString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitMappingNetwork.ToString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a textual description of the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>description</strong> (<em>str</em>) – A textual description of the network.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Used for overloading the Grasshopper display in data parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitMappingNetwork.build_chains">
+<code class="sig-name descname">build_chains</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source_as_dict</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">target_as_dict</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitmappingnetwork.html#KnitMappingNetwork.build_chains"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitMappingNetwork.build_chains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for building source and target chains from segment
+contour edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_as_dict</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will return the source chains as a dictionary indexed
+by their chain value.</p></li>
+<li><p><strong>target_as_dict</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will return the target chains as a dictionary indexed
+by their chain value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>chains</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – 2-tuple in the form of (source_chains, target_chains).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cockatoo.KnitMappingNetwork.traverse_segments_until_warp">
+<code class="sig-name descname">traverse_segments_until_warp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">way_segments</span></em>, <em class="sig-param"><span class="n">down</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">by_end</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitmappingnetwork.html#KnitMappingNetwork.traverse_segments_until_warp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitMappingNetwork.traverse_segments_until_warp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for traversing a path of ‘segment’ edges until a ‘warp’
+edge is discovered which points to the previous or the next segment.
+Returns the ids of the segment array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>way_segments</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of segments that is filled during method execution. The list
+should contain the start segment when calling this method!</p></li>
+<li><p><strong>down</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will traverse until a downwards ‘warp’ edge is
+discovered, otherwise will traverse antil an upwards ‘warp’ edge
+is discovered.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</p></li>
+<li><p><strong>by_end</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will traverse the ‘segment’ edges in the opposite
+direction.</p>
+<p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>segments</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>) – List of segments representing a chain.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError:</strong> – If <code class="docutils literal notranslate"><span class="pre">way_segments</span></code> is empty at call.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to Cockatoo’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Max Eschenbach.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0.0-alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="_static/jquery.fancybox.min.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+  <script type="text/javascript">
+    $(function(){
+      $('.image-reference').fancybox();
+    })
+  </script>
+
+</body>
+</html>

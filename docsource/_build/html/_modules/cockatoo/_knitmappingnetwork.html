@@ -1,0 +1,644 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cockatoo._knitmappingnetwork &mdash; Cockatoo 0.1.0.0-alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/jquery.fancybox.min.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../_static/glpi.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Cockatoo 0.1.0.0-alpha documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Cockatoo
+          
+
+          
+          </a>
+
+          
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">COCKATOO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cockatoo.html">cockatoo module API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Cockatoo</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>cockatoo._knitmappingnetwork</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cockatoo._knitmappingnetwork</h1><div class="highlight"><pre>
+<span></span><span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
+
+<span class="c1"># DUNDER -----------------------------------------------------------------------</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;KnitMappingNetwork&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># THIRD PARTY MODULE IMPORTS ---------------------------------------------------</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+
+<span class="c1"># LOCAL MODULE IMPORTS ---------------------------------------------------------</span>
+<span class="kn">from</span> <span class="nn">cockatoo._knitnetworkbase</span> <span class="kn">import</span> <span class="n">KnitNetworkBase</span>
+<span class="kn">from</span> <span class="nn">cockatoo.utilities</span> <span class="kn">import</span> <span class="n">is_ccw_xy</span>
+
+<span class="c1"># CLASS DECLARATION ------------------------------------------------------------</span>
+<div class="viewcode-block" id="KnitMappingNetwork"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitMappingNetwork">[docs]</a><span class="k">class</span> <span class="nc">KnitMappingNetwork</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">MultiGraph</span><span class="p">,</span> <span class="n">KnitNetworkBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Datastructure representing a mapping between connected chains of &#39;weft&#39;</span>
+<span class="sd">    edges in a KnitNetwork for final creation of &#39;weft&#39; and &#39;warp&#39; edges.</span>
+
+<span class="sd">    Inherits from :class:`networkx.MultiGraph`, :class:`KnitNetworkBase`</span>
+<span class="sd">    For more info, see *NetworkX* [13]_.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Not intended to be instantiated separately. Should only be instantiated</span>
+<span class="sd">    by the KnitNetwork.create_mapping_network method!</span>
+
+<span class="sd">    The implemented algorithms are strongly based on the paper</span>
+<span class="sd">    *Automated Generation of Knit Patterns for Non-developable Surfaces* [1]_.</span>
+<span class="sd">    Also see *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
+<span class="sd">    structures* [2]_.</span>
+
+<span class="sd">    The implementation was further influenced by concepts and ideas presented</span>
+<span class="sd">    in the papers *Automatic Machine Knitting of 3D Meshes* [3]_,</span>
+<span class="sd">    *Visual Knitting Machine Programming* [4]_ and</span>
+<span class="sd">    *A Compiler for 3D Machine Knitting* [5]_.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a textual description of the network.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        description : str</span>
+<span class="sd">            A textual description of the network.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;KnitMappingNetwork&quot;</span>
+
+        <span class="n">nn</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+        <span class="n">ce</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">contour_edges</span><span class="p">)</span>
+        <span class="n">wee</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weft_edges</span><span class="p">)</span>
+        <span class="n">wae</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">warp_edges</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(</span><span class="si">{}</span><span class="s2"> Nodes, </span><span class="si">{}</span><span class="s2"> Segment Contours, </span><span class="si">{}</span><span class="s2"> Weft, </span><span class="si">{}</span><span class="s2"> Warp)&quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span> <span class="n">ce</span><span class="p">,</span> <span class="n">wee</span><span class="p">,</span> <span class="n">wae</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">name</span> <span class="o">+</span> <span class="n">data</span>
+
+<div class="viewcode-block" id="KnitMappingNetwork.ToString"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitMappingNetwork.ToString">[docs]</a>    <span class="k">def</span> <span class="nf">ToString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a textual description of the network.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        description : str</span>
+<span class="sd">            A textual description of the network.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Used for overloading the Grasshopper display in data parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="c1"># SEGMENT CONTOUR METHODS --------------------------------------------------</span>
+
+<div class="viewcode-block" id="KnitMappingNetwork.traverse_segments_until_warp"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitMappingNetwork.traverse_segments_until_warp">[docs]</a>    <span class="k">def</span> <span class="nf">traverse_segments_until_warp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">way_segments</span><span class="p">,</span> <span class="n">down</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">by_end</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method for traversing a path of &#39;segment&#39; edges until a &#39;warp&#39;</span>
+<span class="sd">        edge is discovered which points to the previous or the next segment.</span>
+<span class="sd">        Returns the ids of the segment array.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        way_segments : :obj:`list`</span>
+<span class="sd">            List of segments that is filled during method execution. The list</span>
+<span class="sd">            should contain the start segment when calling this method!</span>
+
+<span class="sd">        down : bool, optional</span>
+<span class="sd">            If ``True``, will traverse until a downwards &#39;warp&#39; edge is</span>
+<span class="sd">            discovered, otherwise will traverse antil an upwards &#39;warp&#39; edge</span>
+<span class="sd">            is discovered.</span>
+
+<span class="sd">            Defaults to ``False``</span>
+
+<span class="sd">        by_end : bool, optional</span>
+<span class="sd">            If ``True``, will traverse the &#39;segment&#39; edges in the opposite</span>
+<span class="sd">            direction.</span>
+
+<span class="sd">            Defaults to ``False``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        segments : :obj:`list`</span>
+<span class="sd">            List of segments representing a chain.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError:</span>
+<span class="sd">            If ``way_segments`` is empty at call.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">way_segments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">errMsg</span> <span class="o">=</span> <span class="s2">&quot;Argument way_segments has to contain the starting &quot;</span> <span class="o">+</span> \
+                     <span class="s2">&quot;segment when calling this method!&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">errMsg</span><span class="p">)</span>
+
+        <span class="n">segment_list</span> <span class="o">=</span> <span class="n">way_segments</span>
+        <span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">while</span> <span class="n">flag</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="c1"># set the current segment</span>
+            <span class="n">current_segment</span> <span class="o">=</span> <span class="n">segment_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># traversal by segment endnode</span>
+            <span class="k">if</span> <span class="n">by_end</span><span class="p">:</span>
+                <span class="c1"># check that segment for &#39;warp&#39; edges at the start</span>
+                <span class="n">warp_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_warp_edges</span><span class="p">(</span><span class="n">current_segment</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">down</span><span class="p">:</span>
+                    <span class="n">filtered_warp_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">we</span> <span class="k">for</span> <span class="n">we</span> <span class="ow">in</span> <span class="n">warp_edges</span> \
+                                           <span class="k">if</span> <span class="n">we</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">current_segment</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">filtered_warp_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">we</span> <span class="k">for</span> <span class="n">we</span> <span class="ow">in</span> <span class="n">warp_edges</span> \
+                                           <span class="k">if</span> <span class="n">we</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">current_segment</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="c1"># if there is a warp edge at the start, return the segment_list</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">filtered_warp_edges</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">warp_edges</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> \
+                    <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">current_segment</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s2">&quot;leaf&quot;</span><span class="p">])):</span>
+                    <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+            <span class="c1"># traversal by segment start node</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># check that segment for &#39;warp&#39; edges at the end</span>
+                <span class="n">warp_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_warp_edges</span><span class="p">(</span><span class="n">current_segment</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">down</span><span class="p">:</span>
+                    <span class="n">filtered_warp_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">we</span> <span class="k">for</span> <span class="n">we</span> <span class="ow">in</span> <span class="n">warp_edges</span> \
+                                           <span class="k">if</span> <span class="n">we</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">current_segment</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">filtered_warp_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">we</span> <span class="k">for</span> <span class="n">we</span> <span class="ow">in</span> <span class="n">warp_edges</span> \
+                                           <span class="k">if</span> <span class="n">we</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">current_segment</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="c1"># if there is a warp edge at the end, our chain is finished</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">filtered_warp_edges</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">warp_edges</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> \
+                    <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">current_segment</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="s2">&quot;leaf&quot;</span><span class="p">])):</span>
+                    <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+
+            <span class="c1"># get all connected segments at the last point of the segment</span>
+            <span class="k">if</span> <span class="n">by_end</span><span class="p">:</span>
+                <span class="n">connected_segments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_node_segments_by_end</span><span class="p">(</span>
+                                                  <span class="n">current_segment</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">connected_segments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_node_segments_by_start</span><span class="p">(</span>
+                                                  <span class="n">current_segment</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># from these, only get the segment with the lowest id</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">connected_segments</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># define best candidate segment</span>
+                <span class="n">candidate_segment</span> <span class="o">=</span> <span class="n">connected_segments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="c1"># append the segment to the segment_list</span>
+                <span class="n">segment_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">candidate_segment</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="c1"># if we are traversing by end, we need to reverse the resulting list</span>
+        <span class="k">if</span> <span class="n">by_end</span><span class="p">:</span>
+            <span class="n">segment_list</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">segment_list</span></div>
+
+    <span class="c1"># CREATION OF FINAL &#39;WARP&#39; CONNECTIONS -------------------------------------</span>
+
+<div class="viewcode-block" id="KnitMappingNetwork.build_chains"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitMappingNetwork.build_chains">[docs]</a>    <span class="k">def</span> <span class="nf">build_chains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_as_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">target_as_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method for building source and target chains from segment</span>
+<span class="sd">        contour edges.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        source_as_dict : bool</span>
+<span class="sd">            If ``True``, will return the source chains as a dictionary indexed</span>
+<span class="sd">            by their chain value.</span>
+
+<span class="sd">        target_as_dict : bool</span>
+<span class="sd">            If ``True``, will return the target chains as a dictionary indexed</span>
+<span class="sd">            by their chain value.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        chains : :obj:`tuple` of :obj:`list`</span>
+<span class="sd">            2-tuple in the form of (source_chains, target_chains).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get all warp edges of this mappingnetwork</span>
+        <span class="n">AllWarpEdges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">warp_edges</span>
+        <span class="n">AllWarpEdges</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># initialize lists and dictionaries for storage of chains</span>
+        <span class="n">source_chains</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">target_chains</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">source_chain_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">target_chain_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="c1"># BUILD SEGMENT CHAINS BY LOOPING THROUGH &#39;WARP&#39; EDGES -----------------</span>
+
+        <span class="c1"># loop through all warp edges and build segment chains</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">warp_edge</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">AllWarpEdges</span><span class="p">):</span>
+            <span class="c1"># initialize temporary lists for source and target chains</span>
+            <span class="n">source_pass_chains</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">target_pass_chains</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c1"># START OF &#39;WARP&#39; EDGE ---------------------------------------------</span>
+
+            <span class="c1"># get the connected segments at the start of the &#39;warp edge&#39;</span>
+            <span class="n">warpStart</span> <span class="o">=</span> <span class="n">warp_edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">warpStartLeafFlag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">warpStart</span><span class="p">][</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span>
+            <span class="n">connected_start_segments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_node_segments_by_start</span><span class="p">(</span><span class="n">warpStart</span><span class="p">,</span>
+                                                                   <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># TODO:</span>
+            <span class="c1"># 1) build plane for reference. plane should be fit through warp</span>
+            <span class="c1">#    edge points and points on the connecting segments.</span>
+            <span class="c1">#    for example use the end of the first segment of the underlying</span>
+            <span class="c1">#    polyline geometry</span>
+            <span class="c1"># 2) for every pt get pt on the reference plane</span>
+            <span class="c1"># 3) order all segments in reference to the warp edges direction</span>
+            <span class="c1">#    all segment endpts</span>
+
+            <span class="c1"># if len(connected_start_segments) &gt; 1:</span>
+            <span class="c1">#     # get start node geo of warp edge</span>
+            <span class="c1">#     ws_pt = self.node[warpStart][&quot;geo&quot;]</span>
+            <span class="c1">#     # css geo is always a polyline</span>
+            <span class="c1">#     css_pls = [css[2][&quot;geo&quot;] for css in connected_start_segments]</span>
+            <span class="c1">#     # get the endpt of the first segment from the polyline as reference</span>
+            <span class="c1">#     # for the direction of the segment</span>
+            <span class="c1">#     css_refpts = [csspl[1] for csspl in css_pls]</span>
+            <span class="c1">#</span>
+            <span class="c1">#     # construct local reference plane</span>
+            <span class="c1">#     # x-axis is an arbitrary dir of the connected segments</span>
+            <span class="c1">#     # y-axis is the warp edge</span>
+            <span class="c1">#     local_x = css_refpts[0] - ws_pt</span>
+            <span class="c1">#     local_x = RhinoVector3d(local_x)</span>
+            <span class="c1">#     local_y = warp_edge[2][&quot;geo&quot;].To - warp_edge[2][&quot;geo&quot;].From</span>
+            <span class="c1">#     local_y = RhinoVector3d(local_y)</span>
+            <span class="c1">#     localplane = RhinoPlane(ws_pt, local_x, local_y)</span>
+            <span class="c1">#</span>
+            <span class="c1">#     # fit plane to points</span>
+            <span class="c1">#     fitplane = RhinoPlane.FitPlaneToPoints(css_refpts + [ws_pt])[1]</span>
+            <span class="c1">#     fitplane_origin = fitplane.ClosestPoint(ws_pt)</span>
+            <span class="c1">#     fitplane.Origin = fitplane_origin</span>
+            <span class="c1">#     if fitplane.Normal * localplane.Normal &lt; 0:</span>
+            <span class="c1">#         fitplane.Flip()</span>
+            <span class="c1">#</span>
+            <span class="c1">#     # map all the points to the plane space</span>
+            <span class="c1">#     a = fitplane.RemapToPlaneSpace(fitplane_origin)[1]</span>
+            <span class="c1">#     css_refpts_remapped = []</span>
+            <span class="c1">#     for csspt in css_refpts:</span>
+            <span class="c1">#         cp = fitplane.ClosestPoint(csspt)</span>
+            <span class="c1">#         rmp = fitplane.RemapToPlaneSpace(cp)[1]</span>
+            <span class="c1">#         css_refpts_remapped.append(rmp)</span>
+            <span class="c1">#</span>
+            <span class="c1">#     # zip the segments and the refpts</span>
+            <span class="c1">#     zipped_segs = zip(css_refpts_remapped, connected_start_segments)</span>
+            <span class="c1">#</span>
+            <span class="c1">#     # append first item to ordered list</span>
+            <span class="c1">#     ordered_zippedsegs = zipped_segs[0:1]</span>
+            <span class="c1">#</span>
+            <span class="c1">#     # loop over all items except the first one and compare</span>
+            <span class="c1">#     # sort the zipped segs in ccw order</span>
+            <span class="c1">#     for j, zipseg in enumerate(zipped_segs[1:]):</span>
+            <span class="c1">#         c = zipseg[0]</span>
+            <span class="c1">#         pos = 0</span>
+            <span class="c1">#         b = ordered_zippedsegs[pos][0]</span>
+            <span class="c1">#         while not is_ccw_xy(a, b, c):</span>
+            <span class="c1">#             pos += 1</span>
+            <span class="c1">#             if pos &gt; j:</span>
+            <span class="c1">#                 break</span>
+            <span class="c1">#             b = ordered_zippedsegs[pos][0]</span>
+            <span class="c1">#         if pos == 0:</span>
+            <span class="c1">#             pos -= 1</span>
+            <span class="c1">#             b = ordered_zippedsegs[pos][0]</span>
+            <span class="c1">#             while is_ccw_xy(a, b, c):</span>
+            <span class="c1">#                 pos -= 1</span>
+            <span class="c1">#                 if pos &lt; -len(ordered_zippedsegs):</span>
+            <span class="c1">#                     break</span>
+            <span class="c1">#                 b = ordered_zippedsegs[pos][0]</span>
+            <span class="c1">#             pos += 1</span>
+            <span class="c1">#         ordered_zippedsegs.insert(pos, zipseg)</span>
+            <span class="c1">#</span>
+            <span class="c1">#     ordered_pts, connected_start_segments = zip(*ordered_zippedsegs)</span>
+
+            <span class="c1"># traverse segments from start node of &#39;warp&#39; edge</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">connected_start_segments</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">cs</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">connected_start_segments</span><span class="p">):</span>
+                    <span class="c1"># travel the connected segments at the start of the &#39;warp&#39;</span>
+                    <span class="c1"># edge until a &#39;upwards&#39; connection is found and append</span>
+                    <span class="c1"># it to the source chains of this pass</span>
+                    <span class="n">segment_chain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">traverse_segments_until_warp</span><span class="p">(</span>
+                                                            <span class="p">[</span><span class="n">cs</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]],</span>
+                                                            <span class="n">down</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">source_pass_chains</span> \
+                                 <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">segment_chain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> \
+                                 <span class="ow">and</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">segment_chain</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+                    <span class="n">chain_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">segment_chain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                                   <span class="n">segment_chain</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                                   <span class="n">index</span><span class="p">)</span>
+
+                    <span class="n">chain_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="n">segment_chain</span><span class="p">,</span> <span class="n">chain_value</span><span class="p">)</span>
+                    <span class="n">source_pass_chains</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chain_tuple</span><span class="p">)</span>
+
+                    <span class="c1"># if this is a &#39;leaf&#39; node, also travel the segments until</span>
+                    <span class="c1"># a &#39;downwards&#39; connection is found and append this to the</span>
+                    <span class="c1"># target (!) chains of this pass</span>
+                    <span class="k">if</span> <span class="n">warpStartLeafFlag</span><span class="p">:</span>
+                        <span class="n">segment_chain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">traverse_segments_until_warp</span><span class="p">(</span>
+                                                            <span class="p">[</span><span class="n">cs</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]],</span>
+                                                            <span class="n">down</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">target_pass_chains</span> \
+                                     <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">segment_chain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> \
+                                     <span class="ow">and</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">segment_chain</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+                        <span class="n">chain_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">segment_chain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                                       <span class="n">segment_chain</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                                       <span class="n">index</span><span class="p">)</span>
+                        <span class="n">chain_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="n">segment_chain</span><span class="p">,</span> <span class="n">chain_value</span><span class="p">)</span>
+                        <span class="n">target_pass_chains</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chain_tuple</span><span class="p">)</span>
+
+            <span class="c1"># END OF &#39;WARP&#39; EDGE -----------------------------------------------</span>
+
+            <span class="c1"># get the connected segments at the end</span>
+            <span class="n">warpEnd</span> <span class="o">=</span> <span class="n">warp_edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">warpEndLeafFlag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">warpEnd</span><span class="p">][</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span>
+            <span class="n">connected_end_segments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_node_segments_by_start</span><span class="p">(</span><span class="n">warpEnd</span><span class="p">,</span>
+                                                                <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="c1"># traverse segments from end node of &#39;warp&#39; edge</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">connected_end_segments</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">cs</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">connected_end_segments</span><span class="p">):</span>
+                    <span class="c1"># if this is a &#39;leaf&#39; node, first travel the segments until</span>
+                    <span class="c1"># a &#39;upwards&#39; connection is found and append this to the</span>
+                    <span class="c1"># source (!) chains of this pass</span>
+                    <span class="k">if</span> <span class="n">warpEndLeafFlag</span><span class="p">:</span>
+                        <span class="n">segment_chain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">traverse_segments_until_warp</span><span class="p">(</span>
+                                                            <span class="p">[</span><span class="n">cs</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]],</span>
+                                                            <span class="n">down</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                        <span class="n">index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">source_pass_chains</span> \
+                                     <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">segment_chain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> \
+                                     <span class="ow">and</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">segment_chain</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+                        <span class="n">chain_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">segment_chain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                                       <span class="n">segment_chain</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                                       <span class="n">index</span><span class="p">)</span>
+                        <span class="n">chain_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="n">segment_chain</span><span class="p">,</span> <span class="n">chain_value</span><span class="p">)</span>
+                        <span class="n">source_pass_chains</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chain_tuple</span><span class="p">)</span>
+
+                    <span class="c1"># travel the connected segments until a &#39;downwards&#39;</span>
+                    <span class="c1"># connection is found and append to target pass chains</span>
+                    <span class="n">segment_chain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">traverse_segments_until_warp</span><span class="p">(</span>
+                                                             <span class="p">[</span><span class="n">cs</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]],</span>
+                                                             <span class="n">down</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">target_pass_chains</span> \
+                                 <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">segment_chain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> \
+                                 <span class="ow">and</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">segment_chain</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+                    <span class="n">chain_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">segment_chain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                                   <span class="n">segment_chain</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                                   <span class="n">index</span><span class="p">)</span>
+                    <span class="n">chain_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="n">segment_chain</span><span class="p">,</span> <span class="n">chain_value</span><span class="p">)</span>
+                    <span class="n">target_pass_chains</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chain_tuple</span><span class="p">)</span>
+
+            <span class="c1"># append the source pass chains to the source collection</span>
+            <span class="k">for</span> <span class="n">chain</span> <span class="ow">in</span> <span class="n">source_pass_chains</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">chain</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">source_chain_dict</span><span class="p">:</span>
+                    <span class="n">source_chains</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+                    <span class="n">source_chain_dict</span><span class="p">[</span><span class="n">chain</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">chain</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># append the target pass chains to the target collection</span>
+            <span class="k">for</span> <span class="n">chain</span> <span class="ow">in</span> <span class="n">target_pass_chains</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">chain</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target_chain_dict</span><span class="p">:</span>
+                    <span class="n">target_chains</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+                    <span class="n">target_chain_dict</span><span class="p">[</span><span class="n">chain</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">chain</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># prepare the results and return them</span>
+        <span class="k">if</span> <span class="n">source_as_dict</span><span class="p">:</span>
+            <span class="n">ret_source</span> <span class="o">=</span> <span class="n">source_chain_dict</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ret_source</span> <span class="o">=</span> <span class="n">source_chains</span>
+
+        <span class="k">if</span> <span class="n">target_as_dict</span><span class="p">:</span>
+            <span class="n">ret_target</span> <span class="o">=</span> <span class="n">target_chain_dict</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ret_target</span> <span class="o">=</span> <span class="n">target_chains</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">ret_source</span><span class="p">,</span> <span class="n">ret_target</span><span class="p">)</span></div></div>
+
+<span class="c1"># MAIN -------------------------------------------------------------------------</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Max Eschenbach.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.0.0-alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" src="../../_static/jquery.fancybox.min.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+  <script type="text/javascript">
+    $(function(){
+      $('.image-reference').fancybox();
+    })
+  </script>
+
+</body>
+</html>

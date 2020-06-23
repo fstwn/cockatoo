@@ -1,0 +1,35 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdftex 2020.6.8)  8 JUN 2020 17:03
+entering extended mode
+**./_build/latex/cockatoo.tex
+(_build/latex/cockatoo.tex
+! Undefined control sequence.
+l.3 \documentclass
+                  [letterpaper,10pt,english]{sphinxmanual}
+? 
+! Incomplete \ifdefined; all text was ignored after line 5.
+<inserted text> 
+                \fi 
+<to be read again> 
+                   \newdimen 
+l.5    \let\sphinxpxdimen\pdfpxdimen\else\newdimen
+                                                  \sphinxpxdimen
+? 
+\sphinxpxdimen=\dimen16
+! Extra \fi.
+l.6 \fi
+        \sphinxpxdimen=.75bp\relax
+? 
+! Undefined control sequence.
+l.8 \PassOptionsToPackage
+                         {warn}{textcomp}
+? 
+! Undefined control sequence.
+l.9 \usepackage
+               [utf8]{inputenc}
+? exit
+No pages of output.
+PDF statistics:
+ 0 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

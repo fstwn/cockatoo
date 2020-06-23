@@ -1,0 +1,1210 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.7)  22 JUN 2020 19:46
+entering extended mode
+**./cockatoo.tex
+(cockatoo.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-06-03> (sphinxmanual.cls
+Document Class: sphinxmanual 2019/12/01 v2.3.0 Document class (Sphinx manual)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\report.cls
+"
+Document Class: report 2019/12/20 v1.4l Standard LaTeX document class
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\size10.clo
+"
+File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count167
+\c@chapter=\count168
+\c@section=\count169
+\c@subsection=\count170
+\c@subsubsection=\count171
+\c@paragraph=\count172
+\c@subparagraph=\count173
+\c@figure=\count174
+\c@table=\count175
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+)
+LaTeX Info: Redefining \and on input line 35.
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\inputenc.s
+ty"
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks15
+\inpenc@posthook=\toks16
+)
+   defining Unicode char U+00A0 (decimal 160)
+   defining Unicode char U+2500 (decimal 9472)
+   defining Unicode char U+2502 (decimal 9474)
+   defining Unicode char U+2514 (decimal 9492)
+   defining Unicode char U+251C (decimal 9500)
+   defining Unicode char U+2572 (decimal 9586)
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/cmap\cmap.sty"
+Package: cmap 2008/03/06 v1.0h CMap support: searchable PDF
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\fontenc.st
+y"
+Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
+<<t1.cmap>>)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsmath
+.sty"
+Package: amsmath 2020/01/20 v2.17e AMS math features
+\@mathmargin=\skip49
+
+For additional information on amsmath, use the `?' option.
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amstext
+.sty"
+Package: amstext 2000/06/29 v2.01 AMS text
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsgen.
+sty"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks17
+\ex@=\dimen135
+))
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsbsy.
+sty"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen136
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsopn.
+sty"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count176
+LaTeX Info: Redefining \frac on input line 227.
+\uproot@=\count177
+\leftroot@=\count178
+LaTeX Info: Redefining \overline on input line 389.
+\classnum@=\count179
+\DOTSCASE@=\count180
+LaTeX Info: Redefining \ldots on input line 486.
+LaTeX Info: Redefining \dots on input line 489.
+LaTeX Info: Redefining \cdots on input line 610.
+\Mathstrutbox@=\box45
+\strutbox@=\box46
+\big@size=\dimen137
+LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
+\macc@depth=\count181
+\c@MaxMatrixCols=\count182
+\dotsspace@=\muskip16
+\c@parentequation=\count183
+\dspbrk@lvl=\count184
+\tag@help=\toks18
+\row@=\count185
+\column@=\count186
+\maxfields@=\count187
+\andhelp@=\toks19
+\eqnshift@=\dimen138
+\alignsep@=\dimen139
+\tagshift@=\dimen140
+\tagwidth@=\dimen141
+\totwidth@=\dimen142
+\lineht@=\dimen143
+\@envbody=\toks20
+\multlinegap=\skip50
+\multlinetaggap=\skip51
+\mathdisplay@stack=\toks21
+LaTeX Info: Redefining \[ on input line 2859.
+LaTeX Info: Redefining \] on input line 2860.
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amssym
+b.sty"
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amsfon
+ts.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/babel\babel.s
+ty"
+Package: babel 2020/05/13 3.44 The Babel package
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/babel\babel.d
+ef"
+File: babel.def 2020/05/13 3.44 Babel common definitions
+\babel@savecnt=\count188
+\U@D=\dimen144
+\l@babelnohyphens=\language79
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/babel\txtbabe
+l.def")
+\bbl@readstream=\read2
+)
+\bbl@dirlevel=\count189
+
+*************************************
+* Local config file bblopts.cfg used
+*
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/arabi\bblopts.c
+fg"
+File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
+ babel
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/babel-english\e
+nglish.ldf"
+Language: english 2017/06/06 v3.3r English support from the babel system
+Package babel Info: \l@canadian = using hyphenrules for english
+(babel)             (\language0) on input line 102.
+Package babel Info: \l@australian = using hyphenrules for ukenglish
+(babel)             (\language73) on input line 105.
+Package babel Info: \l@newzealand = using hyphenrules for ukenglish
+(babel)             (\language73) on input line 108.
+))
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\times.st
+y"
+Package: times 2020/03/25 PSNFSS-v9.3 (SPQR) 
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fncychap\fncych
+ap.sty"
+Package: fncychap 2007/07/30 v1.34 LaTeX package (Revised chapters)
+\RW=\skip52
+\mylen=\skip53
+\myhi=\skip54
+\px=\skip55
+\py=\skip56
+\pyy=\skip57
+\pxx=\skip58
+\c@AlphaCnt=\count190
+\c@AlphaDecCnt=\count191
+) (sphinx.sty
+Package: sphinx 2019/09/02 v2.3.0 LaTeX package (Sphinx markup)
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/ltxcmds\ltxcm
+ds.sty"
+Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphi
+cx.sty"
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\keyval
+.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks22
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graphi
+cs.sty"
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\trig.s
+ty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\gr
+aphics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-def\pd
+ftex.def"
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen145
+\Gin@req@width=\dimen146
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fancyhdr\fancyh
+dr.sty"
+Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip59
+\f@nch@O@elh=\skip60
+\f@nch@O@erh=\skip61
+\f@nch@O@olh=\skip62
+\f@nch@O@orh=\skip63
+\f@nch@O@elf=\skip64
+\f@nch@O@erf=\skip65
+\f@nch@O@olf=\skip66
+\f@nch@O@orf=\skip67
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\textcomp.s
+ty"
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/titlesec\titles
+ec.sty"
+Package: titlesec 2019/10/16 v2.13 Sectioning titles
+\ttl@box=\box47
+\beforetitleunit=\skip68
+\aftertitleunit=\skip69
+\ttl@plus=\dimen147
+\ttl@minus=\dimen148
+\ttl@toksa=\toks23
+\titlewidth=\dimen149
+\titlewidthlast=\dimen150
+\titlewidthfirst=\dimen151
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tabulary\tabula
+ry.sty"
+Package: tabulary 2014/06/11 v0.10 tabulary package (DPC)
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\array.sty
+"
+Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
+\col@sep=\dimen152
+\ar@mcellbox=\box48
+\extrarowheight=\dimen153
+\NC@list=\toks24
+\extratabsurround=\skip70
+\backup@length=\skip71
+\ar@cellbox=\box49
+)
+\TY@count=\count192
+\TY@linewidth=\dimen154
+\tymin=\dimen155
+\tymax=\dimen156
+\TY@tablewidth=\dimen157
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\longtable
+.sty"
+Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
+\LTleft=\skip72
+\LTright=\skip73
+\LTpre=\skip74
+\LTpost=\skip75
+\LTchunksize=\count193
+\LTcapwidth=\dimen158
+\LT@head=\box50
+\LT@firsthead=\box51
+\LT@foot=\box52
+\LT@lastfoot=\box53
+\LT@cols=\count194
+\LT@rows=\count195
+\c@LT@tables=\count196
+\c@LT@chunks=\count197
+\LT@p@ftn=\toks25
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/varwidth\varwid
+th.sty"
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box54
+\sift@deathcycles=\count198
+\@vwid@loff=\dimen159
+\@vwid@roff=\dimen160
+) (sphinxmulticell.sty
+Package: sphinxmulticell 2017/02/23 v1.6 better span rows and columns of a tabl
+e (Sphinx team)
+\sphinx@TY@tablewidth=\dimen161
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\makeidx.st
+y"
+Package: makeidx 2014/09/29 v1.0m Standard LaTeX package
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/framed\framed.s
+ty"
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip76
+\fb@frw=\dimen162
+\fb@frh=\dimen163
+\FrameRule=\dimen164
+\FrameSep=\dimen165
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcolor\xcolor.s
+ty"
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\co
+lor.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fancyvrb\fancyv
+rb.sty"
+Package: fancyvrb 2020/05/03 v3.6 verbatim text (tvz,hv)
+\FV@CodeLineNo=\count199
+\FV@InFile=\read3
+\FV@TabBox=\box55
+\c@FancyVerbLine=\count266
+\FV@StepNumber=\count267
+\FV@OutFile=\write3
+) (footnotehyper-sphinx.sty
+Package: footnotehyper-sphinx 2017/10/27 v1.7 hyperref aware footnote.sty for s
+phinx (JFB)
+\FNH@notes=\box56
+\FNH@width=\dimen166
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/float\float.sty
+"
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count268
+\float@exts=\toks26
+\float@box=\box57
+\@float@everytoks=\toks27
+\@floatcapt=\box58
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/wrapfig\wrapfig
+.sty"
+\wrapoverhang=\dimen167
+\WF@size=\dimen168
+\c@WF@wrappedlines=\count269
+\WF@box=\box59
+\WF@everypar=\toks28
+Package: wrapfig 2003/01/31  v 3.6
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/parskip\parskip
+.sty"
+Rollback for package 'parskip' requested -> version 'v1'.
+         This corresponds to the release introduced on 2001-04-09.
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/parskip\parskip
+-2001-04-09.sty"
+Package: parskip 2001/04/09 non-zero parskip adjustments
+))
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\alltt.sty"
+Package: alltt 1997/06/16 v2.0g defines alltt environment
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/upquote\upquote
+.sty"
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/capt-of\capt-of
+.sty"
+Package: capt-of 2009/12/29 v0.2 standard captions outside of floats
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/needspace\needs
+pace.sty"
+Package: needspace 2010/09/12 v1.3d reserve vertical space
+) (sphinxhighlight.sty
+Package: sphinxhighlight 2016/05/29 stylesheet for highlighting with pygments
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/kvoptions\kvopt
+ions.sty"
+Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/kvsetkeys\kvs
+etkeys.sty"
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+))
+\sphinxverbatimsep=\dimen169
+\sphinxverbatimborder=\dimen170
+\sphinxshadowsep=\dimen171
+\sphinxshadowsize=\dimen172
+\sphinxshadowrule=\dimen173
+\spx@notice@border=\dimen174
+\spx@image@maxheight=\dimen175
+\spx@image@box=\dimen176
+\c@literalblock=\count270
+\sphinxcontinuationbox=\box60
+\sphinxvisiblespacebox=\box61
+\sphinxVerbatim@TitleBox=\box62
+\sphinxVerbatim@ContentsBox=\box63
+\py@argswidth=\skip77
+\lineblockindentation=\skip78
+\DUlineblockindent=\skip79
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geomet
+ry.sty"
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\ifvtex.
+sty"
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\iftex.s
+ty"
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+))
+\Gm@cnth=\count271
+\Gm@cntv=\count272
+\c@Gm@tempcnt=\count273
+\Gm@bindingoffset=\dimen177
+\Gm@wd@mp=\dimen178
+\Gm@odd@mp=\dimen179
+\Gm@even@mp=\dimen180
+\Gm@layoutwidth=\dimen181
+\Gm@layoutheight=\dimen182
+\Gm@layouthoffset=\dimen183
+\Gm@layoutvoffset=\dimen184
+\Gm@dimlist=\toks29
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geomet
+ry.cfg"))
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\hyperr
+ef.sty"
+Package: hyperref 2020-05-15 v7.00e Hypertext links for LaTeX
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pdftexcmds\pdft
+excmds.sty"
+Package: pdftexcmds 2019/11/24 v0.31 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/infwarerr\inf
+warerr.sty"
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/kvdefinekeys\
+kvdefinekeys.sty"
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pdfescape\pdf
+escape.sty"
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hycolor\hycolor
+.sty"
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/letltxmacro\let
+ltxmacro.sty"
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/auxhook\auxhook
+.sty"
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+\@linkdim=\dimen185
+\Hy@linkcounter=\count274
+\Hy@pagecounter=\count275
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\pd1enc
+.def"
+File: pd1enc.def 2020-05-15 v7.00e Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/intcalc\intca
+lc.sty"
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/etexcmds\etex
+cmds.sty"
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count276
+Package hyperref Info: Option `unicode' set `true' on input line 4338.
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\puenc.
+def"
+File: puenc.def 2020-05-15 v7.00e Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 4338.
+Package hyperref Info: Option `breaklinks' set `true' on input line 4338.
+Package hyperref Info: Hyper figures OFF on input line 4464.
+Package hyperref Info: Link nesting OFF on input line 4469.
+Package hyperref Info: Hyper index ON on input line 4472.
+Package hyperref Info: Plain pages OFF on input line 4479.
+Package hyperref Info: Backreferencing OFF on input line 4484.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4717.
+\c@Hy@tempcnt=\count277
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/url\url.sty"
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5076.
+\XeTeXLinkMargin=\dimen186
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/bitset\bitset
+.sty"
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/bigintcalc\bi
+gintcalc.sty"
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count278
+\Field@Width=\dimen187
+\Fld@charsize=\dimen188
+Package hyperref Info: Hyper figures OFF on input line 6347.
+Package hyperref Info: Link nesting OFF on input line 6352.
+Package hyperref Info: Hyper index ON on input line 6355.
+Package hyperref Info: backreferencing OFF on input line 6362.
+Package hyperref Info: Link coloring ON on input line 6365.
+Package hyperref Info: Link coloring with OCG OFF on input line 6372.
+Package hyperref Info: PDF/A mode OFF on input line 6377.
+LaTeX Info: Redefining \ref on input line 6417.
+LaTeX Info: Redefining \pageref on input line 6421.
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/atbegshi\atbe
+gshi.sty"
+Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
+)
+\Hy@abspage=\count279
+\c@Item=\count280
+\c@Hfootnote=\count281
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\hpdfte
+x.def"
+File: hpdftex.def 2020-05-15 v7.00e Hyperref driver for pdfTeX
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/atveryend\atver
+yend.sty"
+Package: atveryend 2019-12-11 v1.11 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+)
+\Fld@listcount=\count282
+\c@bookmark@seq@number=\count283
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/rerunfilecheck\
+rerunfilecheck.sty"
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/uniquecounter
+\uniquecounter.sty"
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+86.
+)
+\Hy@SectionHShift=\skip80
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\hypcap
+.sty"
+Package: hypcap 2016/05/16 v1.12 Adjusting the anchors of captions (HO)
+) (sphinxmessages.sty
+Package: sphinxmessages 2019/01/04 v2.0 Localized LaTeX macros (Sphinx team)
+)
+\@indexfile=\write4
+\openout4 = `cockatoo.idx'.
+
+
+Writing index file cockatoo.idx
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/l3backend\l3bac
+kend-pdfmode.def"
+File: l3backend-pdfmode.def 2020-06-03 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count284
+\l__pdf_internal_box=\box64
+) (cockatoo.aux)
+\openout1 = `cockatoo.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 82
+.
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\t1ptm.fd
+"
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\sup
+p-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count285
+\scratchdimen=\dimen189
+\scratchbox=\box65
+\nofMPsegments=\count286
+\nofMParguments=\count287
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count288
+\MPscratchDim=\dimen190
+\MPnumerator=\count289
+\makeMPintoPDFobject=\count290
+\everyMPtoPDFconversion=\toks31
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/epstopdf-pkg\ep
+stopdf-base.sty"
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: letterpaper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside 
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=650.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=36.135pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+\AtBeginShipoutBox=\box66
+Package hyperref Info: Link coloring ON on input line 82.
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\namere
+f.sty"
+Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/refcount\refcou
+nt.sty"
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/generic/gettitlestrin
+g\gettitlestring.sty"
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count291
+)
+LaTeX Info: Redefining \ref on input line 82.
+LaTeX Info: Redefining \pageref on input line 82.
+LaTeX Info: Redefining \nameref on input line 82.
+ (cockatoo.out) (cockatoo.out)
+\@outlinefile=\write5
+\openout5 = `cockatoo.out'.
+
+Package hyperref Info: Option `pageanchor' set `false' on input line 85.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 85
+.
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\t1phv.fd
+"
+File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
+)
+LaTeX Font Info:    Font shape `T1/phv/b/it' in size <10> not available
+(Font)              Font shape `T1/phv/b/sl' tried instead on input line 85.
+LaTeX Font Info:    Font shape `T1/phv/b/it' in size <17.28> not available
+(Font)              Font shape `T1/phv/b/sl' tried instead on input line 85.
+<<ot1.cmap>><<oml.cmap>><<oms.cmap>><<omx.cmap>>
+LaTeX Font Info:    Trying to load font information for U+msa on input line 85.
+
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.f
+d"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 85.
+
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.f
+d"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [1
+
+{C:/Users/EFESTWIN/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+[2
+
+
+] (cockatoo.toc)
+\tf@toc=\write6
+\openout6 = `cockatoo.toc'.
+
+ [1
+
+] [2
+
+]
+Chapter 1.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 9
+5.
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\ts1ptm.f
+d"
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
+
+LaTeX Warning: Hyper reference `README:installation--usage' on page 1 undefined
+ on input line 108.
+
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 14
+0.
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\t1pcr.fd
+"
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+) [1
+
+] [2]
+Underfull \hbox (badness 10000) in paragraph at lines 261--263
+[]\T1/ptm/m/n/10 On \T1/ptm/b/n/10 Win-dows\T1/ptm/m/n/10 : \T1/pcr/m/n/10 C:\U
+sers\%USERNAME%\AppData\Roaming\Grasshopper\
+ []
+
+[3] [4]
+Chapter 2.
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 407.
+LaTeX Font Info:    Font shape `T1/pcr/b/it' in size <10> not available
+(Font)              Font shape `T1/pcr/b/sl' tried instead on input line 438.
+LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 1
+.
+
+("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\ts1pcr.f
+d"
+File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
+) [5
+
+] [6] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 822--825
+[]\T1/ptm/b/n/10 broken_polyline_segments \T1/ptm/m/n/10 (\T1/ptm/m/it/10 list 
+of Rhino.Geometry.Polyline or
+ []
+
+[8] [9] [10] [11] [12] [13]
+Underfull \hbox (badness 10000) in paragraph at lines 1528--1530
+[]\T1/ptm/b/n/10 contour \T1/ptm/m/n/10 (\T1/pcr/m/n/10 Rhino.Geometry.Polyline
+ \T1/ptm/m/n/10 or \T1/pcr/m/n/10 Rhino.Geometry.
+ []
+
+[14]
+Underfull \hbox (badness 6978) in paragraph at lines 1648--1648
+[]\T1/ptm/m/it/10 node_index\T1/ptm/m/n/10 , \T1/ptm/m/it/10 pt\T1/ptm/m/n/10 ,
+ \T1/ptm/m/it/10 po-si-tion=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 num=None\T1/pt
+m/m/n/10 , \T1/ptm/m/it/10 leaf=False\T1/ptm/m/n/10 , \T1/ptm/m/it/10 start=Fal
+se\T1/ptm/m/n/10 ,
+ []
+
+[15] [16] [17] [18] [19]
+Underfull \hbox (badness 10000) in paragraph at lines 2214--2214
+[]\T1/ptm/m/it/10 max_connections=4\T1/ptm/m/n/10 , \T1/ptm/m/it/10 in-clude_en
+d_nodes=True\T1/ptm/m/n/10 , \T1/ptm/m/it/10 pre-
+ []
+
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 2303--2304
+[]\T1/pcr/b/n/10 reference_geometry \T1/ptm/m/n/10 (\T1/pcr/m/n/10 Rhino.Geomet
+ry.Mesh \T1/ptm/m/n/10 or \T1/pcr/m/n/10 Rhino.Geometry.
+ []
+
+[21] [22] [23]
+Underfull \hbox (badness 10000) in paragraph at lines 2516--2516
+[]\T1/ptm/m/it/10 start_index=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 prop-a-gate_
+from_center=False\T1/ptm/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2516--2516
+\T1/ptm/m/it/10 force_continuous_start=False\T1/ptm/m/n/10 , \T1/ptm/m/it/10 fo
+rce_continuous_end=False\T1/ptm/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2516--2516
+\T1/ptm/m/it/10 an-gle_threshold=0.10471975511965978\T1/ptm/m/n/10 , \T1/ptm/m/
+it/10 max_connections=4\T1/ptm/m/n/10 ,
+ []
+
+[24]
+Underfull \hbox (badness 10000) in paragraph at lines 2673--2674
+\T1/ptm/m/n/10 Bases: \T1/pcr/m/n/10 networkx.classes.digraph.DiGraph\T1/ptm/m/
+n/10 , \T1/pcr/m/n/10 cockatoo._knitnetworkbase.
+ []
+
+[25] [26] [27] [28]
+Underfull \hbox (badness 10000) in paragraph at lines 3111--3112
+\T1/ptm/m/n/10 Bases: \T1/pcr/m/n/10 networkx.classes.multigraph.MultiGraph\T1/
+ptm/m/n/10 , \T1/pcr/m/n/10 cockatoo._knitnetworkbase.
+ []
+
+[29]
+Underfull \hbox (badness 10000) in paragraph at lines 3120--3122
+\T1/ptm/m/n/10 Not in-tended to be in-stan-ti-ated sep-a-rately. Should only be
+ in-stan-ti-ated by the Knit-Net-
+ []
+
+[30]
+Chapter 3.
+[31
+
+] [32
+
+] [33
+
+
+] (cockatoo.ind [34
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 8--10
+[]\T1/pcr/m/n/10 all_ends_by_position() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--12
+[]\T1/pcr/m/n/10 all_leaves_by_position() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-
+a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--14
+[]\T1/pcr/m/n/10 all_nodes_by_position() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a
+-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 15--17
+[]\T1/pcr/m/n/10 assign_segment_attributes() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 co
+ck-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 17--19
+[]\T1/pcr/m/n/10 attempt_warp_connection() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock
+-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--21
+[]\T1/pcr/m/n/10 attempt_weft_connection() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock
+-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--27
+[]\T1/pcr/m/n/10 build_chains() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.Knit
+MappingNetwork
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--43
+[]\T1/pcr/m/n/10 create_contour_edge() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--46
+[]\T1/pcr/m/n/10 create_final_warp_connections() \T1/ptm/m/n/10 (\T1/ptm/m/it/1
+0 cock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 46--48
+[]\T1/pcr/m/n/10 create_final_weft_connections() \T1/ptm/m/n/10 (\T1/ptm/m/it/1
+0 cock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--51
+[]\T1/pcr/m/n/10 create_mapping_network() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-
+a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--55
+[]\T1/pcr/m/n/10 create_segment_contour_edge() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 
+cock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--56
+[]\T1/pcr/m/n/10 create_warp_edge() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.
+KnitNetworkBase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--57
+[]\T1/pcr/m/n/10 create_weft_edge() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.
+KnitNetworkBase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 60--62
+[]\T1/pcr/m/n/10 edge_geometry_direction() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock
+-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 63--65
+[]\T1/pcr/m/n/10 end_node_segments_by_end() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 coc
+k-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--67
+[]\T1/pcr/m/n/10 end_node_segments_by_start() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 c
+ock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 68--69
+[]\T1/pcr/m/n/10 ends_on_position() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.
+KnitNetworkBase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 77--79
+[]\T1/pcr/m/n/10 geometry_at_position_contour() \T1/ptm/m/n/10 (\T1/ptm/m/it/10
+ cock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--84
+[]\T1/pcr/m/n/10 initialize_leaf_connections() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 
+cock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--86
+[]\T1/pcr/m/n/10 initialize_position_contour_edges()
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 86--87
+[]\T1/pcr/m/n/10 initialize_warp_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a
+-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 87--88
+[]\T1/pcr/m/n/10 initialize_weft_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a
+-
+ []
+
+[35
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 89--90
+[]\T1/pcr/m/n/10 is_rhino_inside() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule c
+ock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 105--106
+[]\T1/pcr/m/n/10 leaves_on_position() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-
+ []
+
+
+Underfull \hbox (badness 5637) in paragraph at lines 106--107
+[]\T1/pcr/m/n/10 left_boundary() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.Kni
+tConstraint prop-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 107--109
+[]\T1/pcr/m/n/10 longest_position_contour() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 coc
+k-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 112--113
+[]\T1/pcr/m/n/10 make_gephi_graph() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.
+KnitNetworkBase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 113--114
+[]\T1/pcr/m/n/10 make_pattern_data() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too
+.KnitDiNetwork
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 114--115
+[]\T1/pcr/m/n/10 map_values_as_colors() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-
+ule cock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 125--126
+[]\T1/pcr/m/n/10 networkx_version() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule 
+cock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 129--130
+[]\T1/pcr/m/n/10 node_contour_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 130--132
+[]\T1/pcr/m/n/10 node_contour_edges_in() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a
+-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 132--134
+[]\T1/pcr/m/n/10 node_contour_edges_out() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-
+a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
+[]\T1/pcr/m/n/10 node_coordinates() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.
+KnitNetworkBase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--137
+[]\T1/pcr/m/n/10 node_geometry() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.Kni
+tNetworkBase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 137--138
+[]\T1/pcr/m/n/10 node_warp_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.K
+nitDiNetwork
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
+[]\T1/pcr/m/n/10 node_warp_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.K
+nitNetworkBase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
+[]\T1/pcr/m/n/10 node_warp_edges_out() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--142
+[]\T1/pcr/m/n/10 node_weft_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.K
+nitDiNetwork
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 142--143
+[]\T1/pcr/m/n/10 node_weft_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.K
+nitNetworkBase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 144--145
+[]\T1/pcr/m/n/10 node_weft_edges_out() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 146--147
+[]\T1/pcr/m/n/10 nodes_on_segment() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.
+KnitNetworkBase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--157
+[]\T1/pcr/m/n/10 prepare_for_graphviz() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 168--170
+[]\T1/pcr/m/n/10 sample_segment_contours() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock
+-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 170--172
+[]\T1/pcr/m/n/10 segment_contour_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a
+-
+ []
+
+[36]
+Underfull \hbox (badness 10000) in paragraph at lines 177--178
+[]\T1/pcr/m/n/10 to_KnitDiNetwork() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.
+KnitNetwork
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 183--184
+[]\T1/pcr/m/n/10 total_positions() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.K
+nitNetworkBase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--186
+[]\T1/pcr/m/n/10 traverse_segments_until_warp() \T1/ptm/m/n/10 (\T1/ptm/m/it/10
+ cock-a-
+ []
+
+
+Overfull \hbox (10.1225pt too wide) in paragraph at lines 186--188
+[]\T1/pcr/m/n/10 traverse_weft_edges_and_set_attributes()
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 192--193
+[]\T1/pcr/m/n/10 verify_dual_form() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.
+KnitDiNetwork
+ []
+
+[37
+
+])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3246.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3246.
+ (cockatoo.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3246.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3246.
+
+Package rerunfilecheck Info: File `cockatoo.out' has not changed.
+(rerunfilecheck)             Checksum: 45AF25A71D6CCFC6FB86FF6D17534D9C;1669.
+
+
+LaTeX Warning: There were undefined references.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3246.
+ ) 
+Here is how much of TeX's memory you used:
+ 13923 strings out of 480797
+ 206679 string characters out of 2894169
+ 486822 words of memory out of 3000000
+ 29365 multiletter control sequences out of 15000+200000
+ 597596 words of font info for 108 fonts, out of 3000000 for 9000
+ 1142 hyphenation exceptions out of 8191
+ 38i,12n,49p,945b,688s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.
+enc}<C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/courie
+r/ucrb8a.pfb><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/u
+rw/courier/ucrbo8a.pfb><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fon
+ts/type1/urw/courier/ucrr8a.pfb><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTe
+X 2.9/fonts/type1/urw/courier/ucrro8a.pfb><C:/Users/EFESTWIN/AppData/Local/Prog
+rams/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/EFESTWIN/AppData/
+Local/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvbo8a.pfb><C:/Users/EFESTW
+IN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Us
+ers/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb
+><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utm
+r8a.pfb><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/ti
+mes/utmri8a.pfb>
+Output written on cockatoo.pdf (41 pages, 323855 bytes).
+PDF statistics:
+ 791 PDF objects out of 1000 (max. 8388607)
+ 196 named destinations out of 1000 (max. 500000)
+ 125 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -1,0 +1,7 @@
+cockatoo
+========
+
+.. toctree::
+   :maxdepth: 4
+
+   cockatoo
