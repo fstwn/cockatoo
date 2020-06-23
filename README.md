@@ -48,21 +48,21 @@ This open-source software prototype constitutes the practical part of my diploma
   `C:\Users\%USERNAME%\AppData\Roaming\McNeel\Rhinoceros\6.0\scripts`
   
   - On **Mac OSX**:
-  `Mac_Folder\Here`
+  `~/Library/Application Support/McNeel/Rhinoceros/6.0/scripts`
 - Move all the Content from inside the `modules` directory to this scripts folder.
 
 ### 3. Install Cockatoo UserObjects
 
-- Navigate to the Grasshopper UserObjects folder. This can be done in two ways:
-  - *Either* open the following folder:
-    - On **Windows**:
-    `C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects`
+- Navigate to the Grasshopper UserObjects folder
+  - On **Windows**:
+  `C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects`
     
-    - On **Mac OSX**:
-    `Mac_Folder\Here`
-  - *Or* open Rhino & Grasshopper and in the Grasshopper Window click on
-
+  - On **Mac OSX**:
+  `~/Library/Application Support/McNeel/Rhinoceros/6.0/scripts`
+  
+  - *Alternative:* Open Rhino & Grasshopper and in the Grasshopper Window click on
     `File` > `Special Folders` > `User Object Folder`
+
 - Move the whole `Cockatoo` directory to the UserObjects folder.
 
 ### 4. Unblock the new UserObjects!
