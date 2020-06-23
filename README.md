@@ -46,7 +46,7 @@ This open-source software prototype constitutes the practical part of my diploma
 - Open the scripts folder of Rhino 6
   - On **Windows**:
   `C:\Users\%USERNAME%\AppData\Roaming\McNeel\Rhinoceros\6.0\scripts`
-  
+
   - On **Mac OSX**:
   `~/Library/Application Support/McNeel/Rhinoceros/6.0/scripts`
 - Move all the Content from inside the `modules` directory to this scripts folder.
@@ -56,12 +56,12 @@ This open-source software prototype constitutes the practical part of my diploma
 - Navigate to the Grasshopper UserObjects folder
   - On **Windows**:
   `C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects`
-    
+
   - On **Mac OSX**:
   `~/Library/Application Support/McNeel/Rhinoceros/6.0/scripts`
-  
+
   - *Alternative:* Open Rhino & Grasshopper and in the Grasshopper Window click on
-    `File` > `Special Folders` > `User Object Folder`
+  `File` > `Special Folders` > `User Object Folder`
 
 - Move the whole `Cockatoo` directory to the UserObjects folder.
 
@@ -82,7 +82,7 @@ This open-source software prototype constitutes the practical part of my diploma
 
 ### You are invited to participate (yes - you!)
 
-- Contributing is easy as π (well...easier, actually). Whether you are a designer, student, teacher or scientist working with CNC-knitting - just find out what Cockatoo can do for you. In order to make Cockatoo better, we need real-world testing!
+- Contributing is easy as Pi (well...easier, actually). Whether you are a designer, student, teacher or scientist working with CNC-knitting - just find out what Cockatoo can do for you. In order to make Cockatoo better, we need real-world testing!
 - If Cockatoo doesn't do the things you expected it to do or simply does not work: Tell me about it by [submitting an issue](https://github.com/fstwn/Cockatoo/issues/)!
 - To find out more about how you can help testing this software and making it better, have a look at the contribution guidelines.
 
