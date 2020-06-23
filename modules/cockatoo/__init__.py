@@ -1,6 +1,6 @@
 """
-cockatoo module
-===============
+cockatoo module API
+===================
 
 Submodules
 ----------

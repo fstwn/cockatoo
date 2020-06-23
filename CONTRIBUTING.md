@@ -1,6 +1,6 @@
 # Contributing
 
-Contributions are welcome and appreciated in all kinds of forms! This can include 
+Contributions are welcome and appreciated in all kinds of forms! This can include
 
 ## Reporting bugs
 
@@ -26,5 +26,4 @@ In short, this is how that works.
 1. Fork [the repository](https://github.com/fstwn/cockatoo/) and clone the fork.
 2. Start making your changes to the **master** branch (or branch off of it).
 3. Commit your changes and push your branch to GitHub.
-4. Add yourself to `AUTHORS.md`.
-5. Create a [pull request](https://help.github.com/articles/about-pull-requests/) through the GitHub website.
+4. Create a [pull request](https://help.github.com/articles/about-pull-requests/) through the GitHub website.
