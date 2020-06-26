@@ -84,13 +84,7 @@ using tree branches
 from __future__ import division
 import clr
 import math
-from os import path
-
-# GHENV COMPONENT SETTINGS
-ghenv.Component.Name = "QuadReMeshExtendedParallel"
-ghenv.Component.NickName = "QRMExP"
-ghenv.Component.Category = "Cockatoo"
-ghenv.Component.SubCategory = "02 Meshing & Remeshing"
+import os
 
 # GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
@@ -125,12 +119,23 @@ else:
             clr.AddReferenceToFileAndPath(os.path.normpath(k2ap))
         import KangarooSolver as ks
     except (IOError, ImportError):
-        raise RuntimeError("KangarooSolver.dll was not found! please add the "
-                           "folder to your module search paths manually!")
+        try:
+            clr.AddReferenceToFile("KangarooSolver.dll")
+            import KangarooSolver as ks
+        except (IOError, ImportError):
+            raise RuntimeError("KangarooSolver.dll was not found! "
+                               "please add the folder to your module "
+                               "search paths manually!")
 
 # ADDITIONAL RHINO IMPORTS
 from System.Collections.Generic import List
 import scriptcontext as sc
+
+# GHENV COMPONENT SETTINGS
+ghenv.Component.Name = "QuadReMeshExtendedParallel"
+ghenv.Component.NickName = "QRMExP"
+ghenv.Component.Category = "Cockatoo"
+ghenv.Component.SubCategory = "02 Meshing & Remeshing"
 
 class QuadReMeshExtendedParallel(component):
     
