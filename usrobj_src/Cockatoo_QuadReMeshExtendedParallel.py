@@ -77,7 +77,7 @@ using tree branches
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200615
+        Version: 200626
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -92,33 +92,6 @@ ghenv.Component.NickName = "QRMExP"
 ghenv.Component.Category = "Cockatoo"
 ghenv.Component.SubCategory = "02 Meshing & Remeshing"
 
-# KANGAROO 2 IMPORT
-k2import = False
-try:
-    clr.AddReferenceToFile("KangarooSolver.dll")
-    k2import = True
-except IOError:
-    pass
-if not k2import:
-    try:
-        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Program Files\Rhino 7\Plug-ins\Grasshopper\Components\KangarooSolver.dll"))
-        k2import = True
-    except IOError:
-        pass
-if not k2import:
-    try:
-        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Program Files\Rhino 7 WIP\Plug-ins\Grasshopper\Components\KangarooSolver.dll"))
-        k2import = True
-    except IOError:
-        pass
-if not k2import:
-    try:
-        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Program Files\Rhino 6\Plug-ins\Grasshopper\Components\KangarooSolver.dll"))
-    except IOError:
-        raise RuntimeError("KangarooSolver.dll was not found! please add the " + \
-                           "folder to your module search paths manually!")
-import KangarooSolver as ks
-
 # GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
 import ghpythonlib.treehelpers as th
@@ -126,6 +99,34 @@ import ghpythonlib.components as ghcomp
 import Grasshopper, GhPython
 import System
 import Rhino
+
+# KANGAROO 2 IMPORT
+if "KangarooSolver" in str(clr.References):
+    import KangarooSolver as ks
+else:
+    try:
+        rhino_version = Rhino.RhinoApp.ExeVersion
+        if os.name == "nt":
+            if rhino_version == 6:
+                k2ap = ("C:/Program Files/Rhino 6/Plug-ins/Grasshopper/"
+                        "Components/KangarooSolver.dll")
+                clr.AddReferenceToFileAndPath(os.path.normpath(k2ap))
+            elif rhino_version == 7:
+                k2ap = ("C:/Program Files/Rhino 7/Plug-ins/Grasshopper/"
+                        "Components/KangarooSolver.dll")
+                if not os.path.exists(k2ap):
+                    k2ap = ("C:/Program Files/Rhino 7 WIP/Plug-ins/Grasshopper/"
+                            "Components/KangarooSolver.dll")
+                clr.AddReferenceToFileAndPath(os.path.normpath(k2ap))
+        elif os.name == "posix":
+            k2ap = (r"/Applications/Rhinoceros.app/Contents/Frameworks/"
+                      "RhCore.framework/Versions/A/Resources/ManagedPlugIns/"
+                      "GrasshopperPlugin.rhp/Components/KangarooSolver.dll")
+            clr.AddReferenceToFileAndPath(os.path.normpath(k2ap))
+        import KangarooSolver as ks
+    except (IOError, ImportError):
+        raise RuntimeError("KangarooSolver.dll was not found! please add the "
+                           "folder to your module search paths manually!")
 
 # ADDITIONAL RHINO IMPORTS
 from System.Collections.Generic import List
