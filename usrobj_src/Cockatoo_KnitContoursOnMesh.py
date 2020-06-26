@@ -102,8 +102,13 @@ else:
             clr.AddReferenceToFileAndPath(os.path.normpath(k2ap))
         import KangarooSolver as ks
     except (IOError, ImportError):
-        raise RuntimeError("KangarooSolver.dll was not found! please add the "
-                           "folder to your module search paths manually!")
+        try:
+            clr.AddReferenceToFile("KangarooSolver.dll")
+            import KangarooSolver as ks
+        except (IOError, ImportError):
+            raise RuntimeError("KangarooSolver.dll was not found! "
+                               "please add the folder to your module "
+                               "search paths manually!")
 
 # LOCAL MODULE IMPORTS
 try:
