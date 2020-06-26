@@ -13,12 +13,12 @@ TODO: Update docstring
     Remarks:
         Author: Max Eschenbach
         License: Apache License 2.0
-        Version: 200615
+        Version: 200626
 """
 
 # PYTHON LIBRARY IMPORTS
 import clr
-from os import path
+import os
 
 # GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
@@ -33,30 +33,43 @@ ghenv.Component.NickName = "RPM"
 ghenv.Component.Category = "Cockatoo"
 ghenv.Component.SubCategory = "02 Meshing & Remeshing"
 
-# CUSTOM MODULE IMPORTS
-planktonimport = False
-try:
-    clr.AddReferenceToFile("Plankton.dll")
-    clr.AddReferenceToFile("PlanktonGh.dll")
-    planktonimport = True
-except IOError:
-    pass
-if not planktonimport:
+
+# PLANKTON IMPORT
+if "Plankton," in str(clr.References):
+    import Plankton
+else:
     try:
-        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\Libraries\Plankton.dll"))
-        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\Libraries\PlanktonGh.dll"))
-        planktonimport = True
-    except IOError:
-        pass
-if not planktonimport:
+        if os.name == "nt":
+            plankton_path = (os.path.expandvars("%userprofile%") + 
+                             "/AppData/Roaming/"
+                             "Grasshopper/Libraries/Plankton.dll")
+            clr.AddReferenceToFileAndPath(os.path.normpath(plankton_path))
+        elif os.name == "posix":
+            plankton_path = ("/Library/Application Support/McNeel/Rhinoceros/"
+                             "6.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-"
+                             "989e-044e8580d9cf)/Libraries/Plankton.dll")
+            clr.AddReferenceToFileAndPath(os.path.normpath(plankton_path))
+        import Plankton
+    except (IOError, ImportError):
+        raise RuntimeError("Plankton could not be imported! Please install it.")
+if "PlanktonGh," in str(clr.References):
+    import PlanktonGh
+else:
     try:
-        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\Libraries\Plankton\Plankton.dll"))
-        clr.AddReferenceToFileAndPath(path.normpath(r"C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\Libraries\Plankton\PlanktonGh.dll"))
-        planktonimport = True
-    except IOError:
-        raise RuntimeError("Plankton could not be imported! Please install it")
-import Plankton
-import PlanktonGh
+        if os.name == "nt":
+            planktongh_path = (os.path.expandvars("%userprofile%") + 
+                               "/AppData/Roaming/"
+                               "Grasshopper/Libraries/PlanktonGh.dll")
+            clr.AddReferenceToFileAndPath(os.path.normpath(planktongh_path))
+        elif os.name == "posix":
+            planktongh_path = ("/Library/Application Support/McNeel/Rhinoceros/"
+                               "6.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-"
+                               "989e-044e8580d9cf)/Libraries/PlanktonGh.dll")
+            clr.AddReferenceToFileAndPath(os.path.normpath(planktongh_path))
+        import PlanktonGh
+    except (IOError, ImportError):
+        raise RuntimeError("PlanktonGh could not be imported!"
+                           "Please install it.")
 
 class RebuildPlanktonMesh(component):
     
