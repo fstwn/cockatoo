@@ -8,8 +8,8 @@ COCKATOO
    for use within `McNeel Rhinoceros 6 <https://www.rhino3d.com/>`__
    aswell as
    `Grasshopper <https://www.rhino3d.com/6/new/grasshopper>`__.
--  `...Yeah, yeah... Knitting... Rhino... Python... I get it. Just tell
-   me how to install and use it! <#installation--usage>`__
+-  `Yeah, yeah... Knitting... Rhino... Python... I get it. Just tell me
+   how to install and use it! <#installation>`__
 
 --------------
 
@@ -97,7 +97,7 @@ Installation
 1. Download release files
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  Go to `releases <https://github.com/fstwn/Cockatoo/releases>`__ and
+-  Go to `releases <https://github.com/fstwn/cockatoo/releases>`__ and
    download the newest release
 -  Unzip the downloaded archive. You should get two folders: ``modules``
    and ``Cockatoo``.
@@ -110,9 +110,12 @@ Installation
 -  Open the scripts folder of Rhino 6
 
    -  On **Windows**:
+
       ``C:\Users\%USERNAME%\AppData\Roaming\McNeel\Rhinoceros\6.0\scripts``
 
-   -  On **Mac OSX**: ``Mac_Folder\Here``
+   -  On **Mac OSX**:
+
+      ``~/Library/Application Support/McNeel/Rhinoceros/6.0/scripts``
 
 -  Move all the Content from inside the ``modules`` directory to this
    scripts folder.
@@ -122,18 +125,18 @@ Installation
 3. Install Cockatoo UserObjects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  Navigate to the Grasshopper UserObjects folder. This can be done in
-   two ways:
+-  Navigate to the Grasshopper UserObjects folder
 
-   -  *Either* open the following folder:
+   -  On **Windows**:
 
-      -  On **Windows**:
-         ``C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects``
+      ``C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects``
 
-      -  On **Mac OSX**: ``Mac_Folder\Here``
+   -  On **Mac OSX**:
 
-   -  *Or* open Rhino & Grasshopper and in the Grasshopper Window click
-      on
+      ``~/Library/Application Support/McNeel/Rhinoceros/6.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/UserObjects``
+
+   -  *Alternative:* Open Rhino & Grasshopper and in the Grasshopper
+      Window click on
 
       ``File`` > ``Special Folders`` > ``User Object Folder``
 
@@ -181,7 +184,7 @@ You are invited to participate (yes - you!)
    better, we need real-world testing!
 -  If Cockatoo doesn't do the things you expected it to do or simply
    does not work: Tell me about it by `submitting an
-   issue <https://github.com/fstwn/Cockatoo/issues/>`__!
+   issue <https://github.com/fstwn/cockatoo/issues/>`__!
 -  To find out more about how you can help testing this software and
    making it better, have a look at the contribution guidelines.
 

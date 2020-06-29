@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.7)  22 JUN 2020 19:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.7)  29 JUN 2020 21:48
 entering extended mode
 **./cockatoo.tex
 (cockatoo.tex
@@ -752,21 +752,17 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 9
 d"
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-
-LaTeX Warning: Hyper reference `README:installation--usage' on page 1 undefined
- on input line 108.
-
 LaTeX Font Info:    Trying to load font information for T1+pcr on input line 14
 0.
+
 ("C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\t1pcr.fd
 "
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ) [1
 
 ] [2]
-Underfull \hbox (badness 10000) in paragraph at lines 261--263
-[]\T1/ptm/m/n/10 On \T1/ptm/b/n/10 Win-dows\T1/ptm/m/n/10 : \T1/pcr/m/n/10 C:\U
-sers\%USERNAME%\AppData\Roaming\Grasshopper\
+Underfull \hbox (badness 10000) in paragraph at lines 267--268
+[]\T1/pcr/m/n/10 ~/Library/Application Support/McNeel/Rhinoceros/6.0/Plug-ins/
  []
 
 [3] [4]
@@ -1175,17 +1171,13 @@ Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3246.
 
 Package rerunfilecheck Info: File `cockatoo.out' has not changed.
 (rerunfilecheck)             Checksum: 45AF25A71D6CCFC6FB86FF6D17534D9C;1669.
-
-
-LaTeX Warning: There were undefined references.
-
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3246.
  ) 
 Here is how much of TeX's memory you used:
- 13923 strings out of 480797
- 206679 string characters out of 2894169
+ 13921 strings out of 480797
+ 206628 string characters out of 2894169
  486822 words of memory out of 3000000
- 29365 multiletter control sequences out of 15000+200000
+ 29363 multiletter control sequences out of 15000+200000
  597596 words of font info for 108 fonts, out of 3000000 for 9000
  1142 hyphenation exceptions out of 8191
  38i,12n,49p,945b,688s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1202,9 +1194,9 @@ ers/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb
 ><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utm
 r8a.pfb><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/ti
 mes/utmri8a.pfb>
-Output written on cockatoo.pdf (41 pages, 323855 bytes).
+Output written on cockatoo.pdf (41 pages, 324783 bytes).
 PDF statistics:
- 791 PDF objects out of 1000 (max. 8388607)
+ 792 PDF objects out of 1000 (max. 8388607)
  196 named destinations out of 1000 (max. 500000)
  125 words of extra memory for PDF output out of 10000 (max. 10000000)
 

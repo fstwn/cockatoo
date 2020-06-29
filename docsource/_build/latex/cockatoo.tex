@@ -73,7 +73,7 @@
 
 
 \title{Cockatoo}
-\date{Jun 22, 2020}
+\date{Jun 29, 2020}
 \release{0.1.0.0-alpha}
 \author{Max Eschenbach}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -104,8 +104,8 @@ aswell as
 \sphinxhref{https://www.rhino3d.com/6/new/grasshopper}{Grasshopper}.
 
 \item {} 
-{\hyperref[\detokenize{README:installation--usage}]{\emph{…Yeah, yeah… Knitting… Rhino… Python… I get it. Just tell
-me how to install and use it!}}}
+{\hyperref[\detokenize{README:installation}]{\emph{Yeah, yeah… Knitting… Rhino… Python… I get it. Just tell me
+how to install and use it!}}}
 
 \end{itemize}
 
@@ -217,7 +217,7 @@ To prevent problems with dead links and for reasons of simplicity,
 \subsection{1. Download release files}
 \label{\detokenize{README:download-release-files}}\label{\detokenize{README:id2}}\begin{itemize}
 \item {} 
-Go to \sphinxhref{https://github.com/fstwn/Cockatoo/releases}{releases} and
+Go to \sphinxhref{https://github.com/fstwn/cockatoo/releases}{releases} and
 download the newest release
 
 \item {} 
@@ -234,10 +234,13 @@ Open the scripts folder of Rhino 6
 \begin{itemize}
 \item {} 
 On \sphinxstylestrong{Windows}:
+
 \sphinxcode{\sphinxupquote{C:\textbackslash{}Users\textbackslash{}\%USERNAME\%\textbackslash{}AppData\textbackslash{}Roaming\textbackslash{}McNeel\textbackslash{}Rhinoceros\textbackslash{}6.0\textbackslash{}scripts}}
 
 \item {} 
-On \sphinxstylestrong{Mac OSX}: \sphinxcode{\sphinxupquote{Mac\_Folder\textbackslash{}Here}}
+On \sphinxstylestrong{Mac OSX}:
+
+\sphinxcode{\sphinxupquote{\textasciitilde{}/Library/Application Support/McNeel/Rhinoceros/6.0/scripts}}
 
 \end{itemize}
 
@@ -251,24 +254,21 @@ scripts folder.
 \subsection{3. Install Cockatoo UserObjects}
 \label{\detokenize{README:install-cockatoo-userobjects}}\label{\detokenize{README:id4}}\begin{itemize}
 \item {} 
-Navigate to the Grasshopper UserObjects folder. This can be done in
-two ways:
-\begin{itemize}
-\item {} 
-\sphinxstyleemphasis{Either} open the following folder:
+Navigate to the Grasshopper UserObjects folder
 \begin{itemize}
 \item {} 
 On \sphinxstylestrong{Windows}:
+
 \sphinxcode{\sphinxupquote{C:\textbackslash{}Users\textbackslash{}\%USERNAME\%\textbackslash{}AppData\textbackslash{}Roaming\textbackslash{}Grasshopper\textbackslash{}UserObjects}}
 
 \item {} 
-On \sphinxstylestrong{Mac OSX}: \sphinxcode{\sphinxupquote{Mac\_Folder\textbackslash{}Here}}
+On \sphinxstylestrong{Mac OSX}:
 
-\end{itemize}
+\sphinxcode{\sphinxupquote{\textasciitilde{}/Library/Application Support/McNeel/Rhinoceros/6.0/Plug\sphinxhyphen{}ins/Grasshopper (b45a29b1\sphinxhyphen{}4343\sphinxhyphen{}4035\sphinxhyphen{}989e\sphinxhyphen{}044e8580d9cf)/UserObjects}}
 
 \item {} 
-\sphinxstyleemphasis{Or} open Rhino \& Grasshopper and in the Grasshopper Window click
-on
+\sphinxstyleemphasis{Alternative:} Open Rhino \& Grasshopper and in the Grasshopper
+Window click on
 
 \sphinxcode{\sphinxupquote{File}} \textgreater{} \sphinxcode{\sphinxupquote{Special Folders}} \textgreater{} \sphinxcode{\sphinxupquote{User Object Folder}}
 
@@ -325,7 +325,7 @@ better, we need real\sphinxhyphen{}world testing!
 
 \item {} 
 If Cockatoo doesn’t do the things you expected it to do or simply
-does not work: Tell me about it by \sphinxhref{https://github.com/fstwn/Cockatoo/issues/}{submitting an
+does not work: Tell me about it by \sphinxhref{https://github.com/fstwn/cockatoo/issues/}{submitting an
 issue}!
 
 \item {} 
