@@ -41,7 +41,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Cockatoo 0.1.0.0-alpha documentation" href="index.html"/>
-        <link rel="prev" title="Welcome to Cockatoo’s documentation!" href="index.html"/> 
+        <link rel="prev" title="COCKATOO" href="README.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -91,6 +91,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">COCKATOO</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">cockatoo module API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-cockatoo.environment">cockatoo.environment module</a></li>
@@ -169,7 +170,7 @@
   <div class="rst-breadcrumbs-buttons" role="navigation" aria-label="breadcrumb navigation">
       
       
-        <a href="index.html" class="btn btn-neutral" title="Welcome to Cockatoo’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="README.html" class="btn btn-neutral" title="COCKATOO" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
   </div>
   
@@ -484,7 +485,8 @@ as_crv setting!</p>
 <code class="sig-prename descclassname">cockatoo.utilities.</code><code class="sig-name descname">map_values_as_colors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">src_min</span></em>, <em class="sig-param"><span class="n">src_max</span></em>, <em class="sig-param"><span class="n">target_min</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">target_max</span><span class="o">=</span><span class="default_value">0.7</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/utilities.html#map_values_as_colors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.utilities.map_values_as_colors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a list of HSL colors where the values are mapped onto a
 targetMin-targetMax hue domain. Meaning that low values will be red, medium
-values green and large values blue if targetMin: 0.0 and targetMax: 0.7</p>
+values green and large values blue if target_min is <code class="docutils literal notranslate"><span class="pre">0.0</span></code> and target_max
+is <code class="docutils literal notranslate"><span class="pre">0.7</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -519,7 +521,8 @@ For more info see <em>mapValuesAsColors.py</em> <a class="footnote-reference bra
 <dl class="py function">
 <dt id="cockatoo.utilities.tween_planes">
 <code class="sig-prename descclassname">cockatoo.utilities.</code><code class="sig-name descname">tween_planes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pa</span></em>, <em class="sig-param"><span class="n">pb</span></em>, <em class="sig-param"><span class="n">t</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/utilities.html#tween_planes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.utilities.tween_planes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Tweens between two planes using quaternion rotation.</p>
+<dd><p>Tweens between two planes using quaternion rotation.
+Based on code by Chris Hanley. <a class="footnote-reference brackets" href="#id6" id="id5">19</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -534,6 +537,13 @@ between the two input planes.</p></li>
 </dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#cockatoo.exception.SystemNotPresentError" title="cockatoo.exception.SystemNotPresentError"><strong>SystemNotPresentError</strong></a> – If the <code class="docutils literal notranslate"><span class="pre">System</span></code> module cannot be imported.</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id5">19</a></span></dt>
+<dd><p><em>Average between two planes</em></p>
+<p>See: <a class="reference external" href="https://discourse.mcneel.com/t/average-between-two-planes/71363/10?u=efestwin">Thread on discourse.mcneel.com</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -560,15 +570,15 @@ Default is <code class="docutils literal notranslate"><span class="pre">False</s
 </dl>
 <p class="rubric">Notes</p>
 <p>Based on an implementation inside the COMPAS framework.
-For more info, see <a class="footnote-reference brackets" href="#id7" id="id5">14</a> and <a class="footnote-reference brackets" href="#id8" id="id6">15</a>.</p>
+For more info, see <a class="footnote-reference brackets" href="#id9" id="id7">14</a> and <a class="footnote-reference brackets" href="#id10" id="id8">15</a>.</p>
 <p class="rubric">References</p>
 <dl class="footnote brackets">
-<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id5">14</a></span></dt>
+<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id7">14</a></span></dt>
 <dd><p>Van Mele, Tom et al. <em>COMPAS: A framework for computational
 research in architecture and structures</em>.</p>
 <p>See: <a class="reference external" href="https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/geometry/_core/queries.py#L61">is_ccw_xy() inside COMPAS</a></p>
 </dd>
-<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id6">15</a></span></dt>
+<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id8">15</a></span></dt>
 <dd><p>Marsh, C. <em>Computational Geometry in Python: From Theory to
 Application</em>.</p>
 <p>See: <a class="reference external" href="https://www.toptal.com/python/computational-geometry-in-python-from-theory-to-implementation">Computational Geometry in Python</a></p>
@@ -608,15 +618,15 @@ list, otherwise the algorithm will first resolve all open dependencies.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>For this to work, the input gaph must be a DAG (directed acyclic graph).
-For more info,see <a class="footnote-reference brackets" href="#id11" id="id9">11</a> and <a class="footnote-reference brackets" href="#id12" id="id10">12</a>.</p>
+For more info,see <a class="footnote-reference brackets" href="#id13" id="id11">11</a> and <a class="footnote-reference brackets" href="#id14" id="id12">12</a>.</p>
 </div>
 <p class="rubric">References</p>
 <dl class="footnote brackets">
-<dt class="label" id="id11"><span class="brackets"><a class="fn-backref" href="#id9">11</a></span></dt>
+<dt class="label" id="id13"><span class="brackets"><a class="fn-backref" href="#id11">11</a></span></dt>
 <dd><p>Directed acyclic graph on Wikipedia.</p>
 <p>See: <a class="reference external" href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">Directed acyclic graph</a></p>
 </dd>
-<dt class="label" id="id12"><span class="brackets"><a class="fn-backref" href="#id10">12</a></span></dt>
+<dt class="label" id="id14"><span class="brackets"><a class="fn-backref" href="#id12">12</a></span></dt>
 <dd><p>Topological sorting on Wikipedia.</p>
 <p>See: <a class="reference external" href="https://en.wikipedia.org/wiki/Topological_sorting">Topological sorting</a></p>
 </dd>
@@ -642,10 +652,10 @@ For more info,see <a class="footnote-reference brackets" href="#id11" id="id9">1
 </pre></div>
 </div>
 <p class="rubric">Notes</p>
-<p>For more info see <a class="footnote-reference brackets" href="#id14" id="id13">16</a> .</p>
+<p>For more info see <a class="footnote-reference brackets" href="#id16" id="id15">16</a> .</p>
 <p class="rubric">References</p>
 <dl class="footnote brackets">
-<dt class="label" id="id14"><span class="brackets">16</span><span class="fn-backref">(<a href="#id13">1</a>,<a href="#id39">2</a>)</span></dt>
+<dt class="label" id="id16"><span class="brackets">16</span><span class="fn-backref">(<a href="#id15">1</a>,<a href="#id41">2</a>)</span></dt>
 <dd><p>Python itertools Recipes</p>
 <p>See: <a class="reference external" href="https://docs.python.org/2.7/library/itertools.html#recipes">Python itertools Recipes</a></p>
 </dd>
@@ -739,10 +749,10 @@ contour edges which are neither ‘warp’ nor ‘weft’.</p>
 <p>Used as a base class for sharing behaviour between the KnitNetwork,
 KnitMappingNetwork and KnitDiNetwork classes.</p>
 <p>Inherits from <code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code>.
-For more info, see <em>NetworkX</em> <a class="footnote-reference brackets" href="#id16" id="id15">13</a>.</p>
+For more info, see <em>NetworkX</em> <a class="footnote-reference brackets" href="#id18" id="id17">13</a>.</p>
 <p class="rubric">References</p>
 <dl class="footnote brackets">
-<dt class="label" id="id16"><span class="brackets">13</span><span class="fn-backref">(<a href="#id15">1</a>,<a href="#id50">2</a>,<a href="#id60">3</a>)</span></dt>
+<dt class="label" id="id18"><span class="brackets">13</span><span class="fn-backref">(<a href="#id17">1</a>,<a href="#id52">2</a>,<a href="#id62">3</a>)</span></dt>
 <dd><p>Hagberg, Aric A.; Schult, Daniel A.; Swart, Pieter J.
 <em>Exploring Network Structure, Dynamics, and Function using NetworkX</em>
 In: <em>Varoquaux, Vaught et al. (Hg.) 2008 - Proceedings of the 7th
@@ -1311,38 +1321,38 @@ NURBS surface geometry.</p>
 <p>Inherits from <a class="reference internal" href="#cockatoo.KnitNetworkBase" title="cockatoo.KnitNetworkBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">KnitNetworkBase</span></code></a>.</p>
 <p class="rubric">Notes</p>
 <p>The implemented algorithms are strongly based on the paper
-<em>Automated Generation of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id22" id="id17">1</a>.
+<em>Automated Generation of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id19">1</a>.
 Also see <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
-structures</em> <a class="footnote-reference brackets" href="#id23" id="id18">2</a>.</p>
+structures</em> <a class="footnote-reference brackets" href="#id25" id="id20">2</a>.</p>
 <p>The implementation was further influenced by concepts and ideas presented
-in the papers <em>Automatic Machine Knitting of 3D Meshes</em> <a class="footnote-reference brackets" href="#id24" id="id19">3</a>,
-<em>Visual Knitting Machine Programming</em> <a class="footnote-reference brackets" href="#id25" id="id20">4</a> and
-<em>A Compiler for 3D Machine Knitting</em> <a class="footnote-reference brackets" href="#id26" id="id21">5</a>.</p>
+in the papers <em>Automatic Machine Knitting of 3D Meshes</em> <a class="footnote-reference brackets" href="#id26" id="id21">3</a>,
+<em>Visual Knitting Machine Programming</em> <a class="footnote-reference brackets" href="#id27" id="id22">4</a> and
+<em>A Compiler for 3D Machine Knitting</em> <a class="footnote-reference brackets" href="#id28" id="id23">5</a>.</p>
 <p class="rubric">References</p>
 <dl class="footnote brackets">
-<dt class="label" id="id22"><span class="brackets">1</span><span class="fn-backref">(<a href="#id17">1</a>,<a href="#id27">2</a>,<a href="#id29">3</a>,<a href="#id31">4</a>,<a href="#id33">5</a>,<a href="#id35">6</a>,<a href="#id37">7</a>,<a href="#id40">8</a>,<a href="#id42">9</a>,<a href="#id44">10</a>,<a href="#id46">11</a>,<a href="#id48">12</a>,<a href="#id51">13</a>,<a href="#id58">14</a>,<a href="#id61">15</a>)</span></dt>
+<dt class="label" id="id24"><span class="brackets">1</span><span class="fn-backref">(<a href="#id19">1</a>,<a href="#id29">2</a>,<a href="#id31">3</a>,<a href="#id33">4</a>,<a href="#id35">5</a>,<a href="#id37">6</a>,<a href="#id39">7</a>,<a href="#id42">8</a>,<a href="#id44">9</a>,<a href="#id46">10</a>,<a href="#id48">11</a>,<a href="#id50">12</a>,<a href="#id53">13</a>,<a href="#id60">14</a>,<a href="#id63">15</a>)</span></dt>
 <dd><p>Popescu, Mariana et al. <em>Automated Generation of Knit Patterns
 for Non-developable Surfaces</em></p>
 <p>See: <a class="reference external" href="https://block.arch.ethz.ch/brg/files/POPESCU_DMSP-2017_automated-generation-knit-patterns_1505737906.pdf">Automated Generation of Knit Patterns for Non-developable
 Surfaces</a></p>
 </dd>
-<dt class="label" id="id23"><span class="brackets">2</span><span class="fn-backref">(<a href="#id18">1</a>,<a href="#id28">2</a>,<a href="#id30">3</a>,<a href="#id32">4</a>,<a href="#id34">5</a>,<a href="#id36">6</a>,<a href="#id38">7</a>,<a href="#id41">8</a>,<a href="#id43">9</a>,<a href="#id45">10</a>,<a href="#id47">11</a>,<a href="#id49">12</a>,<a href="#id52">13</a>,<a href="#id59">14</a>,<a href="#id62">15</a>)</span></dt>
+<dt class="label" id="id25"><span class="brackets">2</span><span class="fn-backref">(<a href="#id20">1</a>,<a href="#id30">2</a>,<a href="#id32">3</a>,<a href="#id34">4</a>,<a href="#id36">5</a>,<a href="#id38">6</a>,<a href="#id40">7</a>,<a href="#id43">8</a>,<a href="#id45">9</a>,<a href="#id47">10</a>,<a href="#id49">11</a>,<a href="#id51">12</a>,<a href="#id54">13</a>,<a href="#id61">14</a>,<a href="#id64">15</a>)</span></dt>
 <dd><p>Popescu, Mariana <em>KnitCrete - Stay-in-place knitted formworks for
 complex concrete structures</em></p>
 <p>See: <a class="reference external" href="https://block.arch.ethz.ch/brg/files/POPESCU_2019_ETHZ_PhD_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures_small_1586266206.pdf">KnitCrete - Stay-in-place knitted formworks for complex
 concrete structures</a></p>
 </dd>
-<dt class="label" id="id24"><span class="brackets">3</span><span class="fn-backref">(<a href="#id19">1</a>,<a href="#id53">2</a>,<a href="#id63">3</a>)</span></dt>
+<dt class="label" id="id26"><span class="brackets">3</span><span class="fn-backref">(<a href="#id21">1</a>,<a href="#id55">2</a>,<a href="#id65">3</a>)</span></dt>
 <dd><p>Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian;
 McCann, James <em>Automatic Machine Knitting of 3D Meshes</em></p>
 <p>See: <a class="reference external" href="https://textiles-lab.github.io/publications/2018-autoknit/">Automatic Machine Knitting of 3D Meshes</a></p>
 </dd>
-<dt class="label" id="id25"><span class="brackets">4</span><span class="fn-backref">(<a href="#id20">1</a>,<a href="#id54">2</a>,<a href="#id64">3</a>)</span></dt>
+<dt class="label" id="id27"><span class="brackets">4</span><span class="fn-backref">(<a href="#id22">1</a>,<a href="#id56">2</a>,<a href="#id66">3</a>)</span></dt>
 <dd><p>Narayanan, Vidya; Wu, Kui et al. <em>Visual Knitting Machine
 Programming</em></p>
 <p>See: <a class="reference external" href="https://textiles-lab.github.io/publications/2019-visualknit/">Visual Knitting Machine Programming</a></p>
 </dd>
-<dt class="label" id="id26"><span class="brackets">5</span><span class="fn-backref">(<a href="#id21">1</a>,<a href="#id55">2</a>,<a href="#id65">3</a>)</span></dt>
+<dt class="label" id="id28"><span class="brackets">5</span><span class="fn-backref">(<a href="#id23">1</a>,<a href="#id57">2</a>,<a href="#id67">3</a>)</span></dt>
 <dd><p>McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April;
 Matusik, Wojciech; Mankoff, Jen; Hodgins, Jessica
 <em>A Compiler for 3D Machine Knitting</em></p>
@@ -1426,8 +1436,8 @@ messages about what is happening to the console.</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id27">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id28">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id29">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id30">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1459,8 +1469,8 @@ messages about what is happening to the console.</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id29">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id30">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id31">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id32">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1510,8 +1520,8 @@ network.</p>
 </div>
 <p class="rubric">Notes</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id31">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id32">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id33">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id34">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1550,8 +1560,8 @@ and analysis.</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id33">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id34">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id35">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id36">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1561,8 +1571,8 @@ of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brac
 connections for this network.</p>
 <p class="rubric">Notes</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id35">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id36">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id37">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id38">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1616,8 +1626,8 @@ edges can only be created using the mapping network.</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id37">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id38">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id39">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id40">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1689,7 +1699,7 @@ network.</p>
 </div>
 <p class="rubric">Notes</p>
 <p>Based on an implementation inside the COMPAS framework.
-For more info see <a class="footnote-reference brackets" href="#id14" id="id39">16</a>.</p>
+For more info see <a class="footnote-reference brackets" href="#id16" id="id41">16</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1700,8 +1710,8 @@ all position contours and creating ‘weft’ edges between the ‘leaf’
 nodes of the position contours.</p>
 <p class="rubric">Notes</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id40">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id41">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id42">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id43">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1714,8 +1724,8 @@ their ‘position’ attribute.</p>
 <p>This method is automatically called when creating a KnitNetwork using
 the create_from_contours method!</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id42">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id43">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id44">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id45">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1739,8 +1749,8 @@ used.</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id44">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id45">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id46">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id47">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1793,8 +1803,8 @@ and analysis.</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id46">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id47">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id48">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id49">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1820,8 +1830,8 @@ segment contour edge.</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id48">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id49">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id50">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id51">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1861,16 +1871,16 @@ and edges along the way.</p>
 <p>Datastructure representing a directed graph of nodes aswell as ‘weft’
 and ‘warp’ edges. Used in the automatic generation of knitting patterns.</p>
 <p>Inherits from <code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.DiGraph</span></code>, <a class="reference internal" href="#cockatoo.KnitNetworkBase" title="cockatoo.KnitNetworkBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">KnitNetworkBase</span></code></a>.
-For more info, see <em>NetworkX</em> <a class="footnote-reference brackets" href="#id16" id="id50">13</a>.</p>
+For more info, see <em>NetworkX</em> <a class="footnote-reference brackets" href="#id18" id="id52">13</a>.</p>
 <p class="rubric">Notes</p>
 <p>The implemented algorithms are strongly based on the paper
-<em>Automated Generation of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id22" id="id51">1</a>.
+<em>Automated Generation of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id53">1</a>.
 Also see <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
-structures</em> <a class="footnote-reference brackets" href="#id23" id="id52">2</a>.</p>
+structures</em> <a class="footnote-reference brackets" href="#id25" id="id54">2</a>.</p>
 <p>The implementation was further influenced by concepts and ideas presented
-in the papers <em>Automatic Machine Knitting of 3D Meshes</em> <a class="footnote-reference brackets" href="#id24" id="id53">3</a>,
-<em>Visual Knitting Machine Programming</em> <a class="footnote-reference brackets" href="#id25" id="id54">4</a> and
-<em>A Compiler for 3D Machine Knitting</em> <a class="footnote-reference brackets" href="#id26" id="id55">5</a>.</p>
+in the papers <em>Automatic Machine Knitting of 3D Meshes</em> <a class="footnote-reference brackets" href="#id26" id="id55">3</a>,
+<em>Visual Knitting Machine Programming</em> <a class="footnote-reference brackets" href="#id27" id="id56">4</a> and
+<em>A Compiler for 3D Machine Knitting</em> <a class="footnote-reference brackets" href="#id28" id="id57">5</a>.</p>
 <dl class="py method">
 <dt id="cockatoo.KnitDiNetwork.ToString">
 <code class="sig-name descname">ToString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.ToString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.ToString" title="Permalink to this definition">¶</a></dt>
@@ -1952,10 +1962,10 @@ assigning the geometry to the “reference_geometry” attribute of the network.
 </div>
 <p class="rubric">Notes</p>
 <p>Based on an implementation inside the COMPAS framework.
-For more info see <a class="footnote-reference brackets" href="#id57" id="id56">17</a>.</p>
+For more info see <a class="footnote-reference brackets" href="#id59" id="id58">17</a>.</p>
 <p class="rubric">References</p>
 <dl class="footnote brackets">
-<dt class="label" id="id57"><span class="brackets"><a class="fn-backref" href="#id56">17</a></span></dt>
+<dt class="label" id="id59"><span class="brackets"><a class="fn-backref" href="#id58">17</a></span></dt>
 <dd><p>Van Mele, Tom et al. <em>COMPAS: A framework for computational
 research in architecture and structures</em>.</p>
 <p>See: <a class="reference external" href="https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L20">find_cycles() inside COMPAS</a></p>
@@ -1984,8 +1994,8 @@ a node.</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id22" id="id58">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id23" id="id59">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id60">1</a>. Also see <em>KnitCrete
+- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id61">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2200,18 +2210,18 @@ representing this network as a 2d knitting pattern.</p>
 <p>Datastructure representing a mapping between connected chains of ‘weft’
 edges in a KnitNetwork for final creation of ‘weft’ and ‘warp’ edges.</p>
 <p>Inherits from <code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.MultiGraph</span></code>, <a class="reference internal" href="#cockatoo.KnitNetworkBase" title="cockatoo.KnitNetworkBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">KnitNetworkBase</span></code></a>
-For more info, see <em>NetworkX</em> <a class="footnote-reference brackets" href="#id16" id="id60">13</a>.</p>
+For more info, see <em>NetworkX</em> <a class="footnote-reference brackets" href="#id18" id="id62">13</a>.</p>
 <p class="rubric">Notes</p>
 <p>Not intended to be instantiated separately. Should only be instantiated
 by the KnitNetwork.create_mapping_network method!</p>
 <p>The implemented algorithms are strongly based on the paper
-<em>Automated Generation of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id22" id="id61">1</a>.
+<em>Automated Generation of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id63">1</a>.
 Also see <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
-structures</em> <a class="footnote-reference brackets" href="#id23" id="id62">2</a>.</p>
+structures</em> <a class="footnote-reference brackets" href="#id25" id="id64">2</a>.</p>
 <p>The implementation was further influenced by concepts and ideas presented
-in the papers <em>Automatic Machine Knitting of 3D Meshes</em> <a class="footnote-reference brackets" href="#id24" id="id63">3</a>,
-<em>Visual Knitting Machine Programming</em> <a class="footnote-reference brackets" href="#id25" id="id64">4</a> and
-<em>A Compiler for 3D Machine Knitting</em> <a class="footnote-reference brackets" href="#id26" id="id65">5</a>.</p>
+in the papers <em>Automatic Machine Knitting of 3D Meshes</em> <a class="footnote-reference brackets" href="#id26" id="id65">3</a>,
+<em>Visual Knitting Machine Programming</em> <a class="footnote-reference brackets" href="#id27" id="id66">4</a> and
+<em>A Compiler for 3D Machine Knitting</em> <a class="footnote-reference brackets" href="#id28" id="id67">5</a>.</p>
 <dl class="py method">
 <dt id="cockatoo.KnitMappingNetwork.ToString">
 <code class="sig-name descname">ToString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitmappingnetwork.html#KnitMappingNetwork.ToString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitMappingNetwork.ToString" title="Permalink to this definition">¶</a></dt>
@@ -2293,7 +2303,7 @@ direction.</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="index.html" class="btn btn-neutral" title="Welcome to Cockatoo’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="README.html" class="btn btn-neutral" title="COCKATOO" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

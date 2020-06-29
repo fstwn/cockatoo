@@ -833,7 +833,8 @@ as\_crv setting!
 \phantomsection\label{\detokenize{cockatoo:cockatoo.utilities.map_values_as_colors}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{cockatoo.utilities.}}\sphinxbfcode{\sphinxupquote{map\_values\_as\_colors}}}{\emph{\DUrole{n}{values}}, \emph{\DUrole{n}{src\_min}}, \emph{\DUrole{n}{src\_max}}, \emph{\DUrole{n}{target\_min}\DUrole{o}{=}\DUrole{default_value}{0.0}}, \emph{\DUrole{n}{target\_max}\DUrole{o}{=}\DUrole{default_value}{0.7}}}{}
 Make a list of HSL colors where the values are mapped onto a
 targetMin\sphinxhyphen{}targetMax hue domain. Meaning that low values will be red, medium
-values green and large values blue if targetMin: 0.0 and targetMax: 0.7
+values green and large values blue if target\_min is \sphinxcode{\sphinxupquote{0.0}} and target\_max
+is \sphinxcode{\sphinxupquote{0.7}}.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
@@ -885,6 +886,13 @@ See: \sphinxhref{https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{cockatoo:cockatoo.utilities.tween_planes}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{cockatoo.utilities.}}\sphinxbfcode{\sphinxupquote{tween\_planes}}}{\emph{\DUrole{n}{pa}}, \emph{\DUrole{n}{pb}}, \emph{\DUrole{n}{t}}}{}
 Tweens between two planes using quaternion rotation.
+Based on code by Chris Hanley. %
+\begin{footnote}[19]\sphinxAtStartFootnote
+\sphinxstyleemphasis{Average between two planes}
+
+See: \sphinxhref{https://discourse.mcneel.com/t/average-between-two-planes/71363/10?u=efestwin}{Thread on discourse.mcneel.com}
+%
+\end{footnote}
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
@@ -906,6 +914,7 @@ between the two input planes.
 {\hyperref[\detokenize{cockatoo:cockatoo.exception.SystemNotPresentError}]{\sphinxcrossref{\sphinxstyleliteralstrong{\sphinxupquote{SystemNotPresentError}}}}} \textendash{} If the \sphinxcode{\sphinxupquote{System}} module cannot be imported.
 
 \end{description}\end{quote}
+\subsubsection*{References}
 
 \end{fulllineitems}
 

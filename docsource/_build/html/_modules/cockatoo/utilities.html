@@ -297,6 +297,7 @@
 <div class="viewcode-block" id="tween_planes"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.tween_planes">[docs]</a><span class="k">def</span> <span class="nf">tween_planes</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span> <span class="n">pb</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Tweens between two planes using quaternion rotation.</span>
+<span class="sd">    Based on code by Chris Hanley. [19]_</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -319,6 +320,12 @@
 <span class="sd">    ------</span>
 <span class="sd">    SystemNotPresentError</span>
 <span class="sd">        If the ``System`` module cannot be imported.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [19] *Average between two planes*</span>
+
+<span class="sd">            See: `Thread on discourse.mcneel.com &lt;https://discourse.mcneel.com/t/average-between-two-planes/71363/10?u=efestwin&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># handle dotnet dependency in a nice way</span>
@@ -403,7 +410,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Make a list of HSL colors where the values are mapped onto a</span>
 <span class="sd">    targetMin-targetMax hue domain. Meaning that low values will be red, medium</span>
-<span class="sd">    values green and large values blue if targetMin: 0.0 and targetMax: 0.7</span>
+<span class="sd">    values green and large values blue if target_min is ``0.0`` and target_max</span>
+<span class="sd">    is ``0.7``.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

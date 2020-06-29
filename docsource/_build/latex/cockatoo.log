@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.7)  29 JUN 2020 21:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.7)  29 JUN 2020 21:56
 entering extended mode
 **./cockatoo.tex
 (cockatoo.tex
@@ -786,13 +786,13 @@ of Rhino.Geometry.Polyline or
  []
 
 [8] [9] [10] [11] [12] [13]
-Underfull \hbox (badness 10000) in paragraph at lines 1528--1530
+Underfull \hbox (badness 10000) in paragraph at lines 1537--1539
 []\T1/ptm/b/n/10 contour \T1/ptm/m/n/10 (\T1/pcr/m/n/10 Rhino.Geometry.Polyline
  \T1/ptm/m/n/10 or \T1/pcr/m/n/10 Rhino.Geometry.
  []
 
 [14]
-Underfull \hbox (badness 6978) in paragraph at lines 1648--1648
+Underfull \hbox (badness 6978) in paragraph at lines 1657--1657
 []\T1/ptm/m/it/10 node_index\T1/ptm/m/n/10 , \T1/ptm/m/it/10 pt\T1/ptm/m/n/10 ,
  \T1/ptm/m/it/10 po-si-tion=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 num=None\T1/pt
 m/m/n/10 , \T1/ptm/m/it/10 leaf=False\T1/ptm/m/n/10 , \T1/ptm/m/it/10 start=Fal
@@ -800,49 +800,49 @@ se\T1/ptm/m/n/10 ,
  []
 
 [15] [16] [17] [18] [19]
-Underfull \hbox (badness 10000) in paragraph at lines 2214--2214
+Underfull \hbox (badness 10000) in paragraph at lines 2223--2223
 []\T1/ptm/m/it/10 max_connections=4\T1/ptm/m/n/10 , \T1/ptm/m/it/10 in-clude_en
 d_nodes=True\T1/ptm/m/n/10 , \T1/ptm/m/it/10 pre-
  []
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 2303--2304
+Underfull \hbox (badness 10000) in paragraph at lines 2312--2313
 []\T1/pcr/b/n/10 reference_geometry \T1/ptm/m/n/10 (\T1/pcr/m/n/10 Rhino.Geomet
 ry.Mesh \T1/ptm/m/n/10 or \T1/pcr/m/n/10 Rhino.Geometry.
  []
 
 [21] [22] [23]
-Underfull \hbox (badness 10000) in paragraph at lines 2516--2516
+Underfull \hbox (badness 10000) in paragraph at lines 2525--2525
 []\T1/ptm/m/it/10 start_index=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 prop-a-gate_
 from_center=False\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2516--2516
+Underfull \hbox (badness 10000) in paragraph at lines 2525--2525
 \T1/ptm/m/it/10 force_continuous_start=False\T1/ptm/m/n/10 , \T1/ptm/m/it/10 fo
 rce_continuous_end=False\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2516--2516
+Underfull \hbox (badness 10000) in paragraph at lines 2525--2525
 \T1/ptm/m/it/10 an-gle_threshold=0.10471975511965978\T1/ptm/m/n/10 , \T1/ptm/m/
 it/10 max_connections=4\T1/ptm/m/n/10 ,
  []
 
 [24]
-Underfull \hbox (badness 10000) in paragraph at lines 2673--2674
+Underfull \hbox (badness 10000) in paragraph at lines 2682--2683
 \T1/ptm/m/n/10 Bases: \T1/pcr/m/n/10 networkx.classes.digraph.DiGraph\T1/ptm/m/
 n/10 , \T1/pcr/m/n/10 cockatoo._knitnetworkbase.
  []
 
 [25] [26] [27] [28]
-Underfull \hbox (badness 10000) in paragraph at lines 3111--3112
+Underfull \hbox (badness 10000) in paragraph at lines 3120--3121
 \T1/ptm/m/n/10 Bases: \T1/pcr/m/n/10 networkx.classes.multigraph.MultiGraph\T1/
 ptm/m/n/10 , \T1/pcr/m/n/10 cockatoo._knitnetworkbase.
  []
 
 [29]
-Underfull \hbox (badness 10000) in paragraph at lines 3120--3122
+Underfull \hbox (badness 10000) in paragraph at lines 3129--3131
 \T1/ptm/m/n/10 Not in-tended to be in-stan-ti-ated sep-a-rately. Should only be
  in-stan-ti-ated by the Knit-Net-
  []
@@ -1163,20 +1163,20 @@ KnitDiNetwork
 [37
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3246.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3246.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3255.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3255.
  (cockatoo.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3246.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3246.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3255.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3255.
 
 Package rerunfilecheck Info: File `cockatoo.out' has not changed.
 (rerunfilecheck)             Checksum: 45AF25A71D6CCFC6FB86FF6D17534D9C;1669.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3246.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3255.
  ) 
 Here is how much of TeX's memory you used:
- 13921 strings out of 480797
- 206628 string characters out of 2894169
- 486822 words of memory out of 3000000
+ 13922 strings out of 480797
+ 206640 string characters out of 2894169
+ 487822 words of memory out of 3000000
  29363 multiletter control sequences out of 15000+200000
  597596 words of font info for 108 fonts, out of 3000000 for 9000
  1142 hyphenation exceptions out of 8191
@@ -1194,9 +1194,9 @@ ers/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb
 ><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utm
 r8a.pfb><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/ti
 mes/utmri8a.pfb>
-Output written on cockatoo.pdf (41 pages, 324783 bytes).
+Output written on cockatoo.pdf (41 pages, 325478 bytes).
 PDF statistics:
- 792 PDF objects out of 1000 (max. 8388607)
- 196 named destinations out of 1000 (max. 500000)
+ 795 PDF objects out of 1000 (max. 8388607)
+ 197 named destinations out of 1000 (max. 500000)
  125 words of extra memory for PDF output out of 10000 (max. 10000000)
 
