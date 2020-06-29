@@ -140,6 +140,7 @@ def break_polyline(polyline, break_angle, as_crv=False):
 def tween_planes(pa, pb, t):
     """
     Tweens between two planes using quaternion rotation.
+    Based on code by Chris Hanley. [19]_
 
     Parameters
     ----------
@@ -162,6 +163,12 @@ def tween_planes(pa, pb, t):
     ------
     SystemNotPresentError
         If the ``System`` module cannot be imported.
+
+    References
+    ----------
+    .. [19] *Average between two planes*
+
+            See: `Thread on discourse.mcneel.com <https://discourse.mcneel.com/t/average-between-two-planes/71363/10?u=efestwin>`_
     """
 
     # handle dotnet dependency in a nice way
@@ -246,7 +253,8 @@ def map_values_as_colors(values, src_min, src_max, target_min=0.0, target_max=0.
     """
     Make a list of HSL colors where the values are mapped onto a
     targetMin-targetMax hue domain. Meaning that low values will be red, medium
-    values green and large values blue if targetMin: 0.0 and targetMax: 0.7
+    values green and large values blue if target_min is ``0.0`` and target_max
+    is ``0.7``.
 
     Parameters
     ----------
