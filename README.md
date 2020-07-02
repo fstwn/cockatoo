@@ -2,7 +2,7 @@
 
 - Cockatoo is a prototypical open-source software toolkit for generating (3d-)knitting patterns from NURBS surface and mesh geometry.
 - It is implemented as a [Python](https://www.python.org/) module for use within [McNeel Rhinoceros 6](https://www.rhino3d.com/) aswell as [Grasshopper](https://www.rhino3d.com/6/new/grasshopper).
-- **[Yeah, yeah... Knitting... Rhino... Python... I get it. Just tell me how to install and use it!](#installation)** <sup>1</sup>
+- **[Yeah, yeah... Knitting... Rhino... Python... I get it. Just tell me how to install and use it!](#installation)** <sup>[1](#misc-notes)</sup>
 
 ---
 
@@ -88,12 +88,16 @@ This open-source software prototype constitutes the practical part of my diploma
 
 ## Sources & References
 
-This section states the most important sources used in writing this software. The full list of sources is - of course - available in the written version of the diploma project.
+This section states the most important sources used in writing this software. The full and proper list of sources is - of course - available in the written version of the diploma project.
 
-- [1] Popescu, Mariana et al. *[Automated Generation of Knit Patterns for Non-developable Surfaces](https://block.arch.ethz.ch/brg/files/POPESCU_DMSP-2017_automated-generation-knit-patterns_1505737906.pdf)*
-- [2] Popescu, Mariana *[KnitCrete - Stay-in-place knitted formworks for complex concrete structures](https://block.arch.ethz.ch/brg/files/POPESCU_2019_ETHZ_PhD_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures_small_1586266206.pdf)*
-- [3] Van Mele, Tom et al. *[COMPAS: A framework for computational research in architecture and structures](https://compas-dev.github.io/)*
-- [4] Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian; McCann, James *[Automatic Machine Knitting of 3D Meshes](https://textiles-lab.github.io/publications/2018-autoknit/)*
-- [5] Narayanan, Vidya; Wu, Kui et al. *[Visual Knitting Machine Programming](https://textiles-lab.github.io/publications/2019-visualknit/)*
-- [6] McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April; Matusik, Wojciech; Mankoff, Jen; Hodgins, Jessica *[A Compiler for 3D Machine Knitting](https://la.disneyresearch.com/publication/machine-knitting-compiler/)*
-- [7] Hagberg, Aric; Schult, Dan; Swart, Pieter *[NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/_downloads/networkx_reference.pdf)*
+- Popescu, Mariana et al. *[Automated Generation of Knit Patterns for Non-developable Surfaces](https://block.arch.ethz.ch/brg/files/POPESCU_DMSP-2017_automated-generation-knit-patterns_1505737906.pdf)*
+- Popescu, Mariana *[KnitCrete - Stay-in-place knitted formworks for complex concrete structures](https://block.arch.ethz.ch/brg/files/POPESCU_2019_ETHZ_PhD_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures_small_1586266206.pdf)*
+- Van Mele, Tom et al. *[COMPAS: A framework for computational research in architecture and structures](https://compas-dev.github.io/)*
+- Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian; McCann, James *[Automatic Machine Knitting of 3D Meshes](https://textiles-lab.github.io/publications/2018-autoknit/)*
+- Narayanan, Vidya; Wu, Kui et al. *[Visual Knitting Machine Programming](https://textiles-lab.github.io/publications/2019-visualknit/)*
+- McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April; Matusik, Wojciech; Mankoff, Jen; Hodgins, Jessica *[A Compiler for 3D Machine Knitting](https://la.disneyresearch.com/publication/machine-knitting-compiler/)*
+- Hagberg, Aric; Schult, Dan; Swart, Pieter *[NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/_downloads/networkx_reference.pdf)*
+
+## Misc Notes
+
+- [1] This is a reference to [David Ruttens](https://ieatbugsforbreakfast.wordpress.com/) delightful sense of humor which has changed many of my darker days for the better.
