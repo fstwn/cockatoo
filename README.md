@@ -100,4 +100,4 @@ This section states the most important sources used in writing this software. Th
 
 ## Misc Notes
 
-- [1] This is a reference to [David Ruttens](https://ieatbugsforbreakfast.wordpress.com/) delightful sense of humor which has changed many of my darker days for the better.
+- [1] This is a hommage to [David Ruttens](https://ieatbugsforbreakfast.wordpress.com/) delightful sense of humor which has changed many of my darker days for the better.
