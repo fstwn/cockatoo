@@ -1,18 +1,17 @@
-# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
+# PYTHON STANDARD LIBRARY IMPORTS ---------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-# DUNDER -----------------------------------------------------------------------
+# DUNDER ----------------------------------------------------------------------
 __all__ = [
     "KnitConstraint"
 ]
 
-# LOCAL MODULE IMPORTS ---------------------------------------------------------
+# LOCAL MODULE IMPORTS --------------------------------------------------------
 from cockatoo.environment import RHINOINSIDE
-from cockatoo.exception import *
 
-# RHINO IMPORTS ----------------------------------------------------------------
+# RHINO IMPORTS ---------------------------------------------------------------
 if RHINOINSIDE:
     import rhinoinside
     rhinoinside.load()
@@ -20,22 +19,28 @@ if RHINOINSIDE:
 else:
     from Rhino.Geometry import Curve as RhinoCurve
 
-# CLASS DECLARATION ------------------------------------------------------------
+# CLASS DECLARATION -----------------------------------------------------------
+
+
 class KnitConstraint(object):
     """
     Datastructure for representing constraints derived from a mesh. Used for
     the automatic generation of knitting patterns.
     """
 
-    def __init__(self, start_course, end_course, left_boundary, right_boundary):
+    def __init__(self,
+                 start_course,
+                 end_course,
+                 left_boundary,
+                 right_boundary):
         if not isinstance(start_course, RhinoCurve):
             raise ValueError("start_course has to be of type Curve!")
         if not isinstance(end_course, RhinoCurve):
             raise ValueError("end_course has to be of type Curve!")
-        self.cons = {"start" : start_course,
-                     "end" : end_course,
-                     "left" : [],
-                     "right" : []}
+        self.cons = {"start": start_course,
+                     "end": end_course,
+                     "left": [],
+                     "right": []}
         for lb in left_boundary:
             if not isinstance(lb, RhinoCurve):
                 errMsg = "All items of left_boundary have to be of type " + \
@@ -49,7 +54,7 @@ class KnitConstraint(object):
                 raise ValueError()
             self.cons["right"].append(rb)
 
-    # TEXTUAL REPRESENTATION ---------------------------------------------------
+    # TEXTUAL REPRESENTATION --------------------------------------------------
 
     def __repr__(self):
         """
@@ -86,7 +91,7 @@ class KnitConstraint(object):
 
         return repr(self)
 
-    # PROPERTIES ---------------------------------------------------------------
+    # PROPERTIES --------------------------------------------------------------
 
     def _get_start_course(self):
         return self.cons["start"]

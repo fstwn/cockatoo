@@ -10,11 +10,11 @@
     NXVERSION
 """
 
-# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
+# PYTHON STANDARD LIBRARY IMPORTS ---------------------------------------------
 from __future__ import absolute_import
 from __future__ import print_function
 
-# DUNDER -----------------------------------------------------------------------
+# DUNDER ----------------------------------------------------------------------
 __all__ = [
     "is_rhino_inside",
     "RHINOINSIDE",
@@ -22,10 +22,12 @@ __all__ = [
     "NXVERSION"
 ]
 
-# LOCAL MODULE IMPORTS ---------------------------------------------------------
-from cockatoo.exception import *
+# LOCAL MODULE IMPORTS --------------------------------------------------------
+from cockatoo.exception import RhinoNotPresentError
+from cockatoo.exception import NetworkXNotPresentError
 
-# CHECKING FOR RHINO DEPENDENCY AND ENVIRONMENT --------------------------------
+# CHECKING FOR RHINO DEPENDENCY AND ENVIRONMENT -------------------------------
+
 
 def is_rhino_inside():
     """
@@ -47,7 +49,7 @@ def is_rhino_inside():
         try:
             import rhinoinside
             rhinoinside.load()
-            import Rhino
+            import Rhino  # NOQA: F401
             return True
         except Exception:
             errMsg = "Rhino could not be loaded! Please make sure the " + \
@@ -55,12 +57,15 @@ def is_rhino_inside():
             raise RhinoNotPresentError(errMsg)
     return False
 
+
 RHINOINSIDE = is_rhino_inside()
 """
-bool: Will be ``True`` if Rhino is running using rhinoinside, ``False`` otherwise.
+bool: Will be ``True`` if Rhino is running using rhinoinside, ``False``
+      otherwise.
 """
 
-# CHECKING FOR NETWORKX DEPENDENCY AND VERSION ---------------------------------
+# CHECKING FOR NETWORKX DEPENDENCY AND VERSION --------------------------------
+
 
 def networkx_version():
     """
@@ -86,11 +91,14 @@ def networkx_version():
 
     return version
 
+
 NXVERSION = networkx_version()
 """
 str: The version string of the networkx module that is being used.
 """
 
-# MAIN -------------------------------------------------------------------------
+# MAIN ------------------------------------------------------------------------
+
+
 if __name__ == '__main__':
     pass

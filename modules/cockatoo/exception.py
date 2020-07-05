@@ -19,7 +19,7 @@
     NoEndNodesError
 """
 
-# DUNDER -----------------------------------------------------------------------
+# DUNDER ----------------------------------------------------------------------
 __all__ = [
     "CockatooException",
     "CockatooImportException",
@@ -36,40 +36,50 @@ __all__ = [
     "NoEndNodesError"
 ]
 
-# COCKATOO BASE EXCEPTION ------------------------------------------------------
+# COCKATOO BASE EXCEPTION -----------------------------------------------------
+
 
 class CockatooException(Exception):
     """Base class for exceptions in Cockatoo."""
 
+
 class CockatooImportException(ImportError):
     """Base class for import errors in Cockatoo."""
 
-# DEPENDENCY EXCEPTIONS --------------------------------------------------------
+# DEPENDENCY EXCEPTIONS -------------------------------------------------------
+
 
 class RhinoNotPresentError(CockatooImportException):
     """Exception raised when import of Rhino fails."""
 
+
 class SystemNotPresentError(CockatooImportException):
     """Exception raised when import of System fails."""
+
 
 class NetworkXNotPresentError(CockatooImportException):
     """Exception raised when import of NetworkX fails."""
 
+
 class NetworkXVersionError(CockatooException):
     """Exception raised when NetworkX version is not 1.5."""
 
-# CALLBACK EXCEPTIONS ----------------------------------------------------------
+# CALLBACK EXCEPTIONS ---------------------------------------------------------
+
 
 class CockatooCallbackError(CockatooException):
     """Exception raised when a supplied callback is not callable."""
 
-# KNITNETWORK EXCEPTIONS -------------------------------------------------------
+# KNITNETWORK EXCEPTIONS ------------------------------------------------------
+
 
 class KnitNetworkError(CockatooException):
     """Exception for a serious error in a KnitNetwork of Cockatoo."""
 
+
 class KnitNetworkGeometryError(KnitNetworkError):
     """Exception raised when vital geometry operations fail."""
+
 
 class MappingNetworkError(KnitNetworkError):
     """
@@ -77,11 +87,13 @@ class MappingNetworkError(KnitNetworkError):
     network has been assigned to the current KnitNetwork instance yet.
     """
 
+
 class KnitNetworkTopologyError(KnitNetworkError):
     """
-    Exception raised by methods which rely on a certain topology of a network if
-    that topology could not be verified.
+    Exception raised by methods which rely on a certain topology of a network
+    if that topology could not be verified.
     """
+
 
 class NoWeftEdgesError(KnitNetworkError):
     """
@@ -89,11 +101,13 @@ class NoWeftEdgesError(KnitNetworkError):
     edges in the network.
     """
 
+
 class NoWarpEdgesError(KnitNetworkError):
     """
     Exception raised by methods relying on 'warp' edges if there are no 'warp'
     edges in the network.
     """
+
 
 class NoEndNodesError(KnitNetworkError):
     """
@@ -101,6 +115,8 @@ class NoEndNodesError(KnitNetworkError):
     nodes in the network.
     """
 
-# MAIN -------------------------------------------------------------------------
+# MAIN ------------------------------------------------------------------------
+
+
 if __name__ == '__main__':
     pass

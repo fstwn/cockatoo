@@ -83,14 +83,24 @@ cockatoo.KnitMappingNetwork
   :show-inheritance:
 """
 
-# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
+# PYTHON STANDARD LIBRARY IMPORTS ---------------------------------------------
 from __future__ import absolute_import
 
-# DUNDER -----------------------------------------------------------------------
+# LOCAL MODULE IMPORTS --------------------------------------------------------
+from cockatoo import environment
+from cockatoo import exception
+from cockatoo import utilities
+from cockatoo._knitconstraint import KnitConstraint
+from cockatoo._knitnetworkbase import KnitNetworkBase
+from cockatoo._knitnetwork import KnitNetwork
+from cockatoo._knitdinetwork import KnitDiNetwork
+from cockatoo._knitmappingnetwork import KnitMappingNetwork
+
+# DUNDER ----------------------------------------------------------------------
 __author__ = "Max Eschenbach (post@maxeschenbach.com)"
-__copyright__  = "Copyright 2020 / Max Eschenbach"
-__license__    = "Apache License 2.0"
-__email__      = ['<post@maxeschenbach.com>']
+__copyright__ = "Copyright 2020 / Max Eschenbach"
+__license__ = "Apache License 2.0"
+__email__ = ['<post@maxeschenbach.com>']
 __all__ = [
     "environment",
     "exception",
@@ -102,22 +112,12 @@ __all__ = [
     "utilities"
 ]
 
-# LOCAL MODULE IMPORTS ---------------------------------------------------------
-from cockatoo import environment
-from cockatoo import exception
-from cockatoo import utilities
-from cockatoo._knitconstraint import KnitConstraint
-from cockatoo._knitnetworkbase import KnitNetworkBase
-from cockatoo._knitnetwork import KnitNetwork
-from cockatoo._knitdinetwork import KnitDiNetwork
-from cockatoo._knitmappingnetwork import KnitMappingNetwork
-
-# CHECK NETWORKX VERSION -------------------------------------------------------
+# CHECK NETWORKX VERSION ------------------------------------------------------
 if environment.NXVERSION != "1.5":
     errMsg = "Could not verify NetworkX as version 1.5! Please make " + \
              "sure NetworkX 1.5 is available to continue."
     raise exception.NetworkXVersionError(errMsg)
 
-# MAIN -------------------------------------------------------------------------
+# MAIN ------------------------------------------------------------------------
 if __name__ == '__main__':
     pass

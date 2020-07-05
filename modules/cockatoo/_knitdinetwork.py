@@ -1,4 +1,4 @@
-# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
+# PYTHON STANDARD LIBRARY IMPORTS ---------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -7,23 +7,23 @@ from collections import OrderedDict
 import math
 from operator import itemgetter
 
-# DUNDER -----------------------------------------------------------------------
+# DUNDER ----------------------------------------------------------------------
 __all__ = [
     "KnitDiNetwork"
 ]
 
-# LOCAL MODULE IMPORTS ---------------------------------------------------------
+# LOCAL MODULE IMPORTS --------------------------------------------------------
 from cockatoo._knitnetworkbase import KnitNetworkBase
 from cockatoo.environment import RHINOINSIDE
-from cockatoo.exception import *
+from cockatoo.exception import KnitNetworkTopologyError
 from cockatoo.utilities import is_ccw_xy
 from cockatoo.utilities import pairwise
 from cockatoo.utilities import tween_planes
 
-# THIRD PARTY MODULE IMPORTS ---------------------------------------------------
+# THIRD PARTY MODULE IMPORTS --------------------------------------------------
 import networkx as nx
 
-# RHINO IMPORTS ----------------------------------------------------------------
+# RHINO IMPORTS ---------------------------------------------------------------
 if RHINOINSIDE:
     import rhinoinside
     rhinoinside.load()
@@ -41,7 +41,7 @@ else:
     from Rhino.Geometry import Point3d as RhinoPoint3d
     from Rhino.Geometry import Vector3d as RhinoVector3d
 
-# CLASS DECLARATION ------------------------------------------------------------
+# CLASS DECLARATION -----------------------------------------------------------
 class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     """
     Datastructure representing a directed graph of nodes aswell as 'weft'
@@ -63,7 +63,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     *A Compiler for 3D Machine Knitting* [5]_.
     """
 
-    # INITIALIZATION -----------------------------------------------------------
+    # INITIALIZATION ----------------------------------------------------------
 
     def __init__(self, data=None, **attr):
         """
@@ -101,7 +101,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         else:
             self.halfedge = {}
 
-    # TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------
+    # TEXTUAL REPRESENTATION OF NETWORK ---------------------------------------
 
     def __repr__(self):
         """
@@ -143,7 +143,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         return repr(self)
 
-    # NODE WEFT EDGE METHODS ---------------------------------------------------
+    # NODE WEFT EDGE METHODS --------------------------------------------------
 
     def node_weft_edges_out(self, node, data=False):
         """
@@ -235,7 +235,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         else:
             return [(e[0], e[1]) for e in weft_edges]
 
-    # NODE WARP EDGE METHODS ---------------------------------------------------
+    # NODE WARP EDGE METHODS --------------------------------------------------
 
     def node_warp_edges_out(self, node, data=False):
         """
@@ -327,7 +327,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         else:
             return [(e[0], e[1]) for e in warp_edges]
 
-    # NODE CONTOUR EDGE METHODS ------------------------------------------------
+    # NODE CONTOUR EDGE METHODS -----------------------------------------------
 
     def node_contour_edges_out(self, node, data=False):
         """
@@ -384,9 +384,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of incoming edges neither 'weft' nor 'warp'.
         """
 
-        contour_edges = [(s, e, d) for s, e, d in \
-                        self.in_edges_iter(node, data=True) \
-                        if not d["warp"] and not d["weft"]]
+        contour_edges = [(s, e, d) for s, e, d in
+                         self.in_edges_iter(node, data=True)
+                         if not d["warp"] and not d["weft"]]
 
         if data:
             return contour_edges
@@ -906,7 +906,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                     ngon_faces.append(fcount)
                     fcount += 1
                 ngon_cycle = [node_to_vertex[n] for n in cycle]
-                NGon = RhinoMeshNgon.Create(ngon_cycle, ngon_faces)
+                RhinoMeshNgon.Create(ngon_cycle, ngon_faces)
                 # increment mesh vertex counter
                 vcount += 1
             elif c_len < 3:
