@@ -155,7 +155,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for cockatoo._knitdinetwork</h1><div class="highlight"><pre>
-<span></span><span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------</span>
+<span></span><span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ---------------------------------------------</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
@@ -164,23 +164,23 @@
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
 
-<span class="c1"># DUNDER -----------------------------------------------------------------------</span>
+<span class="c1"># DUNDER ----------------------------------------------------------------------</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;KnitDiNetwork&quot;</span>
 <span class="p">]</span>
 
-<span class="c1"># LOCAL MODULE IMPORTS ---------------------------------------------------------</span>
+<span class="c1"># LOCAL MODULE IMPORTS --------------------------------------------------------</span>
 <span class="kn">from</span> <span class="nn">cockatoo._knitnetworkbase</span> <span class="kn">import</span> <span class="n">KnitNetworkBase</span>
 <span class="kn">from</span> <span class="nn">cockatoo.environment</span> <span class="kn">import</span> <span class="n">RHINOINSIDE</span>
-<span class="kn">from</span> <span class="nn">cockatoo.exception</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">cockatoo.exception</span> <span class="kn">import</span> <span class="n">KnitNetworkTopologyError</span>
 <span class="kn">from</span> <span class="nn">cockatoo.utilities</span> <span class="kn">import</span> <span class="n">is_ccw_xy</span>
 <span class="kn">from</span> <span class="nn">cockatoo.utilities</span> <span class="kn">import</span> <span class="n">pairwise</span>
 <span class="kn">from</span> <span class="nn">cockatoo.utilities</span> <span class="kn">import</span> <span class="n">tween_planes</span>
 
-<span class="c1"># THIRD PARTY MODULE IMPORTS ---------------------------------------------------</span>
+<span class="c1"># THIRD PARTY MODULE IMPORTS --------------------------------------------------</span>
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 
-<span class="c1"># RHINO IMPORTS ----------------------------------------------------------------</span>
+<span class="c1"># RHINO IMPORTS ---------------------------------------------------------------</span>
 <span class="k">if</span> <span class="n">RHINOINSIDE</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">rhinoinside</span>
     <span class="n">rhinoinside</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
@@ -198,7 +198,7 @@
     <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Point3d</span> <span class="k">as</span> <span class="n">RhinoPoint3d</span>
     <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Vector3d</span> <span class="k">as</span> <span class="n">RhinoVector3d</span>
 
-<span class="c1"># CLASS DECLARATION ------------------------------------------------------------</span>
+<span class="c1"># CLASS DECLARATION -----------------------------------------------------------</span>
 <div class="viewcode-block" id="KnitDiNetwork"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork">[docs]</a><span class="k">class</span> <span class="nc">KnitDiNetwork</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">,</span> <span class="n">KnitNetworkBase</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Datastructure representing a directed graph of nodes aswell as &#39;weft&#39;</span>
@@ -220,7 +220,7 @@
 <span class="sd">    *A Compiler for 3D Machine Knitting* [5]_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># INITIALIZATION -----------------------------------------------------------</span>
+    <span class="c1"># INITIALIZATION ----------------------------------------------------------</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">attr</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -258,7 +258,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="c1"># TEXTUAL REPRESENTATION OF NETWORK ----------------------------------------</span>
+    <span class="c1"># TEXTUAL REPRESENTATION OF NETWORK ---------------------------------------</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -300,7 +300,7 @@
 
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-    <span class="c1"># NODE WEFT EDGE METHODS ---------------------------------------------------</span>
+    <span class="c1"># NODE WEFT EDGE METHODS --------------------------------------------------</span>
 
 <div class="viewcode-block" id="KnitDiNetwork.node_weft_edges_out"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.node_weft_edges_out">[docs]</a>    <span class="k">def</span> <span class="nf">node_weft_edges_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -392,7 +392,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">weft_edges</span><span class="p">]</span></div>
 
-    <span class="c1"># NODE WARP EDGE METHODS ---------------------------------------------------</span>
+    <span class="c1"># NODE WARP EDGE METHODS --------------------------------------------------</span>
 
 <div class="viewcode-block" id="KnitDiNetwork.node_warp_edges_out"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.node_warp_edges_out">[docs]</a>    <span class="k">def</span> <span class="nf">node_warp_edges_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -484,7 +484,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">warp_edges</span><span class="p">]</span></div>
 
-    <span class="c1"># NODE CONTOUR EDGE METHODS ------------------------------------------------</span>
+    <span class="c1"># NODE CONTOUR EDGE METHODS -----------------------------------------------</span>
 
 <div class="viewcode-block" id="KnitDiNetwork.node_contour_edges_out"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitDiNetwork.node_contour_edges_out">[docs]</a>    <span class="k">def</span> <span class="nf">node_contour_edges_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -541,9 +541,9 @@
 <span class="sd">            List of incoming edges neither &#39;weft&#39; nor &#39;warp&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">contour_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
-                        <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
-                        <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
+        <span class="n">contour_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                         <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
 
         <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">contour_edges</span>
@@ -1063,7 +1063,7 @@
                     <span class="n">ngon_faces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fcount</span><span class="p">)</span>
                     <span class="n">fcount</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">ngon_cycle</span> <span class="o">=</span> <span class="p">[</span><span class="n">node_to_vertex</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">cycle</span><span class="p">]</span>
-                <span class="n">NGon</span> <span class="o">=</span> <span class="n">RhinoMeshNgon</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">ngon_cycle</span><span class="p">,</span> <span class="n">ngon_faces</span><span class="p">)</span>
+                <span class="n">RhinoMeshNgon</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">ngon_cycle</span><span class="p">,</span> <span class="n">ngon_faces</span><span class="p">)</span>
                 <span class="c1"># increment mesh vertex counter</span>
                 <span class="n">vcount</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">elif</span> <span class="n">c_len</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>

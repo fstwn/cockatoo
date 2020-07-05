@@ -73,7 +73,7 @@
 
 
 \title{Cockatoo}
-\date{Jun 29, 2020}
+\date{Jul 05, 2020}
 \release{0.1.0.0-alpha}
 \author{Max Eschenbach}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -105,7 +105,7 @@ aswell as
 
 \item {} 
 {\hyperref[\detokenize{README:installation}]{\emph{Yeah, yeah… Knitting… Rhino… Python… I get it. Just tell me
-how to install and use it!}}}
+how to install and use it!}}} {\hyperref[\detokenize{README:misc-notes}]{\emph{1}}}
 
 \end{itemize}
 
@@ -338,42 +338,51 @@ making it better, have a look at the contribution guidelines.
 \section{Sources \& References}
 \label{\detokenize{README:sources-references}}\label{\detokenize{README:id10}}
 This section states the most important sources used in writing this
-software. The full list of sources is \sphinxhyphen{} of course \sphinxhyphen{} available in the
-written version of the diploma project.
+software. The full and proper list of sources is \sphinxhyphen{} of course \sphinxhyphen{} available
+in the written version of the diploma project.
 \begin{itemize}
 \item {} 
-{[}1{]} Popescu, Mariana et al. \sphinxhref{https://block.arch.ethz.ch/brg/files/POPESCU\_DMSP-2017\_automated-generation-knit-patterns\_1505737906.pdf}{Automated Generation of Knit Patterns
-for Non\sphinxhyphen{}developable
+Popescu, Mariana et al. \sphinxhref{https://block.arch.ethz.ch/brg/files/POPESCU\_DMSP-2017\_automated-generation-knit-patterns\_1505737906.pdf}{Automated Generation of Knit Patterns for
+Non\sphinxhyphen{}developable
 Surfaces}
 
 \item {} 
-{[}2{]} Popescu, Mariana \sphinxhref{https://block.arch.ethz.ch/brg/files/POPESCU\_2019\_ETHZ\_PhD\_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures\_small\_1586266206.pdf}{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for
+Popescu, Mariana \sphinxhref{https://block.arch.ethz.ch/brg/files/POPESCU\_2019\_ETHZ\_PhD\_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures\_small\_1586266206.pdf}{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for
 complex concrete
 structures}
 
 \item {} 
-{[}3{]} Van Mele, Tom et al. \sphinxhref{https://compas-dev.github.io/}{COMPAS: A framework for computational
-research in architecture and
-structures}
+Van Mele, Tom et al. \sphinxhref{https://compas-dev.github.io/}{COMPAS: A framework for computational research
+in architecture and structures}
 
 \item {} 
-{[}4{]} Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian;
+Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian;
 McCann, James \sphinxhref{https://textiles-lab.github.io/publications/2018-autoknit/}{Automatic Machine Knitting of 3D
 Meshes}
 
 \item {} 
-{[}5{]} Narayanan, Vidya; Wu, Kui et al. \sphinxhref{https://textiles-lab.github.io/publications/2019-visualknit/}{Visual Knitting Machine
+Narayanan, Vidya; Wu, Kui et al. \sphinxhref{https://textiles-lab.github.io/publications/2019-visualknit/}{Visual Knitting Machine
 Programming}
 
 \item {} 
-{[}6{]} McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April;
-Matusik, Wojciech; Mankoff, Jen; Hodgins, Jessica \sphinxhref{https://la.disneyresearch.com/publication/machine-knitting-compiler/}{A Compiler for 3D
-Machine
+McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April; Matusik,
+Wojciech; Mankoff, Jen; Hodgins, Jessica \sphinxhref{https://la.disneyresearch.com/publication/machine-knitting-compiler/}{A Compiler for 3D Machine
 Knitting}
 
 \item {} 
-{[}7{]} Hagberg, Aric; Schult, Dan; Swart, Pieter \sphinxhref{https://networkx.github.io/documentation/networkx-1.5/\_downloads/networkx\_reference.pdf}{NetworkX
+Hagberg, Aric; Schult, Dan; Swart, Pieter \sphinxhref{https://networkx.github.io/documentation/networkx-1.5/\_downloads/networkx\_reference.pdf}{NetworkX
 1.5}
+
+\end{itemize}
+
+
+\section{Misc Notes}
+\label{\detokenize{README:misc-notes}}\begin{itemize}
+\item {} 
+{[}1{]} This is a hommage to \sphinxhref{https://ieatbugsforbreakfast.wordpress.com/}{David
+Ruttens} delightful
+sense of humor which has changed many of my darker days for the
+better.
 
 \end{itemize}
 \phantomsection\label{\detokenize{cockatoo:module-cockatoo}}\index{module@\spxentry{module}!cockatoo@\spxentry{cockatoo}}\index{cockatoo@\spxentry{cockatoo}!module@\spxentry{module}}
@@ -445,7 +454,8 @@ Check if Rhino is running using rhinoinside.
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{cockatoo:cockatoo.environment.RHINOINSIDE}}\pysigline{\sphinxcode{\sphinxupquote{cockatoo.environment.}}\sphinxbfcode{\sphinxupquote{RHINOINSIDE}}\sphinxbfcode{\sphinxupquote{ = False}}}
-Will be \sphinxcode{\sphinxupquote{True}} if Rhino is running using rhinoinside, \sphinxcode{\sphinxupquote{False}} otherwise.
+Will be \sphinxcode{\sphinxupquote{True}} if Rhino is running using rhinoinside, \sphinxcode{\sphinxupquote{False}}
+otherwise.
 \begin{quote}\begin{description}
 \item[{Type}] \leavevmode
 \sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{bool}
@@ -668,8 +678,8 @@ network has been assigned to the current KnitNetwork instance yet.
 \phantomsection\label{\detokenize{cockatoo:cockatoo.exception.KnitNetworkTopologyError}}\pysigline{\sphinxbfcode{\sphinxupquote{exception }}\sphinxcode{\sphinxupquote{cockatoo.exception.}}\sphinxbfcode{\sphinxupquote{KnitNetworkTopologyError}}}
 Bases: {\hyperref[\detokenize{cockatoo:cockatoo.exception.KnitNetworkError}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{cockatoo.exception.KnitNetworkError}}}}}
 
-Exception raised by methods which rely on a certain topology of a network if
-that topology could not be verified.
+Exception raised by methods which rely on a certain topology of a network
+if that topology could not be verified.
 
 \end{fulllineitems}
 
@@ -1183,9 +1193,9 @@ Inherits from \sphinxcode{\sphinxupquote{networkx.Graph}}.
 For more info, see \sphinxstyleemphasis{NetworkX} %
 \begin{footnote}[13]\sphinxAtStartFootnote
 Hagberg, Aric A.; Schult, Daniel A.; Swart, Pieter J.
-\sphinxstyleemphasis{Exploring Network Structure, Dynamics, and Function using NetworkX}
-In: \sphinxstyleemphasis{Varoquaux, Vaught et al. (Hg.) 2008 \sphinxhyphen{} Proceedings of the 7th
-Python in Science Conference} pp. 11\sphinxhyphen{}15
+\sphinxstyleemphasis{Exploring Network Structure, Dynamics, and Function using
+NetworkX} In: \sphinxstyleemphasis{Varoquaux, Vaught et al. (Hg.) 2008 \sphinxhyphen{} Proceedings
+of the 7th Python in Science Conference} pp. 11\sphinxhyphen{}15
 
 See: \sphinxhref{https://networkx.github.io/documentation/networkx-1.5/}{NetworkX 1.5}
 %
@@ -1215,7 +1225,8 @@ Gets all ‘end’ nodes ordered by their ‘position’ attribute.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
 \sphinxstyleliteralstrong{\sphinxupquote{data}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
-If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute data.
+If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute
+data.
 
 Defaults to \sphinxcode{\sphinxupquote{False}}.
 
@@ -1236,7 +1247,8 @@ Gets all ‘leaf’ nodes ordered by their ‘position’ attribute.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
 \sphinxstyleliteralstrong{\sphinxupquote{data}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
-If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute data.
+If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute
+data.
 
 Defaults to \sphinxcode{\sphinxupquote{False}}.
 
@@ -1258,7 +1270,8 @@ Gets all the nodes of the network, ordered by the values of their
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
 \sphinxstyleliteralstrong{\sphinxupquote{data}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
-If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute data.
+If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute
+data.
 
 Defaults to \sphinxcode{\sphinxupquote{False}}.
 
@@ -1327,7 +1340,8 @@ target node.
 ‘weft’ edge.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{segment\_geo}} (\sphinxcode{\sphinxupquote{list}} of \sphinxcode{\sphinxupquote{Rhino.Geometry.Line}}) \textendash{} the geometry of all ‘weft’ edges that make this segment contour edge
+\sphinxstyleliteralstrong{\sphinxupquote{segment\_geo}} (\sphinxcode{\sphinxupquote{list}} of \sphinxcode{\sphinxupquote{Rhino.Geometry.Line}}) \textendash{} the geometry of all ‘weft’ edges that make this segment contour
+edge
 
 \end{itemize}
 
@@ -1499,7 +1513,8 @@ attribute.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{data}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
-If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute data.
+If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute
+data.
 
 Defaults to \sphinxcode{\sphinxupquote{False}}.
 
@@ -1535,7 +1550,8 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \end{itemize}
 
 \item[{Returns}] \leavevmode
-\sphinxstylestrong{contour} (\sphinxcode{\sphinxupquote{Rhino.Geometry.Polyline}} or \sphinxcode{\sphinxupquote{Rhino.Geometry.PolylineCurve}}) \textendash{} The contour as a Polyline or PolylineCurve if \sphinxcode{\sphinxupquote{as\_crv}} is \sphinxcode{\sphinxupquote{True}}.
+\sphinxstylestrong{contour} (\sphinxcode{\sphinxupquote{Rhino.Geometry.Polyline}} or \sphinxcode{\sphinxupquote{Rhino.Geometry.PolylineCurve}}) \textendash{} The contour as a Polyline or PolylineCurve if \sphinxcode{\sphinxupquote{as\_crv}} is
+\sphinxcode{\sphinxupquote{True}}.
 
 \end{description}\end{quote}
 
@@ -1553,8 +1569,8 @@ All ‘leaf’ nodes of the network.
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{cockatoo:cockatoo.KnitNetworkBase.leaves_on_position}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{leaves\_on\_position}}}{\emph{\DUrole{n}{position}}, \emph{\DUrole{n}{data}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
-Gets all ‘leaf’ nodes which share the supplied value as their ‘position’
-attribute.
+Gets all ‘leaf’ nodes which share the supplied value as their
+‘position’ attribute.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
@@ -1562,7 +1578,8 @@ attribute.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{data}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
-If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute data.
+If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute
+data.
 
 Defaults to \sphinxcode{\sphinxupquote{False}}.
 
@@ -1626,9 +1643,9 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{edges} (\sphinxcode{\sphinxupquote{list}}) \textendash{} List of edges marked neither ‘warp’ nor ‘weft’ connected to the
-given node. Each item in the list will be either a 2\sphinxhyphen{}tuple of (u, v)
-identifiers or a 3\sphinxhyphen{}tuple of (u, v, d) where d is the attribute data
-of the edge, depending on the data parameter.
+given node. Each item in the list will be either a 2\sphinxhyphen{}tuple of
+(u, v) identifiers or a 3\sphinxhyphen{}tuple of (u, v, d) where d is the
+attribute data of the edge, depending on the data parameter.
 
 \end{description}\end{quote}
 
@@ -1706,8 +1723,8 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{segment}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#tuple}{\sphinxcode{\sphinxupquote{tuple}}} of \sphinxhref{https://docs.python.org/2/library/functions.html\#int}{\sphinxcode{\sphinxupquote{int}}}, optional) \textendash{} 
-The ‘segment’ attribute of the node identifying its position between
-two ‘end’ nodes.
+The ‘segment’ attribute of the node identifying its position
+between two ‘end’ nodes.
 
 Defaults to \sphinxcode{\sphinxupquote{None}}.
 
@@ -1832,7 +1849,8 @@ nodes which share the given value as their ‘position’ attribute.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{data}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
-If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute data.
+If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute
+data.
 
 Defaults to \sphinxcode{\sphinxupquote{False}}.
 
@@ -1860,7 +1878,8 @@ their ‘num’ attribute.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{data}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
-If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute data.
+If \sphinxcode{\sphinxupquote{True}}, found nodes will be returned with their attribute
+data.
 
 Defaults to \sphinxcode{\sphinxupquote{False}}.
 
@@ -2032,8 +2051,8 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{nodes\_by\_segment} (\sphinxcode{\sphinxupquote{list}} of \sphinxhref{https://docs.python.org/2/library/functions.html\#tuple}{\sphinxcode{\sphinxupquote{tuple}}}) \textendash{} List of 2\sphinxhyphen{}tuples in the form of (segment\_value, segment\_nodes) or
-3\sphinxhyphen{}tuples in the form of (segment\_value, segment\_nodes, segment\_edge)
-depending on the \sphinxcode{\sphinxupquote{edges}} argument.
+3\sphinxhyphen{}tuples in the form of (segment\_value, segment\_nodes,
+segment\_edge) depending on the \sphinxcode{\sphinxupquote{edges}} argument.
 
 \item[{Raises}] \leavevmode
 {\hyperref[\detokenize{cockatoo:cockatoo.exception.MappingNetworkError}]{\sphinxcrossref{\sphinxstyleliteralstrong{\sphinxupquote{MappingNetworkError}}}}} \textendash{} If the mapping network is not available for this instance.
@@ -2046,8 +2065,8 @@ depending on the \sphinxcode{\sphinxupquote{edges}} argument.
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{cockatoo:cockatoo.KnitNetwork.assign_segment_attributes}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{assign\_segment\_attributes}}}{}{}
-Get the segmentation for loop generation and assign ‘segment’ attributes
-to ‘weft’ edges and nodes.
+Get the segmentation for loop generation and assign ‘segment’
+attributes to ‘weft’ edges and nodes.
 
 \end{fulllineitems}
 
@@ -2094,8 +2113,9 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \subsubsection*{Notes}
 
 Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see \sphinxstyleemphasis{KnitCrete
-\sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete structures} \sphinxfootnotemark[2].
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
 
 \end{fulllineitems}
 
@@ -2143,8 +2163,9 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \subsubsection*{Notes}
 
 Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see \sphinxstyleemphasis{KnitCrete
-\sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete structures} \sphinxfootnotemark[2].
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
 
 \end{fulllineitems}
 
@@ -2212,8 +2233,9 @@ network.
 \subsubsection*{Notes}
 
 Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see \sphinxstyleemphasis{KnitCrete
-\sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete structures} \sphinxfootnotemark[2].
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
 
 \end{fulllineitems}
 
@@ -2225,9 +2247,9 @@ Create the final ‘warp’ connections by building chains of segment
 contour edges and connecting them.
 
 For each source chain, a target chain is found using an
-‘educated guessing’ strategy. This means that the possible target chains
-are guessed by leveraging known topology facts about the network and its
-special ‘end’ nodes.
+‘educated guessing’ strategy. This means that the possible target
+chains are guessed by leveraging known topology facts about the network
+and its special ‘end’ nodes.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
@@ -2241,17 +2263,17 @@ Defaults to \sphinxcode{\sphinxupquote{4}}.
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{include\_end\_nodes}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
 If \sphinxcode{\sphinxupquote{True}}, ‘end’ nodes between adjacent segment contours in a
-source chain will be included in the first pass of connecting ‘warp’
-edges.
+source chain will be included in the first pass of connecting
+‘warp’ edges.
 
 Defaults to \sphinxcode{\sphinxupquote{True}}.
 
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{precise}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}) \textendash{} 
-If \sphinxcode{\sphinxupquote{True}}, the distance between nodes will be calculated using the
-Rhino.Geometry.Point3d.DistanceTo method, otherwise the much faster
-Rhino.Geometry.Point3d.DistanceToSquared method is used.
+If \sphinxcode{\sphinxupquote{True}}, the distance between nodes will be calculated using
+the Rhino.Geometry.Point3d.DistanceTo method, otherwise the much
+faster Rhino.Geometry.Point3d.DistanceToSquared method is used.
 
 Defaults to \sphinxcode{\sphinxupquote{False}}.
 
@@ -2259,8 +2281,8 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{verbose}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
 If \sphinxcode{\sphinxupquote{True}}, this routine and all its subroutines will print
-messages about what is happening to the console. Great for debugging
-and analysis.
+messages about what is happening to the console. Great for
+debugging and analysis.
 
 Defaults to \sphinxcode{\sphinxupquote{False}}.
 
@@ -2271,8 +2293,9 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \subsubsection*{Notes}
 
 Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see \sphinxstyleemphasis{KnitCrete
-\sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete structures} \sphinxfootnotemark[2].
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
 
 \end{fulllineitems}
 
@@ -2285,8 +2308,9 @@ connections for this network.
 \subsubsection*{Notes}
 
 Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see \sphinxstyleemphasis{KnitCrete
-\sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete structures} \sphinxfootnotemark[2].
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
 
 \end{fulllineitems}
 
@@ -2296,20 +2320,22 @@ of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark
 \phantomsection\label{\detokenize{cockatoo:cockatoo.KnitNetwork.create_from_contours}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{classmethod }}\sphinxbfcode{\sphinxupquote{create\_from\_contours}}}{\emph{\DUrole{n}{contours}}, \emph{\DUrole{n}{course\_height}}, \emph{\DUrole{n}{reference\_geometry}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
 Create and initialize a KnitNetwork based on a set of contours, a
 given course height and an optional reference geometry.
-The reference geometry is a mesh or surface which should be described by the
-network. While it is optional, it is \sphinxstylestrong{HIGHLY} recommended to provide
-it!
+The reference geometry is a mesh or surface which should be described
+by the network. While it is optional, it is \sphinxstylestrong{HIGHLY} recommended to
+provide it!
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{contours}} (\sphinxcode{\sphinxupquote{list}} of \sphinxcode{\sphinxupquote{Rhino.Geometry.Polyline}} or \sphinxcode{\sphinxupquote{Rhino.Geometry.Curve}}) \textendash{} Ordered contours (i.e. isocurves, isolines) to initialize the
+\sphinxstyleliteralstrong{\sphinxupquote{contours}} (\sphinxcode{\sphinxupquote{list}} of \sphinxcode{\sphinxupquote{Rhino.Geometry.Polyline}}) \textendash{} or \sphinxcode{\sphinxupquote{Rhino.Geometry.Curve}}
+Ordered contours (i.e. isocurves, isolines) to initialize the
 KnitNetwork with.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{course\_height}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#float}{\sphinxstyleliteralemphasis{\sphinxupquote{float}}}) \textendash{} The course height for sampling the contours.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{reference\_geometry}} (\sphinxcode{\sphinxupquote{Rhino.Geometry.Mesh}} or \sphinxcode{\sphinxupquote{Rhino.Geometry.Surface}}) \textendash{} Optional underlying geometry that this network is based on.
+\sphinxstyleliteralstrong{\sphinxupquote{reference\_geometry}} (\sphinxcode{\sphinxupquote{Rhino.Geometry.Mesh}}) \textendash{} or \sphinxcode{\sphinxupquote{Rhino.Geometry.Surface}}
+Optional underlying geometry that this network is based on.
 
 \end{itemize}
 
@@ -2319,8 +2345,8 @@ KnitNetwork with.
 \end{description}\end{quote}
 \subsubsection*{Notes}
 
-This method will automatically call initialize\_position\_contour\_edges() on
-the newly created network!
+This method will automatically call initialize\_position\_contour\_edges()
+on the newly created network!
 \begin{quote}\begin{description}
 \item[{Raises}] \leavevmode
 {\hyperref[\detokenize{cockatoo:cockatoo.exception.KnitNetworkGeometryError}]{\sphinxcrossref{\sphinxstyleliteralstrong{\sphinxupquote{KnitNetworkGeometryError}}}}} \textendash{} If a supplied contour is not a valid instance of
@@ -2353,8 +2379,9 @@ edges can only be created using the mapping network.
 \subsubsection*{Notes}
 
 Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see \sphinxstyleemphasis{KnitCrete
-\sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete structures} \sphinxfootnotemark[2].
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
 
 \end{fulllineitems}
 
@@ -2389,8 +2416,8 @@ Defaults to \sphinxcode{\sphinxupquote{\sphinxhyphen{}1}}.
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{max\_valence}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#int}{\sphinxstyleliteralemphasis{\sphinxupquote{int}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
 Sets the maximum edge valence of the faces. If this is set to \textgreater{} 4,
-n\sphinxhyphen{}gon faces (more than 4 edges) are allowed. Otherwise, their cycles
-are treated as invalid and will be ignored.
+n\sphinxhyphen{}gon faces (more than 4 edges) are allowed. Otherwise, their
+cycles are treated as invalid and will be ignored.
 
 Defaults to \sphinxcode{\sphinxupquote{4}}.
 
@@ -2461,8 +2488,9 @@ nodes of the position contours.
 \subsubsection*{Notes}
 
 Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see \sphinxstyleemphasis{KnitCrete
-\sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete structures} \sphinxfootnotemark[2].
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
 
 \end{fulllineitems}
 
@@ -2479,8 +2507,9 @@ This method is automatically called when creating a KnitNetwork using
 the create\_from\_contours method!
 
 Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see \sphinxstyleemphasis{KnitCrete
-\sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete structures} \sphinxfootnotemark[2].
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
 
 \end{fulllineitems}
 
@@ -2514,8 +2543,9 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \subsubsection*{Notes}
 
 Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see \sphinxstyleemphasis{KnitCrete
-\sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete structures} \sphinxfootnotemark[2].
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
 
 \end{fulllineitems}
 
@@ -2530,7 +2560,8 @@ network.
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{start\_index}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#int}{\sphinxstyleliteralemphasis{\sphinxupquote{int}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
 This value defines at which index the list of contours is split.
-If no index is supplied, will split the list at the longest contour.
+If no index is supplied, will split the list at the longest
+contour.
 
 Defaults to \sphinxcode{\sphinxupquote{None}}.
 
@@ -2577,9 +2608,9 @@ Defaults to \sphinxcode{\sphinxupquote{False}}
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{precise}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
-If \sphinxcode{\sphinxupquote{True}}, the distance between nodes will be calculated using the
-Rhino.Geometry.Point3d.DistanceTo method, otherwise the much faster
-Rhino.Geometry.Point3d.DistanceToSquared method is used.
+If \sphinxcode{\sphinxupquote{True}}, the distance between nodes will be calculated using
+the Rhino.Geometry.Point3d.DistanceTo method, otherwise the much
+faster Rhino.Geometry.Point3d.DistanceToSquared method is used.
 
 Defaults to \sphinxcode{\sphinxupquote{False}}.
 
@@ -2587,8 +2618,8 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{verbose}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
 If \sphinxcode{\sphinxupquote{True}}, this routine and all its subroutines will print
-messages about what is happening to the console. Great for debugging
-and analysis.
+messages about what is happening to the console. Great for
+debugging and analysis.
 
 Defaults to \sphinxcode{\sphinxupquote{False}}.
 
@@ -2602,8 +2633,9 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \subsubsection*{Notes}
 
 Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see \sphinxstyleemphasis{KnitCrete
-\sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete structures} \sphinxfootnotemark[2].
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
 
 \end{fulllineitems}
 
@@ -2611,7 +2643,7 @@ of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{cockatoo:cockatoo.KnitNetwork.mapping_network}}\pysigline{\sphinxbfcode{\sphinxupquote{property }}\sphinxbfcode{\sphinxupquote{mapping\_network}}}
-The associated mapping network of this                                KnitNetwork instance.
+The associated mapping network of this KnitNetwork instance.
 
 \end{fulllineitems}
 
@@ -2634,8 +2666,9 @@ segment contour edge.
 \subsubsection*{Notes}
 
 Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see \sphinxstyleemphasis{KnitCrete
-\sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete structures} \sphinxfootnotemark[2].
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
 
 \end{fulllineitems}
 

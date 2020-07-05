@@ -155,21 +155,20 @@
            <div itemprop="articleBody">
             
   <h1>Source code for cockatoo._knitconstraint</h1><div class="highlight"><pre>
-<span></span><span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------</span>
+<span></span><span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ---------------------------------------------</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 
-<span class="c1"># DUNDER -----------------------------------------------------------------------</span>
+<span class="c1"># DUNDER ----------------------------------------------------------------------</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;KnitConstraint&quot;</span>
 <span class="p">]</span>
 
-<span class="c1"># LOCAL MODULE IMPORTS ---------------------------------------------------------</span>
+<span class="c1"># LOCAL MODULE IMPORTS --------------------------------------------------------</span>
 <span class="kn">from</span> <span class="nn">cockatoo.environment</span> <span class="kn">import</span> <span class="n">RHINOINSIDE</span>
-<span class="kn">from</span> <span class="nn">cockatoo.exception</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="c1"># RHINO IMPORTS ----------------------------------------------------------------</span>
+<span class="c1"># RHINO IMPORTS ---------------------------------------------------------------</span>
 <span class="k">if</span> <span class="n">RHINOINSIDE</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">rhinoinside</span>
     <span class="n">rhinoinside</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
@@ -177,22 +176,28 @@
 <span class="k">else</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Curve</span> <span class="k">as</span> <span class="n">RhinoCurve</span>
 
-<span class="c1"># CLASS DECLARATION ------------------------------------------------------------</span>
+<span class="c1"># CLASS DECLARATION -----------------------------------------------------------</span>
+
+
 <div class="viewcode-block" id="KnitConstraint"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitConstraint">[docs]</a><span class="k">class</span> <span class="nc">KnitConstraint</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Datastructure for representing constraints derived from a mesh. Used for</span>
 <span class="sd">    the automatic generation of knitting patterns.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_course</span><span class="p">,</span> <span class="n">end_course</span><span class="p">,</span> <span class="n">left_boundary</span><span class="p">,</span> <span class="n">right_boundary</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">start_course</span><span class="p">,</span>
+                 <span class="n">end_course</span><span class="p">,</span>
+                 <span class="n">left_boundary</span><span class="p">,</span>
+                 <span class="n">right_boundary</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start_course</span><span class="p">,</span> <span class="n">RhinoCurve</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;start_course has to be of type Curve!&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">end_course</span><span class="p">,</span> <span class="n">RhinoCurve</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;end_course has to be of type Curve!&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span> <span class="p">:</span> <span class="n">start_course</span><span class="p">,</span>
-                     <span class="s2">&quot;end&quot;</span> <span class="p">:</span> <span class="n">end_course</span><span class="p">,</span>
-                     <span class="s2">&quot;left&quot;</span> <span class="p">:</span> <span class="p">[],</span>
-                     <span class="s2">&quot;right&quot;</span> <span class="p">:</span> <span class="p">[]}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cons</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_course</span><span class="p">,</span>
+                     <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">end_course</span><span class="p">,</span>
+                     <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                     <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="p">[]}</span>
         <span class="k">for</span> <span class="n">lb</span> <span class="ow">in</span> <span class="n">left_boundary</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">RhinoCurve</span><span class="p">):</span>
                 <span class="n">errMsg</span> <span class="o">=</span> <span class="s2">&quot;All items of left_boundary have to be of type &quot;</span> <span class="o">+</span> \
@@ -206,7 +211,7 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">[</span><span class="s2">&quot;right&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rb</span><span class="p">)</span>
 
-    <span class="c1"># TEXTUAL REPRESENTATION ---------------------------------------------------</span>
+    <span class="c1"># TEXTUAL REPRESENTATION --------------------------------------------------</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -243,7 +248,7 @@
 
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-    <span class="c1"># PROPERTIES ---------------------------------------------------------------</span>
+    <span class="c1"># PROPERTIES --------------------------------------------------------------</span>
 
     <span class="k">def</span> <span class="nf">_get_start_course</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cons</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span>

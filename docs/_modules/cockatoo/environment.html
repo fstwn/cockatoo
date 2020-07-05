@@ -167,11 +167,11 @@
 <span class="sd">    NXVERSION</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------</span>
+<span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ---------------------------------------------</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 
-<span class="c1"># DUNDER -----------------------------------------------------------------------</span>
+<span class="c1"># DUNDER ----------------------------------------------------------------------</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;is_rhino_inside&quot;</span><span class="p">,</span>
     <span class="s2">&quot;RHINOINSIDE&quot;</span><span class="p">,</span>
@@ -179,10 +179,12 @@
     <span class="s2">&quot;NXVERSION&quot;</span>
 <span class="p">]</span>
 
-<span class="c1"># LOCAL MODULE IMPORTS ---------------------------------------------------------</span>
-<span class="kn">from</span> <span class="nn">cockatoo.exception</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c1"># LOCAL MODULE IMPORTS --------------------------------------------------------</span>
+<span class="kn">from</span> <span class="nn">cockatoo.exception</span> <span class="kn">import</span> <span class="n">RhinoNotPresentError</span>
+<span class="kn">from</span> <span class="nn">cockatoo.exception</span> <span class="kn">import</span> <span class="n">NetworkXNotPresentError</span>
 
-<span class="c1"># CHECKING FOR RHINO DEPENDENCY AND ENVIRONMENT --------------------------------</span>
+<span class="c1"># CHECKING FOR RHINO DEPENDENCY AND ENVIRONMENT -------------------------------</span>
+
 
 <div class="viewcode-block" id="is_rhino_inside"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.environment.is_rhino_inside">[docs]</a><span class="k">def</span> <span class="nf">is_rhino_inside</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -204,7 +206,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">rhinoinside</span>
             <span class="n">rhinoinside</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-            <span class="kn">import</span> <span class="nn">Rhino</span>
+            <span class="kn">import</span> <span class="nn">Rhino</span>  <span class="c1"># NOQA: F401</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="n">errMsg</span> <span class="o">=</span> <span class="s2">&quot;Rhino could not be loaded! Please make sure the &quot;</span> <span class="o">+</span> \
@@ -212,12 +214,15 @@
             <span class="k">raise</span> <span class="n">RhinoNotPresentError</span><span class="p">(</span><span class="n">errMsg</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">False</span></div>
 
+
 <span class="n">RHINOINSIDE</span> <span class="o">=</span> <span class="n">is_rhino_inside</span><span class="p">()</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">bool: Will be ``True`` if Rhino is running using rhinoinside, ``False`` otherwise.</span>
+<span class="sd">bool: Will be ``True`` if Rhino is running using rhinoinside, ``False``</span>
+<span class="sd">      otherwise.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># CHECKING FOR NETWORKX DEPENDENCY AND VERSION ---------------------------------</span>
+<span class="c1"># CHECKING FOR NETWORKX DEPENDENCY AND VERSION --------------------------------</span>
+
 
 <div class="viewcode-block" id="networkx_version"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.environment.networkx_version">[docs]</a><span class="k">def</span> <span class="nf">networkx_version</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -243,12 +248,15 @@
 
     <span class="k">return</span> <span class="n">version</span></div>
 
+
 <span class="n">NXVERSION</span> <span class="o">=</span> <span class="n">networkx_version</span><span class="p">()</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">str: The version string of the networkx module that is being used.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># MAIN -------------------------------------------------------------------------</span>
+<span class="c1"># MAIN ------------------------------------------------------------------------</span>
+
+
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="k">pass</span>
 </pre></div>

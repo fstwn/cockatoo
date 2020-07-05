@@ -155,25 +155,24 @@
            <div itemprop="articleBody">
             
   <h1>Source code for cockatoo._knitnetworkbase</h1><div class="highlight"><pre>
-<span></span><span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------</span>
+<span></span><span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ---------------------------------------------</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 
-<span class="c1"># DUNDER -----------------------------------------------------------------------</span>
+<span class="c1"># DUNDER ----------------------------------------------------------------------</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;KnitNetworkBase&quot;</span>
 <span class="p">]</span>
 
-<span class="c1"># THIRD PARTY MODULE IMPORTS ---------------------------------------------------</span>
+<span class="c1"># THIRD PARTY MODULE IMPORTS --------------------------------------------------</span>
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 
-<span class="c1"># LOCAL MODULE IMPORTS ---------------------------------------------------------</span>
+<span class="c1"># LOCAL MODULE IMPORTS --------------------------------------------------------</span>
 <span class="kn">from</span> <span class="nn">cockatoo.environment</span> <span class="kn">import</span> <span class="n">RHINOINSIDE</span>
-<span class="kn">from</span> <span class="nn">cockatoo.exception</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="c1"># RHINO IMPORTS ----------------------------------------------------------------</span>
+<span class="c1"># RHINO IMPORTS ---------------------------------------------------------------</span>
 <span class="k">if</span> <span class="n">RHINOINSIDE</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">rhinoinside</span>
     <span class="n">rhinoinside</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
@@ -187,7 +186,9 @@
     <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">LineCurve</span> <span class="k">as</span> <span class="n">RhinoLineCurve</span>
     <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Polyline</span> <span class="k">as</span> <span class="n">RhinoPolyline</span>
 
-<span class="c1"># CLASS DECLARATION ------------------------------------------------------------</span>
+<span class="c1"># CLASS DECLARATION -----------------------------------------------------------</span>
+
+
 <div class="viewcode-block" id="KnitNetworkBase"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase">[docs]</a><span class="k">class</span> <span class="nc">KnitNetworkBase</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract datastructure for representing a network (graph) consisting of</span>
@@ -203,14 +204,15 @@
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    .. [13] Hagberg, Aric A.; Schult, Daniel A.; Swart, Pieter J.</span>
-<span class="sd">            *Exploring Network Structure, Dynamics, and Function using NetworkX*</span>
-<span class="sd">            In: *Varoquaux, Vaught et al. (Hg.) 2008 - Proceedings of the 7th</span>
-<span class="sd">            Python in Science Conference* pp. 11-15</span>
+<span class="sd">            *Exploring Network Structure, Dynamics, and Function using</span>
+<span class="sd">            NetworkX* In: *Varoquaux, Vaught et al. (Hg.) 2008 - Proceedings</span>
+<span class="sd">            of the 7th Python in Science Conference* pp. 11-15</span>
 
-<span class="sd">            See: `NetworkX 1.5 &lt;https://networkx.github.io/documentation/networkx-1.5/&gt;`_</span>
+<span class="sd">            See: `NetworkX 1.5 &lt;https://networkx.github.io/documentation/</span>
+<span class="sd">            networkx-1.5/&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># REPRESENTATION OF NETWORK ------------------------------------------------</span>
+    <span class="c1"># REPRESENTATION OF NETWORK -----------------------------------------------</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -388,17 +390,17 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">node_label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">node_type</span>
 
-            <span class="n">node_attributes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span> <span class="p">:</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
-                               <span class="s2">&quot;y&quot;</span> <span class="p">:</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
-                               <span class="s2">&quot;z&quot;</span> <span class="p">:</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">],</span>
-                               <span class="s2">&quot;label&quot;</span> <span class="p">:</span> <span class="n">node_label</span><span class="p">,</span>
-                               <span class="s2">&quot;shape&quot;</span> <span class="p">:</span> <span class="n">node_shape</span><span class="p">,</span>
-                               <span class="s2">&quot;fontname&quot;</span> <span class="p">:</span> <span class="n">font</span><span class="p">,</span>
-                               <span class="s2">&quot;style&quot;</span> <span class="p">:</span> <span class="s2">&quot;filled&quot;</span><span class="p">,</span>
-                               <span class="s2">&quot;fillcolor&quot;</span> <span class="p">:</span> <span class="n">node_color</span><span class="p">,</span>
-                               <span class="s2">&quot;fontcolor&quot;</span> <span class="p">:</span> <span class="n">node_txt_color</span><span class="p">,</span>
-                               <span class="s2">&quot;fontsize&quot;</span> <span class="p">:</span> <span class="n">nodeFontSize</span><span class="p">,</span>
-                               <span class="s2">&quot;margin&quot;</span> <span class="p">:</span> <span class="mf">0.0001</span><span class="p">}</span>
+            <span class="n">node_attributes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+                               <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
+                               <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">],</span>
+                               <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">node_label</span><span class="p">,</span>
+                               <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="n">node_shape</span><span class="p">,</span>
+                               <span class="s2">&quot;fontname&quot;</span><span class="p">:</span> <span class="n">font</span><span class="p">,</span>
+                               <span class="s2">&quot;style&quot;</span><span class="p">:</span> <span class="s2">&quot;filled&quot;</span><span class="p">,</span>
+                               <span class="s2">&quot;fillcolor&quot;</span><span class="p">:</span> <span class="n">node_color</span><span class="p">,</span>
+                               <span class="s2">&quot;fontcolor&quot;</span><span class="p">:</span> <span class="n">node_txt_color</span><span class="p">,</span>
+                               <span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="n">nodeFontSize</span><span class="p">,</span>
+                               <span class="s2">&quot;margin&quot;</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">}</span>
 
             <span class="n">DotGraph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">attr_dict</span><span class="o">=</span><span class="n">node_attributes</span><span class="p">)</span>
 
@@ -507,9 +509,11 @@
 
         <span class="k">return</span> <span class="n">GephiGraph</span></div>
 
-    <span class="c1"># NODE CREATION ------------------------------------------------------------</span>
+    <span class="c1"># NODE CREATION -----------------------------------------------------------</span>
 
-<div class="viewcode-block" id="KnitNetworkBase.node_from_point3d"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.node_from_point3d">[docs]</a>    <span class="k">def</span> <span class="nf">node_from_point3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_index</span><span class="p">,</span> <span class="n">pt</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">leaf</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">segment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">increase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decrease</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="KnitNetworkBase.node_from_point3d"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.node_from_point3d">[docs]</a>    <span class="k">def</span> <span class="nf">node_from_point3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_index</span><span class="p">,</span> <span class="n">pt</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">leaf</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">segment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">increase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decrease</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a network node from a Rhino Point3d and attributes.</span>
 
@@ -552,8 +556,8 @@
 <span class="sd">            Defaults to ``False``.</span>
 
 <span class="sd">        segment : :obj:`tuple` of :obj:`int`, optional</span>
-<span class="sd">            The &#39;segment&#39; attribute of the node identifying its position between</span>
-<span class="sd">            two &#39;end&#39; nodes.</span>
+<span class="sd">            The &#39;segment&#39; attribute of the node identifying its position</span>
+<span class="sd">            between two &#39;end&#39; nodes.</span>
 
 <span class="sd">            Defaults to ``None``.</span>
 
@@ -599,7 +603,7 @@
         <span class="c1"># add the node to the network instance</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node_index</span><span class="p">,</span> <span class="n">attr_dict</span><span class="o">=</span><span class="n">node_attributes</span><span class="p">)</span></div>
 
-    <span class="c1"># NODE GEOMETRY ------------------------------------------------------------</span>
+    <span class="c1"># NODE GEOMETRY -----------------------------------------------------------</span>
 
 <div class="viewcode-block" id="KnitNetworkBase.node_geometry"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.node_geometry">[docs]</a>    <span class="k">def</span> <span class="nf">node_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_index</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -645,21 +649,24 @@
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 
-    <span class="c1"># PROPERTIES ---------------------------------------------------------------</span>
+    <span class="c1"># PROPERTIES --------------------------------------------------------------</span>
 
     <span class="k">def</span> <span class="nf">_get_total_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the number of total positions (i.e. contours) inside the network.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">total</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span><span class="o">+</span><span class="mi">1</span>
         <span class="k">return</span> <span class="n">total</span>
 
-    <span class="n">total_positions</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_total_positions</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                              <span class="s2">&quot;The total number of positions (i.e. contours) &quot;</span> <span class="o">+</span>
-                              <span class="s2">&quot;inside the network&quot;</span><span class="p">)</span>
+    <span class="n">total_positions</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+                            <span class="n">_get_total_positions</span><span class="p">,</span>
+                            <span class="kc">None</span><span class="p">,</span>
+                            <span class="kc">None</span><span class="p">,</span>
+                            <span class="s2">&quot;The total number of positions (i.e. contours) &quot;</span> <span class="o">+</span>
+                            <span class="s2">&quot;inside the network&quot;</span><span class="p">)</span>
 
-    <span class="c1"># NODES ON POSITION CONTOURS -----------------------------------------------</span>
+    <span class="c1"># NODES ON POSITION CONTOURS ----------------------------------------------</span>
 
 <div class="viewcode-block" id="KnitNetworkBase.nodes_on_position"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.nodes_on_position">[docs]</a>    <span class="k">def</span> <span class="nf">nodes_on_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -672,7 +679,8 @@
 <span class="sd">            The index of the position.</span>
 
 <span class="sd">        data : bool, optional</span>
-<span class="sd">            If ``True``, found nodes will be returned with their attribute data.</span>
+<span class="sd">            If ``True``, found nodes will be returned with their attribute</span>
+<span class="sd">            data.</span>
 
 <span class="sd">            Defaults to ``False``.</span>
 
@@ -682,7 +690,7 @@
 <span class="sd">            The nodes sharing the supplied &#39;position&#39; attribute.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">position</span><span class="p">]</span>
 
         <span class="n">nodes</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;num&quot;</span><span class="p">])</span>
@@ -700,7 +708,8 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        data : bool, optional</span>
-<span class="sd">            If ``True``, found nodes will be returned with their attribute data.</span>
+<span class="sd">            If ``True``, found nodes will be returned with their attribute</span>
+<span class="sd">            data.</span>
 
 <span class="sd">            Defaults to ``False``.</span>
 
@@ -711,9 +720,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">allPositionNodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
-                            <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
-                            <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">],</span>
-                            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;position&quot;</span><span class="p">])</span>
+                                <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                                 <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">],</span>
+                                <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;position&quot;</span><span class="p">])</span>
 
         <span class="n">posdict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">allPositionNodes</span><span class="p">:</span>
@@ -732,7 +741,7 @@
 
         <span class="k">return</span> <span class="n">anbp</span></div>
 
-    <span class="c1"># NODES ON SEGMENT CONTOURS ------------------------------------------------</span>
+    <span class="c1"># NODES ON SEGMENT CONTOURS -----------------------------------------------</span>
 
 <div class="viewcode-block" id="KnitNetworkBase.nodes_on_segment"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.nodes_on_segment">[docs]</a>    <span class="k">def</span> <span class="nf">nodes_on_segment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">segment</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -746,7 +755,8 @@
 <span class="sd">            The identifier of the segment to look for.</span>
 
 <span class="sd">        data : bool, optional</span>
-<span class="sd">            If ``True``, found nodes will be returned with their attribute data.</span>
+<span class="sd">            If ``True``, found nodes will be returned with their attribute</span>
+<span class="sd">            data.</span>
 
 <span class="sd">            Defaults to ``False``.</span>
 
@@ -757,7 +767,7 @@
 <span class="sd">            attribute, ordered by their &#39;num&#39; attribute.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;segment&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">segment</span><span class="p">]</span>
 
         <span class="n">nodes</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;num&quot;</span><span class="p">])</span>
@@ -767,7 +777,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span></div>
 
-    <span class="c1"># LEAF NODES ---------------------------------------------------------------</span>
+    <span class="c1"># LEAF NODES --------------------------------------------------------------</span>
 
     <span class="k">def</span> <span class="nf">_get_leaf_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -779,18 +789,18 @@
 <span class="sd">            List of all nodes for which the attribute &#39;leaf&#39; is ``True``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">leaves</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
-                  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span>
+        <span class="n">leaves</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">leaves</span>
 
     <span class="n">leaf_nodes</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_leaf_nodes</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                         <span class="s2">&quot;All &#39;leaf&#39; nodes of the network.&quot;</span><span class="p">)</span>
+                          <span class="s2">&quot;All &#39;leaf&#39; nodes of the network.&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="KnitNetworkBase.leaves_on_position"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.leaves_on_position">[docs]</a>    <span class="k">def</span> <span class="nf">leaves_on_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets all &#39;leaf&#39; nodes which share the supplied value as their &#39;position&#39;</span>
-<span class="sd">        attribute.</span>
+<span class="sd">        Gets all &#39;leaf&#39; nodes which share the supplied value as their</span>
+<span class="sd">        &#39;position&#39; attribute.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -798,7 +808,8 @@
 <span class="sd">            The index / identifier of the position</span>
 
 <span class="sd">        data : bool, optional</span>
-<span class="sd">            If ``True``, found nodes will be returned with their attribute data.</span>
+<span class="sd">            If ``True``, found nodes will be returned with their attribute</span>
+<span class="sd">            data.</span>
 
 <span class="sd">            Defaults to ``False``.</span>
 
@@ -809,7 +820,8 @@
 <span class="sd">            which share the supplied value as their &#39;position&#39; attribute</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">leaves</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_on_position</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+        <span class="n">leaves</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span>
+                  <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_on_position</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                   <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
             <span class="n">leaves</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">leaves</span><span class="p">]</span>
@@ -822,7 +834,8 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        data : bool, optional</span>
-<span class="sd">            If ``True``, found nodes will be returned with their attribute data.</span>
+<span class="sd">            If ``True``, found nodes will be returned with their attribute</span>
+<span class="sd">            data.</span>
 
 <span class="sd">            Defaults to ``False``.</span>
 
@@ -834,8 +847,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">allPositionLeaves</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
-                            <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
-                            <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]],</span>
+                            <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                             <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]],</span>
                             <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;position&quot;</span><span class="p">])</span>
 
         <span class="n">posdict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
@@ -855,20 +868,20 @@
 
         <span class="k">return</span> <span class="n">albp</span></div>
 
-    <span class="c1"># END NODES ----------------------------------------------------------------</span>
+    <span class="c1"># END NODES ---------------------------------------------------------------</span>
 
     <span class="k">def</span> <span class="nf">_get_end_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets all &#39;end&#39; nodes of the network.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">ends</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+        <span class="n">ends</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]]</span>
 
         <span class="k">return</span> <span class="n">ends</span>
 
     <span class="n">end_nodes</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_end_nodes</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                        <span class="s2">&quot;All &#39;end&#39; nodes of the network&quot;</span><span class="p">)</span>
+                         <span class="s2">&quot;All &#39;end&#39; nodes of the network&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="KnitNetworkBase.ends_on_position"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.ends_on_position">[docs]</a>    <span class="k">def</span> <span class="nf">ends_on_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -881,7 +894,8 @@
 <span class="sd">            The index / identifier of the position</span>
 
 <span class="sd">        data : bool, optional</span>
-<span class="sd">            If ``True``, found nodes will be returned with their attribute data.</span>
+<span class="sd">            If ``True``, found nodes will be returned with their attribute</span>
+<span class="sd">            data.</span>
 
 <span class="sd">            Defaults to ``False``.</span>
 
@@ -892,7 +906,7 @@
 <span class="sd">            which share the supplied value as their &#39;position&#39; attribute</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">ends</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_on_position</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
+        <span class="n">ends</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_on_position</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">ends</span><span class="p">]</span>
@@ -905,7 +919,8 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        data : bool, optional</span>
-<span class="sd">            If ``True``, found nodes will be returned with their attribute data.</span>
+<span class="sd">            If ``True``, found nodes will be returned with their attribute</span>
+<span class="sd">            data.</span>
 
 <span class="sd">            Defaults to ``False``.</span>
 
@@ -917,8 +932,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">allPositionEnds</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
-                            <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
-                            <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]],</span>
+                            <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                             <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]],</span>
                             <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;position&quot;</span><span class="p">])</span>
 
         <span class="n">posdict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
@@ -938,7 +953,7 @@
 
         <span class="k">return</span> <span class="n">aebp</span></div>
 
-    <span class="c1"># POSITION CONTOUR METHODS -------------------------------------------------</span>
+    <span class="c1"># POSITION CONTOUR METHODS ------------------------------------------------</span>
 
 <div class="viewcode-block" id="KnitNetworkBase.geometry_at_position_contour"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.geometry_at_position_contour">[docs]</a>    <span class="k">def</span> <span class="nf">geometry_at_position_contour</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">as_crv</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -958,10 +973,11 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        contour : :obj:`Rhino.Geometry.Polyline` or :obj:`Rhino.Geometry.PolylineCurve`</span>
-<span class="sd">            The contour as a Polyline or PolylineCurve if ``as_crv`` is ``True``.</span>
+<span class="sd">            The contour as a Polyline or PolylineCurve if ``as_crv`` is</span>
+<span class="sd">            ``True``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;geo&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_on_position</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="kc">True</span><span class="p">)]</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;geo&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_on_position</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="kc">True</span><span class="p">)]</span>
         <span class="n">Contour</span> <span class="o">=</span> <span class="n">RhinoPolyline</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">as_crv</span><span class="p">:</span>
             <span class="n">Contour</span> <span class="o">=</span> <span class="n">Contour</span><span class="o">.</span><span class="n">ToPolylineCurve</span><span class="p">()</span>
@@ -991,7 +1007,7 @@
             <span class="n">contour</span><span class="o">.</span><span class="n">Dispose</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">longestPosition</span><span class="p">,</span> <span class="n">longestContour</span><span class="p">,</span> <span class="n">longestLength</span><span class="p">)</span></div>
 
-    <span class="c1"># EDGE CREATION METHODS ----------------------------------------------------</span>
+    <span class="c1"># EDGE CREATION METHODS ---------------------------------------------------</span>
 
 <div class="viewcode-block" id="KnitNetworkBase.create_contour_edge"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.create_contour_edge">[docs]</a>    <span class="k">def</span> <span class="nf">create_contour_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_node</span><span class="p">,</span> <span class="n">to_node</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1129,7 +1145,8 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="KnitNetworkBase.create_segment_contour_edge"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.create_segment_contour_edge">[docs]</a>    <span class="k">def</span> <span class="nf">create_segment_contour_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_node</span><span class="p">,</span> <span class="n">to_node</span><span class="p">,</span> <span class="n">segment_value</span><span class="p">,</span> <span class="n">segment_geo</span><span class="p">):</span>
+<div class="viewcode-block" id="KnitNetworkBase.create_segment_contour_edge"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.create_segment_contour_edge">[docs]</a>    <span class="k">def</span> <span class="nf">create_segment_contour_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_node</span><span class="p">,</span> <span class="n">to_node</span><span class="p">,</span>
+                                    <span class="n">segment_value</span><span class="p">,</span> <span class="n">segment_geo</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a mapping edge between two &#39;end&#39; nodes in the network. The</span>
 <span class="sd">        geometry of this edge will be a polyline built from all the given</span>
@@ -1151,7 +1168,8 @@
 <span class="sd">            &#39;weft&#39; edge.</span>
 
 <span class="sd">        segment_geo : :obj:`list` of :class:`Rhino.Geometry.Line`</span>
-<span class="sd">            the geometry of all &#39;weft&#39; edges that make this segment contour edge</span>
+<span class="sd">            the geometry of all &#39;weft&#39; edges that make this segment contour</span>
+<span class="sd">            edge</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1165,7 +1183,7 @@
         <span class="n">toNode</span> <span class="o">=</span> <span class="n">to_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="c1"># join geo together</span>
-        <span class="n">segment_geo</span> <span class="o">=</span> <span class="p">[</span><span class="n">RhinoLineCurve</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">segment_geo</span><span class="p">]</span>
+        <span class="n">segment_geo</span> <span class="o">=</span> <span class="p">[</span><span class="n">RhinoLineCurve</span><span class="p">(</span><span class="n">ln</span><span class="p">)</span> <span class="k">for</span> <span class="n">ln</span> <span class="ow">in</span> <span class="n">segment_geo</span><span class="p">]</span>
         <span class="n">edgeGeo</span> <span class="o">=</span> <span class="n">RhinoCurve</span><span class="o">.</span><span class="n">JoinCurves</span><span class="p">(</span><span class="n">segment_geo</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">edgeGeo</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">errMsg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Segment geometry could not be joined into &quot;</span> <span class="o">+</span>
@@ -1193,7 +1211,7 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
-    <span class="c1"># EDGE METHODS -------------------------------------------------------------</span>
+    <span class="c1"># EDGE METHODS ------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="KnitNetworkBase.edge_geometry_direction"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.edge_geometry_direction">[docs]</a>    <span class="k">def</span> <span class="nf">edge_geometry_direction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1218,59 +1236,60 @@
         <span class="n">edge_geo</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;geo&quot;</span><span class="p">]</span>
 
         <span class="c1"># compare start and endpoint and return nodes in order accordingly</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">edge_geo</span><span class="o">.</span><span class="n">From</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="s2">&quot;geo&quot;</span><span class="p">]</span> \
-        <span class="ow">and</span> <span class="n">edge_geo</span><span class="o">.</span><span class="n">To</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;geo&quot;</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">edge_geo</span><span class="o">.</span><span class="n">From</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="s2">&quot;geo&quot;</span><span class="p">]</span>
+                <span class="ow">and</span> <span class="n">edge_geo</span><span class="o">.</span><span class="n">To</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;geo&quot;</span><span class="p">]):</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span></div>
 
-    <span class="c1"># EDGE PROPERTIES ----------------------------------------------------------</span>
+    <span class="c1"># EDGE PROPERTIES ---------------------------------------------------------</span>
 
     <span class="k">def</span> <span class="nf">_get_contour_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get all contour edges of the network that are neither &#39;weft&#39; nor &#39;warp&#39;.</span>
+<span class="sd">        Get all contour edges of the network that are neither &#39;weft&#39; nor</span>
+<span class="sd">        &#39;warp&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">contour_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
-                        <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
+        <span class="n">contour_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                         <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ce</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">contour_edges</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">ce</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">ce</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="n">contour_edges</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ce</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ce</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ce</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">contour_edges</span>
 
     <span class="n">contour_edges</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_contour_edges</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                            <span class="s2">&quot;The contour edges of the network marked neither &quot;</span> <span class="o">+</span>
-                            <span class="s2">&quot;&#39;weft&#39; nor &#39;warp&#39;.&quot;</span><span class="p">)</span>
+                             <span class="s2">&quot;The contour edges of the network marked &quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;neither &#39;weft&#39; nor &#39;warp&#39;.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_weft_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all &#39;weft&#39; edges of the network.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
-                     <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
+        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                      <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">we</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">weft_edges</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">we</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">we</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="n">weft_edges</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">we</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">we</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">we</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">weft_edges</span>
 
     <span class="n">weft_edges</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_weft_edges</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                         <span class="s2">&quot;The edges of the network marked &#39;weft&#39;.&quot;</span><span class="p">)</span>
+                          <span class="s2">&quot;The edges of the network marked &#39;weft&#39;.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_warp_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all &#39;warp&#39; edges of the network.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
-                     <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
+        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                      <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">we</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">warp_edges</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">we</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">we</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="n">warp_edges</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">we</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">we</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">we</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">warp_edges</span>
 
     <span class="n">warp_edges</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_warp_edges</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                         <span class="s2">&quot;The edges of the network marked &#39;warp&#39;.&quot;</span><span class="p">)</span>
+                          <span class="s2">&quot;The edges of the network marked &#39;warp&#39;.&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_segment_contour_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1279,12 +1298,12 @@
 <span class="sd">        attribute.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">segment_contour_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span> \
-                               <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> \
-                               <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]</span><span class="ow">and</span> \
-                               <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
-        <span class="n">segment_contour_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">sce</span> <span class="k">for</span> <span class="n">sce</span> <span class="ow">in</span> <span class="n">segment_contour_edges</span> \
-                               <span class="k">if</span> <span class="n">sce</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]]</span>
+        <span class="n">segment_contour_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">d</span>
+                                 <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                                 <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]</span> <span class="ow">and</span>
+                                 <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
+        <span class="n">segment_contour_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">sce</span> <span class="k">for</span> <span class="n">sce</span> <span class="ow">in</span> <span class="n">segment_contour_edges</span>
+                                 <span class="k">if</span> <span class="n">sce</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]]</span>
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sce</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">segment_contour_edges</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">sce</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">sce</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
@@ -1295,12 +1314,15 @@
 
         <span class="k">return</span> <span class="n">segment_contour_edges</span>
 
-    <span class="n">segment_contour_edges</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_segment_contour_edges</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                         <span class="s2">&quot;The edges of the network marked neither &#39;warp&#39; &quot;</span><span class="o">+</span>
-                         <span class="s2">&quot;nor &#39;weft&#39; and which have a &#39;segment&#39; attribute &quot;</span><span class="o">+</span>
-                         <span class="s2">&quot;assigned to them.&quot;</span><span class="p">)</span>
+    <span class="n">segment_contour_edges</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+                        <span class="n">_get_segment_contour_edges</span><span class="p">,</span>
+                        <span class="kc">None</span><span class="p">,</span>
+                        <span class="kc">None</span><span class="p">,</span>
+                        <span class="s2">&quot;The edges of the network marked neither &#39;warp&#39; &quot;</span> <span class="o">+</span>
+                        <span class="s2">&quot;nor &#39;weft&#39; and which have a &#39;segment&#39; attribute &quot;</span> <span class="o">+</span>
+                        <span class="s2">&quot;assigned to them.&quot;</span><span class="p">)</span>
 
-    <span class="c1"># NODE EDGE METHODS --------------------------------------------------------</span>
+    <span class="c1"># NODE EDGE METHODS -------------------------------------------------------</span>
 
 <div class="viewcode-block" id="KnitNetworkBase.node_weft_edges"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.node_weft_edges">[docs]</a>    <span class="k">def</span> <span class="nf">node_weft_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1326,8 +1348,8 @@
 <span class="sd">            on the data parameter.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
-                     <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
+        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
 
         <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">weft_edges</span>
@@ -1358,8 +1380,8 @@
 <span class="sd">            on the data parameter.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
-                     <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
+        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
 
         <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">warp_edges</span>
@@ -1387,21 +1409,21 @@
 <span class="sd">        -------</span>
 <span class="sd">        edges : :obj:`list`</span>
 <span class="sd">            List of edges marked neither &#39;warp&#39; nor &#39;weft&#39; connected to the</span>
-<span class="sd">            given node. Each item in the list will be either a 2-tuple of (u, v)</span>
-<span class="sd">            identifiers or a 3-tuple of (u, v, d) where d is the attribute data</span>
-<span class="sd">            of the edge, depending on the data parameter.</span>
+<span class="sd">            given node. Each item in the list will be either a 2-tuple of</span>
+<span class="sd">            (u, v) identifiers or a 3-tuple of (u, v, d) where d is the</span>
+<span class="sd">            attribute data of the edge, depending on the data parameter.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">contour_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> \
-                        <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
-                        <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
+        <span class="n">contour_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                         <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
 
         <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">contour_edges</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">contour_edges</span><span class="p">]</span></div>
 
-    <span class="c1"># SEGMENT CONTOUR END NODE METHODS -----------------------------------------</span>
+    <span class="c1"># SEGMENT CONTOUR END NODE METHODS ----------------------------------------</span>
 
 <div class="viewcode-block" id="KnitNetworkBase.end_node_segments_by_start"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.end_node_segments_by_start">[docs]</a>    <span class="k">def</span> <span class="nf">end_node_segments_by_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1428,12 +1450,12 @@
 <span class="sd">            of the edge, depending on the data parameter.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">connected_segments</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> \
+        <span class="n">connected_segments</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span>
                               <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span>
                               <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
-        <span class="n">connected_segments</span> <span class="o">=</span> <span class="p">[</span><span class="n">cs</span> <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">connected_segments</span> \
+        <span class="n">connected_segments</span> <span class="o">=</span> <span class="p">[</span><span class="n">cs</span> <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">connected_segments</span>
                               <span class="k">if</span> <span class="n">cs</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]]</span>
-        <span class="n">connected_segments</span> <span class="o">=</span> <span class="p">[</span><span class="n">cs</span> <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">connected_segments</span> \
+        <span class="n">connected_segments</span> <span class="o">=</span> <span class="p">[</span><span class="n">cs</span> <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">connected_segments</span>
                               <span class="k">if</span> <span class="n">cs</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">node</span><span class="p">]</span>
 
         <span class="n">connected_segments</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">])</span>
@@ -1468,12 +1490,12 @@
 <span class="sd">            of the edge, depending on the data parameter.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">connected_segments</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> \
+        <span class="n">connected_segments</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span>
                               <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span>
                               <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
-        <span class="n">connected_segments</span> <span class="o">=</span> <span class="p">[</span><span class="n">cs</span> <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">connected_segments</span> \
+        <span class="n">connected_segments</span> <span class="o">=</span> <span class="p">[</span><span class="n">cs</span> <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">connected_segments</span>
                               <span class="k">if</span> <span class="n">cs</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]]</span>
-        <span class="n">connected_segments</span> <span class="o">=</span> <span class="p">[</span><span class="n">cs</span> <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">connected_segments</span> \
+        <span class="n">connected_segments</span> <span class="o">=</span> <span class="p">[</span><span class="n">cs</span> <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">connected_segments</span>
                               <span class="k">if</span> <span class="n">cs</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">node</span><span class="p">]</span>
 
         <span class="n">connected_segments</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">])</span>
@@ -1483,7 +1505,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[(</span><span class="n">cs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">cs</span> <span class="ow">in</span> <span class="n">connected_segments</span><span class="p">]</span></div></div>
 
-<span class="c1"># MAIN -------------------------------------------------------------------------</span>
+<span class="c1"># MAIN ------------------------------------------------------------------------</span>
+
+
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="k">pass</span>
 </pre></div>

@@ -17,6 +17,7 @@
 \contentsline {section}{\numberline {1.5}Testing \& Contributing}{3}{section.1.5}%
 \contentsline {subsection}{\numberline {1.5.1}You are invited to participate (yes \sphinxhyphen {} you!)}{3}{subsection.1.5.1}%
 \contentsline {section}{\numberline {1.6}Sources \& References}{4}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Misc Notes}{4}{section.1.7}%
 \contentsline {chapter}{\numberline {2}cockatoo module API}{5}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Submodules}{5}{section.2.1}%
 \contentsline {subsection}{\numberline {2.1.1}cockatoo.environment module}{5}{subsection.2.1.1}%

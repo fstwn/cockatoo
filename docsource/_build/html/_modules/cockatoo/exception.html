@@ -176,7 +176,7 @@
 <span class="sd">    NoEndNodesError</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># DUNDER -----------------------------------------------------------------------</span>
+<span class="c1"># DUNDER ----------------------------------------------------------------------</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;CockatooException&quot;</span><span class="p">,</span>
     <span class="s2">&quot;CockatooImportException&quot;</span><span class="p">,</span>
@@ -193,40 +193,50 @@
     <span class="s2">&quot;NoEndNodesError&quot;</span>
 <span class="p">]</span>
 
-<span class="c1"># COCKATOO BASE EXCEPTION ------------------------------------------------------</span>
+<span class="c1"># COCKATOO BASE EXCEPTION -----------------------------------------------------</span>
+
 
 <div class="viewcode-block" id="CockatooException"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.CockatooException">[docs]</a><span class="k">class</span> <span class="nc">CockatooException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for exceptions in Cockatoo.&quot;&quot;&quot;</span></div>
 
+
 <div class="viewcode-block" id="CockatooImportException"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.CockatooImportException">[docs]</a><span class="k">class</span> <span class="nc">CockatooImportException</span><span class="p">(</span><span class="ne">ImportError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for import errors in Cockatoo.&quot;&quot;&quot;</span></div>
 
-<span class="c1"># DEPENDENCY EXCEPTIONS --------------------------------------------------------</span>
+<span class="c1"># DEPENDENCY EXCEPTIONS -------------------------------------------------------</span>
+
 
 <div class="viewcode-block" id="RhinoNotPresentError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.RhinoNotPresentError">[docs]</a><span class="k">class</span> <span class="nc">RhinoNotPresentError</span><span class="p">(</span><span class="n">CockatooImportException</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception raised when import of Rhino fails.&quot;&quot;&quot;</span></div>
 
+
 <div class="viewcode-block" id="SystemNotPresentError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.SystemNotPresentError">[docs]</a><span class="k">class</span> <span class="nc">SystemNotPresentError</span><span class="p">(</span><span class="n">CockatooImportException</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception raised when import of System fails.&quot;&quot;&quot;</span></div>
+
 
 <div class="viewcode-block" id="NetworkXNotPresentError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.NetworkXNotPresentError">[docs]</a><span class="k">class</span> <span class="nc">NetworkXNotPresentError</span><span class="p">(</span><span class="n">CockatooImportException</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception raised when import of NetworkX fails.&quot;&quot;&quot;</span></div>
 
+
 <div class="viewcode-block" id="NetworkXVersionError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.NetworkXVersionError">[docs]</a><span class="k">class</span> <span class="nc">NetworkXVersionError</span><span class="p">(</span><span class="n">CockatooException</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception raised when NetworkX version is not 1.5.&quot;&quot;&quot;</span></div>
 
-<span class="c1"># CALLBACK EXCEPTIONS ----------------------------------------------------------</span>
+<span class="c1"># CALLBACK EXCEPTIONS ---------------------------------------------------------</span>
+
 
 <span class="k">class</span> <span class="nc">CockatooCallbackError</span><span class="p">(</span><span class="n">CockatooException</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception raised when a supplied callback is not callable.&quot;&quot;&quot;</span>
 
-<span class="c1"># KNITNETWORK EXCEPTIONS -------------------------------------------------------</span>
+<span class="c1"># KNITNETWORK EXCEPTIONS ------------------------------------------------------</span>
+
 
 <div class="viewcode-block" id="KnitNetworkError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.KnitNetworkError">[docs]</a><span class="k">class</span> <span class="nc">KnitNetworkError</span><span class="p">(</span><span class="n">CockatooException</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception for a serious error in a KnitNetwork of Cockatoo.&quot;&quot;&quot;</span></div>
 
+
 <div class="viewcode-block" id="KnitNetworkGeometryError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.KnitNetworkGeometryError">[docs]</a><span class="k">class</span> <span class="nc">KnitNetworkGeometryError</span><span class="p">(</span><span class="n">KnitNetworkError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Exception raised when vital geometry operations fail.&quot;&quot;&quot;</span></div>
+
 
 <div class="viewcode-block" id="MappingNetworkError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.MappingNetworkError">[docs]</a><span class="k">class</span> <span class="nc">MappingNetworkError</span><span class="p">(</span><span class="n">KnitNetworkError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -234,11 +244,13 @@
 <span class="sd">    network has been assigned to the current KnitNetwork instance yet.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
+
 <div class="viewcode-block" id="KnitNetworkTopologyError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.KnitNetworkTopologyError">[docs]</a><span class="k">class</span> <span class="nc">KnitNetworkTopologyError</span><span class="p">(</span><span class="n">KnitNetworkError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exception raised by methods which rely on a certain topology of a network if</span>
-<span class="sd">    that topology could not be verified.</span>
+<span class="sd">    Exception raised by methods which rely on a certain topology of a network</span>
+<span class="sd">    if that topology could not be verified.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
+
 
 <div class="viewcode-block" id="NoWeftEdgesError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.NoWeftEdgesError">[docs]</a><span class="k">class</span> <span class="nc">NoWeftEdgesError</span><span class="p">(</span><span class="n">KnitNetworkError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -246,11 +258,13 @@
 <span class="sd">    edges in the network.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
+
 <div class="viewcode-block" id="NoWarpEdgesError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.NoWarpEdgesError">[docs]</a><span class="k">class</span> <span class="nc">NoWarpEdgesError</span><span class="p">(</span><span class="n">KnitNetworkError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised by methods relying on &#39;warp&#39; edges if there are no &#39;warp&#39;</span>
 <span class="sd">    edges in the network.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
+
 
 <div class="viewcode-block" id="NoEndNodesError"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.exception.NoEndNodesError">[docs]</a><span class="k">class</span> <span class="nc">NoEndNodesError</span><span class="p">(</span><span class="n">KnitNetworkError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -258,7 +272,9 @@
 <span class="sd">    nodes in the network.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
-<span class="c1"># MAIN -------------------------------------------------------------------------</span>
+<span class="c1"># MAIN ------------------------------------------------------------------------</span>
+
+
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="k">pass</span>
 </pre></div>

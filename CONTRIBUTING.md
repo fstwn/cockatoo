@@ -20,8 +20,7 @@ When [proposing a new feature](https://github.com/fstwn/cockatoo/issues) please 
 
 ## Code contributions
 
-We accept code contributions through pull requests.
-In short, this is how that works.
+Code contributions are welcome through pull requests:
 
 1. Fork [the repository](https://github.com/fstwn/cockatoo/) and clone the fork.
 2. Start making your changes to the **master** branch (or branch off of it).
