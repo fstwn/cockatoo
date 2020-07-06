@@ -8,8 +8,8 @@ Caches some Data by storing it as Persistent Data (aka internalising it) in a co
         Data: If Toggle is True the internalised Data, otherwise the incoming Live-Data {list, data}}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200615
+        License: MIT License
+        Version: 200705
 """
 ghenv.Component.Name = "DataCache"
 ghenv.Component.NickName = "DC"

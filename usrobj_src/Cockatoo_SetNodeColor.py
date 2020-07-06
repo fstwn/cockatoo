@@ -13,8 +13,8 @@ Set a specific color to nodes selected by indices in the network.
                      {tree, KnitNetworkBase}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200614
+        License: MIT License
+        Version: 200705
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS

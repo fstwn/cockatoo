@@ -74,8 +74,8 @@ substantial amount of time!
                         Defaults to 0.1 . {item, float}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200615
+        License: MIT License
+        Version: 200705
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS

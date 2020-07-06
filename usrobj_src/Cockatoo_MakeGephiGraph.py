@@ -9,8 +9,8 @@ TODO: Update docstring!
         RenderGraph: The KnitNetwork with 'weft' connections created. {item, polyline}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200615
+        License: MIT License
+        Version: 200705
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -43,7 +43,7 @@ class MakeGephiGraph(component):
     def RunScript(self, Toggle, KN):
         
         if Toggle and KN:
-            GephiGraph = KN.make_gephi_graph()
+            GephiGraph = KN.prepare_for_gephi()
         else:
             GephiGraph = Grasshopper.DataTree[object]()
         

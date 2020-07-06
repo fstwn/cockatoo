@@ -22,8 +22,8 @@ generation.
                             {item, KnitMappingNetwork}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200615
+        License: MIT License
+        Version: 200705
 """
 
 # GPYTHON SDK IMPORTS

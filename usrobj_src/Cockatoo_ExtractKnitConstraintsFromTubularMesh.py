@@ -22,8 +22,8 @@ TODO: Update Docstring!
                          {item, KnitConstraint}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200616
+        License: MIT License
+        Version: 200705
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS

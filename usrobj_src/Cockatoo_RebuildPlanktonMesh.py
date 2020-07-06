@@ -12,8 +12,8 @@ TODO: Update docstring
         GHMesh: The result as Grasshopper Mesh {tree, mesh}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200626
+        License: MIT License
+        Version: 200705
 """
 
 # PYTHON LIBRARY IMPORTS

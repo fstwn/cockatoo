@@ -13,8 +13,8 @@ Provides an interface to work with interactive geometry pipelines.
         CurrentLayers: The currently referenced layers as strings. {list, string}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200615
+        License: MIT License
+        Version: 200705
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS

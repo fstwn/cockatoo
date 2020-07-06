@@ -8,8 +8,8 @@ Listens for changes in geometry and sends a True value if anything changes
         solverReset: Triggers a True when anything has changed, otherwise false. {item, boolean}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200531
+        License: MIT License
+        Version: 200705
 """
 
 # GHPYTHON SDK IMPORTS

@@ -8,8 +8,8 @@ Listens for changes in a list of values and sends a True value if anything chang
         solverReset: Triggers a True when anything has changed, otherwise false. {list,polyline/curve}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200615
+        License: MIT License
+        Version: 200705
 """
 
 # GHPYTHON SDK IMPORTS

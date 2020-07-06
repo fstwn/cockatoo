@@ -50,8 +50,8 @@ https://en.wikipedia.org/wiki/Topological_sorting
         PixelData: {list/tree, int}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200615
+        License: MIT License
+        Version: 200705
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS

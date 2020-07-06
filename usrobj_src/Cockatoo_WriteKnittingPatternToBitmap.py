@@ -10,8 +10,8 @@ https://discourse.mcneel.com/t/write-a-bitmap-pixel-by-pixel-in-python/81116/2
                      {item, data}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200615
+        License: MIT License
+        Version: 200705
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS

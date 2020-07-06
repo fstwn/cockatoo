@@ -42,8 +42,8 @@ https://discourse.mcneel.com/t/geodesic-lines-on-a-mesh/58790/4
                    {list, polyline}
     Remarks:
         Author: Max Eschenbach, based on an approach by Anders Holden Deleuran
-        License: Apache License 2.0
-        Version: 200626
+        License: MIT License
+        Version: 200705
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS

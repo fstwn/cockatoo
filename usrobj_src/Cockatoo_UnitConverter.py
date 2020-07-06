@@ -6,8 +6,8 @@ Converts units specified in millimeters or with a signed string into document un
         ModelUnits: The input number converted to current model units of the Rhino document {item, number}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200615
+        License: MIT License
+        Version: 200705
 """
 
 # PYTHON MODULE IMPORTS

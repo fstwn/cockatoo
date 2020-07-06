@@ -62,8 +62,8 @@ of the Rhino.Geometry.Mesh.CreatePatch method.
               {item/list, mesh}
     Remarks:
         Author: Max Eschenbach
-        License: Apache License 2.0
-        Version: 200615
+        License: MIT License
+        Version: 200705
 """
 
 # GHPYTHON SDK IMPORTS
