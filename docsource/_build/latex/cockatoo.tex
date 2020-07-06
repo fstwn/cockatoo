@@ -73,7 +73,7 @@
 
 
 \title{Cockatoo}
-\date{Jul 05, 2020}
+\date{Jul 06, 2020}
 \release{0.1.0.0-alpha}
 \author{Max Eschenbach}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -815,14 +815,14 @@ of closed polylines to the first kink discovered.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{polyline}} (\sphinxstyleliteralemphasis{\sphinxupquote{Rhino.Geometry.Polyline}}) \textendash{} Polyline to break apart at angles.
+\sphinxstyleliteralstrong{\sphinxupquote{polyline}} (\sphinxcode{\sphinxupquote{Rhino.Geometry.Polyline}}) \textendash{} Polyline to break apart at angles.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{break\_angle}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#float}{\sphinxstyleliteralemphasis{\sphinxupquote{float}}}) \textendash{} The angle at which to break apart the polyline (in radians).
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{as\_crv}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
-If \sphinxcode{\sphinxupquote{True}}, will return a Rhino.Geometry.PolylineCurve object.
+If \sphinxcode{\sphinxupquote{True}}, will return a \sphinxcode{\sphinxupquote{Rhino.Geometry.PolylineCurve}} object.
 
 Defaults to \sphinxcode{\sphinxupquote{False}}.
 
@@ -830,8 +830,17 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \end{itemize}
 
 \item[{Returns}] \leavevmode
-\sphinxstylestrong{broken\_polyline\_segments} (\sphinxstyleemphasis{list of Rhino.Geometry.Polyline or Rhino.Geometry.PolylineCurve}) \textendash{} A list of the broken segments. The return type will depend on the
-as\_crv setting!
+\begin{itemize}
+\item {} 
+\sphinxstylestrong{polyline\_segments} (list of \sphinxcode{\sphinxupquote{Rhino.Geometry.Polyline}}) \textendash{} A list of the broken segments as Polylines if \sphinxcode{\sphinxupquote{as\_crv}} is
+\sphinxcode{\sphinxupquote{False}}.
+
+\item {} 
+\sphinxstylestrong{polyline\_segments} (list of \sphinxcode{\sphinxupquote{Rhino.Geometry.PolylineCurve}}) \textendash{} A list of the broken segments as PolylineCurves if \sphinxcode{\sphinxupquote{as\_crv}} is
+\sphinxcode{\sphinxupquote{True}}.
+
+\end{itemize}
+
 
 \end{description}\end{quote}
 
@@ -900,16 +909,16 @@ Based on code by Chris Hanley. %
 \begin{footnote}[19]\sphinxAtStartFootnote
 \sphinxstyleemphasis{Average between two planes}
 
-See: \sphinxhref{https://discourse.mcneel.com/t/average-between-two-planes/71363/10?u=efestwin}{Thread on discourse.mcneel.com}
+See: \sphinxhref{https://discourse.mcneel.com/t/average-between-two-planes/71363/10}{Thread on discourse.mcneel.com}
 %
 \end{footnote}
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{pa}} (\sphinxstyleliteralemphasis{\sphinxupquote{Rhino.Geometry.Plane}}) \textendash{} The start plane for the tween.
+\sphinxstyleliteralstrong{\sphinxupquote{pa}} (\sphinxcode{\sphinxupquote{Rhino.Geometry.Plane}}) \textendash{} The start plane for the tween.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{pb}} (\sphinxstyleliteralemphasis{\sphinxupquote{Rhino.Geometry.Plane}}) \textendash{} The end plane for the tween.
+\sphinxstyleliteralstrong{\sphinxupquote{pb}} (\sphinxcode{\sphinxupquote{Rhino.Geometry.Plane}}) \textendash{} The end plane for the tween.
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{t}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#float}{\sphinxstyleliteralemphasis{\sphinxupquote{float}}}) \textendash{} The parameter for the tweened plane. 0.5 will result in the average
@@ -918,7 +927,7 @@ between the two input planes.
 \end{itemize}
 
 \item[{Returns}] \leavevmode
-\sphinxstylestrong{tweened\_plane} (\sphinxstyleemphasis{Rhino.Geometry.Plane}) \textendash{} The plane between \sphinxcode{\sphinxupquote{pa}} and \sphinxcode{\sphinxupquote{pb}} at \sphinxcode{\sphinxupquote{t}}.
+\sphinxstylestrong{tweened\_plane} (\sphinxcode{\sphinxupquote{Rhino.Geometry.Plane}}) \textendash{} The plane between \sphinxcode{\sphinxupquote{pa}} and \sphinxcode{\sphinxupquote{pb}} at parameter \sphinxcode{\sphinxupquote{t}}.
 
 \item[{Raises}] \leavevmode
 {\hyperref[\detokenize{cockatoo:cockatoo.exception.SystemNotPresentError}]{\sphinxcrossref{\sphinxstyleliteralstrong{\sphinxupquote{SystemNotPresentError}}}}} \textendash{} If the \sphinxcode{\sphinxupquote{System}} module cannot be imported.
@@ -1000,7 +1009,7 @@ all their dependencies (predecessor nodes) are already inside the output
 list, otherwise the algorithm will first resolve all open dependencies.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode
-\sphinxstyleliteralstrong{\sphinxupquote{G}} (\sphinxstyleliteralemphasis{\sphinxupquote{networkx.Graph}}) \textendash{} The graph on which to perform topological sorting.
+\sphinxstyleliteralstrong{\sphinxupquote{G}} (\sphinxcode{\sphinxupquote{networkx.Graph}}) \textendash{} The graph on which to perform topological sorting.
 
 \item[{Returns}] \leavevmode
 \sphinxstylestrong{ordered\_nodes} (\sphinxstyleemphasis{list}) \textendash{} List of hashable node identifiers.
@@ -1040,7 +1049,8 @@ Returns the data of iterable in pairs (2\sphinxhyphen{}tuples).
 \sphinxstyleliteralstrong{\sphinxupquote{iterable}} (\sphinxstyleliteralemphasis{\sphinxupquote{iterable}}) \textendash{} An iterable sequence of items.
 
 \item[{Yields}] \leavevmode
-\sphinxstyleemphasis{tuple} \textendash{} Two items per iteration, if there are at least two items in the iterable.
+\sphinxstyleemphasis{tuple} \textendash{} Two items per iteration, if there are at least two items in the
+iterable.
 
 \end{description}\end{quote}
 \subsubsection*{Examples}
@@ -1550,8 +1560,15 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \end{itemize}
 
 \item[{Returns}] \leavevmode
-\sphinxstylestrong{contour} (\sphinxcode{\sphinxupquote{Rhino.Geometry.Polyline}} or \sphinxcode{\sphinxupquote{Rhino.Geometry.PolylineCurve}}) \textendash{} The contour as a Polyline or PolylineCurve if \sphinxcode{\sphinxupquote{as\_crv}} is
-\sphinxcode{\sphinxupquote{True}}.
+\begin{itemize}
+\item {} 
+\sphinxstylestrong{contour} (\sphinxcode{\sphinxupquote{Rhino.Geometry.Polyline}}) \textendash{} The contour as a Polyline if \sphinxcode{\sphinxupquote{as\_crv}} is \sphinxcode{\sphinxupquote{False}}.
+
+\item {} 
+\sphinxstylestrong{contour} (\sphinxcode{\sphinxupquote{Rhino.Geometry.PolylineCurve}}) \textendash{} The contour as a PolylineCurve if \sphinxcode{\sphinxupquote{as\_crv}} is \sphinxcode{\sphinxupquote{True}}.
+
+\end{itemize}
+
 
 \end{description}\end{quote}
 
@@ -2777,8 +2794,8 @@ Defaults to \sphinxcode{\sphinxupquote{\sphinxhyphen{}1}}.
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{max\_valence}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#int}{\sphinxstyleliteralemphasis{\sphinxupquote{int}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} 
 Sets the maximum edge valence of the faces. If this is set to \textgreater{} 4,
-n\sphinxhyphen{}gon faces (more than 4 edges) are allowed. Otherwise, their cycles
-are treated as invalid and will be ignored.
+n\sphinxhyphen{}gon faces (more than 4 edges) are allowed. Otherwise, their
+cycles are treated as invalid and will be ignored.
 
 Defaults to \sphinxcode{\sphinxupquote{4}}.
 
@@ -2830,7 +2847,8 @@ Defaults to \sphinxcode{\sphinxupquote{\sphinxhyphen{}1}}.
 Modes other than \sphinxhyphen{}1 (default) are only possible if this network has an
 underlying reference geometry in form of a Mesh or NurbsSurface. The
 reference geometry should be assigned when initializing the network by
-assigning the geometry to the “reference\_geometry” attribute of the network.
+assigning the geometry to the “reference\_geometry” attribute of the
+network.
 \end{sphinxadmonition}
 \subsubsection*{Notes}
 
@@ -2864,14 +2882,16 @@ a node.
 
 \item[{Raises}] \leavevmode
 {\hyperref[\detokenize{cockatoo:cockatoo.exception.KnitNetworkTopologyError}]{\sphinxcrossref{\sphinxstyleliteralstrong{\sphinxupquote{KnitNetworkTopologyError}}}}} \textendash{} if the network does not satisfy the topology constraints needed for
-    this operation and the outcome would be unfeasible or unpredictable.
+    this operation and the outcome would be unfeasible or
+    unpredictable.
 
 \end{description}\end{quote}
 \subsubsection*{Notes}
 
 Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see \sphinxstyleemphasis{KnitCrete
-\sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete structures} \sphinxfootnotemark[2].
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
 
 \end{fulllineitems}
 
@@ -2966,7 +2986,8 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{cockatoo:cockatoo.KnitDiNetwork.node_warp_edges}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{node\_warp\_edges}}}{\emph{\DUrole{n}{node}}, \emph{\DUrole{n}{data}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
-Gets the incoming and outgoing ‘warp’ edges connected to the given node.
+Gets the incoming and outgoing ‘warp’ edges connected to the given
+node.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
 \item {} 

@@ -467,16 +467,21 @@ of closed polylines to the first kink discovered.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>polyline</strong> (<em>Rhino.Geometry.Polyline</em>) – Polyline to break apart at angles.</p></li>
+<li><p><strong>polyline</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.Polyline</span></code>) – Polyline to break apart at angles.</p></li>
 <li><p><strong>break_angle</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – The angle at which to break apart the polyline (in radians).</p></li>
-<li><p><strong>as_crv</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will return a Rhino.Geometry.PolylineCurve object.</p>
+<li><p><strong>as_crv</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – <p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will return a <code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.PolylineCurve</span></code> object.</p>
 <p>Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>broken_polyline_segments</strong> (<em>list of Rhino.Geometry.Polyline or Rhino.Geometry.PolylineCurve</em>) – A list of the broken segments. The return type will depend on the
-as_crv setting!</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>polyline_segments</strong> (list of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.Polyline</span></code>) – A list of the broken segments as Polylines if <code class="docutils literal notranslate"><span class="pre">as_crv</span></code> is
+<code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>polyline_segments</strong> (list of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.PolylineCurve</span></code>) – A list of the broken segments as PolylineCurves if <code class="docutils literal notranslate"><span class="pre">as_crv</span></code> is
+<code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -527,14 +532,14 @@ Based on code by Chris Hanley. <a class="footnote-reference brackets" href="#id6
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pa</strong> (<em>Rhino.Geometry.Plane</em>) – The start plane for the tween.</p></li>
-<li><p><strong>pb</strong> (<em>Rhino.Geometry.Plane</em>) – The end plane for the tween.</p></li>
+<li><p><strong>pa</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.Plane</span></code>) – The start plane for the tween.</p></li>
+<li><p><strong>pb</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.Plane</span></code>) – The end plane for the tween.</p></li>
 <li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – The parameter for the tweened plane. 0.5 will result in the average
 between the two input planes.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>tweened_plane</strong> (<em>Rhino.Geometry.Plane</em>) – The plane between <code class="docutils literal notranslate"><span class="pre">pa</span></code> and <code class="docutils literal notranslate"><span class="pre">pb</span></code> at <code class="docutils literal notranslate"><span class="pre">t</span></code>.</p>
+<dd class="field-even"><p><strong>tweened_plane</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.Plane</span></code>) – The plane between <code class="docutils literal notranslate"><span class="pre">pa</span></code> and <code class="docutils literal notranslate"><span class="pre">pb</span></code> at parameter <code class="docutils literal notranslate"><span class="pre">t</span></code>.</p>
 </dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#cockatoo.exception.SystemNotPresentError" title="cockatoo.exception.SystemNotPresentError"><strong>SystemNotPresentError</strong></a> – If the <code class="docutils literal notranslate"><span class="pre">System</span></code> module cannot be imported.</p>
@@ -544,7 +549,7 @@ between the two input planes.</p></li>
 <dl class="footnote brackets">
 <dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id5">19</a></span></dt>
 <dd><p><em>Average between two planes</em></p>
-<p>See: <a class="reference external" href="https://discourse.mcneel.com/t/average-between-two-planes/71363/10?u=efestwin">Thread on discourse.mcneel.com</a></p>
+<p>See: <a class="reference external" href="https://discourse.mcneel.com/t/average-between-two-planes/71363/10">Thread on discourse.mcneel.com</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -607,7 +612,7 @@ all their dependencies (predecessor nodes) are already inside the output
 list, otherwise the algorithm will first resolve all open dependencies.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>G</strong> (<em>networkx.Graph</em>) – The graph on which to perform topological sorting.</p>
+<dd class="field-odd"><p><strong>G</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code>) – The graph on which to perform topological sorting.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ordered_nodes</strong> (<em>list</em>) – List of hashable node identifiers.</p>
@@ -643,7 +648,8 @@ For more info,see <a class="footnote-reference brackets" href="#id13" id="id11">
 <dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – An iterable sequence of items.</p>
 </dd>
 <dt class="field-even">Yields</dt>
-<dd class="field-even"><p><em>tuple</em> – Two items per iteration, if there are at least two items in the iterable.</p>
+<dd class="field-even"><p><em>tuple</em> – Two items per iteration, if there are at least two items in the
+iterable.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -1033,8 +1039,11 @@ from all nodes which share the specified ‘position’ attribute.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>contour</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.Polyline</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.PolylineCurve</span></code>) – The contour as a Polyline or PolylineCurve if <code class="docutils literal notranslate"><span class="pre">as_crv</span></code> is
-<code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>contour</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.Polyline</span></code>) – The contour as a Polyline if <code class="docutils literal notranslate"><span class="pre">as_crv</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>contour</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Rhino.Geometry.PolylineCurve</span></code>) – The contour as a PolylineCurve if <code class="docutils literal notranslate"><span class="pre">as_crv</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1939,8 +1948,8 @@ nodes closest point on the reference geometry.</p>
 <p>Defaults to <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
 </p></li>
 <li><p><strong>max_valence</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – <p>Sets the maximum edge valence of the faces. If this is set to &gt; 4,
-n-gon faces (more than 4 edges) are allowed. Otherwise, their cycles
-are treated as invalid and will be ignored.</p>
+n-gon faces (more than 4 edges) are allowed. Otherwise, their
+cycles are treated as invalid and will be ignored.</p>
 <p>Defaults to <code class="docutils literal notranslate"><span class="pre">4</span></code>.</p>
 </p></li>
 </ul>
@@ -1982,7 +1991,8 @@ nodes closest point on the reference geometry.</p>
 <p>Modes other than -1 (default) are only possible if this network has an
 underlying reference geometry in form of a Mesh or NurbsSurface. The
 reference geometry should be assigned when initializing the network by
-assigning the geometry to the “reference_geometry” attribute of the network.</p>
+assigning the geometry to the “reference_geometry” attribute of the
+network.</p>
 </div>
 <p class="rubric">Notes</p>
 <p>Based on an implementation inside the COMPAS framework.
@@ -2013,13 +2023,15 @@ a node.</p>
 </dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#cockatoo.exception.KnitNetworkTopologyError" title="cockatoo.exception.KnitNetworkTopologyError"><strong>KnitNetworkTopologyError</strong></a> – if the network does not satisfy the topology constraints needed for
-    this operation and the outcome would be unfeasible or unpredictable.</p>
+    this operation and the outcome would be unfeasible or
+    unpredictable.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
 <p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id60">1</a>. Also see <em>KnitCrete
-- Stay-in-place knitted formworks for complex concrete structures</em> <a class="footnote-reference brackets" href="#id25" id="id61">2</a>.</p>
+of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id60">1</a>. Also see
+<em>KnitCrete - Stay-in-place knitted formworks for complex concrete
+structures</em> <a class="footnote-reference brackets" href="#id25" id="id61">2</a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2091,7 +2103,8 @@ dictionary.</p>
 <dl class="py method">
 <dt id="cockatoo.KnitDiNetwork.node_warp_edges">
 <code class="sig-name descname">node_warp_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitdinetwork.html#KnitDiNetwork.node_warp_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitDiNetwork.node_warp_edges" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the incoming and outgoing ‘warp’ edges connected to the given node.</p>
+<dd><p>Gets the incoming and outgoing ‘warp’ edges connected to the given
+node.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

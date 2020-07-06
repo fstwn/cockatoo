@@ -169,19 +169,17 @@
 <span class="sd">    resolve_order_by_backtracking</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------</span>
+<span class="c1"># PYTHON STANDARD LIBRARY IMPORTS ---------------------------------------------</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">tee</span>
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">acos</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">cos</span>
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">degrees</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
 
-<span class="c1"># DUNDER -----------------------------------------------------------------------</span>
+<span class="c1"># DUNDER ----------------------------------------------------------------------</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;blend_colors&quot;</span><span class="p">,</span>
     <span class="s2">&quot;break_polyline&quot;</span><span class="p">,</span>
@@ -192,11 +190,11 @@
     <span class="s2">&quot;pairwise&quot;</span>
 <span class="p">]</span>
 
-<span class="c1"># LOCAL MODULE IMPORTS ---------------------------------------------------------</span>
+<span class="c1"># LOCAL MODULE IMPORTS --------------------------------------------------------</span>
 <span class="kn">from</span> <span class="nn">cockatoo.environment</span> <span class="kn">import</span> <span class="n">RHINOINSIDE</span>
-<span class="kn">from</span> <span class="nn">cockatoo.exception</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">cockatoo.exception</span> <span class="kn">import</span> <span class="n">SystemNotPresentError</span>
 
-<span class="c1"># RHINO IMPORTS ----------------------------------------------------------------</span>
+<span class="c1"># RHINO IMPORTS ---------------------------------------------------------------</span>
 <span class="k">if</span> <span class="n">RHINOINSIDE</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">rhinoinside</span>
     <span class="n">rhinoinside</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
@@ -210,7 +208,8 @@
     <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Quaternion</span> <span class="k">as</span> <span class="n">RhinoQuaternion</span>
     <span class="kn">from</span> <span class="nn">Rhino.Geometry</span> <span class="kn">import</span> <span class="n">Vector3d</span> <span class="k">as</span> <span class="n">RhinoVector3d</span>
 
-<span class="c1"># RHINO GEOMETRY ---------------------------------------------------------------</span>
+<span class="c1"># RHINO GEOMETRY --------------------------------------------------------------</span>
+
 
 <div class="viewcode-block" id="break_polyline"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.break_polyline">[docs]</a><span class="k">def</span> <span class="nf">break_polyline</span><span class="p">(</span><span class="n">polyline</span><span class="p">,</span> <span class="n">break_angle</span><span class="p">,</span> <span class="n">as_crv</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -219,22 +218,25 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    polyline : Rhino.Geometry.Polyline</span>
+<span class="sd">    polyline : :obj:`Rhino.Geometry.Polyline`</span>
 <span class="sd">        Polyline to break apart at angles.</span>
 
 <span class="sd">    break_angle : float</span>
 <span class="sd">        The angle at which to break apart the polyline (in radians).</span>
 
 <span class="sd">    as_crv : bool, optional</span>
-<span class="sd">        If ``True``, will return a Rhino.Geometry.PolylineCurve object.</span>
+<span class="sd">        If ``True``, will return a :obj:`Rhino.Geometry.PolylineCurve` object.</span>
 
 <span class="sd">        Defaults to ``False``.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    broken_polyline_segments : list of Rhino.Geometry.Polyline or Rhino.Geometry.PolylineCurve</span>
-<span class="sd">        A list of the broken segments. The return type will depend on the</span>
-<span class="sd">        as_crv setting!</span>
+<span class="sd">    polyline_segments : list of :obj:`Rhino.Geometry.Polyline`</span>
+<span class="sd">        A list of the broken segments as Polylines if ``as_crv`` is</span>
+<span class="sd">        ``False``.</span>
+<span class="sd">    polyline_segments: list of :obj:`Rhino.Geometry.PolylineCurve`</span>
+<span class="sd">        A list of the broken segments as PolylineCurves if ``as_crv`` is</span>
+<span class="sd">        ``True``.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -290,9 +292,10 @@
                 <span class="n">pl</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">segments</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span><span class="o">.</span><span class="n">From</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">as_crv</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">pl</span><span class="o">.</span><span class="n">ToPolylineCurve</span><span class="p">()</span> <span class="k">for</span> <span class="n">pl</span> <span class="ow">in</span> <span class="n">plcs</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">pline</span><span class="o">.</span><span class="n">ToPolylineCurve</span><span class="p">()</span> <span class="k">for</span> <span class="n">pline</span> <span class="ow">in</span> <span class="n">plcs</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">plcs</span></div>
+
 
 <div class="viewcode-block" id="tween_planes"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.tween_planes">[docs]</a><span class="k">def</span> <span class="nf">tween_planes</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span> <span class="n">pb</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -301,10 +304,10 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    pa : Rhino.Geometry.Plane</span>
+<span class="sd">    pa : :obj:`Rhino.Geometry.Plane`</span>
 <span class="sd">        The start plane for the tween.</span>
 
-<span class="sd">    pb : Rhino.Geometry.Plane</span>
+<span class="sd">    pb : :obj:`Rhino.Geometry.Plane`</span>
 <span class="sd">        The end plane for the tween.</span>
 
 <span class="sd">    t : float</span>
@@ -313,8 +316,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    tweened_plane : Rhino.Geometry.Plane</span>
-<span class="sd">        The plane between ``pa`` and ``pb`` at ``t``.</span>
+<span class="sd">    tweened_plane : :obj:`Rhino.Geometry.Plane`</span>
+<span class="sd">        The plane between ``pa`` and ``pb`` at parameter ``t``.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
@@ -325,14 +328,15 @@
 <span class="sd">    ----------</span>
 <span class="sd">    .. [19] *Average between two planes*</span>
 
-<span class="sd">            See: `Thread on discourse.mcneel.com &lt;https://discourse.mcneel.com/t/average-between-two-planes/71363/10?u=efestwin&gt;`_</span>
+<span class="sd">            See: `Thread on discourse.mcneel.com &lt;https://discourse.mcneel.com/</span>
+<span class="sd">            t/average-between-two-planes/71363/10&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># handle dotnet dependency in a nice way</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">clr</span> <span class="kn">import</span> <span class="n">Reference</span>
         <span class="kn">from</span> <span class="nn">System</span> <span class="kn">import</span> <span class="n">Double</span>
-    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="n">errMsg</span> <span class="o">=</span> <span class="s2">&quot;Could not import System. This function cannot execute!&quot;</span>
         <span class="k">raise</span> <span class="n">SystemNotPresentError</span><span class="p">(</span><span class="n">errMsg</span><span class="p">)</span>
 
@@ -356,7 +360,8 @@
 
     <span class="k">return</span> <span class="n">out_plane</span></div>
 
-<span class="c1"># RHINO DISPLAY ----------------------------------------------------------------</span>
+<span class="c1"># RHINO DISPLAY ---------------------------------------------------------------</span>
+
 
 <div class="viewcode-block" id="blend_colors"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.blend_colors">[docs]</a><span class="k">def</span> <span class="nf">blend_colors</span><span class="p">(</span><span class="n">col_a</span><span class="p">,</span> <span class="n">col_b</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -385,7 +390,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    .. [18] *Algorithm for additive color mixing for RGB values*</span>
 
-<span class="sd">            See: `Thread on stackoverflow &lt;https://stackoverflow.com/a/29321264&gt;`_</span>
+<span class="sd">            See: `Thread on stackoverflow &lt;https://stackoverflow.com/a/</span>
+<span class="sd">            29321264&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># sanitize the blending parameter</span>
@@ -406,7 +412,9 @@
     <span class="c1"># return the new color tuple</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">new_r</span><span class="p">,</span> <span class="n">new_g</span><span class="p">,</span> <span class="n">new_b</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="map_values_as_colors"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.map_values_as_colors">[docs]</a><span class="k">def</span> <span class="nf">map_values_as_colors</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">src_min</span><span class="p">,</span> <span class="n">src_max</span><span class="p">,</span> <span class="n">target_min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">target_max</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
+
+<div class="viewcode-block" id="map_values_as_colors"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.map_values_as_colors">[docs]</a><span class="k">def</span> <span class="nf">map_values_as_colors</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">src_min</span><span class="p">,</span> <span class="n">src_max</span><span class="p">,</span>
+                         <span class="n">target_min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">target_max</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Make a list of HSL colors where the values are mapped onto a</span>
 <span class="sd">    targetMin-targetMax hue domain. Meaning that low values will be red, medium</span>
@@ -449,7 +457,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    .. [10] Deleuran, Anders Holden *mapValuesAsColors.py*</span>
 
-<span class="sd">            See: `mapValuesAsColors.py gist &lt;https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea&gt;`_</span>
+<span class="sd">            See: `mapValuesAsColors.py gist &lt;https://gist.github.com/</span>
+<span class="sd">            AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># remap numbers into new numeric domain</span>
@@ -471,7 +480,8 @@
 
     <span class="k">return</span> <span class="n">colors</span></div>
 
-<span class="c1"># FUNCTIONAL GRAPH UTILITIES ---------------------------------------------------</span>
+<span class="c1"># FUNCTIONAL GRAPH UTILITIES --------------------------------------------------</span>
+
 
 <span class="k">def</span> <span class="nf">_backtrack_node</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">ordered_stack</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -481,7 +491,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># check the node for dependencies</span>
-    <span class="n">dependencies</span> <span class="o">=</span> <span class="p">[</span><span class="n">pred</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">predecessors_iter</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> \
+    <span class="n">dependencies</span> <span class="o">=</span> <span class="p">[</span><span class="n">pred</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">predecessors_iter</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">pred</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ordered_stack</span><span class="p">]</span>
 
     <span class="c1"># if node has no dependencies that are not already in the stack,</span>
@@ -516,6 +526,7 @@
     <span class="c1"># return the current pos and the filled ordered stack</span>
     <span class="k">return</span> <span class="n">pos</span><span class="p">,</span> <span class="n">ordered_stack</span>
 
+
 <div class="viewcode-block" id="resolve_order_by_backtracking"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.resolve_order_by_backtracking">[docs]</a><span class="k">def</span> <span class="nf">resolve_order_by_backtracking</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Resolve topological order of a networkx DiGraph through backtracking of</span>
@@ -525,7 +536,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    G : networkx.Graph</span>
+<span class="sd">    G : :class:`networkx.Graph`</span>
 <span class="sd">        The graph on which to perform topological sorting.</span>
 
 <span class="sd">    Returns</span>
@@ -547,10 +558,12 @@
 <span class="sd">    ----------</span>
 <span class="sd">    .. [11] Directed acyclic graph on Wikipedia.</span>
 
-<span class="sd">            See: `Directed acyclic graph &lt;https://en.wikipedia.org/wiki/Directed_acyclic_graph&gt;`_</span>
+<span class="sd">            See: `Directed acyclic graph &lt;https://en.wikipedia.org/wiki/</span>
+<span class="sd">            Directed_acyclic_graph&gt;`_</span>
 <span class="sd">    .. [12] Topological sorting on Wikipedia.</span>
 
-<span class="sd">            See: `Topological sorting &lt;https://en.wikipedia.org/wiki/Topological_sorting&gt;`_</span>
+<span class="sd">            See: `Topological sorting &lt;https://en.wikipedia.org/wiki/</span>
+<span class="sd">            Topological_sorting&gt;`_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># rais if graph is not directed</span>
@@ -575,7 +588,8 @@
     <span class="c1"># return the ordered stack</span>
     <span class="k">return</span> <span class="n">ordered_stack</span></div>
 
-<span class="c1"># PURE PYTHON GEOMETRY ---------------------------------------------------------</span>
+<span class="c1"># PURE PYTHON GEOMETRY --------------------------------------------------------</span>
+
 
 <div class="viewcode-block" id="is_ccw_xy"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.is_ccw_xy">[docs]</a><span class="k">def</span> <span class="nf">is_ccw_xy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">colinear</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -610,11 +624,15 @@
 <span class="sd">    .. [14] Van Mele, Tom et al. *COMPAS: A framework for computational</span>
 <span class="sd">           research in architecture and structures*.</span>
 
-<span class="sd">           See: `is_ccw_xy() inside COMPAS &lt;https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/geometry/_core/queries.py#L61&gt;`_</span>
+<span class="sd">           See: `is_ccw_xy() inside COMPAS &lt;https://github.com/compas-dev/</span>
+<span class="sd">           compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/</span>
+<span class="sd">           geometry/_core/queries.py#L61&gt;`_</span>
 <span class="sd">    .. [15] Marsh, C. *Computational Geometry in Python: From Theory to</span>
 <span class="sd">           Application*.</span>
 
-<span class="sd">           See: `Computational Geometry in Python &lt;https://www.toptal.com/python/computational-geometry-in-python-from-theory-to-implementation&gt;`_</span>
+<span class="sd">           See: `Computational Geometry in Python &lt;https://www.toptal.com/</span>
+<span class="sd">           python/</span>
+<span class="sd">           computational-geometry-in-python-from-theory-to-implementation&gt;`_</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -637,7 +655,8 @@
         <span class="k">return</span> <span class="n">ab_x</span> <span class="o">*</span> <span class="n">ac_y</span> <span class="o">-</span> <span class="n">ab_y</span> <span class="o">*</span> <span class="n">ac_x</span> <span class="o">&gt;=</span> <span class="mi">0</span>
     <span class="k">return</span> <span class="n">ab_x</span> <span class="o">*</span> <span class="n">ac_y</span> <span class="o">-</span> <span class="n">ab_y</span> <span class="o">*</span> <span class="n">ac_x</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
 
-<span class="c1"># PYTHON HELPERS AND UTILITIES -------------------------------------------------</span>
+<span class="c1"># PYTHON HELPERS AND UTILITIES ------------------------------------------------</span>
+
 
 <div class="viewcode-block" id="pairwise"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.utilities.pairwise">[docs]</a><span class="k">def</span> <span class="nf">pairwise</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -651,7 +670,8 @@
 <span class="sd">    Yields</span>
 <span class="sd">    ------</span>
 <span class="sd">    tuple</span>
-<span class="sd">        Two items per iteration, if there are at least two items in the iterable.</span>
+<span class="sd">        Two items per iteration, if there are at least two items in the</span>
+<span class="sd">        iterable.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -667,7 +687,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    .. [16] Python itertools Recipes</span>
 
-<span class="sd">           See: `Python itertools Recipes &lt;https://docs.python.org/2.7/library/itertools.html#recipes&gt;`_</span>
+<span class="sd">           See: `Python itertools Recipes &lt;https://docs.python.org/2.7/</span>
+<span class="sd">           library/itertools.html#recipes&gt;`_</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">tee</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>

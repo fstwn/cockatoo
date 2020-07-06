@@ -2033,16 +2033,14 @@
             <span class="n">deltas</span> <span class="o">=</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">pi</span><span class="p">))</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">angles</span><span class="p">]</span>
 
             <span class="c1"># sort possible connections first by distance, then by delta</span>
-            <span class="n">allDists</span><span class="p">,</span> \
-            <span class="n">deltas</span><span class="p">,</span> \
-            <span class="n">angles</span><span class="p">,</span> \
-            <span class="n">most_perpendicular</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">sorted</span><span class="p">(</span>
-                                            <span class="nb">zip</span><span class="p">(</span>
-                                                <span class="n">allDists</span><span class="p">,</span>
-                                                <span class="n">deltas</span><span class="p">,</span>
-                                                <span class="n">angles</span><span class="p">,</span>
-                                                <span class="n">possible_connections</span><span class="p">[:]),</span>
-                                            <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+            <span class="p">(</span><span class="n">allDists</span><span class="p">,</span>
+             <span class="n">deltas</span><span class="p">,</span>
+             <span class="n">angles</span><span class="p">,</span>
+             <span class="n">most_perpendicular</span><span class="p">)</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">allDists</span><span class="p">,</span>
+                                                   <span class="n">deltas</span><span class="p">,</span>
+                                                   <span class="n">angles</span><span class="p">,</span>
+                                                   <span class="n">possible_connections</span><span class="p">[:]),</span>
+                                               <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
 
             <span class="c1"># compute angle difference</span>
             <span class="n">aDelta</span> <span class="o">=</span> <span class="n">angles</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">angles</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>

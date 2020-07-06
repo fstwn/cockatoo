@@ -972,9 +972,10 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        contour : :obj:`Rhino.Geometry.Polyline` or :obj:`Rhino.Geometry.PolylineCurve`</span>
-<span class="sd">            The contour as a Polyline or PolylineCurve if ``as_crv`` is</span>
-<span class="sd">            ``True``.</span>
+<span class="sd">        contour : :obj:`Rhino.Geometry.Polyline`</span>
+<span class="sd">            The contour as a Polyline if ``as_crv`` is ``False``.</span>
+<span class="sd">        contour : :obj:`Rhino.Geometry.PolylineCurve`</span>
+<span class="sd">            The contour as a PolylineCurve if ``as_crv`` is ``True``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;geo&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_on_position</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="kc">True</span><span class="p">)]</span>

@@ -68,13 +68,13 @@ def break_polyline(polyline, break_angle, as_crv=False):
         The angle at which to break apart the polyline (in radians).
 
     as_crv : bool, optional
-        If ``True``, will return a Rhino.Geometry.PolylineCurve object.
+        If ``True``, will return a :obj:`Rhino.Geometry.PolylineCurve` object.
 
         Defaults to ``False``.
 
     Returns
     -------
-    polyline_segments : list of :class:`Rhino.Geometry.Polyline`
+    polyline_segments : list of :obj:`Rhino.Geometry.Polyline`
         A list of the broken segments as Polylines if ``as_crv`` is
         ``False``.
     polyline_segments: list of :obj:`Rhino.Geometry.PolylineCurve`
@@ -147,10 +147,10 @@ def tween_planes(pa, pb, t):
 
     Parameters
     ----------
-    pa : Rhino.Geometry.Plane
+    pa : :obj:`Rhino.Geometry.Plane`
         The start plane for the tween.
 
-    pb : Rhino.Geometry.Plane
+    pb : :obj:`Rhino.Geometry.Plane`
         The end plane for the tween.
 
     t : float
@@ -159,8 +159,8 @@ def tween_planes(pa, pb, t):
 
     Returns
     -------
-    tweened_plane : Rhino.Geometry.Plane
-        The plane between ``pa`` and ``pb`` at ``t``.
+    tweened_plane : :obj:`Rhino.Geometry.Plane`
+        The plane between ``pa`` and ``pb`` at parameter ``t``.
 
     Raises
     ------
@@ -379,7 +379,7 @@ def resolve_order_by_backtracking(G):
 
     Parameters
     ----------
-    G : networkx.Graph
+    G : :class:`networkx.Graph`
         The graph on which to perform topological sorting.
 
     Returns
