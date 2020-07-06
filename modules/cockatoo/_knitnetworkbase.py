@@ -135,7 +135,6 @@ class KnitNetworkBase(nx.Graph):
         blue = "blue"
 
         col_regular = "black"
-        col_start = "green"
         col_start_leaf = "seagreen"
         col_start_leaf_end = "orange"
         col_start_end = "darkgreen"
@@ -263,9 +262,10 @@ class KnitNetworkBase(nx.Graph):
             edge_info = str(edge[0]) + ">" + str(edge[1])
             edge_segment = edge[2]["segment"]
             if edge_segment:
-                edge_label = edge_info + edge_type + "\n" + str(edge_segment)
+                edge_label = (padding + edge_info + edge_type + "\n" +
+                              str(edge_segment))
             else:
-                edge_label = edge_info + edge_type
+                edge_label = padding + edge_info + edge_type
 
             DotGraph.add_edge(
                             edge[0],
@@ -279,7 +279,7 @@ class KnitNetworkBase(nx.Graph):
 
         return DotGraph
 
-    def make_gephi_graph(self):
+    def prepare_for_gephi(self):
         """
         Creates a new graph with attributes for visualising this network
         using Gephi.
@@ -289,7 +289,6 @@ class KnitNetworkBase(nx.Graph):
 
         # colors
         black = "black"
-        white = "white"
         blue = "blue"
         red = "red"
         green = "green"
