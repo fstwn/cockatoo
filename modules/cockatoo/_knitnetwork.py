@@ -1876,16 +1876,14 @@ class KnitNetwork(KnitNetworkBase):
             deltas = [abs(a - (0.5 * pi)) for a in angles]
 
             # sort possible connections first by distance, then by delta
-            allDists, \
-            deltas, \
-            angles, \
-            most_perpendicular = zip(*sorted(
-                                            zip(
-                                                allDists,
-                                                deltas,
-                                                angles,
-                                                possible_connections[:]),
-                                            key=itemgetter(0, 1)))
+            (allDists,
+             deltas,
+             angles,
+             most_perpendicular) = zip(*sorted(zip(allDists,
+                                                   deltas,
+                                                   angles,
+                                                   possible_connections[:]),
+                                               key=itemgetter(0, 1)))
 
             # compute angle difference
             aDelta = angles[0] - angles[1]
