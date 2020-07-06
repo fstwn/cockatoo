@@ -5,7 +5,6 @@ from __future__ import print_function
 from collections import deque
 from collections import OrderedDict
 import math
-from operator import itemgetter
 
 # DUNDER ----------------------------------------------------------------------
 __all__ = [
@@ -31,17 +30,17 @@ if RHINOINSIDE:
     from Rhino.Geometry import MeshNgon as RhinoMeshNgon
     from Rhino.Geometry import NurbsSurface as RhinoNurbsSurface
     from Rhino.Geometry import Plane as RhinoPlane
-    from Rhino.Geometry import Point3d as RhinoPoint3d
     from Rhino.Geometry import Vector3d as RhinoVector3d
 else:
     from Rhino.Geometry import Mesh as RhinoMesh
     from Rhino.Geometry import MeshNgon as RhinoMeshNgon
     from Rhino.Geometry import NurbsSurface as RhinoNurbsSurface
     from Rhino.Geometry import Plane as RhinoPlane
-    from Rhino.Geometry import Point3d as RhinoPoint3d
     from Rhino.Geometry import Vector3d as RhinoVector3d
 
 # CLASS DECLARATION -----------------------------------------------------------
+
+
 class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
     """
     Datastructure representing a directed graph of nodes aswell as 'weft'
@@ -166,8 +165,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of outgoing 'weft' edges.
         """
 
-        weft_edges = [(s, e, d) for s, e, d in \
-                     self.edges_iter(node, data=True) if d["weft"]]
+        weft_edges = [(s, e, d) for s, e, d in
+                      self.edges_iter(node, data=True) if d["weft"]]
 
         if data:
             return weft_edges
@@ -195,8 +194,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of incoming 'weft' edges.
         """
 
-        weft_edges = [(s, e, d) for s, e, d in \
-                     self.in_edges_iter(node, data=True) if d["weft"]]
+        weft_edges = [(s, e, d) for s, e, d in
+                      self.in_edges_iter(node, data=True) if d["weft"]]
 
         if data:
             return weft_edges
@@ -225,10 +224,10 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of incoming and outgoing 'weft' edges.
         """
 
-        weft_edges = [(s, e, d) for s, e, d in \
-                     self.edges_iter(node, data=True) if d["weft"]]
-        weft_edges.extend((s, e, d) for s, e, d in \
-                     self.in_edges_iter(node, data=True) if d["weft"])
+        weft_edges = [(s, e, d) for s, e, d in
+                      self.edges_iter(node, data=True) if d["weft"]]
+        weft_edges.extend((s, e, d) for s, e, d in
+                          self.in_edges_iter(node, data=True) if d["weft"])
 
         if data:
             return weft_edges
@@ -258,8 +257,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of outgoing 'warp' edges.
         """
 
-        warp_edges = [(s, e, d) for s, e, d in \
-                     self.edges_iter(node, data=True) if d["warp"]]
+        warp_edges = [(s, e, d) for s, e, d in
+                      self.edges_iter(node, data=True) if d["warp"]]
 
         if data:
             return warp_edges
@@ -287,8 +286,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of incoming 'warp' edges.
         """
 
-        warp_edges = [(s, e, d) for s, e, d in \
-                     self.in_edges_iter(node, data=True) if d["warp"]]
+        warp_edges = [(s, e, d) for s, e, d in
+                      self.in_edges_iter(node, data=True) if d["warp"]]
 
         if data:
             return warp_edges
@@ -297,7 +296,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
     def node_warp_edges(self, node, data=False):
         """
-        Gets the incoming and outgoing 'warp' edges connected to the given node.
+        Gets the incoming and outgoing 'warp' edges connected to the given
+        node.
 
         Parameters
         ----------
@@ -317,10 +317,10 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of incoming and outgoing 'warp' edges.
         """
 
-        warp_edges = [(s, e, d) for s, e, d in \
-                     self.edges_iter(node, data=True) if d["warp"]]
-        warp_edges.extend((s, e, d) for s, e, d in \
-                     self.in_edges_iter(node, data=True) if d["warp"])
+        warp_edges = [(s, e, d) for s, e, d in
+                      self.edges_iter(node, data=True) if d["warp"]]
+        warp_edges.extend((s, e, d) for s, e, d in
+                          self.in_edges_iter(node, data=True) if d["warp"])
 
         if data:
             return warp_edges
@@ -352,9 +352,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of outgoing edges neither 'weft' nor 'warp'.
         """
 
-        contour_edges = [(s, e, d) for s, e, d in \
-                        self.edges_iter(node, data=True) \
-                        if not d["warp"] and not d["weft"]]
+        contour_edges = [(s, e, d) for s, e, d in
+                         self.edges_iter(node, data=True)
+                         if not d["warp"] and not d["weft"]]
 
         if data:
             return contour_edges
@@ -416,21 +416,22 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of incoming and outgoing edges neither 'weft' nor 'warp'.
         """
 
-        contour_edges = [(s, e, d) for s, e, d in \
-                        self.edges_iter(node, data=True) \
-                        if not d["warp"] and not d["weft"]]
-        contour_edges.extend([(s, e, d) for s, e, d in \
-                        self.in_edges_iter(node, data=True) \
-                        if not d["warp"] and not d["weft"]])
+        contour_edges = [(s, e, d) for s, e, d in
+                         self.edges_iter(node, data=True)
+                         if not d["warp"] and not d["weft"]]
+        contour_edges.extend([(s, e, d) for s, e, d in
+                              self.in_edges_iter(node, data=True)
+                              if not d["warp"] and not d["weft"]])
 
         if data:
             return contour_edges
         else:
             return [(e[0], e[1]) for e in contour_edges]
 
-    # FIND FACES (CYCLES) OF NETWORK -------------------------------------------
+    # FIND FACES (CYCLES) OF NETWORK ------------------------------------------
 
-    def _sort_node_neighbors(self, key, nbrs, xyz, geo, cbp, nrm, mode=-1, ccw=True):
+    def _sort_node_neighbors(self, key, nbrs, xyz, geo,
+                             cbp, nrm, mode=-1, ccw=True):
         """
         Sort the neighbors of a network node.
 
@@ -444,7 +445,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         .. [7] Van Mele, Tom et al. *COMPAS: A framework for computational
                research in architecture and structures*.
 
-               See: `sort_node_neighbors() inside COMPAS <https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L132>`_
+               See: `sort_node_neighbors() inside COMPAS <https://github.com/
+               compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/
+               src/compas/datastructures/network/duality.py#L132>`_
         """
 
         # if there is only one neighbor we don't need to sort anything
@@ -460,7 +463,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         # compute local orientation if reference geometry data is present
         # CASE 1: Plane is determined by mesh normal of origin node
         if cbp and nrm and mode == 0:
-            # construct local reference plane and map coordinates to plane space
+            # construct local reference plane and map coordinates to plane
+            # space
             a_geo = geo[key]
             localplane = RhinoPlane(a_geo, nrm[key])
             a_local = localplane.RemapToPlaneSpace(a_geo)[1]
@@ -478,7 +482,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             xyz = xyz_local
         # CASE 2: Plane is determined by average normal of origin node and nbrs
         elif cbp and nrm and mode == 1:
-            # construct local reference plane and map coordinates to plane space
+            # construct local reference plane and map coordinates to plane
+            # space
             a_geo = geo[key]
             # get average normal
             avg_nrm = nrm[key]
@@ -502,7 +507,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             xyz = xyz_local
         # CASE 3: Plane is determined by avg between fitplane and avg meshplane
         elif cbp and nrm and mode == 2:
-            # construct local reference plane and map coordinates to plane space
+            # construct local reference plane and map coordinates to plane
+            # space
             a_geo = geo[key]
             # get average normal
             avg_nrm = nrm[key]
@@ -512,7 +518,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             # construct plane based on average normal
             localplane = RhinoPlane(a_geo, avg_nrm)
             fitplane = RhinoPlane.FitPlaneToPoints([geo[n] for n in nbrs])[1]
-             # align fitplane with localplane
+            # align fitplane with localplane
             if fitplane.Normal * localplane.Normal < 0:
                 fitplane.Flip()
             # tween the planes and set origin
@@ -573,7 +579,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         .. [8] Van Mele, Tom et al. *COMPAS: A framework for computational
                research in architecture and structures*.
 
-               See: `sort_neighbors() inside COMPAS <https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L121>`_
+               See: `sort_neighbors() inside COMPAS <https://github.com/
+               compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/
+               src/compas/datastructures/network/duality.py#L121>`_
         """
 
         # initialize sorted neighbors dict
@@ -593,14 +601,14 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             cbp = None
             nrm = None
         elif isinstance(reference_geometry, RhinoMesh):
-            cbp = {k: reference_geometry.ClosestMeshPoint(geo[k], 0) \
+            cbp = {k: reference_geometry.ClosestMeshPoint(geo[k], 0)
                    for k in self.nodes_iter()}
-            nrm = {k: reference_geometry.NormalAt(cbp[k]) \
+            nrm = {k: reference_geometry.NormalAt(cbp[k])
                    for k in self.nodes_iter()}
         elif isinstance(reference_geometry, RhinoNurbsSurface):
-            cbp = {k: reference_geometry.ClosestPoint(geo[k])[1:] \
+            cbp = {k: reference_geometry.ClosestPoint(geo[k])[1:]
                    for k in self.nodes_iter()}
-            nrm = {k: reference_geometry.NormalAt(cbp[k][0], cbp[k][1]) \
+            nrm = {k: reference_geometry.NormalAt(cbp[k][0], cbp[k][1])
                    for k in self.nodes_iter()}
 
         # loop over all nodes in network
@@ -637,7 +645,10 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         .. [9] Van Mele, Tom et al. *COMPAS: A framework for computational
                research in architecture and structures*.
 
-               See: `find_first_node_neighbor() inside COMPAS <https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/datastructures/network/duality.py#L103>`_
+               See: `find_first_node_neighbor() inside COMPAS <https://
+               github.com/compas-dev/compas/blob/
+               e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/
+               datastructures/network/duality.py#L103>`_
         """
 
         # get all node neighbors
@@ -686,7 +697,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         .. [6] Van Mele, Tom et al. *COMPAS: A framework for computational
                research in architecture and structures*.
 
-               See: `find_edge_cycle() inside COMPAS <https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L161>`_
+               See: `find_edge_cycle() inside COMPAS <https://github.com/
+               compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/
+               src/compas/datastructures/network/duality.py#L161>`_
         """
         cycle = [u]
         while True:
@@ -728,7 +741,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         Modes other than -1 (default) are only possible if this network has an
         underlying reference geometry in form of a Mesh or NurbsSurface. The
         reference geometry should be assigned when initializing the network by
-        assigning the geometry to the "reference_geometry" attribute of the network.
+        assigning the geometry to the "reference_geometry" attribute of the
+        network.
 
         Notes
         -----
@@ -740,7 +754,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         .. [17] Van Mele, Tom et al. *COMPAS: A framework for computational
                research in architecture and structures*.
 
-               See: `find_cycles() inside COMPAS <https://github.com/compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/src/compas/datastructures/network/duality.py#L20>`_
+               See: `find_cycles() inside COMPAS <https://github.com/
+               compas-dev/compas/blob/09153de6718fb3d49a4650b89d2fe91ea4a9fd4a/
+               src/compas/datastructures/network/duality.py#L20>`_
         """
 
         # initialize the halfedge dict of the directed network
@@ -765,7 +781,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         # if leaves:
         #     u = sorted(leaves, key=lambda n: (n[1]["y"], n[1]["x"]))[0][0]
         # else:
-        #     u = sorted(self.nodes_iter(data=True), key=lambda n: (n[1]["y"], n[1]["x"]))[0][0]
+        #     u = sorted(self.nodes_iter(data=True),
+        #                key=lambda n: (n[1]["y"], n[1]["x"]))[0][0]
 
         # find start node
         # sort leaf nodes by node identifier / index
@@ -817,7 +834,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         return cycles
 
-    # MESHING ------------------------------------------------------------------
+    # MESHING -----------------------------------------------------------------
 
     def create_mesh(self, mode=-1, max_valence=4):
         """
@@ -846,8 +863,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         max_valence : int, optional
             Sets the maximum edge valence of the faces. If this is set to > 4,
-            n-gon faces (more than 4 edges) are allowed. Otherwise, their cycles
-            are treated as invalid and will be ignored.
+            n-gon faces (more than 4 edges) are allowed. Otherwise, their
+            cycles are treated as invalid and will be ignored.
 
             Defaults to ``4``.
 
@@ -885,9 +902,9 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 if c_len > max_valence:
                     continue
                 # find centroid of ngon nodes
-                cycle_coords = [ [ self.node[k]["x"],
-                                   self.node[k]["y"],
-                                   self.node[k]["z"] ] for k in cycle ]
+                cycle_coords = [[self.node[k]["x"],
+                                 self.node[k]["y"],
+                                 self.node[k]["z"]] for k in cycle]
                 # compute centroid
                 c_x, c_y, c_z = zip(*cycle_coords)
                 centroid = [sum(c_x) / c_len,
@@ -921,7 +938,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         return Mesh
 
-    # CONVERSION TO 2D-KNITTINGPATTERN (PIXEL IMAGE) ---------------------------
+    # CONVERSION TO 2D-KNITTINGPATTERN (PIXEL IMAGE) --------------------------
 
     def verify_dual_form(self):
         """
@@ -993,13 +1010,15 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         ------
         KnitNetworkTopologyError
             if the network does not satisfy the topology constraints needed for
-            this operation and the outcome would be unfeasible or unpredictable.
+            this operation and the outcome would be unfeasible or
+            unpredictable.
 
         Notes
         -----
         Closely resembles the implementation described in Automated Generation
-        of Knit Patterns for Non-developable Surfaces* [1]_. Also see *KnitCrete
-        - Stay-in-place knitted formworks for complex concrete structures* [2]_.
+        of Knit Patterns for Non-developable Surfaces* [1]_. Also see
+        *KnitCrete - Stay-in-place knitted formworks for complex concrete
+        structures* [2]_.
         """
 
         # initialize dict for seen nodes and list for storage of rows
@@ -1009,12 +1028,12 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         cols = []
 
         # initialize mapping dicts for ordering of rows and columns
-        id2row= OrderedDict()
+        id2row = OrderedDict()
         id2col = OrderedDict()
         node2rowid = OrderedDict()
         node2colid = OrderedDict()
 
-        # BUILD ROWS -----------------------------------------------------------
+        # BUILD ROWS ----------------------------------------------------------
 
         # every 'end' node defines the start of a row
         # loop over all 'end' nodes
@@ -1043,7 +1062,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 # set the mapping dictionaries
                 row_id = (node, node)
                 id2row[row_id] = [node]
-                node2rowid.update({node : row_id})
+                node2rowid.update({node: row_id})
                 # set the seen marker and continue to next 'end' node
                 seenrows[node] = True
                 continue
@@ -1078,7 +1097,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                             # see if there are incoming 'weft' edges at the
                             # current node which are not the way we came from
                             next_weft = [nw for nw in self.node_weft_edges_in(
-                                         row_nodes[-1], data=True) \
+                                         row_nodes[-1], data=True)
                                          if nw[0] != row_nodes[-2]]
 
                             # try to reverse them as a failsafe for imperfect
@@ -1089,10 +1108,12 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                                 nw_attr = nwe[2].copy()
                                 nw_attr["geo"].Flip()
                                 self.remove_edge(nwe[0], nwe[1])
-                                self.add_edge(nwe[1], nwe[0], attr_dict=nw_attr)
+                                self.add_edge(nwe[1],
+                                              nwe[0],
+                                              attr_dict=nw_attr)
                             else:
-                                errMsg = "Unexpected end of row. Missing " + \
-                                         "'end' attribute at node {}!"
+                                errMsg = ("Unexpected end of row. Missing " +
+                                          "'end' attribute at node {}!")
                                 errMsg.format(row_nodes[-1])
                                 raise KnitNetworkTopologyError(errMsg)
 
@@ -1106,15 +1127,15 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 # set the mapping dictionaries
                 row_id = (row_nodes[0], row_nodes[-1])
                 id2row[row_id] = row_nodes
-                node2rowid.update({node : row_id for node in row_nodes})
+                node2rowid.update({node: row_id for node in row_nodes})
                 # finally, set the current node as seen
                 seenrows[node] = True
 
-        # BUILD COLUMNS --------------------------------------------------------
+        # BUILD COLUMNS -------------------------------------------------------
 
         # every 'end' node defines the start of a row
         # loop over all 'end' nodes
-        col_sources = [(n, d) for n, d in self.nodes_iter(data=True) \
+        col_sources = [(n, d) for n, d in self.nodes_iter(data=True)
                        if d["increase"] or d["leaf"] or d["end"]]
         for node, data in col_sources:
             # continue if this node has already been visited
@@ -1136,7 +1157,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 raise KnitNetworkTopologyError(errMsg)
             # if this is a singular node, it is a separate column (?)
             elif len(nodewarp_out) == 0 and len(nodewarp_in) == 0:
-                # errMsg = "Absolutely no 'warp' edges at node {}!".format(node)
+                # errMsg = ("Absolutely no 'warp' edges at " +
+                #           "node {}!".format(node))
                 # raise KnitNetworkTopologyError(errMsg)
 
                 # append it as a column to the list of columns
@@ -1144,7 +1166,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 # set the mapping dictionaries
                 col_id = (node, node)
                 id2col[col_id] = [node]
-                node2colid.update({node : col_id})
+                node2colid.update({node: col_id})
                 # set the seen marker and continue to next node
                 seencols[node] = True
                 continue
@@ -1179,11 +1201,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 # set the mapping dictionaries
                 col_id = (col_nodes[0], col_nodes[-1])
                 id2col[col_id] = col_nodes
-                node2colid.update({node : col_id for node in col_nodes})
+                node2colid.update({node: col_id for node in col_nodes})
                 # finally, set the current node as seen
                 seencols[node] = True
 
-        # BUILD ROW MAPPING FOR TOPOLOGICAL SORT -------------------------------
+        # BUILD ROW MAPPING FOR TOPOLOGICAL SORT ------------------------------
 
         # initialize mapping for topological sort of rows
         row_map = nx.DiGraph()
@@ -1197,7 +1219,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             target_ids = []
             # loop over all nodes in the current row
             for node in row:
-                # check the node for outgoing 'warp' edges and get its successor
+                # check the node for outgoing 'warp' edges and get its
+                # successor
                 try:
                     node_suc = self.node_warp_edges_out(node)[0][1]
                 except IndexError:
@@ -1213,7 +1236,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
             [row_map.add_edge(row_id, tid) for tid in target_ids]
 
-        # BUILD COLUMN MAPPING FOR TOPOLOGICAL SORT ----------------------------
+        # BUILD COLUMN MAPPING FOR TOPOLOGICAL SORT ---------------------------
 
         # initialize mapping for backtracking of columns
         col_map = nx.DiGraph()
@@ -1227,7 +1250,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             target_ids = []
             # loop over all nodes in the current column
             for node in col:
-                # check the node for outgoing 'weft' edges and get its successor
+                # check the node for outgoing 'weft' edges and get its
+                # successor
                 try:
                     node_suc = self.node_weft_edges_out(node)[0][1]
                 except IndexError:
@@ -1243,7 +1267,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
             [col_map.add_edge(col_id, tid) for tid in target_ids]
 
-        # TOPOLOGICAL SORT OF ROWS ---------------------------------------------
+        # TOPOLOGICAL SORT OF ROWS --------------------------------------------
 
         # own method of topological sort for rows (in utilities)
         # ordered_row_stack = resolve_order_by_backtracking(row_map)
@@ -1262,7 +1286,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             for n in row:
                 self.node[n]["chain"] = i
 
-        # TOPOLOGICAL SORT OF COLUMNS ------------------------------------------
+        # TOPOLOGICAL SORT OF COLUMNS -----------------------------------------
 
         # own method of topological sort for columns (in utilities)
         # ordered_column_stack = resolve_order_by_backtracking(col_map)
@@ -1275,7 +1299,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         except nx.NetworkXUnfeasible as e:
             raise KnitNetworkTopologyError(str(e.message))
 
-        # SPREAD OUT BY FILLING WITH -1 FILLER ---------------------------------
+        # SPREAD OUT BY FILLING WITH -1 FILLER --------------------------------
 
         # fill all the rows to minimum row length with placeholder values (-1)
         minrl = max([len(row) for row in rows])
@@ -1317,13 +1341,11 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             # swap / transpose rows and columns
             spread_columns = list(map(list, zip(*toposort_rows[:])))
 
-            row_has_started = {i : False for i in range(len(toposort_rows))}
-            row_has_ended = {i : False for i in range(len(toposort_rows))}
+            row_has_started = {i: False for i in range(len(toposort_rows))}
+            row_has_ended = {i: False for i in range(len(toposort_rows))}
 
             consolidated_rows = [[] for i in range(len(toposort_rows))]
             toposort_rows = [deque(row) for row in toposort_rows]
-
-
 
             # while len(spread_columns) > 0:
             #     popped_column = spread_columns.popleft()
@@ -1369,6 +1391,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         # return all sorted rows
         return toposort_rows
 
-# MAIN -------------------------------------------------------------------------
+# MAIN ------------------------------------------------------------------------
+
+
 if __name__ == '__main__':
     pass
