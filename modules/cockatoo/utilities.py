@@ -12,19 +12,17 @@
     resolve_order_by_backtracking
 """
 
-# PYTHON STANDARD LIBRARY IMPORTS ----------------------------------------------
+# PYTHON STANDARD LIBRARY IMPORTS ---------------------------------------------
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from collections import deque
 from itertools import tee
-from math import acos
 from math import cos
-from math import degrees
 from math import pi
 from math import sqrt
 
-# DUNDER -----------------------------------------------------------------------
+# DUNDER ----------------------------------------------------------------------
 __all__ = [
     "blend_colors",
     "break_polyline",
@@ -35,11 +33,11 @@ __all__ = [
     "pairwise"
 ]
 
-# LOCAL MODULE IMPORTS ---------------------------------------------------------
+# LOCAL MODULE IMPORTS --------------------------------------------------------
 from cockatoo.environment import RHINOINSIDE
-from cockatoo.exception import *
+from cockatoo.exception import SystemNotPresentError
 
-# RHINO IMPORTS ----------------------------------------------------------------
+# RHINO IMPORTS ---------------------------------------------------------------
 if RHINOINSIDE:
     import rhinoinside
     rhinoinside.load()
@@ -53,7 +51,8 @@ else:
     from Rhino.Geometry import Quaternion as RhinoQuaternion
     from Rhino.Geometry import Vector3d as RhinoVector3d
 
-# RHINO GEOMETRY ---------------------------------------------------------------
+# RHINO GEOMETRY --------------------------------------------------------------
+
 
 def break_polyline(polyline, break_angle, as_crv=False):
     """
@@ -62,7 +61,7 @@ def break_polyline(polyline, break_angle, as_crv=False):
 
     Parameters
     ----------
-    polyline : Rhino.Geometry.Polyline
+    polyline : :obj:`Rhino.Geometry.Polyline`
         Polyline to break apart at angles.
 
     break_angle : float
@@ -75,9 +74,12 @@ def break_polyline(polyline, break_angle, as_crv=False):
 
     Returns
     -------
-    broken_polyline_segments : list of Rhino.Geometry.Polyline or Rhino.Geometry.PolylineCurve
-        A list of the broken segments. The return type will depend on the
-        as_crv setting!
+    polyline_segments : list of :class:`Rhino.Geometry.Polyline`
+        A list of the broken segments as Polylines if ``as_crv`` is
+        ``False``.
+    polyline_segments: list of :obj:`Rhino.Geometry.PolylineCurve`
+        A list of the broken segments as PolylineCurves if ``as_crv`` is
+        ``True``.
 
     """
 
@@ -133,9 +135,10 @@ def break_polyline(polyline, break_angle, as_crv=False):
                 pl.Add(segments.popleft().From)
 
     if as_crv:
-        return [pl.ToPolylineCurve() for pl in plcs]
+        return [pline.ToPolylineCurve() for pline in plcs]
     else:
         return plcs
+
 
 def tween_planes(pa, pb, t):
     """
@@ -168,14 +171,15 @@ def tween_planes(pa, pb, t):
     ----------
     .. [19] *Average between two planes*
 
-            See: `Thread on discourse.mcneel.com <https://discourse.mcneel.com/t/average-between-two-planes/71363/10?u=efestwin>`_
+            See: `Thread on discourse.mcneel.com <https://discourse.mcneel.com/
+            t/average-between-two-planes/71363/10>`_
     """
 
     # handle dotnet dependency in a nice way
     try:
         from clr import Reference
         from System import Double
-    except ImportError as e:
+    except ImportError:
         errMsg = "Could not import System. This function cannot execute!"
         raise SystemNotPresentError(errMsg)
 
@@ -199,7 +203,8 @@ def tween_planes(pa, pb, t):
 
     return out_plane
 
-# RHINO DISPLAY ----------------------------------------------------------------
+# RHINO DISPLAY ---------------------------------------------------------------
+
 
 def blend_colors(col_a, col_b, t=0.5):
     """
@@ -228,7 +233,8 @@ def blend_colors(col_a, col_b, t=0.5):
     ----------
     .. [18] *Algorithm for additive color mixing for RGB values*
 
-            See: `Thread on stackoverflow <https://stackoverflow.com/a/29321264>`_
+            See: `Thread on stackoverflow <https://stackoverflow.com/a/
+            29321264>`_
     """
 
     # sanitize the blending parameter
@@ -249,7 +255,9 @@ def blend_colors(col_a, col_b, t=0.5):
     # return the new color tuple
     return (new_r, new_g, new_b)
 
-def map_values_as_colors(values, src_min, src_max, target_min=0.0, target_max=0.7):
+
+def map_values_as_colors(values, src_min, src_max,
+                         target_min=0.0, target_max=0.7):
     """
     Make a list of HSL colors where the values are mapped onto a
     targetMin-targetMax hue domain. Meaning that low values will be red, medium
@@ -292,7 +300,8 @@ def map_values_as_colors(values, src_min, src_max, target_min=0.0, target_max=0.
     ----------
     .. [10] Deleuran, Anders Holden *mapValuesAsColors.py*
 
-            See: `mapValuesAsColors.py gist <https://gist.github.com/AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea>`_
+            See: `mapValuesAsColors.py gist <https://gist.github.com/
+            AndersDeleuran/82fa2a8a69ec10ac68176e1b848fdeea>`_
     """
 
     # remap numbers into new numeric domain
@@ -314,7 +323,8 @@ def map_values_as_colors(values, src_min, src_max, target_min=0.0, target_max=0.
 
     return colors
 
-# FUNCTIONAL GRAPH UTILITIES ---------------------------------------------------
+# FUNCTIONAL GRAPH UTILITIES --------------------------------------------------
+
 
 def _backtrack_node(G, node, pos, ordered_stack):
     """
@@ -324,7 +334,7 @@ def _backtrack_node(G, node, pos, ordered_stack):
     """
 
     # check the node for dependencies
-    dependencies = [pred for pred in G.predecessors_iter(node) \
+    dependencies = [pred for pred in G.predecessors_iter(node)
                     if pred not in ordered_stack]
 
     # if node has no dependencies that are not already in the stack,
@@ -359,6 +369,7 @@ def _backtrack_node(G, node, pos, ordered_stack):
     # return the current pos and the filled ordered stack
     return pos, ordered_stack
 
+
 def resolve_order_by_backtracking(G):
     """
     Resolve topological order of a networkx DiGraph through backtracking of
@@ -390,10 +401,12 @@ def resolve_order_by_backtracking(G):
     ----------
     .. [11] Directed acyclic graph on Wikipedia.
 
-            See: `Directed acyclic graph <https://en.wikipedia.org/wiki/Directed_acyclic_graph>`_
+            See: `Directed acyclic graph <https://en.wikipedia.org/wiki/
+            Directed_acyclic_graph>`_
     .. [12] Topological sorting on Wikipedia.
 
-            See: `Topological sorting <https://en.wikipedia.org/wiki/Topological_sorting>`_
+            See: `Topological sorting <https://en.wikipedia.org/wiki/
+            Topological_sorting>`_
     """
 
     # rais if graph is not directed
@@ -418,7 +431,8 @@ def resolve_order_by_backtracking(G):
     # return the ordered stack
     return ordered_stack
 
-# PURE PYTHON GEOMETRY ---------------------------------------------------------
+# PURE PYTHON GEOMETRY --------------------------------------------------------
+
 
 def is_ccw_xy(a, b, c, colinear=False):
     """
@@ -453,11 +467,15 @@ def is_ccw_xy(a, b, c, colinear=False):
     .. [14] Van Mele, Tom et al. *COMPAS: A framework for computational
            research in architecture and structures*.
 
-           See: `is_ccw_xy() inside COMPAS <https://github.com/compas-dev/compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/geometry/_core/queries.py#L61>`_
+           See: `is_ccw_xy() inside COMPAS <https://github.com/compas-dev/
+           compas/blob/e313502995b0dd86d460f86e622cafc0e29d1b75/src/compas/
+           geometry/_core/queries.py#L61>`_
     .. [15] Marsh, C. *Computational Geometry in Python: From Theory to
            Application*.
 
-           See: `Computational Geometry in Python <https://www.toptal.com/python/computational-geometry-in-python-from-theory-to-implementation>`_
+           See: `Computational Geometry in Python <https://www.toptal.com/
+           python/
+           computational-geometry-in-python-from-theory-to-implementation>`_
 
     Examples
     --------
@@ -480,7 +498,8 @@ def is_ccw_xy(a, b, c, colinear=False):
         return ab_x * ac_y - ab_y * ac_x >= 0
     return ab_x * ac_y - ab_y * ac_x > 0
 
-# PYTHON HELPERS AND UTILITIES -------------------------------------------------
+# PYTHON HELPERS AND UTILITIES ------------------------------------------------
+
 
 def pairwise(iterable):
     """
@@ -494,7 +513,8 @@ def pairwise(iterable):
     Yields
     ------
     tuple
-        Two items per iteration, if there are at least two items in the iterable.
+        Two items per iteration, if there are at least two items in the
+        iterable.
 
     Examples
     --------
@@ -510,7 +530,8 @@ def pairwise(iterable):
     ----------
     .. [16] Python itertools Recipes
 
-           See: `Python itertools Recipes <https://docs.python.org/2.7/library/itertools.html#recipes>`_
+           See: `Python itertools Recipes <https://docs.python.org/2.7/
+           library/itertools.html#recipes>`_
 
     """
     a, b = tee(iterable)
