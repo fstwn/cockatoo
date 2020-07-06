@@ -815,9 +815,10 @@ class KnitNetworkBase(nx.Graph):
 
         Returns
         -------
-        contour : :obj:`Rhino.Geometry.Polyline` or :obj:`Rhino.Geometry.PolylineCurve`
-            The contour as a Polyline or PolylineCurve if ``as_crv`` is
-            ``True``.
+        contour : :obj:`Rhino.Geometry.Polyline`
+            The contour as a Polyline if ``as_crv`` is ``False``.
+        contour : :obj:`Rhino.Geometry.PolylineCurve`
+            The contour as a PolylineCurve if ``as_crv`` is ``True``.
         """
 
         points = [n[1]["geo"] for n in self.nodes_on_position(position, True)]
