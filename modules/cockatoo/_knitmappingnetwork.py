@@ -130,7 +130,7 @@ class KnitMappingNetwork(nx.MultiGraph, KnitNetworkBase):
 
         segment_list = way_segments
         flag = False
-        while flag is False:
+        while flag == False:
             # set the current segment
             current_segment = segment_list[-1]
             # traversal by segment endnode

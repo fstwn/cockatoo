@@ -563,7 +563,7 @@ class KnitNetworkBase(nx.Graph):
 
         allPositionNodes = sorted(
                                 [(n, d) for n, d in self.nodes_iter(data=True)
-                                 if d["position"] is not None],
+                                 if d["position"] != None],
                                 key=lambda x: x[1]["position"])
 
         posdict = OrderedDict()
@@ -632,7 +632,7 @@ class KnitNetworkBase(nx.Graph):
         """
 
         leaves = [(n, d) for n, d in self.nodes_iter(data=True)
-                  if d["leaf"] is True]
+                  if d["leaf"] == True]
 
         return leaves
 
@@ -690,7 +690,7 @@ class KnitNetworkBase(nx.Graph):
 
         allPositionLeaves = sorted(
                             [(n, d) for n, d in self.nodes_iter(data=True)
-                             if d["position"] is not None and d["leaf"]],
+                             if d["position"] != None and d["leaf"]],
                             key=lambda x: x[1]["position"])
 
         posdict = OrderedDict()
@@ -775,7 +775,7 @@ class KnitNetworkBase(nx.Graph):
 
         allPositionEnds = sorted(
                             [(n, d) for n, d in self.nodes_iter(data=True)
-                             if d["position"] is not None and d["end"]],
+                             if d["position"] != None and d["end"]],
                             key=lambda x: x[1]["position"])
 
         posdict = OrderedDict()

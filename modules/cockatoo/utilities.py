@@ -409,7 +409,7 @@ def resolve_order_by_backtracking(G):
             Topological_sorting>`_
     """
 
-    # rais if graph is not directed
+    # raise if graph is not directed
     if not G.is_directed():
         raise ValueError("This works only on directed graphs!")
 

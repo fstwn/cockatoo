@@ -740,12 +740,12 @@ class KnitNetwork(KnitNetworkBase):
 
                 # select target position and continue in edge case scenarios
                 target_positions = []
-                if target_positionA is None:
+                if target_positionA == None:
                     if target_positionB in conPos:
                         v_print("Node is connected. Skipping...")
                         continue
                     target_positions.append(target_positionB)
-                elif target_positionB is None:
+                elif target_positionB == None:
                     if target_positionA in conPos:
                         v_print("Node is connected. Skipping...")
                         continue
@@ -760,8 +760,8 @@ class KnitNetwork(KnitNetworkBase):
                 elif ((target_positionA in conPos) and
                       (target_positionB not in conPos)):
                     target_positions.append(target_positionB)
-                elif (target_positionA is not None and
-                      target_positionB is not None and len(conPos) == 0):
+                elif (target_positionA != None and
+                      target_positionB != None and len(conPos) == 0):
                     target_positions = [target_positionA, target_positionB]
 
                 # print info on verbose setting
@@ -877,7 +877,7 @@ class KnitNetwork(KnitNetworkBase):
                         end_of_window = None
 
                     # define the window
-                    if end_of_window is None:
+                    if end_of_window == None:
                         window = [start_of_window]
                     elif end_of_window == start_of_window:
                         window = [start_of_window]
@@ -1059,7 +1059,7 @@ class KnitNetwork(KnitNetworkBase):
         # get all the positions / contours
         AllPositions = self.all_nodes_by_position(data=True)
 
-        if start_index is None:
+        if start_index == None:
             # get index of longest contour
             start_index = self.longest_position_contour()[0]
         elif start_index >= len(AllPositions):
@@ -1147,7 +1147,7 @@ class KnitNetwork(KnitNetworkBase):
         """
 
         # if no contour set is provided, use all contours of this network
-        if contour_set is None:
+        if contour_set == None:
             contour_set = self.all_nodes_by_position(data=True)
 
         # loop through all positions in the set of contours
@@ -1185,12 +1185,12 @@ class KnitNetwork(KnitNetworkBase):
         """
 
         # initialize output lists
-        if way_nodes is None:
+        if way_nodes == None:
             way_nodes = deque()
             way_nodes.append(start_node[0])
-        if way_edges is None:
+        if way_edges == None:
             way_edges = deque()
-        if end_nodes is None:
+        if end_nodes == None:
             end_nodes = deque()
 
         # get the connected edges and filter them, sort out the ones that
@@ -1198,7 +1198,7 @@ class KnitNetwork(KnitNetworkBase):
         connected_weft_edges = self.node_weft_edges(start_node[0], data=True)
         filtered_weft_edges = []
         for cwe in connected_weft_edges:
-            if cwe[2]["segment"] is not None:
+            if cwe[2]["segment"] != None:
                 continue
             if cwe in way_edges:
                 continue
@@ -1467,7 +1467,7 @@ class KnitNetwork(KnitNetworkBase):
 
         # set mapping network to instance
         if (isinstance(mapping_network, KnitMappingNetwork)
-                or mapping_network is None):
+                or mapping_network == None):
             self._mapping_network = mapping_network
         else:
             raise ValueError("Input is not of type KnitMappingNetwork!")
@@ -2627,7 +2627,7 @@ class KnitNetwork(KnitNetworkBase):
                         end_of_window = None
 
                     # if we have a valid window, set the target nodes
-                    if start_of_window != -1 and end_of_window is not None:
+                    if start_of_window != -1 and end_of_window != None:
                         if end_of_window == len(target_chain_nodes)-1:
                             window = target_chain_nodes[start_of_window:]
                         else:
@@ -2761,7 +2761,7 @@ class KnitNetwork(KnitNetworkBase):
                         end_of_window = None
 
                     # if there is a valid window, set the target chain nodes
-                    if start_of_window != -1 and end_of_window is not None:
+                    if start_of_window != -1 and end_of_window != None:
                         if end_of_window == len(target_chain_nodes)-1:
                             window = target_chain_nodes[start_of_window:]
                         else:
@@ -3039,7 +3039,7 @@ class KnitNetwork(KnitNetworkBase):
             u, v = self.edge_geometry_direction(u, v)
             cycle_a = edge_to_cycle[(u, v)]
             cycle_b = edge_to_cycle[(v, u)]
-            if cycle_a is not None and cycle_b is not None:
+            if cycle_a != None and cycle_b != None:
                 node_a = (cycle_a, DualNetwork.node[cycle_a])
                 node_b = (cycle_b, DualNetwork.node[cycle_b])
                 if d["warp"]:

@@ -165,8 +165,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of outgoing 'weft' edges.
         """
 
-        weft_edges = [(s, e, d) for s, e, d in
-                      self.edges_iter(node, data=True) if d["weft"]]
+        weft_edges = [e for e in
+                      self.edges_iter(node, data=True) if e[2]["weft"]]
 
         if data:
             return weft_edges
@@ -194,8 +194,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of incoming 'weft' edges.
         """
 
-        weft_edges = [(s, e, d) for s, e, d in
-                      self.in_edges_iter(node, data=True) if d["weft"]]
+        weft_edges = [e for e in
+                      self.in_edges_iter(node, data=True) if e[2]["weft"]]
 
         if data:
             return weft_edges
@@ -224,10 +224,10 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of incoming and outgoing 'weft' edges.
         """
 
-        weft_edges = [(s, e, d) for s, e, d in
-                      self.edges_iter(node, data=True) if d["weft"]]
-        weft_edges.extend((s, e, d) for s, e, d in
-                          self.in_edges_iter(node, data=True) if d["weft"])
+        weft_edges = [e for e in
+                      self.edges_iter(node, data=True) if e[2]["weft"]]
+        weft_edges.extend(e for e in
+                          self.in_edges_iter(node, data=True) if e[2]["weft"])
 
         if data:
             return weft_edges
@@ -257,8 +257,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of outgoing 'warp' edges.
         """
 
-        warp_edges = [(s, e, d) for s, e, d in
-                      self.edges_iter(node, data=True) if d["warp"]]
+        warp_edges = [e for e in
+                      self.edges_iter(node, data=True) if e[2]["warp"]]
 
         if data:
             return warp_edges
@@ -286,8 +286,8 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of incoming 'warp' edges.
         """
 
-        warp_edges = [(s, e, d) for s, e, d in
-                      self.in_edges_iter(node, data=True) if d["warp"]]
+        warp_edges = [e for e in
+                      self.in_edges_iter(node, data=True) if e[2]["warp"]]
 
         if data:
             return warp_edges
@@ -317,10 +317,10 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             List of incoming and outgoing 'warp' edges.
         """
 
-        warp_edges = [(s, e, d) for s, e, d in
-                      self.edges_iter(node, data=True) if d["warp"]]
-        warp_edges.extend((s, e, d) for s, e, d in
-                          self.in_edges_iter(node, data=True) if d["warp"])
+        warp_edges = [e for e in
+                      self.edges_iter(node, data=True) if e[2]["warp"]]
+        warp_edges.extend(e for e in
+                          self.in_edges_iter(node, data=True) if e[2]["warp"])
 
         if data:
             return warp_edges
@@ -812,7 +812,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         # loop over all edges and find cycles
         for u, v in self.edges_iter():
             # find cycles for u -> v edges
-            if self.halfedge[u][v] is None:
+            if self.halfedge[u][v] == None:
                 cycle = self._find_edge_cycle(u, v)
                 frozen = frozenset(cycle)
                 if frozen not in found:
@@ -822,7 +822,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
                 for a, b in pairwise(cycle + cycle[:1]):
                     self.halfedge[a][b] = found[frozen]
             # find cycles for v -> u edges
-            if self.halfedge[v][u] is None:
+            if self.halfedge[v][u] == None:
                 cycle = self._find_edge_cycle(v, u)
                 frozen = frozenset(cycle)
                 if frozen not in found:
@@ -1347,44 +1347,44 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
             consolidated_rows = [[] for i in range(len(toposort_rows))]
             toposort_rows = [deque(row) for row in toposort_rows]
 
-            # while len(spread_columns) > 0:
-            #     popped_column = spread_columns.popleft()
-            #
-            #     insert_all_unstarted = False
-            #     insert_all_started = False
-            #
-            #     # for each column, loop over all row indices
-            #     for j in range(len(popped_column)):
-            #
-            #         popped_row_item = toposort_rows[j].popleft()
-            #
-            #         if popped_row_item != -1:
-            #             if self.node[popped_row_item]["start"]:
-            #                 row_has_started[j] = True
-            #                 insert_all_unstarted = True
-            #             elif (not self.node[popped_row_item]["start"] \
-            #                   and self.node[popped_row_item]["end"]):
-            #                 row_has_ended[j] = True
-            #                 insert_all_unstarted = True
-            #             elif (self.node[popped_row_item]["start"] \
-            #                   and self.node[popped_row_item]["end"]):
-            #                 row_has_ended[j] = True
-            #                 insert_all_unstarted = True
-            #
-            #             consolidated_rows[j].append(popped_row_item)
-            #
-            #         elif popped_row_item == -1:
-            #             if row_has_started[j] and not row_has_ended[j]:
-            #                 continue
-            #             elif row_has_started[j] and row_has_ended[j]:
-            #                 consolidated_rows[j].append(-1)
-            #             elif not row_has_started[j] and not row_has_ended[j]:
-            #                 continue
-            #
-            #     if insert_all_unstarted:
-            #         for k, row in enumerate(consolidated_rows):
-            #             if not row_has_started[k]:
-            #                 consolidated_rows[k].append(-1)
+            while len(spread_columns) > 0:
+                popped_column = spread_columns.popleft()
+
+                insert_all_unstarted = False
+                insert_all_started = False
+
+                # for each column, loop over all row indices
+                for j in range(len(popped_column)):
+
+                    popped_row_item = toposort_rows[j].popleft()
+
+                    if popped_row_item != -1:
+                        if self.node[popped_row_item]["start"]:
+                            row_has_started[j] = True
+                            insert_all_unstarted = True
+                        elif (not self.node[popped_row_item]["start"]
+                              and self.node[popped_row_item]["end"]):
+                            row_has_ended[j] = True
+                            insert_all_unstarted = True
+                        elif (self.node[popped_row_item]["start"]
+                              and self.node[popped_row_item]["end"]):
+                            row_has_ended[j] = True
+                            insert_all_unstarted = True
+
+                        consolidated_rows[j].append(popped_row_item)
+
+                    elif popped_row_item == -1:
+                        if row_has_started[j] and not row_has_ended[j]:
+                            continue
+                        elif row_has_started[j] and row_has_ended[j]:
+                            consolidated_rows[j].append(-1)
+                        elif not row_has_started[j] and not row_has_ended[j]:
+                            continue
+
+                if insert_all_unstarted:
+                    for k, row in enumerate(consolidated_rows):
+                        if not row_has_started[k]:
+                            consolidated_rows[k].append(-1)
 
             return consolidated_rows
 
