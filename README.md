@@ -31,7 +31,8 @@ The python module as well as the UserObjects are designed to be open for extensi
 
 ### Pecularities
 
-The RhinoPython and GHPython development environments are [very](https://developer.rhino3d.com/guides/rhinopython/what-is-rhinopython/), [very](https://developer.rhino3d.com/guides/rhinopython/ghpython-component/) [special](https://developer.rhino3d.com/guides/rhinopython/python-reference/). I am not going to write in-depth about this here. Everybody who is working with these tools on a regular basis should have come accross their oddities. If not - most information about these topics is available in the [Rhino Developer Docs](https://developer.rhino3d.com/)
+The RhinoPython and GHPython development environments are [very](https://developer.rhino3d.com/guides/rhinopython/what-is-rhinopython/), [very](https://developer.rhino3d.com/guides/rhinopython/ghpython-component/) [special](https://developer.rhino3d.com/guides/rhinopython/python-reference/). I am not going to write in-depth about this here. Everybody who is working with these tools on a regular basis should have come accross their oddities. If not - most information about these topics is available in the [Rhino Developer Docs](https://developer.rhino3d.com/).
+
 To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more specific, an older version - [NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/) is used for... well, [reasons](https://www.grasshopper3d.com/forum/topics/ghpython-ironpython-engine-frames). To prevent problems with dead links and for reasons of simplicity, **this specific networkx module is bundled with Cockatoo**!
 
 ## Installation
@@ -85,6 +86,7 @@ TODO: Provide some images here
 ### You are invited to participate!
 
 Contributing is easy as Pi (well...easier, actually). First off, Cockatoo needs software testing to find bugs and make it more robust. So just by trying out Cockatoo out of curiosity, you can actually help!
+
 If you find a bug, which is very likely, please tell me about it by [submitting an issue](https://github.com/fstwn/cockatoo/issues/) so I can improve Cockatoo further.
 
 ### Testing
