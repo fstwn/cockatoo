@@ -21,18 +21,18 @@ This open-source software prototype constitutes the practical part of my diploma
 - The `networkx` module is used to handle all the necessary graph operations (for more info, see the [Pecularities](#pecularities) section).
 
 ### Rhino Integration
-- The `cockatoo` module can be used from within Rhino.Python scripts as well as from within Grasshopper through the GHPython scriptable component.
+The `cockatoo` module can be used from within Rhino.Python scripts as well as from within Grasshopper through the GHPython scriptable component.
 
 ### Grasshopper Components
-- Cockatoo includes a set of Grasshopper components (`UserObjects`), which provide a user interface to the underlying python module without the need of scripting.
+Cockatoo includes a set of Grasshopper components (`UserObjects`), which provide a user interface to the underlying python module without the need of scripting.
 
 ### Extendability
-- The python module as well as the UserObjects are designed to be open for extension. Everything is open-source.
+The python module as well as the UserObjects are designed to be open for extension. Everything is open-source.
 
 ### Pecularities
 
-- The RhinoPython and GHPython development environments are [very](https://developer.rhino3d.com/guides/rhinopython/what-is-rhinopython/), [very](https://developer.rhino3d.com/guides/rhinopython/ghpython-component/) [special](https://developer.rhino3d.com/guides/rhinopython/python-reference/). I am not going to write in-depth about this here. Everybody who is working with these tools on a regular basis should have come accross their oddities. If not - most information about these topics is available in the [Rhino Developer Docs](https://developer.rhino3d.com/)
-- To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more specific, an older version - [NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/) is used for... well, [reasons](https://www.grasshopper3d.com/forum/topics/ghpython-ironpython-engine-frames). To prevent problems with dead links and for reasons of simplicity, **this specific networkx module is bundled with Cockatoo**!
+The RhinoPython and GHPython development environments are [very](https://developer.rhino3d.com/guides/rhinopython/what-is-rhinopython/), [very](https://developer.rhino3d.com/guides/rhinopython/ghpython-component/) [special](https://developer.rhino3d.com/guides/rhinopython/python-reference/). I am not going to write in-depth about this here. Everybody who is working with these tools on a regular basis should have come accross their oddities. If not - most information about these topics is available in the [Rhino Developer Docs](https://developer.rhino3d.com/)
+To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more specific, an older version - [NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/) is used for... well, [reasons](https://www.grasshopper3d.com/forum/topics/ghpython-ironpython-engine-frames). To prevent problems with dead links and for reasons of simplicity, **this specific networkx module is bundled with Cockatoo**!
 
 ## Installation
 
@@ -77,6 +77,8 @@ This open-source software prototype constitutes the practical part of my diploma
 - If Rhino was running during the installation process, you'll have to restart it for the changes to take effect!
 
 ## Examples & Usage
+
+TODO: Provide some images here
 
 ## Testing & Contributing
 
