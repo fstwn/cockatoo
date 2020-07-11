@@ -1339,7 +1339,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         if consolidate:
             # swap / transpose rows and columns
-            spread_columns = list(map(list, zip(*toposort_rows[:])))
+            spread_columns = deque(map(list, zip(*toposort_rows[:])))
 
             row_has_started = {i: False for i in range(len(toposort_rows))}
             row_has_ended = {i: False for i in range(len(toposort_rows))}
