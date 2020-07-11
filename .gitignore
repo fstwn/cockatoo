@@ -1,6 +1,6 @@
-__pycache__/
+.vscode/
 
-/.vscode/
+__pycache__/
 
 /UserObjects_deprecated/
 /usrobj_src_deprecated/
