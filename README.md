@@ -8,7 +8,7 @@
 
 ## Purpose & Origins
 
-The purpose of this project is to enable Rhino and Grasshopper to automatically derive (3d-)knitting patterns for computerized knitting machines from NURBS surfaces and unstructured triangle meshes. The absence of such a freely available open-source toolkit marks the origin point for this project. Programming Cockatoo was only possible thanks to some brilliant research done by other people. Please check the [Sources & References](#sources-references) section extensively if you're curious who made this possible.
+The purpose of this project is to enable Rhino and Grasshopper to automatically derive (3d-)knitting patterns for computerized knitting machines from NURBS surfaces and unstructured triangle meshes. The absence of such a freely available open-source toolkit marks the origin point for this project. Programming Cockatoo was only possible thanks to some brilliant research done by other people. Please check the [Sources & References](#sources--references) section extensively if you're curious who made this possible.
 
 This open-source software prototype constitutes the practical part of my diploma project *Knit Relaxation - Knit membranes for (Interior-) Architecture* (original german title: *Knit Relaxation - Membrangestricke für die (Innen-) Architektur*) in the [product design department](https://produktdesignkassel.de/) at [Kunsthochschule Kassel](https://www.kunsthochschulekassel.de/).
 
