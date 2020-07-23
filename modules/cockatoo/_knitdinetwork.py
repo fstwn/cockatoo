@@ -1015,7 +1015,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.

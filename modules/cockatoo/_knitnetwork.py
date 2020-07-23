@@ -308,7 +308,7 @@ class KnitNetwork(KnitNetworkBase):
         This method is automatically called when creating a KnitNetwork using
         the create_from_contours method!
 
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -333,7 +333,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -396,7 +396,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -451,7 +451,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -678,7 +678,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -1050,7 +1050,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -1140,7 +1140,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -1377,7 +1377,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -1587,7 +1587,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -1655,7 +1655,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -1727,7 +1727,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -1769,7 +1769,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -1969,7 +1969,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -2097,7 +2097,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
@@ -2961,7 +2961,7 @@ class KnitNetwork(KnitNetworkBase):
 
         Notes
         -----
-        Closely resembles the implementation described in Automated Generation
+        Closely resembles the implementation described in *Automated Generation
         of Knit Patterns for Non-developable Surfaces* [1]_. Also see
         *KnitCrete - Stay-in-place knitted formworks for complex concrete
         structures* [2]_.
