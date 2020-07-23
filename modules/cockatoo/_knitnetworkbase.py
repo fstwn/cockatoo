@@ -232,9 +232,16 @@ class KnitNetworkBase(nx.Graph):
             else:
                 node_label = str(node[0]) + node_type
 
-            node_attributes = {"x": ndata["x"],
-                               "y": ndata["y"],
-                               "z": ndata["z"],
+            # make pos attribute for orthogonal layouting
+            if ndata["z"] > 0.0:
+                node_pos = (str(ndata["x"]) + ", " +
+                            str(ndata["y"]) + ", " +
+                            str(ndata["z"]))
+            else:
+                node_pos = (str(ndata["x"]) + ", " +
+                            str(ndata["y"]))
+            
+            node_attributes = {"pos": node_pos,
                                "label": node_label,
                                "shape": node_shape,
                                "fontname": font,
