@@ -1,16 +1,15 @@
 """
-Get the segmentation for loop generation and assign segment attributes
-to 'weft' edges and vertices.
-TODO: Update docstring!
+Creates a graph suitable for visualisation using GraphViz from a KnitNetwork.
     Inputs:
         Toggle: {item, boolean}
         KnitNetwork: An initialized KnitNetwork. {item, KnitNetwork}
     Output:
-        GraphVizGraph: The KnitNetwork with 'weft' connections created. {item, polyline}
+        GraphVizGraph: A graph prepared for visualisation using GraphViz.
+                       {item, polyline}
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200705
+        Version: 200731
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -24,8 +23,8 @@ import Rhino
 import rhinoscriptsyntax as rs
 
 # GHENV COMPONENT SETTINGS
-ghenv.Component.Name = "MakeRenderGraph"
-ghenv.Component.NickName ="MRG"
+ghenv.Component.Name = "MakeGraphVizGraph"
+ghenv.Component.NickName ="MGVG"
 ghenv.Component.Category = "Cockatoo"
 ghenv.Component.SubCategory = "08 Visualisation"
 
