@@ -451,7 +451,7 @@ class KnitContoursOnMesh(component):
         
         # DEACTIVATED CONDITION ------------------------------------------------
         
-        if not Run or MaxIterations == 0 or not Mesh or not KnitConstraint:
+        if not Run or not Mesh or not KnitConstraint:
             self.Message = "Deactivated"
             if not Mesh:
                 rml = self.RuntimeMessageLevel.Warning
