@@ -88,6 +88,8 @@ class NodesByRegion(component):
             self.region_plane = RegionPlane
         else:
             self.region_plane = Rhino.Geometry.Plane.WorldXY
+        if not RegionCurves or RegionCurves == [None for x in RegionCurves]:
+            RegionCurves = None
         
         # initialize outputs
         NodeIndices = Grasshopper.DataTree[object]()
