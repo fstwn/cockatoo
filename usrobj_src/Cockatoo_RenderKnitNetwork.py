@@ -97,6 +97,7 @@ ghenv.Component.SubCategory = "08 Visualisation"
 # LOCAL MODULE IMPORTS
 try:
     from cockatoo import KnitNetwork
+    from cockatoo import KnitMappingNetwork
 except ImportError:
     errMsg = "The Cockatoo python module seems to be not correctly " + \
              "installed! Please make sure the module is in you search " + \
@@ -118,6 +119,7 @@ class RenderKnitNetwork(component):
     
     def DrawViewportWires(self, args):
         try:
+            
             # get display from args
             display = args.Display
             
@@ -137,7 +139,7 @@ class RenderKnitNetwork(component):
             for txtag in self.drawing_data:
                 if display.IsVisible(txtag[0].TextPlane.Origin):
                     display.Draw3dText(txtag[0], txtag[1])
-        
+            
         except Exception, e:
             System.Windows.Forms.MessageBox.Show(str(e),
                                                  "Error while drawing preview!")
@@ -186,10 +188,13 @@ class RenderKnitNetwork(component):
                 
                 for ce in contour_edges:
                     egeo = ce[2]["geo"]
-                    edge_drawing_list.append((egeo, contourcol))
+                    if isinstance(egeo, Rhino.Geometry.Polyline):
+                        for seg in egeo.GetSegments():
+                            edge_drawing_list.append((seg, contourcol))
+                    else:
+                        edge_drawing_list.append((egeo, contourcol))
                     
                     # RENDERING OF CONTOUR EDGE DATA ---------------------------
-                    
                     if RenderContourEdgeData:
                         EdgeTextPlane.Origin = egeo.PointAt(0.5)
                         edgeLabel = [(k, ce[2][k]) for k \
@@ -286,6 +291,7 @@ class RenderKnitNetwork(component):
                 nodes = KN.nodes(data=True)
                 for i, node in enumerate(nodes):
                     data = node[1]
+                    
                     # END BUT NOT LEAF
                     if data["end"] and not data["leaf"]:
                         if not data["increase"] and not data["decrease"]:
@@ -337,6 +343,8 @@ class RenderKnitNetwork(component):
                                 nodecol = colRegular
                             pStyle = psRegular
                             pSize = 2
+                    
+                    
                     
                     if RenderNodes:
                         node_drawing_list.append((data["geo"], pStyle, pSize, nodecol))
