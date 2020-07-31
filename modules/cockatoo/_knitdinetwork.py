@@ -1271,10 +1271,10 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         # own method of topological sort for rows (in utilities)
         # ordered_row_stack = resolve_order_by_backtracking(row_map)
-
+        
         # use nx topological sort for rows
         try:
-            ordered_row_ids = nx.topological_sort_recursive(row_map)
+            ordered_row_ids = nx.topological_sort(row_map)
         except nx.NetworkXError as e:
             raise KnitNetworkTopologyError(str(e.message))
         except nx.NetworkXUnfeasible as e:
@@ -1293,7 +1293,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         # use nx topological sort for columns
         try:
-            ordered_column_stack = nx.topological_sort_recursive(col_map)
+            ordered_column_stack = nx.topological_sort(col_map)
         except nx.NetworkXError as e:
             raise KnitNetworkTopologyError(str(e.message))
         except nx.NetworkXUnfeasible as e:
