@@ -212,7 +212,6 @@ class MakePatternData(component):
                     # append row to pixel data
                     PixelData.append(pixel_row)
                 
-                
                 PixelData = tuple([tuple(row) for row in PixelData])
                 
             except Exception as e:
