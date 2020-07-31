@@ -1,12 +1,13 @@
 """
-Get the segmentation for loop generation and assign segment attributes
-to 'weft' edges and vertices.
-TODO: Update docstring!
+Writes a KnitNetwork to GraphML format.
     Inputs:
-        Toggle: {item, boolean}
-        KnitNetwork: An initialized KnitNetwork. {item, KnitNetwork}
+        Toggle: Set to True to write the file.
+                {item, boolean}
+        KnitNetwork: An initialized KnitNetwork.
+                     {item, KnitNetwork}
     Output:
-        GraphVizGraph: The KnitNetwork with 'weft' connections created. {item, polyline}
+        Folder: The folder were the file was written.
+                {item, str}
     Remarks:
         Author: Max Eschenbach
         License: MIT License
@@ -61,7 +62,6 @@ class WriteGraphToFile(component):
         """
         Write a JSON Graph .json file.
         """
-        
         json_data = nx.readwrite.adjacency_data(graph)
         
         jf = open(file, 'w')
@@ -86,7 +86,7 @@ class WriteGraphToFile(component):
         
         if Toggle and KN:
             
-            MODE = 2
+            MODE = 1
             
             if MODE == 0:
                 folder = self.ensure_folder("JSONGraph")
