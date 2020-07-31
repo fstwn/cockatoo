@@ -221,7 +221,10 @@ class KnitNetwork(KnitNetworkBase):
             # compute divisioncount and divide contour
             dc = round(crv.GetLength() / course_height)
             tcrv = crv.DivideByCount(dc, True)
-            dpts = [crv.PointAt(t) for t in tcrv]
+            if not tcrv:
+                dpts = [crv.PointAtStart, crv.PointAtEnd]
+            else:
+                dpts = [crv.PointAt(t) for t in tcrv]
 
             # loop over all nodes on the current contour
             for j, point in enumerate(dpts):
@@ -1257,6 +1260,7 @@ class KnitNetwork(KnitNetworkBase):
                 # append the relevant data to the lists
                 way_nodes.append(connected_node[0])
                 way_edges.append(fwec)
+                
                 # call this method recursively until a 'end' node is found
                 return self._traverse_weft_edge_until_end(
                                                     start_end_node,
@@ -1285,29 +1289,36 @@ class KnitNetwork(KnitNetworkBase):
         # loop through all connected weft edges
         seen_segments = []
         for cwe in weft_connections:
+            # check if connected weft edge already has a segment attribute
             if cwe[2]["segment"]:
                 continue
 
-            # check the connected node. if it is an end node,
-            # set the respective keys
+            # get connected node
             connected_node = (cwe[1], self.node[cwe[1]])
-
+            
+            # check the connected node. if it is an end node, we are done
             if connected_node[1]["end"]:
+                # get segment start and end
                 if start_end_node[0] > connected_node[0]:
                     segStart = connected_node[0]
                     segEnd = start_end_node[0]
                 else:
                     segStart = start_end_node[0]
                     segEnd = connected_node[0]
+                
+                # get segment index
                 if (segStart, segEnd) in seen_segments:
                     segIndex = len([s for s in seen_segments
                                     if s == (segStart, segEnd)])
                 else:
                     segIndex = 0
+                
                 # set the final segment attribute to the edge
                 self[cwe[0]][cwe[1]]["segment"] = (segStart, segEnd, segIndex)
                 seen_segments.append((segStart, segEnd))
 
+            # if the connected node is not an end node, we need to travel
+            # until we find one
             else:
                 seen_segments = self._traverse_weft_edge_until_end(
                                                         start_end_node[0],
