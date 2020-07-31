@@ -1271,7 +1271,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
         # own method of topological sort for rows (in utilities)
         # ordered_row_stack = resolve_order_by_backtracking(row_map)
-        
+
         # use nx topological sort for rows
         try:
             ordered_row_ids = nx.topological_sort(row_map)

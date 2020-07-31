@@ -240,7 +240,7 @@ class KnitNetworkBase(nx.Graph):
             else:
                 node_pos = (str(ndata["x"]) + ", " +
                             str(ndata["y"]))
-            
+
             node_attributes = {"pos": node_pos,
                                "label": node_label,
                                "shape": node_shape,

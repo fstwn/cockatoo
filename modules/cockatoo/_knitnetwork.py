@@ -1260,7 +1260,7 @@ class KnitNetwork(KnitNetworkBase):
                 # append the relevant data to the lists
                 way_nodes.append(connected_node[0])
                 way_edges.append(fwec)
-                
+
                 # call this method recursively until a 'end' node is found
                 return self._traverse_weft_edge_until_end(
                                                     start_end_node,
@@ -1295,7 +1295,7 @@ class KnitNetwork(KnitNetworkBase):
 
             # get connected node
             connected_node = (cwe[1], self.node[cwe[1]])
-            
+
             # check the connected node. if it is an end node, we are done
             if connected_node[1]["end"]:
                 # get segment start and end
@@ -1305,14 +1305,14 @@ class KnitNetwork(KnitNetworkBase):
                 else:
                     segStart = start_end_node[0]
                     segEnd = connected_node[0]
-                
+
                 # get segment index
                 if (segStart, segEnd) in seen_segments:
                     segIndex = len([s for s in seen_segments
                                     if s == (segStart, segEnd)])
                 else:
                     segIndex = 0
-                
+
                 # set the final segment attribute to the edge
                 self[cwe[0]][cwe[1]]["segment"] = (segStart, segEnd, segIndex)
                 seen_segments.append((segStart, segEnd))
