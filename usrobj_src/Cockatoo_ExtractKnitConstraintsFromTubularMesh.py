@@ -1,5 +1,5 @@
 """
-Extracts the necessary constraints to create KnitContours for a tubular with
+Extracts the necessary constraint to create KnitContours for a tubular mesh with
 two closed boundaries based  on specified parameters. The constraints consist of
 a start, end as well as a  left and right boundary. Preview shows the start
 course in red, the end course in green and the left/right boundaries in orange.
@@ -17,13 +17,13 @@ TODO: Update Docstring!
         EndIndex: Index for the end course.
                   {item, integer}
     Output:
-        KnitConstraints: The knitconstraints for this mesh for contour
+        KnitConstraint: The KnitConstraint for this mesh for contour
                          generation.
                          {item, KnitConstraint}
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200705
+        Version: 200731
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -90,6 +90,7 @@ class ExtractKnitConstraintsFromTubularMesh(component):
         self.SC = None
         self.EC = None
         self.SB = None
+        self.RB = None
     
     def get_ClippingBox(self):
         return Rhino.Geometry.BoundingBox()
@@ -108,6 +109,7 @@ class ExtractKnitConstraintsFromTubularMesh(component):
                 display.DrawCurve(self.SC, scol, 3)
                 display.DrawCurve(self.EC, ecol, 3)
                 display.DrawCurve(self.SB, sbcol, 3)
+                display.DrawCurve(self.RB, sbcol, 3)
             
         except Exception, e:
             System.Windows.Forms.MessageBox.Show(str(e),
@@ -195,7 +197,7 @@ class ExtractKnitConstraintsFromTubularMesh(component):
         
         return pl
     
-    def RunScript(self, Mesh, SeamA, SeamB, Flip):
+    def RunScript(self, Mesh, SeamA, SeamB, FlipDir, ):
         
         # define defaults and sanitize input
         if SeamA == None:
@@ -211,9 +213,6 @@ class ExtractKnitConstraintsFromTubularMesh(component):
             SeamB = 1.0
         elif SeamB < 0:
             SeamB = 0.0
-        
-        if Flip == None:
-            Flip = False
         
         # define empty tree placeholder output
         NullTree = Grasshopper.DataTree[object]()
@@ -237,7 +236,7 @@ class ExtractKnitConstraintsFromTubularMesh(component):
         mesh_boundary_curves = [pl.ToPolylineCurve() for pl in mesh_boundaries]
         
         # set start and end courses
-        if Flip:
+        if FlipDir:
             StartCourse = mesh_boundary_curves[1]
             EndCourse = mesh_boundary_curves[0]
         else:
@@ -277,6 +276,7 @@ class ExtractKnitConstraintsFromTubularMesh(component):
         self.SC = StartCourse
         self.EC = EndCourse
         self.SB = LeftBoundary
+        self.RB = RightBoundary
         
         KC = KnitConstraint(StartCourse,
                             EndCourse,
