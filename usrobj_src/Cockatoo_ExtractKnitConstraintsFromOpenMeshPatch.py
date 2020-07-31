@@ -1,5 +1,5 @@
 """
-Extracts the necessary constraints to create KnitContours for an open mesh with
+Extracts the necessary constraint to create KnitContours for an open mesh with
 one closed boundary based  on specified parameters. The constraints consist of
 a start, end as well as a  left and right boundary. Preview shows the start
 course in red, the end course in green and the left/right boundaries in blue.
@@ -16,13 +16,13 @@ indices for the resulting list of polylines.
         EndIndex: Index for the end course.
                   {item, integer}
     Output:
-        KnitConstraints: The knitconstraints for this mesh for contour
+        KnitConstraints: The KnitConstraint for this mesh for contour
                          generation.
                          {item, KnitConstraint}
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200705
+        Version: 200731
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -83,7 +83,7 @@ class ExtractKnitConstraintsFromOpenMeshPatch(component):
             System.Windows.Forms.MessageBox.Show(str(e),
                                                  "Error while drawing preview!")
     
-    def RunScript(self, Mesh, BreakAngle, Start, End):
+    def RunScript(self, Mesh, BreakAngle, Start, End, FlipDir):
         # define default break angle for mesh boundary
         if BreakAngle == None:
             BreakAngle = 1.0
@@ -180,8 +180,20 @@ class ExtractKnitConstraintsFromOpenMeshPatch(component):
         
         # Break apart left and right boundaries again so we don't have to do
         # it yet again in the next step
-        LeftBoundary = break_polyline(LeftBoundary.ToPolyline(), BreakAngle, as_crv=True)
-        RightBoundary = break_polyline(RightBoundary.ToPolyline(), BreakAngle, as_crv=True)
+        LeftBoundary = break_polyline(LeftBoundary.ToPolyline(),
+                                      BreakAngle,
+                                      as_crv=True)
+        RightBoundary = break_polyline(RightBoundary.ToPolyline(),
+                                       BreakAngle,
+                                       as_crv=True)
+        
+        if FlipDir:
+            lb = RightBoundary
+            rb = LeftBoundary
+            LeftBoundary = lb
+            RightBoundary = rb
+            StartCourse.Reverse()
+            EndCourse.Reverse()
         
         # set left and right for preview drawing
         self.SC = StartCourse
