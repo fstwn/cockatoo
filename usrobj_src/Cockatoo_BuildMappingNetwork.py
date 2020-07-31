@@ -23,7 +23,7 @@ generation.
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200705
+        Version: 200717
 """
 
 # GPYTHON SDK IMPORTS
@@ -80,17 +80,19 @@ class BuildMappingNetwork(component):
                         vStr = vStr.format(node[0])
                         rml = self.RuntimeMessageLevel.Warning
                         self.AddRuntimeMessage(rml, vStr)
-            
             # CREATE MAPPING NETWORK -------------------------------------------
             
             KN.create_mapping_network()
+            MappingNetwork = KN.mapping_network
             
         elif not Toggle and KN:
-            return KN
+            return KN, Grasshopper.DataTree[object]()
         elif Toggle and not KN:
             rml = self.RuntimeMessageLevel.Warning
             self.AddRuntimeMessage(rml, "No KnitNetwork input!")
             return Grasshopper.DataTree[object](), Grasshopper.DataTree[object]()
+        elif not Toggle and not KN:
+            return Grasshopper.DataTree[object](), Grasshopper.DataTree[object]()
         
         # return outputs if you have them; here I try it for you:
-        return KN, KN.mapping_network
+        return KN, MappingNetwork
