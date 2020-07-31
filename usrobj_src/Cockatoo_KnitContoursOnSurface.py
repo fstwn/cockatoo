@@ -23,7 +23,7 @@ isocurves on a surface.
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200705
+        Version: 200724
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -65,9 +65,24 @@ class KnitContoursOnSurface(component):
             for i in range(Density+1):
                 # extract isocurves based on parameter input
                 if FlipUV:
-                    iso = Surface.IsoCurve(1, i/Density)
+                    param = 1
                 else:
-                    iso = Surface.IsoCurve(0, i/Density)
+                    param = 0
+                
+                iso = Surface.IsoCurve(param, i/Density)
+                
+                if i == 0 and not iso.IsValid:
+                    isoval = 0.001
+                    while not iso.IsValid:
+                        iso = Surface.IsoCurve(param, isoval)
+                        isoval += 0.001
+                        
+                elif i == Density and not iso.IsValid:
+                    isoval = 0.999
+                    while not iso.IsValid:
+                        iso = Surface.IsoCurve(param, isoval)
+                        isoval -= 0.001
+                
                 # append to list of contours
                 contours.append(iso)
             
