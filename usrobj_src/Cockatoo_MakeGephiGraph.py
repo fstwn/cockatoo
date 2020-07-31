@@ -1,16 +1,15 @@
 """
-Get the segmentation for loop generation and assign segment attributes
-to 'weft' edges and vertices.
-TODO: Update docstring!
+Creates a graph suitable for visualisation using Gephi from a KnitNetwork.
     Inputs:
         Toggle: {item, boolean}
         KnitNetwork: An initialized KnitNetwork. {item, KnitNetwork}
     Output:
-        RenderGraph: The KnitNetwork with 'weft' connections created. {item, polyline}
+        GephiGraph: A graph prepared for visualisation using Gephi.
+                    {item, polyline}
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200705
+        Version: 200731
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
