@@ -1634,6 +1634,8 @@ class KnitNetwork(KnitNetworkBase):
             divPts = [geo.PointAt(t) for t in divT]
 
             # set leaf attribute
+            # TODO: better leaf strategy - this works but assigns false
+            # leaf nodes. usually not a problem but it should be fixed anyway
             if self.node[seg[0]]["leaf"] and self.node[seg[1]]["leaf"]:
                 nodeLeaf = True
             else:
