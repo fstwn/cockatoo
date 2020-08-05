@@ -1280,113 +1280,163 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
         except nx.NetworkXUnfeasible as e:
             raise KnitNetworkTopologyError(str(e.message))
 
-        # get the rows with the backtracking result
+        # get the rows with the topological sorted result
         toposort_rows = [id2row[id] for id in ordered_row_ids]
         for i, row in enumerate(toposort_rows):
             for n in row:
                 self.node[n]["chain"] = i
 
-        # TOPOLOGICAL SORT OF COLUMNS -----------------------------------------
-
-        # own method of topological sort for columns (in utilities)
-        # ordered_column_stack = resolve_order_by_backtracking(col_map)
-
-        # use nx topological sort for columns
-        try:
-            ordered_column_stack = nx.topological_sort(col_map)
-        except nx.NetworkXError as e:
-            raise KnitNetworkTopologyError(str(e.message))
-        except nx.NetworkXUnfeasible as e:
-            raise KnitNetworkTopologyError(str(e.message))
-
-        # SPREAD OUT BY FILLING WITH -1 FILLER --------------------------------
-
-        # fill all the rows to minimum row length with placeholder values (-1)
-        minrl = max([len(row) for row in rows])
-        # loop over all rows and fill until minimum length
-        for key in id2row.keys():
-            row = id2row[key]
-            for j in range(minrl):
-                try:
-                    node = row[j]
-                except IndexError:
-                    row.append(-2)
-            id2row[key] = row
-
-        for i, col in enumerate(ordered_column_stack):
-            # get column nodes
-            colnodes = id2col[col]
-            # loop over all rows
-            for j, row in enumerate(toposort_rows):
-                # check the entry at the current column index
-                # if this entry is not in colnodes, shift it to the right
-                entry = row[i]
-                if entry in colnodes:
-                    toposort_rows[j].append(-2)
-                elif entry not in colnodes:
-                    toposort_rows[j].insert(i, -1)
-
-        # trim final topological sorted rows
-        trim = toposort_rows[0].index(-2)
-        toposort_rows = [btr[:trim] for btr in toposort_rows]
-
-        # TODO: tune consolidation routine to new idea:
-        #       if a row is discovered don't touch it until its start is found
-        #       then find the previous row to which it connects
-        #       'pull' the row to the connection index
-
-        # NOTE: handle increases on the way!
-
         if consolidate:
-            # swap / transpose rows and columns
-            spread_columns = deque(map(list, zip(*toposort_rows[:])))
+            # HORIZONTAL CONSOLIDATION ----------------------------------------
+            consolidated_rows = []
+            for i, row in enumerate(toposort_rows):
+                # if we are at the first row, just insert it
+                if i == 0:
+                    consolidated_rows.append(row)
+                    continue
 
-            row_has_started = {i: False for i in range(len(toposort_rows))}
-            row_has_ended = {i: False for i in range(len(toposort_rows))}
+                # else get the previously inserted rows
+                prevrows = reversed(consolidated_rows)
+                # find first incoming warp edge that connects to a previous row
+                for prevrow in prevrows:
+                    row_found = False
+                    for node in row:
+                        warp_in = self.node_warp_edges_in(node)
+                        if warp_in:
+                            if warp_in[0][0] not in prevrow:
+                                continue
+                            connection_node = warp_in[0][1]
+                            connection_index = row.index(connection_node)
+                            prevrow_connection_node = warp_in[0][0]
+                            prevrow_connection_index = prevrow.index(
+                                                    prevrow_connection_node)
+                            row_found = True
+                    if row_found:
+                        break
 
-            consolidated_rows = [[] for i in range(len(toposort_rows))]
-            toposort_rows = [deque(row) for row in toposort_rows]
+                # compute offset
+                if connection_index == prevrow_connection_index:
+                    offset = 0
+                else:
+                    offset = prevrow_connection_index - connection_index
 
-            while len(spread_columns) > 0:
-                popped_column = spread_columns.popleft()
+                # execute offset and append to consolidated rows
+                if offset == 0:
+                    consolidated_rows.append(row)
+                elif offset < 0:
+                    for consrow in consolidated_rows:
+                        for o in range(abs(offset)):
+                            consrow.insert(0, -1)
+                    consolidated_rows.append(row)
+                elif offset > 0:
+                    offset_list = [-1] * abs(offset)
+                    offset_list.extend(row)
+                    consolidated_rows.append(offset_list)
 
-                insert_all_unstarted = False
-                insert_all_started = False
+            # fill to minlength
+            minrl = max([len(row) for row in consolidated_rows])
+            for row in consolidated_rows:
+                if len(row) != minrl:
+                    row.extend([-1] * (minrl - len(row)))
 
-                # for each column, loop over all row indices
-                for j in range(len(popped_column)):
+            # VERTICAL CONSOLIDATION ------------------------------------------
+            vert_consolidated_rows = []
+            for i, row in enumerate(consolidated_rows):
+                if i == 0:
+                    vert_consolidated_rows.append(row)
+                    continue
 
-                    popped_row_item = toposort_rows[j].popleft()
+                # get the first index that is not -1
+                rowstart = None
+                rowend = None
+                for j, nodevalue in enumerate(row):
+                    if nodevalue != -1 and rowstart == None:
+                        rowstart = j
+                        if j == len(row) - 1:
+                            rowend = rowstart
+                            break
+                        continue
+                    elif nodevalue == -1 and rowstart != None:
+                        rowend = j
+                        break
+                    elif (nodevalue != -1 and
+                          j == len(row) - 1 and
+                          rowstart != None):
+                        rowend = j
+                        break
 
-                    if popped_row_item != -1:
-                        if self.node[popped_row_item]["start"]:
-                            row_has_started[j] = True
-                            insert_all_unstarted = True
-                        elif (not self.node[popped_row_item]["start"]
-                              and self.node[popped_row_item]["end"]):
-                            row_has_ended[j] = True
-                            insert_all_unstarted = True
-                        elif (self.node[popped_row_item]["start"]
-                              and self.node[popped_row_item]["end"]):
-                            row_has_ended[j] = True
-                            insert_all_unstarted = True
+                # get previous inserted rows and loop over them
+                prevrows = reversed(vert_consolidated_rows)
 
-                        consolidated_rows[j].append(popped_row_item)
+                insertion_index = None
+                for j, prevrow in enumerate(prevrows):
+                    # get window
+                    window = prevrow[rowstart:rowend]
+                    # check if the window on the previous row is free
+                    if window == [-1] * len(window):
+                        insertion_index = len(vert_consolidated_rows) - 1 - j
+                        continue
+                    else:
+                        break
 
-                    elif popped_row_item == -1:
-                        if row_has_started[j] and not row_has_ended[j]:
-                            continue
-                        elif row_has_started[j] and row_has_ended[j]:
-                            consolidated_rows[j].append(-1)
-                        elif not row_has_started[j] and not row_has_ended[j]:
-                            continue
+                if insertion_index != None:
+                    insertion_row = vert_consolidated_rows[insertion_index]
+                    merged_row = insertion_row[:rowstart]
+                    merged_row.extend(row[rowstart:rowend + 1])
+                    merged_row.extend(insertion_row[rowend + 1:])
 
-                if insert_all_unstarted:
-                    for k, row in enumerate(consolidated_rows):
-                        if not row_has_started[k]:
-                            consolidated_rows[k].append(-1)
+                    vert_consolidated_rows[insertion_index] = merged_row
+                else:
+                    vert_consolidated_rows.append(row)
 
-            return consolidated_rows
+            return vert_consolidated_rows
+
+        else:
+            # TOPOLOGICAL SORT OF COLUMNS -------------------------------------
+
+            # own method of topological sort for columns (in utilities)
+            # ordered_column_stack = resolve_order_by_backtracking(col_map)
+
+            # use nx topological sort for columns
+            try:
+                ordered_column_stack = nx.topological_sort(col_map)
+            except nx.NetworkXError as e:
+                raise KnitNetworkTopologyError(str(e.message))
+            except nx.NetworkXUnfeasible as e:
+                raise KnitNetworkTopologyError(str(e.message))
+
+            # SPREAD OUT BY FILLING WITH -1 FILLER ----------------------------
+
+            # fill all the rows to minimum row length with 
+            # placeholder values (-1)
+            minrl = max([len(row) for row in rows])
+            # loop over all rows and fill until minimum length
+            for key in id2row.keys():
+                row = id2row[key]
+                for j in range(minrl):
+                    try:
+                        node = row[j]
+                    except IndexError:
+                        row.append(-2)
+                id2row[key] = row
+
+            # spread out rows according to toposorted columns
+            for i, col in enumerate(ordered_column_stack):
+                # get column nodes
+                colnodes = id2col[col]
+                # loop over all rows
+                for j, row in enumerate(toposort_rows):
+                    # check the entry at the current column index
+                    # if this entry is not in colnodes, shift it to the right
+                    entry = row[i]
+                    if entry in colnodes:
+                        toposort_rows[j].append(-2)
+                    elif entry not in colnodes:
+                        toposort_rows[j].insert(i, -1)
+
+            # trim final topological sorted rows
+            trim = toposort_rows[0].index(-2)
+            toposort_rows = [btr[:trim] for btr in toposort_rows]
 
         # return all sorted rows
         return toposort_rows
