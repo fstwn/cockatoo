@@ -73,7 +73,7 @@
 
 
 \title{Cockatoo}
-\date{Jul 06, 2020}
+\date{Aug 06, 2020}
 \release{0.1.0.0-alpha}
 \author{Max Eschenbach}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -105,7 +105,7 @@ aswell as
 
 \item {} 
 {\hyperref[\detokenize{README:installation}]{\emph{Yeah, yeah… Knitting… Rhino… Python… I get it. Just tell me
-how to install and use it!}}} {\hyperref[\detokenize{README:misc-notes}]{\emph{1}}}
+how to install and use it!}}} {\hyperref[\detokenize{README:misc}]{\emph{1}}}
 
 \end{itemize}
 
@@ -118,9 +118,12 @@ how to install and use it!}}} {\hyperref[\detokenize{README:misc-notes}]{\emph{1
 \label{\detokenize{README:purpose-origins}}\label{\detokenize{README:id1}}
 The purpose of this project is to enable Rhino and Grasshopper to
 automatically derive (3d\sphinxhyphen{})knitting patterns for computerized knitting
-machines from NURBS surfaces and polygon meshes. The absence of such a
-freely available open\sphinxhyphen{}source toolkit marks the origin point for this
-project.
+machines from NURBS surfaces and unstructured triangle meshes. The
+absence of such a freely available open\sphinxhyphen{}source toolkit marks the origin
+point for this project. Programming Cockatoo was only possible thanks to
+some brilliant research done by lots of other people. Please check the
+{\hyperref[\detokenize{README:sources--references}]{\emph{Sources \& References}}} section if you’re
+curious.
 
 This open\sphinxhyphen{}source software prototype constitutes the practical part of my
 diploma project \sphinxstyleemphasis{Knit Relaxation \sphinxhyphen{} Knit membranes for (Interior\sphinxhyphen{})
@@ -158,37 +161,27 @@ section).
 
 
 \subsection{Rhino Integration}
-\label{\detokenize{README:rhino-integration}}\begin{itemize}
-\item {} 
-The \sphinxcode{\sphinxupquote{cockatoo}} module can be used from within Rhino.Python scripts
-as well as from within Grasshopper through the GHPython scriptable
+\label{\detokenize{README:rhino-integration}}
+The \sphinxcode{\sphinxupquote{cockatoo}} module can be used from within Rhino.Python scripts as
+well as from within Grasshopper through the GHPython scriptable
 component.
-
-\end{itemize}
 
 
 \subsection{Grasshopper Components}
-\label{\detokenize{README:grasshopper-components}}\begin{itemize}
-\item {} 
+\label{\detokenize{README:grasshopper-components}}
 Cockatoo includes a set of Grasshopper components (\sphinxcode{\sphinxupquote{UserObjects}}),
-which provide a user interface to the underlying python module
-without the need of scripting.
-
-\end{itemize}
+which provide a user interface to the underlying python module without
+the need of scripting.
 
 
 \subsection{Extendability}
-\label{\detokenize{README:extendability}}\begin{itemize}
-\item {} 
-The python module as well as the UserObjects are designed to be open
-for extension. Everything is open\sphinxhyphen{}source.
-
-\end{itemize}
+\label{\detokenize{README:extendability}}
+The python module as well as the UserObjects are designed to be open for
+extension. Everything is open\sphinxhyphen{}source.
 
 
 \subsection{Pecularities}
-\label{\detokenize{README:pecularities}}\begin{itemize}
-\item {} 
+\label{\detokenize{README:pecularities}}
 The RhinoPython and GHPython development environments are
 \sphinxhref{https://developer.rhino3d.com/guides/rhinopython/what-is-rhinopython/}{very},
 \sphinxhref{https://developer.rhino3d.com/guides/rhinopython/ghpython-component/}{very}
@@ -197,18 +190,15 @@ I am not going to write in\sphinxhyphen{}depth about this here. Everybody who is
 working with these tools on a regular basis should have come accross
 their oddities. If not \sphinxhyphen{} most information about these topics is
 available in the \sphinxhref{https://developer.rhino3d.com/}{Rhino Developer
-Docs}
+Docs}.
 
-\item {} 
 To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more
 specific, an older version \sphinxhyphen{} \sphinxhref{https://networkx.github.io/documentation/networkx-1.5/}{NetworkX
-1.5} is
-used for… well,
+1.5} is used
+for… well,
 \sphinxhref{https://www.grasshopper3d.com/forum/topics/ghpython-ironpython-engine-frames}{reasons}.
-To prevent problems with dead links and for reasons of simplicity,
-\sphinxstylestrong{this specific networkx module is bundled with Cockatoo}!
-
-\end{itemize}
+\sphinxstylestrong{This specific networkx module is bundled with Cockatoo} for
+simplicity!
 
 
 \section{Installation}
@@ -234,12 +224,10 @@ Open the scripts folder of Rhino 6
 \begin{itemize}
 \item {} 
 On \sphinxstylestrong{Windows}:
-
 \sphinxcode{\sphinxupquote{C:\textbackslash{}Users\textbackslash{}\%USERNAME\%\textbackslash{}AppData\textbackslash{}Roaming\textbackslash{}McNeel\textbackslash{}Rhinoceros\textbackslash{}6.0\textbackslash{}scripts}}
 
 \item {} 
 On \sphinxstylestrong{Mac OSX}:
-
 \sphinxcode{\sphinxupquote{\textasciitilde{}/Library/Application Support/McNeel/Rhinoceros/6.0/scripts}}
 
 \end{itemize}
@@ -258,19 +246,16 @@ Navigate to the Grasshopper UserObjects folder
 \begin{itemize}
 \item {} 
 On \sphinxstylestrong{Windows}:
-
 \sphinxcode{\sphinxupquote{C:\textbackslash{}Users\textbackslash{}\%USERNAME\%\textbackslash{}AppData\textbackslash{}Roaming\textbackslash{}Grasshopper\textbackslash{}UserObjects}}
 
 \item {} 
 On \sphinxstylestrong{Mac OSX}:
-
-\sphinxcode{\sphinxupquote{\textasciitilde{}/Library/Application Support/McNeel/Rhinoceros/6.0/Plug\sphinxhyphen{}ins/Grasshopper (b45a29b1\sphinxhyphen{}4343\sphinxhyphen{}4035\sphinxhyphen{}989e\sphinxhyphen{}044e8580d9cf)/UserObjects}}
+\sphinxcode{\sphinxupquote{\textasciitilde{}/Library/Application Support/McNeel/Rhinoceros/6.0/scripts}}
 
 \item {} 
 \sphinxstyleemphasis{Alternative:} Open Rhino \& Grasshopper and in the Grasshopper
-Window click on
-
-\sphinxcode{\sphinxupquote{File}} \textgreater{} \sphinxcode{\sphinxupquote{Special Folders}} \textgreater{} \sphinxcode{\sphinxupquote{User Object Folder}}
+Window click on \sphinxcode{\sphinxupquote{File}} \textgreater{} \sphinxcode{\sphinxupquote{Special Folders}} \textgreater{}
+\sphinxcode{\sphinxupquote{User Object Folder}}
 
 \end{itemize}
 
@@ -311,73 +296,128 @@ restart it for the changes to take effect!
 
 \section{Examples \& Usage}
 \label{\detokenize{README:examples-usage}}\label{\detokenize{README:id7}}
+TODO: Provide some images here
+
 
 \section{Testing \& Contributing}
 \label{\detokenize{README:testing-contributing}}\label{\detokenize{README:id8}}
 
-\subsection{You are invited to participate (yes \sphinxhyphen{} you!)}
-\label{\detokenize{README:you-are-invited-to-participate-yes-you}}\label{\detokenize{README:id9}}\begin{itemize}
-\item {} 
-Contributing is easy as Pi (well…easier, actually). Whether you are
-a designer, student, teacher or scientist working with CNC\sphinxhyphen{}knitting \sphinxhyphen{}
-just find out what Cockatoo can do for you. In order to make Cockatoo
-better, we need real\sphinxhyphen{}world testing!
+\subsection{You are invited to participate!}
+\label{\detokenize{README:you-are-invited-to-participate}}\label{\detokenize{README:id9}}
+Contributing is easy as Pi (well…easier, actually). First off,
+Cockatoo needs software testing to find bugs and make it more robust. So
+just by trying out Cockatoo out of curiosity, you can actually help!
 
-\item {} 
-If Cockatoo doesn’t do the things you expected it to do or simply
-does not work: Tell me about it by \sphinxhref{https://github.com/fstwn/cockatoo/issues/}{submitting an
-issue}!
+If you find a bug (which is very likely because they always sneak in
+somewhere) please tell me about it by \sphinxhref{https://github.com/fstwn/cockatoo/issues/}{submitting an
+issue} so I can improve
+Cockatoo further.
 
-\item {} 
-To find out more about how you can help testing this software and
-making it better, have a look at the contribution guidelines.
 
-\end{itemize}
+\subsection{Testing}
+\label{\detokenize{README:testing}}
+A sad truth is that I currently don’t have access to a computerized
+knitting machine. As a consequence, it was not possible to actually test
+or verify a knitting pattern generated by Cockatoo in the real world,
+yet. If you have access to a machine and you would be willing to
+collaborate with me in testing, I would be more than happy!
+
+Also, if you know a thing or two about computational knitting and find a
+fundamental (or minor) mistake in the workings of Cockatoo, please \sphinxhref{https://github.com/fstwn/cockatoo/issues/}{let
+me know}. I’m always eager
+to learn from others and fix mistakes.
+
+
+\subsection{Code}
+\label{\detokenize{README:code}}
+If you’re willing to contribute to Cockatoo by writing new code or
+improving existing code, that’s great! Please have a look at the
+contribution guidelines.
 
 
 \section{Sources \& References}
 \label{\detokenize{README:sources-references}}\label{\detokenize{README:id10}}
 This section states the most important sources used in writing this
 software. The full and proper list of sources is \sphinxhyphen{} of course \sphinxhyphen{} available
-in the written version of the diploma project.
+in the written version of the diploma thesis.
 \begin{itemize}
 \item {} 
-Popescu, Mariana et al. \sphinxhref{https://block.arch.ethz.ch/brg/files/POPESCU\_DMSP-2017\_automated-generation-knit-patterns\_1505737906.pdf}{Automated Generation of Knit Patterns for
-Non\sphinxhyphen{}developable
+Cherif, Chokri: \sphinxhref{https://link.springer.com/book/10.1007/978-3-642-17992-1}{Textile Werkstoffe für den Leichtbau. Techniken \sphinxhyphen{}
+Verfahren \sphinxhyphen{} Materialien \sphinxhyphen{}
+Eigenschaften.}
+
+\item {} 
+CITAstudio: \sphinxhref{https://issuu.com/cita\_copenhagen/docs/catalogue}{Textile. Light. Architecture. SOFT
+SPACES}
+
+\item {} 
+Hagberg, Aric; Schult, Dan; Swart, Pieter: \sphinxhref{https://networkx.github.io/documentation/networkx-1.5/\_downloads/networkx\_reference.pdf}{NetworkX
+1.5}
+
+\item {} 
+McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April; Matusik,
+Wojciech; Mankoff, Jen; Hodgins, Jessica: \sphinxhref{https://la.disneyresearch.com/publication/machine-knitting-compiler/}{A Compiler for 3D Machine
+Knitting}
+
+\item {} 
+Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian;
+McCann, James: \sphinxhref{https://textiles-lab.github.io/publications/2018-autoknit/}{Automatic Machine Knitting of 3D
+Meshes}
+
+\item {} 
+Narayanan, Vidya; Wu, Kui; Yuksel, Cem; McCann, James: \sphinxhref{https://textiles-lab.github.io/publications/2019-visualknit/}{Visual
+Knitting Machine
+Programming}
+
+\item {} 
+Popescu, Mariana; Rippmann, Matthias; van Mele, Tom; Block, Philippe:
+\sphinxhref{https://block.arch.ethz.ch/brg/files/POPESCU\_DMSP-2017\_automated-generation-knit-patterns\_1505737906.pdf}{Automated Generation of Knit Patterns for Non\sphinxhyphen{}developable
 Surfaces}
 
 \item {} 
-Popescu, Mariana \sphinxhref{https://block.arch.ethz.ch/brg/files/POPESCU\_2019\_ETHZ\_PhD\_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures\_small\_1586266206.pdf}{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for
+Popescu, Mariana: \sphinxhref{https://block.arch.ethz.ch/brg/files/POPESCU\_2019\_ETHZ\_PhD\_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures\_small\_1586266206.pdf}{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for
 complex concrete
 structures}
 
 \item {} 
-Van Mele, Tom et al. \sphinxhref{https://compas-dev.github.io/}{COMPAS: A framework for computational research
-in architecture and structures}
+Thomsen, Mette Ramsgaard; Tamke, Martin; Deleuran, Anders Holden;
+Tinning, Ida Katrine Friis; Evers, Henrik Leander; Gengnagel,
+Christoph; Schmeck, Michel: \sphinxstyleemphasis{»Hybrid Tower, Designing Soft
+Structures«.} In: \sphinxhref{https://doi.org/10.1007/978-3-319-24208-8\_8}{Modelling behaviour. Design Modelling Symposium
+2015, hrsg. von Mette Ramsgaard Thomsen, Martin Tamke, Christoph
+Gengnagel, Billie Faircloth und Fabian Scheurer. Cham/Heidelberg/New
+York/Dordrecht/London
+2015}
 
 \item {} 
-Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian;
-McCann, James \sphinxhref{https://textiles-lab.github.io/publications/2018-autoknit/}{Automatic Machine Knitting of 3D
-Meshes}
+Ramsgaard Thomsen, Mette; Tamke, Martin; Ayres, Phil; Nicholas, Paul:
+\sphinxhref{https://issuu.com/cita\_copenhagen/docs/20190823\_cita\_complex\_modellingshor\_27ae721ee28ba3}{CITA Complex Modelling, Toronto
+2019}
 
 \item {} 
-Narayanan, Vidya; Wu, Kui et al. \sphinxhref{https://textiles-lab.github.io/publications/2019-visualknit/}{Visual Knitting Machine
-Programming}
-
-\item {} 
-McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April; Matusik,
-Wojciech; Mankoff, Jen; Hodgins, Jessica \sphinxhref{https://la.disneyresearch.com/publication/machine-knitting-compiler/}{A Compiler for 3D Machine
-Knitting}
-
-\item {} 
-Hagberg, Aric; Schult, Dan; Swart, Pieter \sphinxhref{https://networkx.github.io/documentation/networkx-1.5/\_downloads/networkx\_reference.pdf}{NetworkX
-1.5}
+Van Mele, Tom; others, many: \sphinxhref{https://compas-dev.github.io/}{COMPAS: A framework for computational
+research in architecture and
+structures}
 
 \end{itemize}
 
 
-\section{Misc Notes}
-\label{\detokenize{README:misc-notes}}\begin{itemize}
+\section{Licensing}
+\label{\detokenize{README:licensing}}\begin{itemize}
+\item {} 
+NetworkX is licensed under the 3\sphinxhyphen{}clause BSD license which can be
+found in \sphinxcode{\sphinxupquote{licenses/networkx}}.
+
+\item {} 
+Some code snippets from the COMPAS framework are used within this
+software. This code is licensed under the MIT License which can be
+found in \sphinxcode{\sphinxupquote{licenses/COMPAS}}.
+
+\end{itemize}
+
+
+\section{Misc}
+\label{\detokenize{README:misc}}\begin{itemize}
 \item {} 
 {[}1{]} This is a hommage to \sphinxhref{https://ieatbugsforbreakfast.wordpress.com/}{David
 Ruttens} delightful
@@ -1625,17 +1665,6 @@ length.
 
 \end{fulllineitems}
 
-\index{make\_gephi\_graph() (cockatoo.KnitNetworkBase method)@\spxentry{make\_gephi\_graph()}\spxextra{cockatoo.KnitNetworkBase method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{cockatoo:cockatoo.KnitNetworkBase.make_gephi_graph}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{make\_gephi\_graph}}}{}{}
-Creates a new graph with attributes for visualising this network
-using Gephi.
-
-Based on code by Anders Holden Deleuran
-
-\end{fulllineitems}
-
 \index{node\_contour\_edges() (cockatoo.KnitNetworkBase method)@\spxentry{node\_contour\_edges()}\spxextra{cockatoo.KnitNetworkBase method}}
 
 \begin{fulllineitems}
@@ -1911,6 +1940,17 @@ attribute, ordered by their ‘num’ attribute.
 
 \end{fulllineitems}
 
+\index{prepare\_for\_gephi() (cockatoo.KnitNetworkBase method)@\spxentry{prepare\_for\_gephi()}\spxextra{cockatoo.KnitNetworkBase method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{cockatoo:cockatoo.KnitNetworkBase.prepare_for_gephi}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{prepare\_for\_gephi}}}{}{}
+Creates a new graph with attributes for visualising this network
+using Gephi.
+
+Based on code by Anders Holden Deleuran
+
+\end{fulllineitems}
+
 \index{prepare\_for\_graphviz() (cockatoo.KnitNetworkBase method)@\spxentry{prepare\_for\_graphviz()}\spxextra{cockatoo.KnitNetworkBase method}}
 
 \begin{fulllineitems}
@@ -2129,8 +2169,8 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \end{description}\end{quote}
 \subsubsection*{Notes}
 
-Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
 \sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
 structures} \sphinxfootnotemark[2].
 
@@ -2179,8 +2219,8 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \end{description}\end{quote}
 \subsubsection*{Notes}
 
-Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
 \sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
 structures} \sphinxfootnotemark[2].
 
@@ -2249,8 +2289,8 @@ network.
 \end{sphinxadmonition}
 \subsubsection*{Notes}
 
-Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
 \sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
 structures} \sphinxfootnotemark[2].
 
@@ -2309,8 +2349,8 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \end{description}\end{quote}
 \subsubsection*{Notes}
 
-Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
 \sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
 structures} \sphinxfootnotemark[2].
 
@@ -2324,8 +2364,8 @@ Loop through all the segment contour edges and create all ‘weft’
 connections for this network.
 \subsubsection*{Notes}
 
-Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
 \sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
 structures} \sphinxfootnotemark[2].
 
@@ -2395,8 +2435,8 @@ edges can only be created using the mapping network.
 \end{description}\end{quote}
 \subsubsection*{Notes}
 
-Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
 \sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
 structures} \sphinxfootnotemark[2].
 
@@ -2504,8 +2544,8 @@ all position contours and creating ‘weft’ edges between the ‘leaf’
 nodes of the position contours.
 \subsubsection*{Notes}
 
-Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
 \sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
 structures} \sphinxfootnotemark[2].
 
@@ -2523,8 +2563,8 @@ their ‘position’ attribute.
 This method is automatically called when creating a KnitNetwork using
 the create\_from\_contours method!
 
-Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
 \sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
 structures} \sphinxfootnotemark[2].
 
@@ -2559,8 +2599,8 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \end{description}\end{quote}
 \subsubsection*{Notes}
 
-Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
 \sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
 structures} \sphinxfootnotemark[2].
 
@@ -2649,8 +2689,8 @@ Defaults to \sphinxcode{\sphinxupquote{False}}.
 \end{description}\end{quote}
 \subsubsection*{Notes}
 
-Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
 \sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
 structures} \sphinxfootnotemark[2].
 
@@ -2682,8 +2722,8 @@ segment contour edge.
 \end{description}\end{quote}
 \subsubsection*{Notes}
 
-Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
 \sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
 structures} \sphinxfootnotemark[2].
 
@@ -2888,8 +2928,8 @@ a node.
 \end{description}\end{quote}
 \subsubsection*{Notes}
 
-Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non\sphinxhyphen{}developable Surfaces* \sphinxfootnotemark[1]. Also see
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
 \sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
 structures} \sphinxfootnotemark[2].
 

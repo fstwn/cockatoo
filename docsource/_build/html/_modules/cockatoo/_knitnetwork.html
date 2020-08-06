@@ -378,7 +378,10 @@
             <span class="c1"># compute divisioncount and divide contour</span>
             <span class="n">dc</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">crv</span><span class="o">.</span><span class="n">GetLength</span><span class="p">()</span> <span class="o">/</span> <span class="n">course_height</span><span class="p">)</span>
             <span class="n">tcrv</span> <span class="o">=</span> <span class="n">crv</span><span class="o">.</span><span class="n">DivideByCount</span><span class="p">(</span><span class="n">dc</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-            <span class="n">dpts</span> <span class="o">=</span> <span class="p">[</span><span class="n">crv</span><span class="o">.</span><span class="n">PointAt</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tcrv</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">tcrv</span><span class="p">:</span>
+                <span class="n">dpts</span> <span class="o">=</span> <span class="p">[</span><span class="n">crv</span><span class="o">.</span><span class="n">PointAtStart</span><span class="p">,</span> <span class="n">crv</span><span class="o">.</span><span class="n">PointAtEnd</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dpts</span> <span class="o">=</span> <span class="p">[</span><span class="n">crv</span><span class="o">.</span><span class="n">PointAt</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tcrv</span><span class="p">]</span>
 
             <span class="c1"># loop over all nodes on the current contour</span>
             <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">point</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dpts</span><span class="p">):</span>
@@ -465,7 +468,7 @@
 <span class="sd">        This method is automatically called when creating a KnitNetwork using</span>
 <span class="sd">        the create_from_contours method!</span>
 
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -490,7 +493,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -553,7 +556,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -608,7 +611,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -835,7 +838,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -897,12 +900,12 @@
 
                 <span class="c1"># select target position and continue in edge case scenarios</span>
                 <span class="n">target_positions</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">if</span> <span class="n">target_positionA</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">target_positionA</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">target_positionB</span> <span class="ow">in</span> <span class="n">conPos</span><span class="p">:</span>
                         <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;Node is connected. Skipping...&quot;</span><span class="p">)</span>
                         <span class="k">continue</span>
                     <span class="n">target_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target_positionB</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">target_positionB</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="n">target_positionB</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">target_positionA</span> <span class="ow">in</span> <span class="n">conPos</span><span class="p">:</span>
                         <span class="n">v_print</span><span class="p">(</span><span class="s2">&quot;Node is connected. Skipping...&quot;</span><span class="p">)</span>
                         <span class="k">continue</span>
@@ -917,8 +920,8 @@
                 <span class="k">elif</span> <span class="p">((</span><span class="n">target_positionA</span> <span class="ow">in</span> <span class="n">conPos</span><span class="p">)</span> <span class="ow">and</span>
                       <span class="p">(</span><span class="n">target_positionB</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">conPos</span><span class="p">)):</span>
                     <span class="n">target_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target_positionB</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="p">(</span><span class="n">target_positionA</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span>
-                      <span class="n">target_positionB</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">conPos</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">target_positionA</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span>
+                      <span class="n">target_positionB</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">conPos</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
                     <span class="n">target_positions</span> <span class="o">=</span> <span class="p">[</span><span class="n">target_positionA</span><span class="p">,</span> <span class="n">target_positionB</span><span class="p">]</span>
 
                 <span class="c1"># print info on verbose setting</span>
@@ -1034,7 +1037,7 @@
                         <span class="n">end_of_window</span> <span class="o">=</span> <span class="kc">None</span>
 
                     <span class="c1"># define the window</span>
-                    <span class="k">if</span> <span class="n">end_of_window</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">end_of_window</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="n">window</span> <span class="o">=</span> <span class="p">[</span><span class="n">start_of_window</span><span class="p">]</span>
                     <span class="k">elif</span> <span class="n">end_of_window</span> <span class="o">==</span> <span class="n">start_of_window</span><span class="p">:</span>
                         <span class="n">window</span> <span class="o">=</span> <span class="p">[</span><span class="n">start_of_window</span><span class="p">]</span>
@@ -1207,7 +1210,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -1216,7 +1219,7 @@
         <span class="c1"># get all the positions / contours</span>
         <span class="n">AllPositions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_nodes_by_position</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">start_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">start_index</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># get index of longest contour</span>
             <span class="n">start_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">longest_position_contour</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">start_index</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">AllPositions</span><span class="p">):</span>
@@ -1297,14 +1300,14 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># if no contour set is provided, use all contours of this network</span>
-        <span class="k">if</span> <span class="n">contour_set</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">contour_set</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">contour_set</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_nodes_by_position</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># loop through all positions in the set of contours</span>
@@ -1342,12 +1345,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># initialize output lists</span>
-        <span class="k">if</span> <span class="n">way_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">way_nodes</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">way_nodes</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
             <span class="n">way_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">start_node</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">way_edges</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">way_edges</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">way_edges</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">end_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">end_nodes</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">end_nodes</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
 
         <span class="c1"># get the connected edges and filter them, sort out the ones that</span>
@@ -1355,7 +1358,7 @@
         <span class="n">connected_weft_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_weft_edges</span><span class="p">(</span><span class="n">start_node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">filtered_weft_edges</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">cwe</span> <span class="ow">in</span> <span class="n">connected_weft_edges</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">cwe</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cwe</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="n">cwe</span> <span class="ow">in</span> <span class="n">way_edges</span><span class="p">:</span>
                 <span class="k">continue</span>
@@ -1414,6 +1417,7 @@
                 <span class="c1"># append the relevant data to the lists</span>
                 <span class="n">way_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">connected_node</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
                 <span class="n">way_edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fwec</span><span class="p">)</span>
+
                 <span class="c1"># call this method recursively until a &#39;end&#39; node is found</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_traverse_weft_edge_until_end</span><span class="p">(</span>
                                                     <span class="n">start_end_node</span><span class="p">,</span>
@@ -1442,29 +1446,36 @@
         <span class="c1"># loop through all connected weft edges</span>
         <span class="n">seen_segments</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">cwe</span> <span class="ow">in</span> <span class="n">weft_connections</span><span class="p">:</span>
+            <span class="c1"># check if connected weft edge already has a segment attribute</span>
             <span class="k">if</span> <span class="n">cwe</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]:</span>
                 <span class="k">continue</span>
 
-            <span class="c1"># check the connected node. if it is an end node,</span>
-            <span class="c1"># set the respective keys</span>
+            <span class="c1"># get connected node</span>
             <span class="n">connected_node</span> <span class="o">=</span> <span class="p">(</span><span class="n">cwe</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">cwe</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
 
+            <span class="c1"># check the connected node. if it is an end node, we are done</span>
             <span class="k">if</span> <span class="n">connected_node</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;end&quot;</span><span class="p">]:</span>
+                <span class="c1"># get segment start and end</span>
                 <span class="k">if</span> <span class="n">start_end_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">connected_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                     <span class="n">segStart</span> <span class="o">=</span> <span class="n">connected_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="n">segEnd</span> <span class="o">=</span> <span class="n">start_end_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">segStart</span> <span class="o">=</span> <span class="n">start_end_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="n">segEnd</span> <span class="o">=</span> <span class="n">connected_node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="c1"># get segment index</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">segStart</span><span class="p">,</span> <span class="n">segEnd</span><span class="p">)</span> <span class="ow">in</span> <span class="n">seen_segments</span><span class="p">:</span>
                     <span class="n">segIndex</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">seen_segments</span>
                                     <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="p">(</span><span class="n">segStart</span><span class="p">,</span> <span class="n">segEnd</span><span class="p">)])</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">segIndex</span> <span class="o">=</span> <span class="mi">0</span>
+
                 <span class="c1"># set the final segment attribute to the edge</span>
                 <span class="bp">self</span><span class="p">[</span><span class="n">cwe</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">cwe</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="s2">&quot;segment&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">segStart</span><span class="p">,</span> <span class="n">segEnd</span><span class="p">,</span> <span class="n">segIndex</span><span class="p">)</span>
                 <span class="n">seen_segments</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">segStart</span><span class="p">,</span> <span class="n">segEnd</span><span class="p">))</span>
 
+            <span class="c1"># if the connected node is not an end node, we need to travel</span>
+            <span class="c1"># until we find one</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">seen_segments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_traverse_weft_edge_until_end</span><span class="p">(</span>
                                                         <span class="n">start_end_node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
@@ -1534,7 +1545,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -1624,7 +1635,7 @@
 
         <span class="c1"># set mapping network to instance</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">mapping_network</span><span class="p">,</span> <span class="n">KnitMappingNetwork</span><span class="p">)</span>
-                <span class="ow">or</span> <span class="n">mapping_network</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="ow">or</span> <span class="n">mapping_network</span> <span class="o">==</span> <span class="kc">None</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_mapping_network</span> <span class="o">=</span> <span class="n">mapping_network</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input is not of type KnitMappingNetwork!&quot;</span><span class="p">)</span>
@@ -1744,7 +1755,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -1780,6 +1791,8 @@
             <span class="n">divPts</span> <span class="o">=</span> <span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">PointAt</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">divT</span><span class="p">]</span>
 
             <span class="c1"># set leaf attribute</span>
+            <span class="c1"># TODO: better leaf strategy - this works but assigns false</span>
+            <span class="c1"># leaf nodes. usually not a problem but it should be fixed anyway</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">seg</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">seg</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="s2">&quot;leaf&quot;</span><span class="p">]:</span>
                 <span class="n">nodeLeaf</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">else</span><span class="p">:</span>
@@ -1812,7 +1825,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -1884,7 +1897,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -1926,7 +1939,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -2126,7 +2139,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -2254,7 +2267,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -2784,7 +2797,7 @@
                         <span class="n">end_of_window</span> <span class="o">=</span> <span class="kc">None</span>
 
                     <span class="c1"># if we have a valid window, set the target nodes</span>
-                    <span class="k">if</span> <span class="n">start_of_window</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">end_of_window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">start_of_window</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">end_of_window</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">end_of_window</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_chain_nodes</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                             <span class="n">window</span> <span class="o">=</span> <span class="n">target_chain_nodes</span><span class="p">[</span><span class="n">start_of_window</span><span class="p">:]</span>
                         <span class="k">else</span><span class="p">:</span>
@@ -2918,7 +2931,7 @@
                         <span class="n">end_of_window</span> <span class="o">=</span> <span class="kc">None</span>
 
                     <span class="c1"># if there is a valid window, set the target chain nodes</span>
-                    <span class="k">if</span> <span class="n">start_of_window</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">end_of_window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">start_of_window</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">end_of_window</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">end_of_window</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_chain_nodes</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                             <span class="n">window</span> <span class="o">=</span> <span class="n">target_chain_nodes</span><span class="p">[</span><span class="n">start_of_window</span><span class="p">:]</span>
                         <span class="k">else</span><span class="p">:</span>
@@ -3118,7 +3131,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -3196,7 +3209,7 @@
             <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_geometry_direction</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
             <span class="n">cycle_a</span> <span class="o">=</span> <span class="n">edge_to_cycle</span><span class="p">[(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)]</span>
             <span class="n">cycle_b</span> <span class="o">=</span> <span class="n">edge_to_cycle</span><span class="p">[(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)]</span>
-            <span class="k">if</span> <span class="n">cycle_a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cycle_b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cycle_a</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cycle_b</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">node_a</span> <span class="o">=</span> <span class="p">(</span><span class="n">cycle_a</span><span class="p">,</span> <span class="n">DualNetwork</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">cycle_a</span><span class="p">])</span>
                 <span class="n">node_b</span> <span class="o">=</span> <span class="p">(</span><span class="n">cycle_b</span><span class="p">,</span> <span class="n">DualNetwork</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">cycle_b</span><span class="p">])</span>
                 <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]:</span>

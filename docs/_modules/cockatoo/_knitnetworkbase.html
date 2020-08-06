@@ -292,7 +292,6 @@
         <span class="n">blue</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
 
         <span class="n">col_regular</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
-        <span class="n">col_start</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span>
         <span class="n">col_start_leaf</span> <span class="o">=</span> <span class="s2">&quot;seagreen&quot;</span>
         <span class="n">col_start_leaf_end</span> <span class="o">=</span> <span class="s2">&quot;orange&quot;</span>
         <span class="n">col_start_end</span> <span class="o">=</span> <span class="s2">&quot;darkgreen&quot;</span>
@@ -390,9 +389,16 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">node_label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">node_type</span>
 
-            <span class="n">node_attributes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
-                               <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
-                               <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">],</span>
+            <span class="c1"># make pos attribute for orthogonal layouting</span>
+            <span class="k">if</span> <span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">node_pos</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+                            <span class="nb">str</span><span class="p">(</span><span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+                            <span class="nb">str</span><span class="p">(</span><span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">node_pos</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+                            <span class="nb">str</span><span class="p">(</span><span class="n">ndata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]))</span>
+
+            <span class="n">node_attributes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="n">node_pos</span><span class="p">,</span>
                                <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">node_label</span><span class="p">,</span>
                                <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="n">node_shape</span><span class="p">,</span>
                                <span class="s2">&quot;fontname&quot;</span><span class="p">:</span> <span class="n">font</span><span class="p">,</span>
@@ -420,9 +426,10 @@
             <span class="n">edge_info</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">edge_segment</span> <span class="o">=</span> <span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">edge_segment</span><span class="p">:</span>
-                <span class="n">edge_label</span> <span class="o">=</span> <span class="n">edge_info</span> <span class="o">+</span> <span class="n">edge_type</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">edge_segment</span><span class="p">)</span>
+                <span class="n">edge_label</span> <span class="o">=</span> <span class="p">(</span><span class="n">padding</span> <span class="o">+</span> <span class="n">edge_info</span> <span class="o">+</span> <span class="n">edge_type</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span>
+                              <span class="nb">str</span><span class="p">(</span><span class="n">edge_segment</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">edge_label</span> <span class="o">=</span> <span class="n">edge_info</span> <span class="o">+</span> <span class="n">edge_type</span>
+                <span class="n">edge_label</span> <span class="o">=</span> <span class="n">padding</span> <span class="o">+</span> <span class="n">edge_info</span> <span class="o">+</span> <span class="n">edge_type</span>
 
             <span class="n">DotGraph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span>
                             <span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
@@ -436,7 +443,7 @@
 
         <span class="k">return</span> <span class="n">DotGraph</span></div>
 
-<div class="viewcode-block" id="KnitNetworkBase.make_gephi_graph"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.make_gephi_graph">[docs]</a>    <span class="k">def</span> <span class="nf">make_gephi_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="KnitNetworkBase.prepare_for_gephi"><a class="viewcode-back" href="../../cockatoo.html#cockatoo.KnitNetworkBase.prepare_for_gephi">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_for_gephi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a new graph with attributes for visualising this network</span>
 <span class="sd">        using Gephi.</span>
@@ -446,7 +453,6 @@
 
         <span class="c1"># colors</span>
         <span class="n">black</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
-        <span class="n">white</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span>
         <span class="n">blue</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
         <span class="n">red</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
         <span class="n">green</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span>
@@ -721,7 +727,7 @@
 
         <span class="n">allPositionNodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
                                 <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                                 <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">],</span>
+                                 <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">],</span>
                                 <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;position&quot;</span><span class="p">])</span>
 
         <span class="n">posdict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
@@ -790,7 +796,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">leaves</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">]</span>
+                  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">leaves</span>
 
@@ -848,7 +854,7 @@
 
         <span class="n">allPositionLeaves</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
                             <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                             <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]],</span>
+                             <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;leaf&quot;</span><span class="p">]],</span>
                             <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;position&quot;</span><span class="p">])</span>
 
         <span class="n">posdict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
@@ -933,7 +939,7 @@
 
         <span class="n">allPositionEnds</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
                             <span class="p">[(</span><span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_iter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                             <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]],</span>
+                             <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]],</span>
                             <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;position&quot;</span><span class="p">])</span>
 
         <span class="n">posdict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>

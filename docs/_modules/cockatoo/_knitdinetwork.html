@@ -322,8 +322,8 @@
 <span class="sd">            List of outgoing &#39;weft&#39; edges.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
-                      <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
+        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
 
         <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">weft_edges</span>
@@ -351,8 +351,8 @@
 <span class="sd">            List of incoming &#39;weft&#39; edges.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
-                      <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
+        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
 
         <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">weft_edges</span>
@@ -381,10 +381,10 @@
 <span class="sd">            List of incoming and outgoing &#39;weft&#39; edges.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
-                      <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
-        <span class="n">weft_edges</span><span class="o">.</span><span class="n">extend</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
-                          <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;weft&quot;</span><span class="p">])</span>
+        <span class="n">weft_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;weft&quot;</span><span class="p">]]</span>
+        <span class="n">weft_edges</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;weft&quot;</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">weft_edges</span>
@@ -414,8 +414,8 @@
 <span class="sd">            List of outgoing &#39;warp&#39; edges.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
-                      <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
+        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
 
         <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">warp_edges</span>
@@ -443,8 +443,8 @@
 <span class="sd">            List of incoming &#39;warp&#39; edges.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
-                      <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
+        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
 
         <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">warp_edges</span>
@@ -474,10 +474,10 @@
 <span class="sd">            List of incoming and outgoing &#39;warp&#39; edges.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
-                      <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
-        <span class="n">warp_edges</span><span class="o">.</span><span class="n">extend</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span>
-                          <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;warp&quot;</span><span class="p">])</span>
+        <span class="n">warp_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;warp&quot;</span><span class="p">]]</span>
+        <span class="n">warp_edges</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">in_edges_iter</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s2">&quot;warp&quot;</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">warp_edges</span>
@@ -969,7 +969,7 @@
         <span class="c1"># loop over all edges and find cycles</span>
         <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges_iter</span><span class="p">():</span>
             <span class="c1"># find cycles for u -&gt; v edges</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">cycle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_edge_cycle</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
                 <span class="n">frozen</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">frozen</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">found</span><span class="p">:</span>
@@ -979,7 +979,7 @@
                 <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">pairwise</span><span class="p">(</span><span class="n">cycle</span> <span class="o">+</span> <span class="n">cycle</span><span class="p">[:</span><span class="mi">1</span><span class="p">]):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">found</span><span class="p">[</span><span class="n">frozen</span><span class="p">]</span>
             <span class="c1"># find cycles for v -&gt; u edges</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">u</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">halfedge</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">u</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">cycle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_edge_cycle</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
                 <span class="n">frozen</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">frozen</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">found</span><span class="p">:</span>
@@ -1172,7 +1172,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Closely resembles the implementation described in Automated Generation</span>
+<span class="sd">        Closely resembles the implementation described in *Automated Generation</span>
 <span class="sd">        of Knit Patterns for Non-developable Surfaces* [1]_. Also see</span>
 <span class="sd">        *KnitCrete - Stay-in-place knitted formworks for complex concrete</span>
 <span class="sd">        structures* [2]_.</span>
@@ -1431,119 +1431,169 @@
 
         <span class="c1"># use nx topological sort for rows</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">ordered_row_ids</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">topological_sort_recursive</span><span class="p">(</span><span class="n">row_map</span><span class="p">)</span>
+            <span class="n">ordered_row_ids</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">topological_sort</span><span class="p">(</span><span class="n">row_map</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">nx</span><span class="o">.</span><span class="n">NetworkXError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
         <span class="k">except</span> <span class="n">nx</span><span class="o">.</span><span class="n">NetworkXUnfeasible</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
 
-        <span class="c1"># get the rows with the backtracking result</span>
+        <span class="c1"># get the rows with the topological sorted result</span>
         <span class="n">toposort_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">id2row</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">ordered_row_ids</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">toposort_rows</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="s2">&quot;chain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
 
-        <span class="c1"># TOPOLOGICAL SORT OF COLUMNS -----------------------------------------</span>
-
-        <span class="c1"># own method of topological sort for columns (in utilities)</span>
-        <span class="c1"># ordered_column_stack = resolve_order_by_backtracking(col_map)</span>
-
-        <span class="c1"># use nx topological sort for columns</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">ordered_column_stack</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">topological_sort_recursive</span><span class="p">(</span><span class="n">col_map</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">nx</span><span class="o">.</span><span class="n">NetworkXError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
-        <span class="k">except</span> <span class="n">nx</span><span class="o">.</span><span class="n">NetworkXUnfeasible</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
-
-        <span class="c1"># SPREAD OUT BY FILLING WITH -1 FILLER --------------------------------</span>
-
-        <span class="c1"># fill all the rows to minimum row length with placeholder values (-1)</span>
-        <span class="n">minrl</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">])</span>
-        <span class="c1"># loop over all rows and fill until minimum length</span>
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">id2row</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">row</span> <span class="o">=</span> <span class="n">id2row</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">minrl</span><span class="p">):</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">node</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-                <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-                    <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
-            <span class="n">id2row</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span>
-
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ordered_column_stack</span><span class="p">):</span>
-            <span class="c1"># get column nodes</span>
-            <span class="n">colnodes</span> <span class="o">=</span> <span class="n">id2col</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
-            <span class="c1"># loop over all rows</span>
-            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">toposort_rows</span><span class="p">):</span>
-                <span class="c1"># check the entry at the current column index</span>
-                <span class="c1"># if this entry is not in colnodes, shift it to the right</span>
-                <span class="n">entry</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">colnodes</span><span class="p">:</span>
-                    <span class="n">toposort_rows</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">entry</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">colnodes</span><span class="p">:</span>
-                    <span class="n">toposort_rows</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-
-        <span class="c1"># trim final topological sorted rows</span>
-        <span class="n">trim</span> <span class="o">=</span> <span class="n">toposort_rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">toposort_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">btr</span><span class="p">[:</span><span class="n">trim</span><span class="p">]</span> <span class="k">for</span> <span class="n">btr</span> <span class="ow">in</span> <span class="n">toposort_rows</span><span class="p">]</span>
-
-        <span class="c1"># TODO: tune consolidation routine to new idea:</span>
-        <span class="c1">#       if a row is discovered don&#39;t touch it until its start is found</span>
-        <span class="c1">#       then find the previous row to which it connects</span>
-        <span class="c1">#       &#39;pull&#39; the row to the connection index</span>
-
-        <span class="c1"># NOTE: handle increases on the way!</span>
-
         <span class="k">if</span> <span class="n">consolidate</span><span class="p">:</span>
-            <span class="c1"># swap / transpose rows and columns</span>
-            <span class="n">spread_columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">toposort_rows</span><span class="p">[:])))</span>
+            <span class="c1"># HORIZONTAL CONSOLIDATION ----------------------------------------</span>
+            <span class="n">consolidated_rows</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">toposort_rows</span><span class="p">):</span>
+                <span class="c1"># if we are at the first row, just insert it</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">consolidated_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                    <span class="k">continue</span>
 
-            <span class="n">row_has_started</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">toposort_rows</span><span class="p">))}</span>
-            <span class="n">row_has_ended</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">toposort_rows</span><span class="p">))}</span>
+                <span class="c1"># else get the previously inserted rows</span>
+                <span class="n">prevrows</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">consolidated_rows</span><span class="p">)</span>
+                <span class="c1"># find first incoming warp edge that connects to a previous row</span>
+                <span class="k">for</span> <span class="n">prevrow</span> <span class="ow">in</span> <span class="n">prevrows</span><span class="p">:</span>
+                    <span class="n">row_found</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                        <span class="n">warp_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_warp_edges_in</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">warp_in</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">warp_in</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">prevrow</span><span class="p">:</span>
+                                <span class="k">continue</span>
+                            <span class="n">connection_node</span> <span class="o">=</span> <span class="n">warp_in</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                            <span class="n">connection_index</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">connection_node</span><span class="p">)</span>
+                            <span class="n">prevrow_connection_node</span> <span class="o">=</span> <span class="n">warp_in</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="n">prevrow_connection_index</span> <span class="o">=</span> <span class="n">prevrow</span><span class="o">.</span><span class="n">index</span><span class="p">(</span>
+                                                    <span class="n">prevrow_connection_node</span><span class="p">)</span>
+                            <span class="n">row_found</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">if</span> <span class="n">row_found</span><span class="p">:</span>
+                        <span class="k">break</span>
 
-            <span class="n">consolidated_rows</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">toposort_rows</span><span class="p">))]</span>
-            <span class="n">toposort_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">deque</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">toposort_rows</span><span class="p">]</span>
+                <span class="c1"># compute offset</span>
+                <span class="k">if</span> <span class="n">connection_index</span> <span class="o">==</span> <span class="n">prevrow_connection_index</span><span class="p">:</span>
+                    <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">offset</span> <span class="o">=</span> <span class="n">prevrow_connection_index</span> <span class="o">-</span> <span class="n">connection_index</span>
 
-            <span class="c1"># while len(spread_columns) &gt; 0:</span>
-            <span class="c1">#     popped_column = spread_columns.popleft()</span>
-            <span class="c1">#</span>
-            <span class="c1">#     insert_all_unstarted = False</span>
-            <span class="c1">#     insert_all_started = False</span>
-            <span class="c1">#</span>
-            <span class="c1">#     # for each column, loop over all row indices</span>
-            <span class="c1">#     for j in range(len(popped_column)):</span>
-            <span class="c1">#</span>
-            <span class="c1">#         popped_row_item = toposort_rows[j].popleft()</span>
-            <span class="c1">#</span>
-            <span class="c1">#         if popped_row_item != -1:</span>
-            <span class="c1">#             if self.node[popped_row_item][&quot;start&quot;]:</span>
-            <span class="c1">#                 row_has_started[j] = True</span>
-            <span class="c1">#                 insert_all_unstarted = True</span>
-            <span class="c1">#             elif (not self.node[popped_row_item][&quot;start&quot;] \</span>
-            <span class="c1">#                   and self.node[popped_row_item][&quot;end&quot;]):</span>
-            <span class="c1">#                 row_has_ended[j] = True</span>
-            <span class="c1">#                 insert_all_unstarted = True</span>
-            <span class="c1">#             elif (self.node[popped_row_item][&quot;start&quot;] \</span>
-            <span class="c1">#                   and self.node[popped_row_item][&quot;end&quot;]):</span>
-            <span class="c1">#                 row_has_ended[j] = True</span>
-            <span class="c1">#                 insert_all_unstarted = True</span>
-            <span class="c1">#</span>
-            <span class="c1">#             consolidated_rows[j].append(popped_row_item)</span>
-            <span class="c1">#</span>
-            <span class="c1">#         elif popped_row_item == -1:</span>
-            <span class="c1">#             if row_has_started[j] and not row_has_ended[j]:</span>
-            <span class="c1">#                 continue</span>
-            <span class="c1">#             elif row_has_started[j] and row_has_ended[j]:</span>
-            <span class="c1">#                 consolidated_rows[j].append(-1)</span>
-            <span class="c1">#             elif not row_has_started[j] and not row_has_ended[j]:</span>
-            <span class="c1">#                 continue</span>
-            <span class="c1">#</span>
-            <span class="c1">#     if insert_all_unstarted:</span>
-            <span class="c1">#         for k, row in enumerate(consolidated_rows):</span>
-            <span class="c1">#             if not row_has_started[k]:</span>
-            <span class="c1">#                 consolidated_rows[k].append(-1)</span>
+                <span class="c1"># execute offset and append to consolidated rows</span>
+                <span class="k">if</span> <span class="n">offset</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">consolidated_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">offset</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">consrow</span> <span class="ow">in</span> <span class="n">consolidated_rows</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">offset</span><span class="p">)):</span>
+                            <span class="n">consrow</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">consolidated_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">offset</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">offset_list</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+                    <span class="n">offset_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                    <span class="n">consolidated_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">offset_list</span><span class="p">)</span>
 
-            <span class="k">return</span> <span class="n">consolidated_rows</span>
+            <span class="c1"># fill to minlength</span>
+            <span class="n">minrl</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">consolidated_rows</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">consolidated_rows</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">!=</span> <span class="n">minrl</span><span class="p">:</span>
+                    <span class="n">row</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">minrl</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)))</span>
+
+            <span class="c1"># VERTICAL CONSOLIDATION ------------------------------------------</span>
+            <span class="n">vert_consolidated_rows</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">consolidated_rows</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">vert_consolidated_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># get the first index that is not -1</span>
+                <span class="n">rowstart</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">rowend</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">nodevalue</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">nodevalue</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">rowstart</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">rowstart</span> <span class="o">=</span> <span class="n">j</span>
+                        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="n">rowend</span> <span class="o">=</span> <span class="n">rowstart</span>
+                            <span class="k">break</span>
+                        <span class="k">continue</span>
+                    <span class="k">elif</span> <span class="n">nodevalue</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">rowstart</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">rowend</span> <span class="o">=</span> <span class="n">j</span>
+                        <span class="k">break</span>
+                    <span class="k">elif</span> <span class="p">(</span><span class="n">nodevalue</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span>
+                          <span class="n">j</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span>
+                          <span class="n">rowstart</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+                        <span class="n">rowend</span> <span class="o">=</span> <span class="n">j</span>
+                        <span class="k">break</span>
+
+                <span class="c1"># get previous inserted rows and loop over them</span>
+                <span class="n">prevrows</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">vert_consolidated_rows</span><span class="p">)</span>
+
+                <span class="n">insertion_index</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">prevrow</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">prevrows</span><span class="p">):</span>
+                    <span class="c1"># get window</span>
+                    <span class="n">window</span> <span class="o">=</span> <span class="n">prevrow</span><span class="p">[</span><span class="n">rowstart</span><span class="p">:</span><span class="n">rowend</span><span class="p">]</span>
+                    <span class="c1"># check if the window on the previous row is free</span>
+                    <span class="k">if</span> <span class="n">window</span> <span class="o">==</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">window</span><span class="p">):</span>
+                        <span class="n">insertion_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vert_consolidated_rows</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">j</span>
+                        <span class="k">continue</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">break</span>
+
+                <span class="k">if</span> <span class="n">insertion_index</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">insertion_row</span> <span class="o">=</span> <span class="n">vert_consolidated_rows</span><span class="p">[</span><span class="n">insertion_index</span><span class="p">]</span>
+                    <span class="n">merged_row</span> <span class="o">=</span> <span class="n">insertion_row</span><span class="p">[:</span><span class="n">rowstart</span><span class="p">]</span>
+                    <span class="n">merged_row</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">rowstart</span><span class="p">:</span><span class="n">rowend</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+                    <span class="n">merged_row</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">insertion_row</span><span class="p">[</span><span class="n">rowend</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:])</span>
+
+                    <span class="n">vert_consolidated_rows</span><span class="p">[</span><span class="n">insertion_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">merged_row</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">vert_consolidated_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">vert_consolidated_rows</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># TOPOLOGICAL SORT OF COLUMNS -------------------------------------</span>
+
+            <span class="c1"># own method of topological sort for columns (in utilities)</span>
+            <span class="c1"># ordered_column_stack = resolve_order_by_backtracking(col_map)</span>
+
+            <span class="c1"># use nx topological sort for columns</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ordered_column_stack</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">topological_sort</span><span class="p">(</span><span class="n">col_map</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">nx</span><span class="o">.</span><span class="n">NetworkXError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+            <span class="k">except</span> <span class="n">nx</span><span class="o">.</span><span class="n">NetworkXUnfeasible</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">KnitNetworkTopologyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+
+            <span class="c1"># SPREAD OUT BY FILLING WITH -1 FILLER ----------------------------</span>
+
+            <span class="c1"># fill all the rows to minimum row length with </span>
+            <span class="c1"># placeholder values (-1)</span>
+            <span class="n">minrl</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">])</span>
+            <span class="c1"># loop over all rows and fill until minimum length</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">id2row</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="n">id2row</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">minrl</span><span class="p">):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">node</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                        <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">id2row</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span>
+
+            <span class="c1"># spread out rows according to toposorted columns</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ordered_column_stack</span><span class="p">):</span>
+                <span class="c1"># get column nodes</span>
+                <span class="n">colnodes</span> <span class="o">=</span> <span class="n">id2col</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+                <span class="c1"># loop over all rows</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">toposort_rows</span><span class="p">):</span>
+                    <span class="c1"># check the entry at the current column index</span>
+                    <span class="c1"># if this entry is not in colnodes, shift it to the right</span>
+                    <span class="n">entry</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">colnodes</span><span class="p">:</span>
+                        <span class="n">toposort_rows</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">entry</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">colnodes</span><span class="p">:</span>
+                        <span class="n">toposort_rows</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># trim final topological sorted rows</span>
+            <span class="n">trim</span> <span class="o">=</span> <span class="n">toposort_rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">toposort_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">btr</span><span class="p">[:</span><span class="n">trim</span><span class="p">]</span> <span class="k">for</span> <span class="n">btr</span> <span class="ow">in</span> <span class="n">toposort_rows</span><span class="p">]</span>
 
         <span class="c1"># return all sorted rows</span>
         <span class="k">return</span> <span class="n">toposort_rows</span></div></div>

@@ -6,194 +6,194 @@
 
   \bigletter A
   \item \spxentry{all\_ends\_by\_position()}\spxextra{cockatoo.KnitNetworkBase method}, 
-		\hyperpage{12}
+		\hyperpage{14}
   \item \spxentry{all\_leaves\_by\_position()}\spxextra{cockatoo.KnitNetworkBase method}, 
-		\hyperpage{12}
+		\hyperpage{14}
   \item \spxentry{all\_nodes\_by\_position()}\spxextra{cockatoo.KnitNetworkBase method}, 
-		\hyperpage{12}
-  \item \spxentry{all\_nodes\_by\_segment()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{18}
+		\hyperpage{14}
+  \item \spxentry{all\_nodes\_by\_segment()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{20}
   \item \spxentry{assign\_segment\_attributes()}\spxextra{cockatoo.KnitNetwork method}, 
-		\hyperpage{19}
+		\hyperpage{21}
   \item \spxentry{attempt\_warp\_connection()}\spxextra{cockatoo.KnitNetwork method}, 
-		\hyperpage{19}
+		\hyperpage{21}
   \item \spxentry{attempt\_weft\_connection()}\spxextra{cockatoo.KnitNetwork method}, 
-		\hyperpage{19}
+		\hyperpage{21}
 
   \indexspace
   \bigletter B
-  \item \spxentry{blend\_colors()}\spxextra{in module cockatoo.utilities}, \hyperpage{7}
-  \item \spxentry{break\_polyline()}\spxextra{in module cockatoo.utilities}, \hyperpage{8}
-  \item \spxentry{build\_chains()}\spxextra{cockatoo.KnitMappingNetwork method}, \hyperpage{30}
+  \item \spxentry{blend\_colors()}\spxextra{in module cockatoo.utilities}, \hyperpage{9}
+  \item \spxentry{break\_polyline()}\spxextra{in module cockatoo.utilities}, \hyperpage{10}
+  \item \spxentry{build\_chains()}\spxextra{cockatoo.KnitMappingNetwork method}, \hyperpage{32}
 
   \indexspace
   \bigletter C
   \item \spxentry{cockatoo}
-    \subitem \spxentry{module}, \hyperpage{4}
-  \item \spxentry{cockatoo.environment}
     \subitem \spxentry{module}, \hyperpage{5}
-  \item \spxentry{cockatoo.exception}
-    \subitem \spxentry{module}, \hyperpage{6}
-  \item \spxentry{cockatoo.utilities}
+  \item \spxentry{cockatoo.environment}
     \subitem \spxentry{module}, \hyperpage{7}
-  \item \spxentry{CockatooException}, \hyperpage{6}
-  \item \spxentry{CockatooImportException}, \hyperpage{6}
-  \item \spxentry{contour\_edges()}\spxextra{cockatoo.KnitNetworkBase property}, \hyperpage{12}
+  \item \spxentry{cockatoo.exception}
+    \subitem \spxentry{module}, \hyperpage{8}
+  \item \spxentry{cockatoo.utilities}
+    \subitem \spxentry{module}, \hyperpage{9}
+  \item \spxentry{CockatooException}, \hyperpage{8}
+  \item \spxentry{CockatooImportException}, \hyperpage{8}
+  \item \spxentry{contour\_edges()}\spxextra{cockatoo.KnitNetworkBase property}, \hyperpage{14}
   \item \spxentry{create\_contour\_edge()}\spxextra{cockatoo.KnitNetworkBase method}, 
-		\hyperpage{12}
-  \item \spxentry{create\_dual()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{20}
+		\hyperpage{14}
+  \item \spxentry{create\_dual()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{22}
   \item \spxentry{create\_final\_warp\_connections()}\spxextra{cockatoo.KnitNetwork method}, 
-		\hyperpage{20}
+		\hyperpage{22}
   \item \spxentry{create\_final\_weft\_connections()}\spxextra{cockatoo.KnitNetwork method}, 
-		\hyperpage{21}
+		\hyperpage{23}
   \item \spxentry{create\_from\_contours()}\spxextra{cockatoo.KnitNetwork class method}, 
-		\hyperpage{21}
-  \item \spxentry{create\_mapping\_network()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{22}
-  \item \spxentry{create\_mesh()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{26}
-  \item \spxentry{create\_mesh()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{22}
+		\hyperpage{23}
+  \item \spxentry{create\_mapping\_network()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{24}
+  \item \spxentry{create\_mesh()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{28}
+  \item \spxentry{create\_mesh()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{24}
   \item \spxentry{create\_segment\_contour\_edge()}\spxextra{cockatoo.KnitNetworkBase method}, 
-		\hyperpage{12}
-  \item \spxentry{create\_warp\_edge()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{13}
-  \item \spxentry{create\_weft\_edge()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{13}
+		\hyperpage{14}
+  \item \spxentry{create\_warp\_edge()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{15}
+  \item \spxentry{create\_weft\_edge()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{15}
 
   \indexspace
   \bigletter E
   \item \spxentry{edge\_geometry\_direction()}\spxextra{cockatoo.KnitNetworkBase method}, 
-		\hyperpage{13}
-  \item \spxentry{end\_course()}\spxextra{cockatoo.KnitConstraint property}, \hyperpage{11}
+		\hyperpage{15}
+  \item \spxentry{end\_course()}\spxextra{cockatoo.KnitConstraint property}, \hyperpage{13}
   \item \spxentry{end\_node\_segments\_by\_end()}\spxextra{cockatoo.KnitNetworkBase method}, 
-		\hyperpage{13}
+		\hyperpage{15}
   \item \spxentry{end\_node\_segments\_by\_start()}\spxextra{cockatoo.KnitNetworkBase method}, 
-		\hyperpage{14}
-  \item \spxentry{end\_nodes()}\spxextra{cockatoo.KnitNetworkBase property}, \hyperpage{14}
-  \item \spxentry{ends\_on\_position()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{14}
+		\hyperpage{16}
+  \item \spxentry{end\_nodes()}\spxextra{cockatoo.KnitNetworkBase property}, \hyperpage{16}
+  \item \spxentry{ends\_on\_position()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{16}
 
   \indexspace
   \bigletter F
-  \item \spxentry{find\_cycles()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{26}
-  \item \spxentry{find\_cycles()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{22}
+  \item \spxentry{find\_cycles()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{28}
+  \item \spxentry{find\_cycles()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{24}
 
   \indexspace
   \bigletter G
   \item \spxentry{geometry\_at\_position\_contour()}\spxextra{cockatoo.KnitNetworkBase method}, 
-		\hyperpage{14}
+		\hyperpage{16}
 
   \indexspace
   \bigletter I
   \item \spxentry{initialize\_leaf\_connections()}\spxextra{cockatoo.KnitNetwork method}, 
-		\hyperpage{23}
+		\hyperpage{25}
   \item \spxentry{initialize\_position\_contour\_edges()}\spxextra{cockatoo.KnitNetwork method}, 
-		\hyperpage{23}
-  \item \spxentry{initialize\_warp\_edges()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{23}
-  \item \spxentry{initialize\_weft\_edges()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{24}
-  \item \spxentry{is\_ccw\_xy()}\spxextra{in module cockatoo.utilities}, \hyperpage{9}
-  \item \spxentry{is\_rhino\_inside()}\spxextra{in module cockatoo.environment}, \hyperpage{5}
+		\hyperpage{25}
+  \item \spxentry{initialize\_warp\_edges()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{25}
+  \item \spxentry{initialize\_weft\_edges()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{26}
+  \item \spxentry{is\_ccw\_xy()}\spxextra{in module cockatoo.utilities}, \hyperpage{11}
+  \item \spxentry{is\_rhino\_inside()}\spxextra{in module cockatoo.environment}, \hyperpage{7}
 
   \indexspace
   \bigletter K
-  \item \spxentry{KnitConstraint}\spxextra{class in cockatoo}, \hyperpage{11}
-  \item \spxentry{KnitDiNetwork}\spxextra{class in cockatoo}, \hyperpage{25}
-  \item \spxentry{KnitMappingNetwork}\spxextra{class in cockatoo}, \hyperpage{29}
-  \item \spxentry{KnitNetwork}\spxextra{class in cockatoo}, \hyperpage{18}
-  \item \spxentry{KnitNetworkBase}\spxextra{class in cockatoo}, \hyperpage{11}
-  \item \spxentry{KnitNetworkError}, \hyperpage{6}
-  \item \spxentry{KnitNetworkGeometryError}, \hyperpage{6}
-  \item \spxentry{KnitNetworkTopologyError}, \hyperpage{7}
+  \item \spxentry{KnitConstraint}\spxextra{class in cockatoo}, \hyperpage{13}
+  \item \spxentry{KnitDiNetwork}\spxextra{class in cockatoo}, \hyperpage{27}
+  \item \spxentry{KnitMappingNetwork}\spxextra{class in cockatoo}, \hyperpage{31}
+  \item \spxentry{KnitNetwork}\spxextra{class in cockatoo}, \hyperpage{20}
+  \item \spxentry{KnitNetworkBase}\spxextra{class in cockatoo}, \hyperpage{13}
+  \item \spxentry{KnitNetworkError}, \hyperpage{8}
+  \item \spxentry{KnitNetworkGeometryError}, \hyperpage{8}
+  \item \spxentry{KnitNetworkTopologyError}, \hyperpage{9}
 
   \indexspace
   \bigletter L
-  \item \spxentry{leaf\_nodes()}\spxextra{cockatoo.KnitNetworkBase property}, \hyperpage{14}
-  \item \spxentry{leaves\_on\_position()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{14}
-  \item \spxentry{left\_boundary()}\spxextra{cockatoo.KnitConstraint property}, \hyperpage{11}
+  \item \spxentry{leaf\_nodes()}\spxextra{cockatoo.KnitNetworkBase property}, \hyperpage{16}
+  \item \spxentry{leaves\_on\_position()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{16}
+  \item \spxentry{left\_boundary()}\spxextra{cockatoo.KnitConstraint property}, \hyperpage{13}
   \item \spxentry{longest\_position\_contour()}\spxextra{cockatoo.KnitNetworkBase method}, 
-		\hyperpage{15}
+		\hyperpage{17}
 
   \indexspace
   \bigletter M
-  \item \spxentry{make\_gephi\_graph()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{15}
-  \item \spxentry{make\_pattern\_data()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{27}
-  \item \spxentry{map\_values\_as\_colors()}\spxextra{in module cockatoo.utilities}, \hyperpage{8}
-  \item \spxentry{mapping\_network()}\spxextra{cockatoo.KnitNetwork property}, \hyperpage{25}
-  \item \spxentry{MappingNetworkError}, \hyperpage{7}
+  \item \spxentry{make\_pattern\_data()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{29}
+  \item \spxentry{map\_values\_as\_colors()}\spxextra{in module cockatoo.utilities}, \hyperpage{10}
+  \item \spxentry{mapping\_network()}\spxextra{cockatoo.KnitNetwork property}, \hyperpage{27}
+  \item \spxentry{MappingNetworkError}, \hyperpage{9}
   \item \spxentry{module}
-    \subitem \spxentry{cockatoo}, \hyperpage{4}
-    \subitem \spxentry{cockatoo.environment}, \hyperpage{5}
-    \subitem \spxentry{cockatoo.exception}, \hyperpage{6}
-    \subitem \spxentry{cockatoo.utilities}, \hyperpage{7}
+    \subitem \spxentry{cockatoo}, \hyperpage{5}
+    \subitem \spxentry{cockatoo.environment}, \hyperpage{7}
+    \subitem \spxentry{cockatoo.exception}, \hyperpage{8}
+    \subitem \spxentry{cockatoo.utilities}, \hyperpage{9}
 
   \indexspace
   \bigletter N
-  \item \spxentry{networkx\_version()}\spxextra{in module cockatoo.environment}, \hyperpage{5}
-  \item \spxentry{NetworkXNotPresentError}, \hyperpage{6}
-  \item \spxentry{NetworkXVersionError}, \hyperpage{6}
-  \item \spxentry{node\_contour\_edges()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{27}
-  \item \spxentry{node\_contour\_edges()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{15}
+  \item \spxentry{networkx\_version()}\spxextra{in module cockatoo.environment}, \hyperpage{7}
+  \item \spxentry{NetworkXNotPresentError}, \hyperpage{8}
+  \item \spxentry{NetworkXVersionError}, \hyperpage{8}
+  \item \spxentry{node\_contour\_edges()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{29}
+  \item \spxentry{node\_contour\_edges()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{17}
   \item \spxentry{node\_contour\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}, 
-		\hyperpage{27}
+		\hyperpage{29}
   \item \spxentry{node\_contour\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}, 
-		\hyperpage{28}
-  \item \spxentry{node\_coordinates()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{15}
-  \item \spxentry{node\_from\_point3d()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{15}
-  \item \spxentry{node\_geometry()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{16}
-  \item \spxentry{node\_warp\_edges()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{28}
-  \item \spxentry{node\_warp\_edges()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{16}
-  \item \spxentry{node\_warp\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{28}
-  \item \spxentry{node\_warp\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{28}
-  \item \spxentry{node\_weft\_edges()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{28}
-  \item \spxentry{node\_weft\_edges()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{16}
-  \item \spxentry{node\_weft\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{29}
-  \item \spxentry{node\_weft\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{29}
-  \item \spxentry{nodes\_on\_position()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{17}
-  \item \spxentry{nodes\_on\_segment()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{17}
-  \item \spxentry{NoEndNodesError}, \hyperpage{7}
-  \item \spxentry{NoWarpEdgesError}, \hyperpage{7}
-  \item \spxentry{NoWeftEdgesError}, \hyperpage{7}
-  \item \spxentry{NXVERSION}\spxextra{in module cockatoo.environment}, \hyperpage{5}
+		\hyperpage{30}
+  \item \spxentry{node\_coordinates()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{17}
+  \item \spxentry{node\_from\_point3d()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{17}
+  \item \spxentry{node\_geometry()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{18}
+  \item \spxentry{node\_warp\_edges()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{30}
+  \item \spxentry{node\_warp\_edges()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{18}
+  \item \spxentry{node\_warp\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{30}
+  \item \spxentry{node\_warp\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{30}
+  \item \spxentry{node\_weft\_edges()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{30}
+  \item \spxentry{node\_weft\_edges()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{18}
+  \item \spxentry{node\_weft\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{31}
+  \item \spxentry{node\_weft\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{31}
+  \item \spxentry{nodes\_on\_position()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{19}
+  \item \spxentry{nodes\_on\_segment()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{19}
+  \item \spxentry{NoEndNodesError}, \hyperpage{9}
+  \item \spxentry{NoWarpEdgesError}, \hyperpage{9}
+  \item \spxentry{NoWeftEdgesError}, \hyperpage{9}
+  \item \spxentry{NXVERSION}\spxextra{in module cockatoo.environment}, \hyperpage{7}
 
   \indexspace
   \bigletter P
-  \item \spxentry{pairwise()}\spxextra{in module cockatoo.utilities}, \hyperpage{10}
+  \item \spxentry{pairwise()}\spxextra{in module cockatoo.utilities}, \hyperpage{12}
+  \item \spxentry{prepare\_for\_gephi()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{19}
   \item \spxentry{prepare\_for\_graphviz()}\spxextra{cockatoo.KnitNetworkBase method}, 
-		\hyperpage{17}
+		\hyperpage{19}
 
   \indexspace
   \bigletter R
   \item \spxentry{resolve\_order\_by\_backtracking()}\spxextra{in module cockatoo.utilities}, 
-		\hyperpage{9}
-  \item \spxentry{RHINOINSIDE}\spxextra{in module cockatoo.environment}, \hyperpage{5}
-  \item \spxentry{RhinoNotPresentError}, \hyperpage{6}
-  \item \spxentry{right\_boundary()}\spxextra{cockatoo.KnitConstraint property}, \hyperpage{11}
+		\hyperpage{11}
+  \item \spxentry{RHINOINSIDE}\spxextra{in module cockatoo.environment}, \hyperpage{7}
+  \item \spxentry{RhinoNotPresentError}, \hyperpage{8}
+  \item \spxentry{right\_boundary()}\spxextra{cockatoo.KnitConstraint property}, \hyperpage{13}
 
   \indexspace
   \bigletter S
   \item \spxentry{sample\_segment\_contours()}\spxextra{cockatoo.KnitNetwork method}, 
-		\hyperpage{25}
+		\hyperpage{27}
   \item \spxentry{segment\_contour\_edges()}\spxextra{cockatoo.KnitNetworkBase property}, 
-		\hyperpage{17}
-  \item \spxentry{start\_course()}\spxextra{cockatoo.KnitConstraint property}, \hyperpage{11}
-  \item \spxentry{SystemNotPresentError}, \hyperpage{6}
+		\hyperpage{19}
+  \item \spxentry{start\_course()}\spxextra{cockatoo.KnitConstraint property}, \hyperpage{13}
+  \item \spxentry{SystemNotPresentError}, \hyperpage{8}
 
   \indexspace
   \bigletter T
-  \item \spxentry{to\_KnitDiNetwork()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{25}
-  \item \spxentry{ToString()}\spxextra{cockatoo.KnitConstraint method}, \hyperpage{11}
-  \item \spxentry{ToString()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{26}
-  \item \spxentry{ToString()}\spxextra{cockatoo.KnitMappingNetwork method}, \hyperpage{30}
-  \item \spxentry{ToString()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{18}
-  \item \spxentry{ToString()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{12}
-  \item \spxentry{total\_positions()}\spxextra{cockatoo.KnitNetworkBase property}, \hyperpage{17}
+  \item \spxentry{to\_KnitDiNetwork()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{27}
+  \item \spxentry{ToString()}\spxextra{cockatoo.KnitConstraint method}, \hyperpage{13}
+  \item \spxentry{ToString()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{28}
+  \item \spxentry{ToString()}\spxextra{cockatoo.KnitMappingNetwork method}, \hyperpage{32}
+  \item \spxentry{ToString()}\spxextra{cockatoo.KnitNetwork method}, \hyperpage{20}
+  \item \spxentry{ToString()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{14}
+  \item \spxentry{total\_positions()}\spxextra{cockatoo.KnitNetworkBase property}, \hyperpage{19}
   \item \spxentry{traverse\_segments\_until\_warp()}\spxextra{cockatoo.KnitMappingNetwork method}, 
-		\hyperpage{30}
+		\hyperpage{32}
   \item \spxentry{traverse\_weft\_edges\_and\_set\_attributes()}\spxextra{cockatoo.KnitNetwork method}, 
-		\hyperpage{25}
-  \item \spxentry{tween\_planes()}\spxextra{in module cockatoo.utilities}, \hyperpage{9}
+		\hyperpage{27}
+  \item \spxentry{tween\_planes()}\spxextra{in module cockatoo.utilities}, \hyperpage{11}
 
   \indexspace
   \bigletter V
-  \item \spxentry{verify\_dual\_form()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{29}
+  \item \spxentry{verify\_dual\_form()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{31}
 
   \indexspace
   \bigletter W
-  \item \spxentry{warp\_edges()}\spxextra{cockatoo.KnitNetworkBase property}, \hyperpage{17}
-  \item \spxentry{weft\_edges()}\spxextra{cockatoo.KnitNetworkBase property}, \hyperpage{17}
+  \item \spxentry{warp\_edges()}\spxextra{cockatoo.KnitNetworkBase property}, \hyperpage{19}
+  \item \spxentry{weft\_edges()}\spxextra{cockatoo.KnitNetworkBase property}, \hyperpage{19}
 
 \end{sphinxtheindex}

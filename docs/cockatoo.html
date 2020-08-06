@@ -1089,14 +1089,6 @@ length.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="cockatoo.KnitNetworkBase.make_gephi_graph">
-<code class="sig-name descname">make_gephi_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.make_gephi_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.make_gephi_graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a new graph with attributes for visualising this network
-using Gephi.</p>
-<p>Based on code by Anders Holden Deleuran</p>
-</dd></dl>
-
-<dl class="py method">
 <dt id="cockatoo.KnitNetworkBase.node_contour_edges">
 <code class="sig-name descname">node_contour_edges</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.node_contour_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.node_contour_edges" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the edges marked neither ‘warp’ nor ‘weft’ connected to the
@@ -1292,6 +1284,14 @@ attribute, ordered by their ‘num’ attribute.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="cockatoo.KnitNetworkBase.prepare_for_gephi">
+<code class="sig-name descname">prepare_for_gephi</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.prepare_for_gephi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.prepare_for_gephi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new graph with attributes for visualising this network
+using Gephi.</p>
+<p>Based on code by Anders Holden Deleuran</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="cockatoo.KnitNetworkBase.prepare_for_graphviz">
 <code class="sig-name descname">prepare_for_graphviz</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cockatoo/_knitnetworkbase.html#KnitNetworkBase.prepare_for_graphviz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cockatoo.KnitNetworkBase.prepare_for_graphviz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new graph with attributes for visualising this network
@@ -1454,8 +1454,8 @@ messages about what is happening to the console.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id29">1</a>. Also see
+<p>Closely resembles the implementation described in <em>Automated Generation
+of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id29">1</a>. Also see
 <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
 structures</em> <a class="footnote-reference brackets" href="#id25" id="id30">2</a>.</p>
 </dd></dl>
@@ -1488,8 +1488,8 @@ messages about what is happening to the console.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id31">1</a>. Also see
+<p>Closely resembles the implementation described in <em>Automated Generation
+of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id31">1</a>. Also see
 <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
 structures</em> <a class="footnote-reference brackets" href="#id25" id="id32">2</a>.</p>
 </dd></dl>
@@ -1540,8 +1540,8 @@ assigning the geometry to the ‘reference_geometry’ attribute of the
 network.</p>
 </div>
 <p class="rubric">Notes</p>
-<p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id33">1</a>. Also see
+<p>Closely resembles the implementation described in <em>Automated Generation
+of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id33">1</a>. Also see
 <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
 structures</em> <a class="footnote-reference brackets" href="#id25" id="id34">2</a>.</p>
 </dd></dl>
@@ -1581,8 +1581,8 @@ debugging and analysis.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id35">1</a>. Also see
+<p>Closely resembles the implementation described in <em>Automated Generation
+of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id35">1</a>. Also see
 <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
 structures</em> <a class="footnote-reference brackets" href="#id25" id="id36">2</a>.</p>
 </dd></dl>
@@ -1593,8 +1593,8 @@ structures</em> <a class="footnote-reference brackets" href="#id25" id="id36">2<
 <dd><p>Loop through all the segment contour edges and create all ‘weft’
 connections for this network.</p>
 <p class="rubric">Notes</p>
-<p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id37">1</a>. Also see
+<p>Closely resembles the implementation described in <em>Automated Generation
+of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id37">1</a>. Also see
 <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
 structures</em> <a class="footnote-reference brackets" href="#id25" id="id38">2</a>.</p>
 </dd></dl>
@@ -1651,8 +1651,8 @@ edges can only be created using the mapping network.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id39">1</a>. Also see
+<p>Closely resembles the implementation described in <em>Automated Generation
+of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id39">1</a>. Also see
 <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
 structures</em> <a class="footnote-reference brackets" href="#id25" id="id40">2</a>.</p>
 </dd></dl>
@@ -1736,8 +1736,8 @@ For more info see <a class="footnote-reference brackets" href="#id16" id="id41">
 all position contours and creating ‘weft’ edges between the ‘leaf’
 nodes of the position contours.</p>
 <p class="rubric">Notes</p>
-<p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id42">1</a>. Also see
+<p>Closely resembles the implementation described in <em>Automated Generation
+of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id42">1</a>. Also see
 <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
 structures</em> <a class="footnote-reference brackets" href="#id25" id="id43">2</a>.</p>
 </dd></dl>
@@ -1751,8 +1751,8 @@ their ‘position’ attribute.</p>
 <p class="rubric">Notes</p>
 <p>This method is automatically called when creating a KnitNetwork using
 the create_from_contours method!</p>
-<p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id44">1</a>. Also see
+<p>Closely resembles the implementation described in <em>Automated Generation
+of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id44">1</a>. Also see
 <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
 structures</em> <a class="footnote-reference brackets" href="#id25" id="id45">2</a>.</p>
 </dd></dl>
@@ -1777,8 +1777,8 @@ used.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id46">1</a>. Also see
+<p>Closely resembles the implementation described in <em>Automated Generation
+of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id46">1</a>. Also see
 <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
 structures</em> <a class="footnote-reference brackets" href="#id25" id="id47">2</a>.</p>
 </dd></dl>
@@ -1833,8 +1833,8 @@ debugging and analysis.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id48">1</a>. Also see
+<p>Closely resembles the implementation described in <em>Automated Generation
+of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id48">1</a>. Also see
 <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
 structures</em> <a class="footnote-reference brackets" href="#id25" id="id49">2</a>.</p>
 </dd></dl>
@@ -1861,8 +1861,8 @@ segment contour edge.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id50">1</a>. Also see
+<p>Closely resembles the implementation described in <em>Automated Generation
+of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id50">1</a>. Also see
 <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
 structures</em> <a class="footnote-reference brackets" href="#id25" id="id51">2</a>.</p>
 </dd></dl>
@@ -2028,8 +2028,8 @@ a node.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Closely resembles the implementation described in Automated Generation
-of Knit Patterns for Non-developable Surfaces* <a class="footnote-reference brackets" href="#id24" id="id60">1</a>. Also see
+<p>Closely resembles the implementation described in <em>Automated Generation
+of Knit Patterns for Non-developable Surfaces</em> <a class="footnote-reference brackets" href="#id24" id="id60">1</a>. Also see
 <em>KnitCrete - Stay-in-place knitted formworks for complex concrete
 structures</em> <a class="footnote-reference brackets" href="#id25" id="id61">2</a>.</p>
 </dd></dl>

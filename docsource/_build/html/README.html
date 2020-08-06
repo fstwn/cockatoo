@@ -112,11 +112,14 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#examples-usage">Examples &amp; Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#testing-contributing">Testing &amp; Contributing</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#you-are-invited-to-participate-yes-you">You are invited to participate (yes - you!)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#you-are-invited-to-participate">You are invited to participate!</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#sources-references">Sources &amp; References</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#misc-notes">Misc Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#licensing">Licensing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#misc">Misc</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cockatoo.html">cockatoo module API</a></li>
@@ -203,16 +206,19 @@ for use within <a class="reference external" href="https://www.rhino3d.com/">McN
 aswell as
 <a class="reference external" href="https://www.rhino3d.com/6/new/grasshopper">Grasshopper</a>.</p></li>
 <li><p><a class="reference external" href="#installation">Yeah, yeah… Knitting… Rhino… Python… I get it. Just tell me
-how to install and use it!</a> <a class="reference external" href="#misc-notes">1</a></p></li>
+how to install and use it!</a> <a class="reference external" href="#misc">1</a></p></li>
 </ul>
 <hr class="docutils" />
 <div class="section" id="purpose-origins">
 <span id="id1"></span><h2>Purpose &amp; Origins<a class="headerlink" href="#purpose-origins" title="Permalink to this headline">¶</a></h2>
 <p>The purpose of this project is to enable Rhino and Grasshopper to
 automatically derive (3d-)knitting patterns for computerized knitting
-machines from NURBS surfaces and polygon meshes. The absence of such a
-freely available open-source toolkit marks the origin point for this
-project.</p>
+machines from NURBS surfaces and unstructured triangle meshes. The
+absence of such a freely available open-source toolkit marks the origin
+point for this project. Programming Cockatoo was only possible thanks to
+some brilliant research done by lots of other people. Please check the
+<a class="reference external" href="#sources--references">Sources &amp; References</a> section if you’re
+curious.</p>
 <p>This open-source software prototype constitutes the practical part of my
 diploma project <em>Knit Relaxation - Knit membranes for (Interior-)
 Architecture</em> (original german title: <em>Knit Relaxation -
@@ -240,31 +246,24 @@ section).</p></li>
 </div>
 <div class="section" id="rhino-integration">
 <h3>Rhino Integration<a class="headerlink" href="#rhino-integration" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>The <code class="docutils literal notranslate"><span class="pre">cockatoo</span></code> module can be used from within Rhino.Python scripts
-as well as from within Grasshopper through the GHPython scriptable
-component.</p></li>
-</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">cockatoo</span></code> module can be used from within Rhino.Python scripts as
+well as from within Grasshopper through the GHPython scriptable
+component.</p>
 </div>
 <div class="section" id="grasshopper-components">
 <h3>Grasshopper Components<a class="headerlink" href="#grasshopper-components" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>Cockatoo includes a set of Grasshopper components (<code class="docutils literal notranslate"><span class="pre">UserObjects</span></code>),
-which provide a user interface to the underlying python module
-without the need of scripting.</p></li>
-</ul>
+<p>Cockatoo includes a set of Grasshopper components (<code class="docutils literal notranslate"><span class="pre">UserObjects</span></code>),
+which provide a user interface to the underlying python module without
+the need of scripting.</p>
 </div>
 <div class="section" id="extendability">
 <h3>Extendability<a class="headerlink" href="#extendability" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>The python module as well as the UserObjects are designed to be open
-for extension. Everything is open-source.</p></li>
-</ul>
+<p>The python module as well as the UserObjects are designed to be open for
+extension. Everything is open-source.</p>
 </div>
 <div class="section" id="pecularities">
 <h3>Pecularities<a class="headerlink" href="#pecularities" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>The RhinoPython and GHPython development environments are
+<p>The RhinoPython and GHPython development environments are
 <a class="reference external" href="https://developer.rhino3d.com/guides/rhinopython/what-is-rhinopython/">very</a>,
 <a class="reference external" href="https://developer.rhino3d.com/guides/rhinopython/ghpython-component/">very</a>
 <a class="reference external" href="https://developer.rhino3d.com/guides/rhinopython/python-reference/">special</a>.
@@ -272,15 +271,14 @@ I am not going to write in-depth about this here. Everybody who is
 working with these tools on a regular basis should have come accross
 their oddities. If not - most information about these topics is
 available in the <a class="reference external" href="https://developer.rhino3d.com/">Rhino Developer
-Docs</a></p></li>
-<li><p>To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more
+Docs</a>.</p>
+<p>To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more
 specific, an older version - <a class="reference external" href="https://networkx.github.io/documentation/networkx-1.5/">NetworkX
-1.5</a> is
-used for… well,
+1.5</a> is used
+for… well,
 <a class="reference external" href="https://www.grasshopper3d.com/forum/topics/ghpython-ironpython-engine-frames">reasons</a>.
-To prevent problems with dead links and for reasons of simplicity,
-<strong>this specific networkx module is bundled with Cockatoo</strong>!</p></li>
-</ul>
+<strong>This specific networkx module is bundled with Cockatoo</strong> for
+simplicity!</p>
 </div>
 </div>
 <div class="section" id="installation">
@@ -296,15 +294,13 @@ and <code class="docutils literal notranslate"><span class="pre">Cockatoo</span>
 </div>
 <div class="section" id="install-python-modules">
 <span id="id3"></span><h3>2. Install python modules<a class="headerlink" href="#install-python-modules" title="Permalink to this headline">¶</a></h3>
-<ul>
+<ul class="simple">
 <li><p>Open the scripts folder of Rhino 6</p>
 <ul>
-<li><p>On <strong>Windows</strong>:</p>
-<p><code class="docutils literal notranslate"><span class="pre">C:\Users\%USERNAME%\AppData\Roaming\McNeel\Rhinoceros\6.0\scripts</span></code></p>
-</li>
-<li><p>On <strong>Mac OSX</strong>:</p>
-<p><code class="docutils literal notranslate"><span class="pre">~/Library/Application</span> <span class="pre">Support/McNeel/Rhinoceros/6.0/scripts</span></code></p>
-</li>
+<li><p>On <strong>Windows</strong>:
+<code class="docutils literal notranslate"><span class="pre">C:\Users\%USERNAME%\AppData\Roaming\McNeel\Rhinoceros\6.0\scripts</span></code></p></li>
+<li><p>On <strong>Mac OSX</strong>:
+<code class="docutils literal notranslate"><span class="pre">~/Library/Application</span> <span class="pre">Support/McNeel/Rhinoceros/6.0/scripts</span></code></p></li>
 </ul>
 </li>
 <li><p>Move all the Content from inside the <code class="docutils literal notranslate"><span class="pre">modules</span></code> directory to this
@@ -313,19 +309,16 @@ scripts folder.</p></li>
 </div>
 <div class="section" id="install-cockatoo-userobjects">
 <span id="id4"></span><h3>3. Install Cockatoo UserObjects<a class="headerlink" href="#install-cockatoo-userobjects" title="Permalink to this headline">¶</a></h3>
-<ul>
+<ul class="simple">
 <li><p>Navigate to the Grasshopper UserObjects folder</p>
 <ul>
-<li><p>On <strong>Windows</strong>:</p>
-<p><code class="docutils literal notranslate"><span class="pre">C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects</span></code></p>
-</li>
-<li><p>On <strong>Mac OSX</strong>:</p>
-<p><code class="docutils literal notranslate"><span class="pre">~/Library/Application</span> <span class="pre">Support/McNeel/Rhinoceros/6.0/Plug-ins/Grasshopper</span> <span class="pre">(b45a29b1-4343-4035-989e-044e8580d9cf)/UserObjects</span></code></p>
-</li>
+<li><p>On <strong>Windows</strong>:
+<code class="docutils literal notranslate"><span class="pre">C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects</span></code></p></li>
+<li><p>On <strong>Mac OSX</strong>:
+<code class="docutils literal notranslate"><span class="pre">~/Library/Application</span> <span class="pre">Support/McNeel/Rhinoceros/6.0/scripts</span></code></p></li>
 <li><p><em>Alternative:</em> Open Rhino &amp; Grasshopper and in the Grasshopper
-Window click on</p>
-<p><code class="docutils literal notranslate"><span class="pre">File</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">Special</span> <span class="pre">Folders</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">User</span> <span class="pre">Object</span> <span class="pre">Folder</span></code></p>
-</li>
+Window click on <code class="docutils literal notranslate"><span class="pre">File</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">Special</span> <span class="pre">Folders</span></code> &gt;
+<code class="docutils literal notranslate"><span class="pre">User</span> <span class="pre">Object</span> <span class="pre">Folder</span></code></p></li>
 </ul>
 </li>
 <li><p>Move the whole <code class="docutils literal notranslate"><span class="pre">Cockatoo</span></code> directory to the UserObjects folder.</p></li>
@@ -353,52 +346,95 @@ restart it for the changes to take effect!</p></li>
 </div>
 <div class="section" id="examples-usage">
 <span id="id7"></span><h2>Examples &amp; Usage<a class="headerlink" href="#examples-usage" title="Permalink to this headline">¶</a></h2>
+<p>TODO: Provide some images here</p>
 </div>
 <div class="section" id="testing-contributing">
 <span id="id8"></span><h2>Testing &amp; Contributing<a class="headerlink" href="#testing-contributing" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="you-are-invited-to-participate-yes-you">
-<span id="id9"></span><h3>You are invited to participate (yes - you!)<a class="headerlink" href="#you-are-invited-to-participate-yes-you" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>Contributing is easy as Pi (well…easier, actually). Whether you are
-a designer, student, teacher or scientist working with CNC-knitting -
-just find out what Cockatoo can do for you. In order to make Cockatoo
-better, we need real-world testing!</p></li>
-<li><p>If Cockatoo doesn’t do the things you expected it to do or simply
-does not work: Tell me about it by <a class="reference external" href="https://github.com/fstwn/cockatoo/issues/">submitting an
-issue</a>!</p></li>
-<li><p>To find out more about how you can help testing this software and
-making it better, have a look at the contribution guidelines.</p></li>
-</ul>
+<div class="section" id="you-are-invited-to-participate">
+<span id="id9"></span><h3>You are invited to participate!<a class="headerlink" href="#you-are-invited-to-participate" title="Permalink to this headline">¶</a></h3>
+<p>Contributing is easy as Pi (well…easier, actually). First off,
+Cockatoo needs software testing to find bugs and make it more robust. So
+just by trying out Cockatoo out of curiosity, you can actually help!</p>
+<p>If you find a bug (which is very likely because they always sneak in
+somewhere) please tell me about it by <a class="reference external" href="https://github.com/fstwn/cockatoo/issues/">submitting an
+issue</a> so I can improve
+Cockatoo further.</p>
+</div>
+<div class="section" id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
+<p>A sad truth is that I currently don’t have access to a computerized
+knitting machine. As a consequence, it was not possible to actually test
+or verify a knitting pattern generated by Cockatoo in the real world,
+yet. If you have access to a machine and you would be willing to
+collaborate with me in testing, I would be more than happy!</p>
+<p>Also, if you know a thing or two about computational knitting and find a
+fundamental (or minor) mistake in the workings of Cockatoo, please <a class="reference external" href="https://github.com/fstwn/cockatoo/issues/">let
+me know</a>. I’m always eager
+to learn from others and fix mistakes.</p>
+</div>
+<div class="section" id="code">
+<h3>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h3>
+<p>If you’re willing to contribute to Cockatoo by writing new code or
+improving existing code, that’s great! Please have a look at the
+contribution guidelines.</p>
 </div>
 </div>
 <div class="section" id="sources-references">
 <span id="id10"></span><h2>Sources &amp; References<a class="headerlink" href="#sources-references" title="Permalink to this headline">¶</a></h2>
 <p>This section states the most important sources used in writing this
 software. The full and proper list of sources is - of course - available
-in the written version of the diploma project.</p>
+in the written version of the diploma thesis.</p>
 <ul class="simple">
-<li><p>Popescu, Mariana et al. <a class="reference external" href="https://block.arch.ethz.ch/brg/files/POPESCU_DMSP-2017_automated-generation-knit-patterns_1505737906.pdf">Automated Generation of Knit Patterns for
-Non-developable
+<li><p>Cherif, Chokri: <a class="reference external" href="https://link.springer.com/book/10.1007/978-3-642-17992-1">Textile Werkstoffe für den Leichtbau. Techniken -
+Verfahren - Materialien -
+Eigenschaften.</a></p></li>
+<li><p>CITAstudio: <a class="reference external" href="https://issuu.com/cita_copenhagen/docs/catalogue">Textile. Light. Architecture. SOFT
+SPACES</a></p></li>
+<li><p>Hagberg, Aric; Schult, Dan; Swart, Pieter: <a class="reference external" href="https://networkx.github.io/documentation/networkx-1.5/_downloads/networkx_reference.pdf">NetworkX
+1.5</a></p></li>
+<li><p>McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April; Matusik,
+Wojciech; Mankoff, Jen; Hodgins, Jessica: <a class="reference external" href="https://la.disneyresearch.com/publication/machine-knitting-compiler/">A Compiler for 3D Machine
+Knitting</a></p></li>
+<li><p>Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian;
+McCann, James: <a class="reference external" href="https://textiles-lab.github.io/publications/2018-autoknit/">Automatic Machine Knitting of 3D
+Meshes</a></p></li>
+<li><p>Narayanan, Vidya; Wu, Kui; Yuksel, Cem; McCann, James: <a class="reference external" href="https://textiles-lab.github.io/publications/2019-visualknit/">Visual
+Knitting Machine
+Programming</a></p></li>
+<li><p>Popescu, Mariana; Rippmann, Matthias; van Mele, Tom; Block, Philippe:
+<a class="reference external" href="https://block.arch.ethz.ch/brg/files/POPESCU_DMSP-2017_automated-generation-knit-patterns_1505737906.pdf">Automated Generation of Knit Patterns for Non-developable
 Surfaces</a></p></li>
-<li><p>Popescu, Mariana <a class="reference external" href="https://block.arch.ethz.ch/brg/files/POPESCU_2019_ETHZ_PhD_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures_small_1586266206.pdf">KnitCrete - Stay-in-place knitted formworks for
+<li><p>Popescu, Mariana: <a class="reference external" href="https://block.arch.ethz.ch/brg/files/POPESCU_2019_ETHZ_PhD_KnitCrete-Stay-in-place-knitted-fabric-formwork-for-complex-concrete-structures_small_1586266206.pdf">KnitCrete - Stay-in-place knitted formworks for
 complex concrete
 structures</a></p></li>
-<li><p>Van Mele, Tom et al. <a class="reference external" href="https://compas-dev.github.io/">COMPAS: A framework for computational research
-in architecture and structures</a></p></li>
-<li><p>Narayanan, Vidya; Albaugh, Lea; Hodgins, Jessica; Coros, Stelian;
-McCann, James <a class="reference external" href="https://textiles-lab.github.io/publications/2018-autoknit/">Automatic Machine Knitting of 3D
-Meshes</a></p></li>
-<li><p>Narayanan, Vidya; Wu, Kui et al. <a class="reference external" href="https://textiles-lab.github.io/publications/2019-visualknit/">Visual Knitting Machine
-Programming</a></p></li>
-<li><p>McCann, James; Albaugh, Lea; Narayanan, Vidya; Grow, April; Matusik,
-Wojciech; Mankoff, Jen; Hodgins, Jessica <a class="reference external" href="https://la.disneyresearch.com/publication/machine-knitting-compiler/">A Compiler for 3D Machine
-Knitting</a></p></li>
-<li><p>Hagberg, Aric; Schult, Dan; Swart, Pieter <a class="reference external" href="https://networkx.github.io/documentation/networkx-1.5/_downloads/networkx_reference.pdf">NetworkX
-1.5</a></p></li>
+<li><p>Thomsen, Mette Ramsgaard; Tamke, Martin; Deleuran, Anders Holden;
+Tinning, Ida Katrine Friis; Evers, Henrik Leander; Gengnagel,
+Christoph; Schmeck, Michel: <em>»Hybrid Tower, Designing Soft
+Structures«.</em> In: <a class="reference external" href="https://doi.org/10.1007/978-3-319-24208-8_8">Modelling behaviour. Design Modelling Symposium
+2015, hrsg. von Mette Ramsgaard Thomsen, Martin Tamke, Christoph
+Gengnagel, Billie Faircloth und Fabian Scheurer. Cham/Heidelberg/New
+York/Dordrecht/London
+2015</a></p></li>
+<li><p>Ramsgaard Thomsen, Mette; Tamke, Martin; Ayres, Phil; Nicholas, Paul:
+<a class="reference external" href="https://issuu.com/cita_copenhagen/docs/20190823_cita_complex_modellingshor_27ae721ee28ba3">CITA Complex Modelling, Toronto
+2019</a></p></li>
+<li><p>Van Mele, Tom; others, many: <a class="reference external" href="https://compas-dev.github.io/">COMPAS: A framework for computational
+research in architecture and
+structures</a></p></li>
 </ul>
 </div>
-<div class="section" id="misc-notes">
-<h2>Misc Notes<a class="headerlink" href="#misc-notes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="licensing">
+<h2>Licensing<a class="headerlink" href="#licensing" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>NetworkX is licensed under the 3-clause BSD license which can be
+found in <code class="docutils literal notranslate"><span class="pre">licenses/networkx</span></code>.</p></li>
+<li><p>Some code snippets from the COMPAS framework are used within this
+software. This code is licensed under the MIT License which can be
+found in <code class="docutils literal notranslate"><span class="pre">licenses/COMPAS</span></code>.</p></li>
+</ul>
+</div>
+<div class="section" id="misc">
+<h2>Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>[1] This is a hommage to <a class="reference external" href="https://ieatbugsforbreakfast.wordpress.com/">David
 Ruttens</a> delightful
