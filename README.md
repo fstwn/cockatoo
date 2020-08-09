@@ -29,15 +29,15 @@ Cockatoo includes a set of Grasshopper components (`UserObjects`), which provide
 ### Extendability
 The python module as well as the UserObjects are designed to be open for extension. Everything is open-source.
 
-### Pecularities
+## Pecularities
 
-#### Development Environment
+### Development Environment
 The RhinoPython and GHPython development environments are [very](https://developer.rhino3d.com/guides/rhinopython/what-is-rhinopython/), [very](https://developer.rhino3d.com/guides/rhinopython/ghpython-component/) [special](https://developer.rhino3d.com/guides/rhinopython/python-reference/). I am not going to write in-depth about this here. Everybody who is working with these tools on a regular basis should have come accross their oddities. If not - most information about these topics is available in the [Rhino Developer Docs](https://developer.rhino3d.com/).
 
-#### Graph Library
+### Graph Library
 To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more specific, an older version - [NetworkX 1.5](https://networkx.github.io/documentation/networkx-1.5/) is used for... well, [reasons](https://www.grasshopper3d.com/forum/topics/ghpython-ironpython-engine-frames). **This specific networkx module was modified in some places and is therefore bundled with Cockatoo! Using a different version might be possible but may also lead to errors.**
 
-#### Partial Dependencies
+### Partial Dependencies
 - Some of the UserObjects rely on Kangaroo 2. Since this is shipped with Rhino since Version 6, everything should work smoothly. The Kangaroo 2 installation should be found by the UserObjects automagically. If any hiccups occur, please [let me know](https://github.com/fstwn/cockatoo/issues/).
 
 - There is one UserObject that relies on [Plankton](https://github.com/meshmash/Plankton) being installed, although it's just a small utility. If Plankton is already installed everything should be found automagically, otherwise you'd first have to install Plankton. If any hiccups occur with this, please also [let me know](https://github.com/fstwn/cockatoo/issues/).
