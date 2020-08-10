@@ -88,6 +88,8 @@ To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more specific, an
 
 If everything is installed correctly, you should be able to open the example file provided in ``Examples``. For a demo, you can also have a look at the [demonstration video](https://vimeo.com/444032919).
 
+For guidance on using the API provided through the python module directly, please have a look at the [documentation](https://fstwn.github.io/cockatoo/)
+
 ## Testing & Contributing
 
 ### You are invited to participate!
