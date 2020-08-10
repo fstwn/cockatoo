@@ -86,7 +86,7 @@ To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more specific, an
 
 ## Examples & Usage
 
-TODO: Provide some images here
+If everything is installed correctly, you should be able to open the example file provided in ``Examples``. For a demo, you can also have a look at the [demonstration video](https://vimeo.com/444032919).
 
 ## Testing & Contributing
 
