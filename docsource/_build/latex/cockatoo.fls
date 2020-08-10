@@ -190,6 +190,16 @@ INPUT cockatoo.out
 INPUT .\cockatoo.out
 INPUT .\cockatoo.out
 OUTPUT cockatoo.out
+INPUT latex.jpg
+INPUT .\latex.jpg
+INPUT .\latex.jpg
+INPUT .\latex.jpg
+INPUT .\latex.jpg
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\t1pcr.fd
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\t1pcr.fd
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrr8t.tfm
+INPUT latex.jpg
+INPUT .\latex.jpg
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\t1phv.fd
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\t1phv.fd
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\helvetic\phvr8t.tfm
@@ -258,31 +268,6 @@ INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\helvet
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\ts1ptm.fd
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\ts1ptm.fd
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmr8c.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmri8t.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmr8t.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\helvetic\phvr8t.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\t1pcr.fd
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\t1pcr.fd
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrr8t.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\times\ptmr8c.vf
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\times\ptmri8t.vf
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmri8r.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\courier\pcrr8t.vf
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrr8r.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrro8t.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrb8t.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmbi8t.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrbo8t.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\ts1pcr.fd
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\ts1pcr.fd
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrb8c.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\courier\pcrro8t.vf
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrro8r.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\courier\pcrb8t.vf
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrb8r.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\courier\pcrbo8t.vf
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrbo8r.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\courier\pcrb8c.vf
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmr8t.tfm
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmr8t.tfm
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmr8.tfm
@@ -299,14 +284,36 @@ INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfo
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmr8t.tfm
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmri8t.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\times\ptmr8t.vf
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmr8r.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmr8t.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\helvetic\phvr8t.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\times\ptmr8c.vf
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\times\ptmr8t.vf
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmr8r.tfm
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\times\ptmri8t.vf
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmri8r.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\courier\pcrr8t.vf
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrr8r.tfm
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\times\ptmr8t.vf
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmr8r.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\times\ptmr8t.vf
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmr8r.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrro8t.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrb8t.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmbi8t.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrbo8t.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\ts1pcr.fd
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\ts1pcr.fd
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrb8c.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\courier\pcrro8t.vf
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrro8r.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\courier\pcrb8t.vf
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrb8r.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\courier\pcrbo8t.vf
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrbo8r.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\courier\pcrb8c.vf
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmri8t.tfm
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\times\ptmri8t.vf
+INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmri8r.tfm
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\times\ptmr8t.tfm
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrr8t.tfm
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrr8t.tfm
@@ -315,8 +322,6 @@ INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\courier
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrb8r.tfm
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\courier\pcrr8t.vf
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\courier\pcrr8r.tfm
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\helvetic\phvr8t.vf
-INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\helvetic\phvr8r.tfm
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\vf\adobe\helvetic\phvr8t.vf
 INPUT C:\Users\EFESTWIN\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\helvetic\phvr8r.tfm
 INPUT cockatoo.ind

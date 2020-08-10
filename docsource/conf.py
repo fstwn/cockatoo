@@ -91,10 +91,12 @@ html_static_path = ['_static']
 # html_sidebars = {}
 import sphinx_glpi_theme
 
-html_theme = "glpi"
-
+html_theme = 'glpi'
+html_logo = '_static/glpi.png'
 html_theme_path = sphinx_glpi_theme.get_html_themes_path()
 
 # -- Options for LaTeX output --------------------------------------------------
 
-# latex_show_urls = 'footnote'
+latex_show_urls = 'footnote'
+latex_logo = '_static/latex.jpg'
+latex_theme = 'manual'
