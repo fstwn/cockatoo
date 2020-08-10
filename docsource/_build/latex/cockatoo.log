@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.7)  10 AUG 2020 20:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.7)  10 AUG 2020 21:28
 entering extended mode
 **./cockatoo.tex
 (cockatoo.tex
@@ -704,7 +704,7 @@ LaTeX Info: Redefining \nameref on input line 82.
 \openout5 = `cockatoo.out'.
 
 Package hyperref Info: Option `pageanchor' set `false' on input line 85.
-<latex.jpg, id=68, 200.9106pt x 200.9106pt>
+<latex.jpg, id=68, 837.1275pt x 837.1275pt>
 LaTeX Font Info:    Trying to load font information for T1+pcr on input line 85
 .
 
@@ -715,7 +715,7 @@ File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 File: latex.jpg Graphic file (type jpg)
 <use latex.jpg>
 Package pdftex.def Info: latex.jpg  used on input line 85.
-(pdftex.def)             Requested size: 200.9101pt x 200.9101pt.
+(pdftex.def)             Requested size: 469.74622pt x 469.74622pt.
 LaTeX Font Info:    Trying to load font information for T1+phv on input line 85
 .
 
@@ -1200,7 +1200,7 @@ ers/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb
 ><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utm
 r8a.pfb><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/ti
 mes/utmri8a.pfb>
-Output written on cockatoo.pdf (47 pages, 527266 bytes).
+Output written on cockatoo.pdf (47 pages, 1262425 bytes).
 PDF statistics:
  1150 PDF objects out of 1200 (max. 8388607)
  341 named destinations out of 1000 (max. 500000)
