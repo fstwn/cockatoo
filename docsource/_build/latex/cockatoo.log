@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.7)  9 AUG 2020 20:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.7)  10 AUG 2020 20:46
 entering extended mode
 **./cockatoo.tex
 (cockatoo.tex
@@ -771,7 +771,7 @@ LaTeX Warning: Hyper reference `README:sources--references' on page 1 undefined
 [1
 
 ] [2] [3] [4]
-Overfull \hbox (31.64044pt too wide) in paragraph at lines 512--515
+Overfull \hbox (31.64044pt too wide) in paragraph at lines 526--529
 [][][]$\T1/ptm/m/n/8 https : / / block . arch . ethz . ch / brg / les / POPESC
 U _ 2019 _ ETHZ _ PhD _ KnitCrete-[]Stay-[]in-[]place-[]knitted-[]fabric-[]form
 work-[]for-[]complex-[]concrete-[]structures _
@@ -782,9 +782,9 @@ work-[]for-[]complex-[]concrete-[]structures _
 ]
 Chapter 2.
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 607.
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 621.
 LaTeX Font Info:    Font shape `T1/pcr/b/it' in size <10> not available
-(Font)              Font shape `T1/pcr/b/sl' tried instead on input line 638.
+(Font)              Font shape `T1/pcr/b/sl' tried instead on input line 652.
 LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 1
 .
 
@@ -792,7 +792,7 @@ LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 1
 d"
 File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
 ) [7] [8] [9] [10] [11] [12] [13] [14] [15] [16] [17]
-Underfull \hbox (badness 6978) in paragraph at lines 2055--2055
+Underfull \hbox (badness 6978) in paragraph at lines 2069--2069
 []\T1/ptm/m/it/10 node_index\T1/ptm/m/n/10 , \T1/ptm/m/it/10 pt\T1/ptm/m/n/10 ,
  \T1/ptm/m/it/10 po-si-tion=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 num=None\T1/pt
 m/m/n/10 , \T1/ptm/m/it/10 leaf=False\T1/ptm/m/n/10 , \T1/ptm/m/it/10 start=Fal
@@ -800,57 +800,57 @@ se\T1/ptm/m/n/10 ,
  []
 
 [18] [19] [20]
-Overfull \hbox (31.64044pt too wide) in paragraph at lines 2426--2429
+Overfull \hbox (31.64044pt too wide) in paragraph at lines 2440--2443
 [][][]$\T1/ptm/m/n/8 https : / / block . arch . ethz . ch / brg / les / POPESC
 U _ 2019 _ ETHZ _ PhD _ KnitCrete-[]Stay-[]in-[]place-[]knitted-[]fabric-[]form
 work-[]for-[]complex-[]concrete-[]structures _
  []
 
 [21] [22] [23]
-Underfull \hbox (badness 10000) in paragraph at lines 2753--2753
+Underfull \hbox (badness 10000) in paragraph at lines 2767--2767
 []\T1/ptm/m/it/10 max_connections=4\T1/ptm/m/n/10 , \T1/ptm/m/it/10 in-clude_en
 d_nodes=True\T1/ptm/m/n/10 , \T1/ptm/m/it/10 pre-
  []
 
 [24] [25] [26]
-Underfull \hbox (badness 10000) in paragraph at lines 3099--3099
+Underfull \hbox (badness 10000) in paragraph at lines 3113--3113
 []\T1/ptm/m/it/10 start_index=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 prop-a-gate_
 from_center=False\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3099--3099
+Underfull \hbox (badness 10000) in paragraph at lines 3113--3113
 \T1/ptm/m/it/10 force_continuous_start=False\T1/ptm/m/n/10 , \T1/ptm/m/it/10 fo
 rce_continuous_end=False\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3099--3099
+Underfull \hbox (badness 10000) in paragraph at lines 3113--3113
 \T1/ptm/m/it/10 an-gle_threshold=0.10471975511965978\T1/ptm/m/n/10 , \T1/ptm/m/
 it/10 max_connections=4\T1/ptm/m/n/10 ,
  []
 
 [27] [28]
-Underfull \hbox (badness 10000) in paragraph at lines 3299--3300
+Underfull \hbox (badness 10000) in paragraph at lines 3313--3314
 \T1/ptm/m/n/10 Bases: \T1/pcr/m/n/10 networkx.classes.digraph.DiGraph\T1/ptm/m/
 n/10 , \T1/pcr/m/n/10 cockatoo._knitnetworkbase.
  []
 
 [29] [30]
-Underfull \hbox (badness 10000) in paragraph at lines 3443--3446
+Underfull \hbox (badness 10000) in paragraph at lines 3457--3460
 [][][]$\T1/ptm/m/n/8 https : / / github . com / compas-[]dev / compas / blob / 
 09153de6718fb3d49a4650b89d2fe91ea4a9fd4a / src / compas / datastructures / netw
 ork / duality . py #
  []
 
 [31] [32] [33]
-Underfull \hbox (badness 10000) in paragraph at lines 3797--3798
+Underfull \hbox (badness 10000) in paragraph at lines 3811--3812
 \T1/ptm/m/n/10 Bases: \T1/pcr/m/n/10 networkx.classes.multigraph.MultiGraph\T1/
 ptm/m/n/10 , \T1/pcr/m/n/10 cockatoo._knitnetworkbase.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3806--3808
+Underfull \hbox (badness 10000) in paragraph at lines 3820--3822
 \T1/ptm/m/n/10 Not in-tended to be in-stan-ti-ated sep-a-rately. Should only be
  in-stan-ti-ated by the Knit-Net-
  []
@@ -1165,11 +1165,11 @@ KnitDiNetwork
 [43
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3952.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3952.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3966.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3966.
  (cockatoo.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3952.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3952.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3966.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3966.
 
 Package rerunfilecheck Info: File `cockatoo.out' has not changed.
 (rerunfilecheck)             Checksum: 125E82EB7DC9E51EBCAE2F127EFA7005;1959.
@@ -1177,11 +1177,11 @@ Package rerunfilecheck Info: File `cockatoo.out' has not changed.
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3952.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3966.
  ) 
 Here is how much of TeX's memory you used:
- 14080 strings out of 480797
- 208641 string characters out of 2894169
+ 14082 strings out of 480797
+ 208667 string characters out of 2894169
  485090 words of memory out of 3000000
  29379 multiletter control sequences out of 15000+200000
  596442 words of font info for 107 fonts, out of 3000000 for 9000
@@ -1200,9 +1200,9 @@ ers/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb
 ><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utm
 r8a.pfb><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/ti
 mes/utmri8a.pfb>
-Output written on cockatoo.pdf (47 pages, 525969 bytes).
+Output written on cockatoo.pdf (47 pages, 527266 bytes).
 PDF statistics:
- 1144 PDF objects out of 1200 (max. 8388607)
- 339 named destinations out of 1000 (max. 500000)
+ 1150 PDF objects out of 1200 (max. 8388607)
+ 341 named destinations out of 1000 (max. 500000)
  154 words of extra memory for PDF output out of 10000 (max. 10000000)
 
