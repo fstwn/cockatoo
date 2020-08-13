@@ -6,6 +6,8 @@ and an optional reference geometry.
 While it is optional, it is **HIGHLY** recommended to provide it, as downstream
 methods like meshing or creating a dual might fail without it.
     Inputs:
+        Toggle: Set to True to initialize the KnitNetwork.
+                {item, bool}
         KnitContours: The contours of the knitting pattern.
                       {list, curve/polyline}
         CourseHeight: The course height of the knitting machine.
@@ -18,7 +20,7 @@ methods like meshing or creating a dual might fail without it.
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200705
+        Version: 200801
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -48,9 +50,9 @@ except ImportError:
 
 class InitializeKnitNetwork(component):
     
-    def RunScript(self, KnitContours, CourseHeight, ReferenceGeometry):
+    def RunScript(self, Toggle, KnitContours, CourseHeight, ReferenceGeometry):
         
-        if KnitContours and CourseHeight:
+        if Toggle and KnitContours and CourseHeight:
             
             # sanitize reference geometry
             if not (isinstance(ReferenceGeometry, Rhino.Geometry.Surface)
@@ -68,12 +70,12 @@ class InitializeKnitNetwork(component):
             KN = cockatoo.KnitNetwork.create_from_contours(KnitContours,
                                                            CourseHeight,
                                                            ReferenceGeometry)
-        elif not KnitContours:
+        elif Toggle and not KnitContours:
             rml = self.RuntimeMessageLevel.Warning
             rMsg = "No KnitContours input!"
             self.AddRuntimeMessage(rml, rMsg)
             return Grasshopper.DataTree[object]()
-        elif not CourseHeight:
+        elif Toggle and not CourseHeight:
             rml = self.RuntimeMessageLevel.Warning
             rMsg = "No CourseHeight input!"
             self.AddRuntimeMessage(rml, rMsg)
