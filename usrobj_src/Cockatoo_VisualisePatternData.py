@@ -1,11 +1,54 @@
 """
-Visualises PatternData of a KnitNetwork in the Rhino viewport.
+Draws a custom 2d graph layout of a KnitNetwork and the corresponding 2d pattern
+data.
+---
+[WARNING!]
+Be careful when using the DrawData parameter. Drawing of text tags is very slow
+in rhino and since there are a looooot of text tags in such a graph, it may
+become unresponsive for quite some time. Definitely save your file before
+switching this to True!
     Inputs:
+        KnitNetworkDual: The dual graph of the KnitNetwork.
+                         {item, KnitDiNetwork)
+        PatternData: The topological sorted 2d pattern data optained from the
+                     MakePatternData component.
+                     {item, PatternData}
+        Plane: The plane to draw the graph layout onto.
+               {item, plane}
+        NodeRadius: The radius (i.e. size) of the nodes to draw.
+                    {item, float}
+        NodeDisplay: Display nodes either as circles or as squares.
+                     [0] = circle
+                     [1] = square
+                     {item, int}
+        PaddingX: The spacing between nodes in plane x-direction.
+                  {item, float}
+        PaddingY: The spacing between the nodes in plane y-direction.
+                  {item, float}
+        DirectionalDisplay: Set to True to draw arrows for edges instead of
+                            undirected lines.
+                            {item, bool}
+        DrawData: Set to True to also draw the attributes as text tags. This
+                  can be very slow!
+                  {item, bool}
+    Outputs:
+        FlatDual: A 'falt' version of the KnitNetworkDual where all nodes and
+                  edges are on the defined plane.
+                  {item, KnitDiNetwork}
+        NodeCurves: The circles/squares that are used for drawing the nodes.
+                    {list, curve}
+        WeftEdgeLines: The lines that are used for drawing the 'weft' edges.
+                       {list, line}
+        WarpEdgeLines: The lines that are used for drawing the 'warp' edges.
+                       {list, line}
+        TextTags: If DrawData is True, the text tags with all the attributes of
+                  nodes and edges.
+                  {list, TextGoo}
     Outputs:
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200731
+        Version: 200813
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -248,6 +291,12 @@ class VisualisePatternData(component):
             NodeDisplay = 1
         if DirectionalDisplay == None:
             DirectionalDisplay = False
+        if Plane == None:
+            Plane = Rhino.Geometry.Plane.WorldXY
+        
+        self.drawing_nodes = []
+        self.drawing_edges = []
+        self.drawing_data = []
         
         # set directional display
         self.draw_directional = DirectionalDisplay
@@ -267,175 +316,182 @@ class VisualisePatternData(component):
         # create a copy version of the knitnetwork
         FlatDual = cockatoo.KnitDiNetwork(KnitNetworkDual)
         
-        # set origin
-        origin = Plane.Origin
-        origin += Plane.XAxis * NodeRadius
-        origin += Plane.YAxis * NodeRadius
-        
-        # modify the padding according to node radius
-        PaddingX += NodeRadius * 2
-        PaddingY += NodeRadius * 2
-        
-        # create containers for the geometry data
-        grid = [[] for row in PatternData]
-        GraphNodes = []
-        edgelines = []
-        
-        # create containers for the drawing data
-        node_drawing_list = []
-        edge_drawing_list = []
-        data_drawing_list = []
-        
-        # loop over all the rows of the pattern data
-        for i, row in enumerate(PatternData):
-            # compute the y-coordinate
-            yval = PaddingY * i
+        if FlatDual and PatternData:
             
-            # loop over all items in the current row (columns)
-            for j, value in enumerate(row):
-                # if the current value is not a placeholder, set the flat node
-                # coordinates and create the node in the layout
-                if value >= 0:
-                    # compute point location for flat layout
-                    pt = origin + Rhino.Geometry.Vector3d(PaddingX * j, yval, 0)
+            # set origin
+            origin = Plane.Origin
+            origin += Plane.XAxis * NodeRadius
+            origin += Plane.YAxis * NodeRadius
+            
+            # modify the padding according to node radius
+            PaddingX += NodeRadius * 2
+            PaddingY += NodeRadius * 2
+            
+            # create containers for the geometry data
+            grid = [[] for row in PatternData]
+            GraphNodes = []
+            edgelines = []
+            
+            # create containers for the drawing data
+            node_drawing_list = []
+            edge_drawing_list = []
+            data_drawing_list = []
+            
+            # loop over all the rows of the pattern data
+            for i, row in enumerate(PatternData):
+                # compute the y-coordinate
+                yval = PaddingY * i
+                
+                # loop over all items in the current row (columns)
+                for j, value in enumerate(row):
+                    # if the current value is not a placeholder, set the flat node
+                    # coordinates and create the node in the layout
+                    if value >= 0:
+                        # compute point location for flat layout
+                        pt = origin + Rhino.Geometry.Vector3d(PaddingX * j, yval, 0)
+                        
+                        # append point to output list
+                        grid[i].append(pt)
+                        
+                        # set the node coordinates of the flat network
+                        FlatDual.node[value]["geo"] = pt
+                        FlatDual.node[value]["x"] = pt.X
+                        FlatDual.node[value]["y"] = pt.Y
+                        FlatDual.node[value]["z"] = pt.Z
+                        
+                        # create the display geometry
+                        if NodeDisplay == 0:
+                            graphnode = Rhino.Geometry.Circle(pt, NodeRadius)
+                        elif NodeDisplay == 1:
+                            recpln = Plane.Clone()
+                            recpln.Origin = pt
+                            recinterval = Rhino.Geometry.Interval(NodeRadius * -1,
+                                                                  NodeRadius)
+                            graphnode = Rhino.Geometry.Rectangle3d(recpln,
+                                                                   recinterval,
+                                                                   recinterval)
+                            graphnode = graphnode.ToNurbsCurve()
+                        # append geometry to output list
+                        GraphNodes.append(graphnode)
+                        
+                        # get the node data from the dual
+                        node_data = FlatDual.node[value]
+                        node_color = self.node_color(node_data)
+                        node_drawing_list.append((graphnode, node_color))
+                        
+                        if DrawData:
+                            NodeTextPlane = Plane.Clone()
+                            NodeTextPlane.Origin = (pt + 
+                                Rhino.Geometry.Vector3d(NodeRadius * -0.33,
+                                                        NodeRadius * 0.5,
+                                                        0))
+                            tagTxt = Rhino.Display.Text3d(str(value),
+                                                              NodeTextPlane,
+                                                              NodeRadius * 0.15)
+                            tagTxt.FontFace = "Source Sans Pro"
+                            data_drawing_list.append((tagTxt, node_color))
+                            
+                            nodeLabel = [(k, node_data[k]) for k in node_data
+                                         if k != "geo" and
+                                            k != "x" and
+                                            k != "y" and
+                                            k != "z"]
+                            nodeLabel = ["{}: {}".format(t[0], t[1])
+                                         for t in nodeLabel]
+                            nodeLabel.sort()
+                            nodeLabel = ["", ""] + nodeLabel
+                            nodeLabel = "\n".join(nodeLabel)
+                            nodeTxt = Rhino.Display.Text3d(str(nodeLabel),
+                                                          NodeTextPlane,
+                                                          NodeRadius * 0.06)
+                            nodeTxt.FontFace = "Source Sans Pro"
+                            data_drawing_list.append((nodeTxt, node_color))
+                        
+                    else:
+                        continue
+            
+            WeftEdgeLines = []
+            WarpEdgeLines = []
+            
+            # loop over all edges in the dual and create the flat geometry
+            # for the layout
+            for edge in FlatDual.edges_iter(data=True):
+                # get from and to point
+                ptA = FlatDual.node[edge[0]]["geo"]
+                ptB = FlatDual.node[edge[1]]["geo"]
+                # create line
+                ln = Rhino.Geometry.Line(ptA, ptB)
+                edge[2]["geo"] = ln
+                # shorten line according to node radius
+                ln = Rhino.Geometry.Line(ln.PointAtLength(NodeRadius),
+                                         ln.PointAtLength(ln.Length - NodeRadius))
+                # create drawing display
+                if not edge[2]["weft"] and not edge[2]["warp"]:
+                    edge_drawing_list.append((ln, contourcol))
                     
-                    # append point to output list
-                    grid[i].append(pt)
                     
-                    # set the node coordinates of the flat network
-                    FlatDual.node[value]["geo"] = pt
-                    FlatDual.node[value]["x"] = pt.X
-                    FlatDual.node[value]["y"] = pt.Y
-                    FlatDual.node[value]["z"] = pt.Z
-                    
-                    # create the display geometry
-                    if NodeDisplay == 0:
-                        graphnode = Rhino.Geometry.Circle(pt, NodeRadius)
-                    elif NodeDisplay == 1:
-                        recpln = Plane.Clone()
-                        recpln.Origin = pt
-                        recinterval = Rhino.Geometry.Interval(NodeRadius * -1,
-                                                              NodeRadius)
-                        graphnode = Rhino.Geometry.Rectangle3d(recpln,
-                                                               recinterval,
-                                                               recinterval)
-                        graphnode = graphnode.ToNurbsCurve()
-                    # append geometry to output list
-                    GraphNodes.append(graphnode)
-                    
-                    # get the node data from the dual
-                    node_data = FlatDual.node[value]
-                    node_color = self.node_color(node_data)
-                    node_drawing_list.append((graphnode, node_color))
+                    data_drawing_list.append((tagTxt, contourcol))
+                elif edge[2]["weft"]:
+                    WeftEdgeLines.append(ln)
+                    edge_drawing_list.append((ln, weftcol))
                     
                     if DrawData:
-                        NodeTextPlane = Plane.Clone()
-                        NodeTextPlane.Origin = (pt + 
-                            Rhino.Geometry.Vector3d(NodeRadius * -0.33,
-                                                    NodeRadius * 0.5,
-                                                    0))
-                        tagTxt = Rhino.Display.Text3d(str(value),
-                                                          NodeTextPlane,
-                                                          NodeRadius * 0.15)
+                        EdgeTextPlane = Plane.Clone()
+                        EdgeTextPlane.Origin = (ln.PointAt(0.5) 
+                                                - Rhino.Geometry.Vector3d(
+                                                            NodeRadius * 0.4,
+                                                            NodeRadius * 0.2,
+                                                            0))
+                        edgeLabel = [(k, edge[2][k]) for k
+                                     in edge[2] if k != "geo"]
+                        edgeLabel = ["{}: {}".format(t[0], t[1]) for t
+                                     in edgeLabel]
+                        edgeLabel.sort()
+                        edgeLabel = [str(edge[0]) + "-" +
+                                     str(edge[1])] + edgeLabel
+                        edgeLabel = "\n".join(edgeLabel)
+                        tagTxt = Rhino.Display.Text3d(str(edgeLabel),
+                                                      EdgeTextPlane,
+                                                      NodeRadius * 0.09)
                         tagTxt.FontFace = "Source Sans Pro"
-                        data_drawing_list.append((tagTxt, node_color))
-                        
-                        nodeLabel = [(k, node_data[k]) for k in node_data
-                                     if k != "geo" and
-                                        k != "x" and
-                                        k != "y" and
-                                        k != "z"]
-                        nodeLabel = ["{}: {}".format(t[0], t[1])
-                                     for t in nodeLabel]
-                        nodeLabel.sort()
-                        nodeLabel = ["", ""] + nodeLabel
-                        nodeLabel = "\n".join(nodeLabel)
-                        nodeTxt = Rhino.Display.Text3d(str(nodeLabel),
-                                                      NodeTextPlane,
-                                                      NodeRadius * 0.06)
-                        nodeTxt.FontFace = "Source Sans Pro"
-                        data_drawing_list.append((nodeTxt, node_color))
+                        data_drawing_list.append((tagTxt, weftcol))
                     
-                else:
-                    continue
+                elif edge[2]["warp"]:
+                    WarpEdgeLines.append(ln)
+                    edge_drawing_list.append((ln, warpcol))
+                    
+                    if DrawData:
+                        EdgeTextPlane = Plane.Clone()
+                        EdgeTextPlane.Origin = (ln.PointAt(0.5) 
+                                                + Rhino.Geometry.Vector3d(
+                                                            NodeRadius * 0.1,
+                                                            NodeRadius * 0.2,
+                                                            0))
+                        edgeLabel = [(k, edge[2][k]) for k
+                                     in edge[2] if k != "geo"]
+                        edgeLabel = ["{}: {}".format(t[0], t[1]) for t
+                                     in edgeLabel]
+                        edgeLabel.sort()
+                        edgeLabel = [str(edge[0]) + "-" +
+                                     str(edge[1])] + edgeLabel
+                        edgeLabel = "\n".join(edgeLabel)
+                        tagTxt = Rhino.Display.Text3d(str(edgeLabel),
+                                                      EdgeTextPlane,
+                                                      NodeRadius * 0.09)
+                        tagTxt.FontFace = "Source Sans Pro"
+                        data_drawing_list.append((tagTxt, warpcol))
+            
+            # set attributes and draw
+            self.drawing_nodes = node_drawing_list
+            self.drawing_edges = edge_drawing_list
+            self.drawing_data = data_drawing_list
+            
+            TextTags = [TextGoo(t[0]) for t in data_drawing_list]
+            
+            # return outputs if you have them; here I try it for you:
+            return FlatDual, GraphNodes, WeftEdgeLines, WarpEdgeLines, TextTags
         
-        WeftEdgeLines = []
-        WarpEdgeLines = []
-        
-        # loop over all edges in the dual and create the flat geometry
-        # for the layout
-        for edge in FlatDual.edges_iter(data=True):
-            # get from and to point
-            ptA = FlatDual.node[edge[0]]["geo"]
-            ptB = FlatDual.node[edge[1]]["geo"]
-            # create line
-            ln = Rhino.Geometry.Line(ptA, ptB)
-            edge[2]["geo"] = ln
-            # shorten line according to node radius
-            ln = Rhino.Geometry.Line(ln.PointAtLength(NodeRadius),
-                                     ln.PointAtLength(ln.Length - NodeRadius))
-            # create drawing display
-            if not edge[2]["weft"] and not edge[2]["warp"]:
-                edge_drawing_list.append((ln, contourcol))
-                
-                
-                data_drawing_list.append((tagTxt, contourcol))
-            elif edge[2]["weft"]:
-                WeftEdgeLines.append(ln)
-                edge_drawing_list.append((ln, weftcol))
-                
-                if DrawData:
-                    EdgeTextPlane = Plane.Clone()
-                    EdgeTextPlane.Origin = (ln.PointAt(0.5) 
-                                            - Rhino.Geometry.Vector3d(
-                                                        NodeRadius * 0.4,
-                                                        NodeRadius * 0.2,
-                                                        0))
-                    edgeLabel = [(k, edge[2][k]) for k
-                                 in edge[2] if k != "geo"]
-                    edgeLabel = ["{}: {}".format(t[0], t[1]) for t
-                                 in edgeLabel]
-                    edgeLabel.sort()
-                    edgeLabel = [str(edge[0]) + "-" +
-                                 str(edge[1])] + edgeLabel
-                    edgeLabel = "\n".join(edgeLabel)
-                    tagTxt = Rhino.Display.Text3d(str(edgeLabel),
-                                                  EdgeTextPlane,
-                                                  NodeRadius * 0.09)
-                    tagTxt.FontFace = "Source Sans Pro"
-                    data_drawing_list.append((tagTxt, weftcol))
-                
-            elif edge[2]["warp"]:
-                WarpEdgeLines.append(ln)
-                edge_drawing_list.append((ln, warpcol))
-                
-                if DrawData:
-                    EdgeTextPlane = Plane.Clone()
-                    EdgeTextPlane.Origin = (ln.PointAt(0.5) 
-                                            + Rhino.Geometry.Vector3d(
-                                                        NodeRadius * 0.1,
-                                                        NodeRadius * 0.2,
-                                                        0))
-                    edgeLabel = [(k, edge[2][k]) for k
-                                 in edge[2] if k != "geo"]
-                    edgeLabel = ["{}: {}".format(t[0], t[1]) for t
-                                 in edgeLabel]
-                    edgeLabel.sort()
-                    edgeLabel = [str(edge[0]) + "-" +
-                                 str(edge[1])] + edgeLabel
-                    edgeLabel = "\n".join(edgeLabel)
-                    tagTxt = Rhino.Display.Text3d(str(edgeLabel),
-                                                  EdgeTextPlane,
-                                                  NodeRadius * 0.09)
-                    tagTxt.FontFace = "Source Sans Pro"
-                    data_drawing_list.append((tagTxt, warpcol))
-        
-        # set attributes and draw
-        self.drawing_nodes = node_drawing_list
-        self.drawing_edges = edge_drawing_list
-        self.drawing_data = data_drawing_list
-        
-        TextTags = [TextGoo(t[0]) for t in data_drawing_list]
-        
-        # return outputs if you have them; here I try it for you:
-        return FlatDual, GraphNodes, WeftEdgeLines, WarpEdgeLines, TextTags
+        else:
+            self.drawing_nodes = []
+            self.drawing_edges = []
+            self.drawing_data = []
