@@ -22,7 +22,7 @@ indices for the resulting list of polylines.
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200731
+        Version: 200801
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -132,8 +132,12 @@ class ExtractKnitConstraintsFromOpenMeshPatch(component):
             Left = boundarysegments[0:Start] + boundarysegments[End+1:]
         
         # extract start and end course polyline by index
-        StartCourse = boundarysegments[Start]
-        EndCourse = boundarysegments[End]
+        if FlipDir:
+            StartCourse = boundarysegments[End]
+            EndCourse = boundarysegments[Start]
+        else:
+            StartCourse = boundarysegments[Start]
+            EndCourse = boundarysegments[End]
         
         # join the boundary curves
         if len(Left) > 0:
@@ -186,14 +190,6 @@ class ExtractKnitConstraintsFromOpenMeshPatch(component):
         RightBoundary = break_polyline(RightBoundary.ToPolyline(),
                                        BreakAngle,
                                        as_crv=True)
-        
-        if FlipDir:
-            lb = RightBoundary
-            rb = LeftBoundary
-            LeftBoundary = lb
-            RightBoundary = rb
-            StartCourse.Reverse()
-            EndCourse.Reverse()
         
         # set left and right for preview drawing
         self.SC = StartCourse
