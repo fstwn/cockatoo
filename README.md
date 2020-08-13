@@ -47,7 +47,7 @@ To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more specific, an
 ### 1. Download release files
 
 - Go to [releases](https://github.com/fstwn/cockatoo/releases) and download the newest release
-- Unzip the downloaded archive. You should get two folders: `modules` and `Cockatoo`.
+- Unzip the downloaded archive. You should get the folders: `modules` and `Cockatoo`.
 
 ### 2. Install python modules
 
