@@ -8,6 +8,10 @@ sort the stitches into rows and columns.
 dual network or the underlying KnitNetwork and thus it can not be represented as
 a directed acyclic graph.
 ---
+[WARNING]
+SAVE YOUR FILE before activating this! It can crash rhino and grasshopper for
+reasons currently unknown. 
+---
 For more details on the underlying concepts see
 https://en.wikipedia.org/wiki/Directed_acyclic_graph
 https://en.wikipedia.org/wiki/Topological_sorting
@@ -46,12 +50,17 @@ https://en.wikipedia.org/wiki/Topological_sorting
                   Defaults to Blue.
                   {item, System.Drawing.Color}
     Outputs:
-        PatternData: {list/tree, int}
-        PixelData: {list/tree, int}
+        PatternData: The 2d pattern data as a matrix of rows and columns.
+                     Contains the node indices. The value '-1' is used as a
+                     filler.
+                     {tuple, int}
+        PixelData: The 2d pixel data as a matrix of rows and columns.
+                   Contains the colors of each stitch as as System Color.
+                   {tuple, System.Drawing.Color}
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200705
+        Version: 200813
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -84,7 +93,7 @@ except ImportError:
 
 class MakePatternData(component):
     
-    def RunScript(self, DualNetwork, Consolidate, ColorMode, FillerColor, StitchColor, IncreaseColor, DecreaseColor, EndColor):
+    def RunScript(self, Toggle, DualNetwork, Consolidate, ColorMode, FillerColor, StitchColor, IncreaseColor, DecreaseColor, EndColor):
         
         # set defaults and snitize inputs
         if Consolidate == None:
@@ -107,11 +116,8 @@ class MakePatternData(component):
         PatternData = Grasshopper.DataTree[object]()
         PixelData = Grasshopper.DataTree[object]()
         
-        if DualNetwork:
+        if Toggle and DualNetwork:
             # CREATE PATTERN DATA (ROWS AND COLUMNS) ---------------------------
-            
-            PatternData = DualNetwork.make_pattern_data(
-                                                    consolidate=Consolidate)
             
             try:
                 PatternData = DualNetwork.make_pattern_data(
@@ -220,7 +226,7 @@ class MakePatternData(component):
                 self.AddRuntimeMessage(rml, rMsg)
                 print(e.message)
         
-        else:
+        elif Toggle and not DualNetwork:
             rml = self.RuntimeMessageLevel.Warning
             rMsg = "No DualNetwork input!"
             self.AddRuntimeMessage(rml, rMsg)
