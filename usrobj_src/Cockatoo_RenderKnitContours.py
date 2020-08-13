@@ -91,7 +91,7 @@ class RenderKnitContours(component):
                                                  0,
                                                  numseg,
                                                  0.0,
-                                                 0.35)
+                                                 0.36)
                     for j, seg in enumerate(segs):
                         drawing_curves.append((seg, ccols[j], Thickness))
                 else:
@@ -110,7 +110,7 @@ class RenderKnitContours(component):
                                                  0,
                                                  numseg,
                                                  0.0,
-                                                 0.35)
+                                                 0.36)
                     for j, seg in enumerate(segs):
                         drawing_curves.append((seg, ccols[j], Thickness))
             
