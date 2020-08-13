@@ -4,14 +4,19 @@ Write knitting pattern data to a bitmap file.
 Based on an example by Anders Holden Deleuran
 https://discourse.mcneel.com/t/write-a-bitmap-pixel-by-pixel-in-python/81116/2
     Inputs:
-        Toggle: Set to True to save the bitmap file.
-                {item, bool}
-        PatternData: The knitting pattern data to write to the bitmap file.
-                     {item, data}
+        Write: Set to True to save the bitmap file.
+               {item, bool}
+        PixelData: The knitting pattern pixel data to write to the bitmap file.
+                   Use the MakePatternData component to obtain the pixel data
+                   for a KnitNetwork.
+                   {item, PixelData}
+        Path: The file path to a .bmp file where the knitting pattern should
+              be written.
+              {item, str}
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200705
+        Version: 200813
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
