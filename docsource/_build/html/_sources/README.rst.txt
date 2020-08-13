@@ -287,11 +287,17 @@ in the written version of the diploma thesis.
 Licensing
 ---------
 
+-  Original code is licensed under the MIT License.
 -  NetworkX is licensed under the 3-clause BSD license which can be
    found in ``licenses/networkx``.
 -  Some code snippets from the COMPAS framework are used within this
    software. This code is licensed under the MIT License which can be
    found in ``licenses/COMPAS``.
+-  Some code snippets by `Anders Holden
+   Deleuran <https://github.com/AndersDeleuran/>`__ are used with
+   permission. They originate from gists and the *FAHS* pipeline, kindly
+   provided by Anders. This code is licensed under the Apache License
+   2.0 which can be found in ``licenses/ahd``.
 
 Misc
 ----

@@ -2,6 +2,8 @@
 
 __pycache__/
 
+/dist/
+
 /UserObjects_deprecated/
 /usrobj_src_deprecated/
 

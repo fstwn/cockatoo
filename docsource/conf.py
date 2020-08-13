@@ -97,6 +97,8 @@ html_theme_path = sphinx_glpi_theme.get_html_themes_path()
 
 # -- Options for LaTeX output --------------------------------------------------
 
-latex_show_urls = 'footnote'
+# setting for generating a 'print-version' of the manual
+# latex_show_urls = 'footnote'
+
 latex_logo = '_static/latex.jpg'
 latex_theme = 'manual'
