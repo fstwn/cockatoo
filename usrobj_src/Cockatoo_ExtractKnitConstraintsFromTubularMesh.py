@@ -2,28 +2,26 @@
 Extracts the necessary constraint to create KnitContours for a tubular mesh with
 two closed boundaries based  on specified parameters. The constraints consist of
 a start, end as well as a  left and right boundary. Preview shows the start
-course in red, the end course in green and the left/right boundaries in orange.
-To extract the constraints, the boundary of the mesh is broken apart at kinks
-which exceed the specified break angle. The 'Start' and 'End' parameters define
-indices for the resulting list of polylines.
-TODO: Update Docstring!
+course in red, the end course in green and the left/right boundaries in blue.
     Inputs:
         Mesh: The mesh that should be knit for constraint extraction.
               {item, mesh}
-        BreakAngle: Angle at which to break apart mesh boundary.
-                    {item, float}
-        StartIndex: Index for the start course.
-                    {item, integer}
-        EndIndex: Index for the end course.
-                  {item, integer}
+        SeamA: Normalized position of the seam on the first closed boundary of
+               the tube. Between 0.0 an 1.0.
+               {item, float}
+        SeamB: Normalized position of the seam on the second closed boundary of
+               the tube. Between 0.0 an 1.0.
+               {item, float}
+        FlipDir: If True, inverts the knitting direction.
+                 {item, bool}
     Output:
         KnitConstraint: The KnitConstraint for this mesh for contour
-                         generation.
-                         {item, KnitConstraint}
+                        generation.
+                        {item, KnitConstraint}
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200731
+        Version: 200813
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -108,8 +106,8 @@ class ExtractKnitConstraintsFromTubularMesh(component):
                 # add start and end to customdisplay
                 display.DrawCurve(self.SC, scol, 3)
                 display.DrawCurve(self.EC, ecol, 3)
-                display.DrawCurve(self.SB, sbcol, 3)
-                display.DrawCurve(self.RB, sbcol, 3)
+                display.DrawCurve(self.SB, sbcol, 2)
+                display.DrawCurve(self.RB, sbcol, 2)
             
         except Exception, e:
             System.Windows.Forms.MessageBox.Show(str(e),
