@@ -1,6 +1,8 @@
 COCKATOO
 ========
 
+|Automatic knitting pattern generation using Cockatoo|
+
 -  Cockatoo is a prototypical open-source software toolkit for
    generating (3d-)knitting patterns from NURBS surface and mesh
    geometry.
@@ -126,7 +128,7 @@ Installation
 
 -  Go to `releases <https://github.com/fstwn/cockatoo/releases>`__ and
    download the newest release
--  Unzip the downloaded archive. You should get two folders: ``modules``
+-  Unzip the downloaded archive. You should get the folders: ``modules``
    and ``Cockatoo``.
 
 .. _2.-install-python-modules:
@@ -306,3 +308,6 @@ Misc
    Ruttens <https://ieatbugsforbreakfast.wordpress.com/>`__ delightful
    sense of humor which has changed many of my darker days for the
    better.
+
+.. |Automatic knitting pattern generation using Cockatoo| image:: images/readme_img_01.jpg
+
