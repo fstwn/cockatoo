@@ -1,6 +1,6 @@
 # COCKATOO
 
-![Image of Yaktocat](images/readme_image_01.jpg)
+![Automatic knitting pattern generation using Cockatoo](images/readme_img_01.jpg)
 
 - Cockatoo is a prototypical open-source software toolkit for generating (3d-)knitting patterns from NURBS surface and mesh geometry.
 - It is implemented as a [Python](https://www.python.org/) module for use within [McNeel Rhinoceros 6](https://www.rhino3d.com/) aswell as [Grasshopper](https://www.rhino3d.com/6/new/grasshopper).
