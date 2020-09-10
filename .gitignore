@@ -11,3 +11,5 @@ __pycache__/
 
 /modules/cockatoo/_backup.py
 /modules/cockatoo/_sketches_reference.py
+
+/gource.txt
