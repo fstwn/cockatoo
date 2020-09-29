@@ -21,12 +21,13 @@ course in red, the end course in green and the left/right boundaries in blue.
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200813
+        Version: 200929
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
 from __future__ import division
 import clr
+from os import path
 
 # GHPYTHON SDK IMPORTS
 from ghpythonlib.componentbase import executingcomponent as component
