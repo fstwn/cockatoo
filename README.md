@@ -68,7 +68,7 @@ To do all the juicy graph stuff, Cockatoo uses NetworkX. To be more specific, an
   `C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects`
 
   - On **Mac OSX**:
-  `~/Library/Application Support/McNeel/Rhinoceros/6.0/scripts`
+  `~/Library/Application Support/McNeel/Rhinoceros/MacPlugIns/Grasshopper/UserObjects`
 
   - *Alternative:* Open Rhino & Grasshopper and in the Grasshopper Window click on
   `File` > `Special Folders` > `User Object Folder`
