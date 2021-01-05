@@ -63,7 +63,7 @@ of the Rhino.Geometry.Mesh.CreatePatch method.
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200705
+        Version: 210105
 """
 
 # GHPYTHON SDK IMPORTS
@@ -107,8 +107,9 @@ class CreateMeshPatch(component):
             except Exception, errMsg:
                 rml = self.RuntimeMessageLevel.Error
                 self.AddRuntimeMessage(rml, str(errMsg))
+                Mesh = Grasshopper.DataTree[object]()
         else:
-            Mesh = None
+            Mesh = Grasshopper.DataTree[object]()
         
         # return outputs if you have them; here I try it for you:
         return Mesh
