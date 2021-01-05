@@ -2,14 +2,18 @@
 Listens for changes in geometry and sends a True value if anything changes
 (this can be used to reset the Kangaroo Solver for example).
     Inputs:
-        Geometry: This is the geometry that is being watched for changes. {list, geometry}
-        Enable: If True, the PipelineWatchdog is active. If false, it isn't. Connect a Toggle to switch it on and off. {item, boolean}
+        Geometry: This is the geometry that is being watched for changes.
+                  {tree, geometry}
+        Enable: If True, the PipelineWatchdog is active. If false, it isn't.
+                Connect a Toggle to switch it on and off.
+                {item, boolean}
     Outputs:
-        solverReset: Triggers a True when anything has changed, otherwise false. {item, boolean}
+        Reset: Triggers a True when anything has changed, otherwise false.
+               {item, boolean}
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200705
+        Version: 2010105
 """
 
 # GHPYTHON SDK IMPORTS
@@ -21,6 +25,7 @@ import rhinoscriptsyntax as rs
 
 # CUSTOM RHINO IMPORTS
 from scriptcontext import sticky as st
+from ghpythonlib import treehelpers as th
 
 ghenv.Component.Name = "GeometryWatchDog"
 ghenv.Component.NickName = "GWD"
@@ -29,9 +34,10 @@ ghenv.Component.SubCategory = "01 Pipeline Controlling"
 
 class GeometryWatchDog(component):
     
-    def updateComponent(self):
+    def updateComponent(self, geo, key):
         # define callback action
         def callBack(e):
+            st[key] = geo
             self.ExpireSolution(False)
         # get ghDoc
         ghDoc = self.OnPingDocument()
@@ -41,32 +47,43 @@ class GeometryWatchDog(component):
     
     def RunScript(self, Geometry, Enable):
         
-        ig = self.InstanceGuid
-        geoKey = str(ig) + "___WATCHEDGEOMETRY"
-        resetKey = str(ig) + "___RESETFLAG"
+        # preprocess geometry tree
+        Geometry.Flatten()
+        Geometry = th.tree_to_list(Geometry)
         
-        if Enable and Geometry and Geometry != []:
-            if geoKey not in st or resetKey not in st or st[resetKey] == True:
-                print "Setting geometry"
-                st[geoKey] = Geometry
-                st[resetKey] = False
+        # get instance guid and set sticky keys
+        ig = self.InstanceGuid
+        geo_key = str(ig) + "_GWD_GEO"
+        reset_key = str(ig) + "_GWD_RESET"
+        
+        # define initial condition
+        Reset = False
+        
+        if Enable and Geometry:
+            if geo_key not in st or reset_key not in st or st[reset_key] == True:
+                #print "Setting geometry"
+                st[geo_key] = Geometry
+                st[reset_key] = False
                 Reset = False
                 self.Message = str(Reset)
-            elif st[geoKey] != Geometry:
-                print "Reset!"
+            elif st[geo_key] != Geometry:
+                #print "Reset!"
                 Reset = True
-                st[resetKey] = True
-                st[geoKey] = Geometry
+                st[reset_key] = True
                 self.Message = str(Reset)
-                self.updateComponent()
+                self.updateComponent(Geometry, geo_key)
             else:
-                solverReset = False
                 Reset = False
+                st[reset_key] = False
                 self.Message = str(Reset)
-            
         else:
-            self.Message = "GeometryWatchdog disabled!"
-            Reset = False
+            if not Enable:
+                self.Message = "GeometryWatchdog disabled!"
+            if not Geometry:
+                rml = self.RuntimeMessageLevel.Warning
+                rmsg = "Input Geometry failed to collect Data!"
+                self.Message = "No Geometry to watch..."
+                self.AddRuntimeMessage(rml, rmsg)
         
         # return outputs if you have them; here I try it for you:
         return Reset
