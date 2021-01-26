@@ -52,8 +52,8 @@ def is_rhino_inside():
             import Rhino  # NOQA: F401
             return True
         except Exception:
-            errMsg = "Rhino could not be loaded! Please make sure the " + \
-                     "RhinoCommon API is available to continue."
+            errMsg = ("Rhino could not be loaded! Please make sure the " +
+                      "RhinoCommon API is available to continue.")
             raise RhinoNotPresentError(errMsg)
     return False
 

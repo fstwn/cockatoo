@@ -2,7 +2,6 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from collections import deque
 from collections import OrderedDict
 import math
 
@@ -1407,7 +1406,7 @@ class KnitDiNetwork(nx.DiGraph, KnitNetworkBase):
 
             # SPREAD OUT BY FILLING WITH -1 FILLER ----------------------------
 
-            # fill all the rows to minimum row length with 
+            # fill all the rows to minimum row length with
             # placeholder values (-1)
             minrl = max([len(row) for row in rows])
             # loop over all rows and fill until minimum length

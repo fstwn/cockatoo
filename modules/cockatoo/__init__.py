@@ -114,9 +114,9 @@ __all__ = [
 
 # CHECK NETWORKX VERSION ------------------------------------------------------
 if environment.NXVERSION != "1.5":
-    errMsg = "Could not verify NetworkX as version 1.5! Please make " + \
-             "sure NetworkX 1.5 is available to continue."
-    raise exception.NetworkXVersionError(errMsg)
+    errmsg = ("Could not verify NetworkX as version 1.5! Please make " +
+              "sure NetworkX 1.5 is available to continue.")
+    raise exception.NetworkXVersionError(errmsg)
 
 # MAIN ------------------------------------------------------------------------
 if __name__ == '__main__':
