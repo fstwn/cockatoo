@@ -22,7 +22,7 @@ indices for the resulting list of polylines.
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200801
+        Version: 210929
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
