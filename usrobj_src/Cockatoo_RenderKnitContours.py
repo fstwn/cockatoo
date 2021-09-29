@@ -10,7 +10,7 @@ gradient coloured curves. Will work with any type of curve, actually.
     Remarks:
         Author: Max Eschenbach
         License: MIT License
-        Version: 200705
+        Version: 210929
 """
 
 # PYTHON STANDARD LIBRARY IMPORTS
@@ -77,9 +77,10 @@ class RenderKnitContours(component):
             
             # make customdisplay
             for i, pl in enumerate(KnitContours):
-                if pl.IsPolyline() and pl.Degree == 1:
+                if type(pl) == Rhino.Geometry.PolylineCurve and pl.Degree == 1:
                     polypts = []
-                    for j, cpt in enumerate(pl.Points):
+                    for j in range(pl.PointCount):
+                        cpt = pl.Point(j)
                         polypts.append(Rhino.Geometry.Point3d(cpt.X, 
                                                               cpt.Y,
                                                               cpt.Z))
@@ -91,7 +92,7 @@ class RenderKnitContours(component):
                                                  0,
                                                  numseg,
                                                  0.0,
-                                                 0.36)
+                                                 0.35)
                     for j, seg in enumerate(segs):
                         drawing_curves.append((seg, ccols[j], Thickness))
                 else:
@@ -110,7 +111,7 @@ class RenderKnitContours(component):
                                                  0,
                                                  numseg,
                                                  0.0,
-                                                 0.36)
+                                                 0.35)
                     for j, seg in enumerate(segs):
                         drawing_curves.append((seg, ccols[j], Thickness))
             
