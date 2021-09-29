@@ -95,17 +95,18 @@
 \indexentry{create\_mesh() (cockatoo.KnitDiNetwork method)@\spxentry{create\_mesh()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{28}
 \indexentry{find\_cycles() (cockatoo.KnitDiNetwork method)@\spxentry{find\_cycles()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{28}
 \indexentry{make\_pattern\_data() (cockatoo.KnitDiNetwork method)@\spxentry{make\_pattern\_data()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{29}
-\indexentry{node\_contour\_edges() (cockatoo.KnitDiNetwork method)@\spxentry{node\_contour\_edges()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{29}
-\indexentry{node\_contour\_edges\_in() (cockatoo.KnitDiNetwork method)@\spxentry{node\_contour\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{29}
+\indexentry{make\_pattern\_data\_\_STOLL() (cockatoo.KnitDiNetwork method)@\spxentry{make\_pattern\_data\_\_STOLL()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{29}
+\indexentry{node\_contour\_edges() (cockatoo.KnitDiNetwork method)@\spxentry{node\_contour\_edges()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{30}
+\indexentry{node\_contour\_edges\_in() (cockatoo.KnitDiNetwork method)@\spxentry{node\_contour\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{30}
 \indexentry{node\_contour\_edges\_out() (cockatoo.KnitDiNetwork method)@\spxentry{node\_contour\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{30}
 \indexentry{node\_warp\_edges() (cockatoo.KnitDiNetwork method)@\spxentry{node\_warp\_edges()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{30}
 \indexentry{node\_warp\_edges\_in() (cockatoo.KnitDiNetwork method)@\spxentry{node\_warp\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{30}
-\indexentry{node\_warp\_edges\_out() (cockatoo.KnitDiNetwork method)@\spxentry{node\_warp\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{30}
-\indexentry{node\_weft\_edges() (cockatoo.KnitDiNetwork method)@\spxentry{node\_weft\_edges()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{30}
+\indexentry{node\_warp\_edges\_out() (cockatoo.KnitDiNetwork method)@\spxentry{node\_warp\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{31}
+\indexentry{node\_weft\_edges() (cockatoo.KnitDiNetwork method)@\spxentry{node\_weft\_edges()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{31}
 \indexentry{node\_weft\_edges\_in() (cockatoo.KnitDiNetwork method)@\spxentry{node\_weft\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{31}
 \indexentry{node\_weft\_edges\_out() (cockatoo.KnitDiNetwork method)@\spxentry{node\_weft\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{31}
-\indexentry{verify\_dual\_form() (cockatoo.KnitDiNetwork method)@\spxentry{verify\_dual\_form()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{31}
-\indexentry{KnitMappingNetwork (class in cockatoo)@\spxentry{KnitMappingNetwork}\spxextra{class in cockatoo}|hyperpage}{31}
+\indexentry{verify\_dual\_form() (cockatoo.KnitDiNetwork method)@\spxentry{verify\_dual\_form()}\spxextra{cockatoo.KnitDiNetwork method}|hyperpage}{32}
+\indexentry{KnitMappingNetwork (class in cockatoo)@\spxentry{KnitMappingNetwork}\spxextra{class in cockatoo}|hyperpage}{32}
 \indexentry{ToString() (cockatoo.KnitMappingNetwork method)@\spxentry{ToString()}\spxextra{cockatoo.KnitMappingNetwork method}|hyperpage}{32}
 \indexentry{build\_chains() (cockatoo.KnitMappingNetwork method)@\spxentry{build\_chains()}\spxextra{cockatoo.KnitMappingNetwork method}|hyperpage}{32}
 \indexentry{traverse\_segments\_until\_warp() (cockatoo.KnitMappingNetwork method)@\spxentry{traverse\_segments\_until\_warp()}\spxextra{cockatoo.KnitMappingNetwork method}|hyperpage}{32}

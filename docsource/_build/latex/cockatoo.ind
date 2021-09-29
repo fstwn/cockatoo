@@ -92,7 +92,7 @@
   \bigletter K
   \item \spxentry{KnitConstraint}\spxextra{class in cockatoo}, \hyperpage{13}
   \item \spxentry{KnitDiNetwork}\spxextra{class in cockatoo}, \hyperpage{27}
-  \item \spxentry{KnitMappingNetwork}\spxextra{class in cockatoo}, \hyperpage{31}
+  \item \spxentry{KnitMappingNetwork}\spxextra{class in cockatoo}, \hyperpage{32}
   \item \spxentry{KnitNetwork}\spxextra{class in cockatoo}, \hyperpage{20}
   \item \spxentry{KnitNetworkBase}\spxextra{class in cockatoo}, \hyperpage{13}
   \item \spxentry{KnitNetworkError}, \hyperpage{8}
@@ -110,6 +110,8 @@
   \indexspace
   \bigletter M
   \item \spxentry{make\_pattern\_data()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{29}
+  \item \spxentry{make\_pattern\_data\_\_STOLL()}\spxextra{cockatoo.KnitDiNetwork method}, 
+		\hyperpage{29}
   \item \spxentry{map\_values\_as\_colors()}\spxextra{in module cockatoo.utilities}, \hyperpage{10}
   \item \spxentry{mapping\_network()}\spxextra{cockatoo.KnitNetwork property}, \hyperpage{27}
   \item \spxentry{MappingNetworkError}, \hyperpage{9}
@@ -124,10 +126,10 @@
   \item \spxentry{networkx\_version()}\spxextra{in module cockatoo.environment}, \hyperpage{7}
   \item \spxentry{NetworkXNotPresentError}, \hyperpage{8}
   \item \spxentry{NetworkXVersionError}, \hyperpage{8}
-  \item \spxentry{node\_contour\_edges()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{29}
+  \item \spxentry{node\_contour\_edges()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{30}
   \item \spxentry{node\_contour\_edges()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{17}
   \item \spxentry{node\_contour\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}, 
-		\hyperpage{29}
+		\hyperpage{30}
   \item \spxentry{node\_contour\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}, 
 		\hyperpage{30}
   \item \spxentry{node\_coordinates()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{17}
@@ -136,8 +138,8 @@
   \item \spxentry{node\_warp\_edges()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{30}
   \item \spxentry{node\_warp\_edges()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{18}
   \item \spxentry{node\_warp\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{30}
-  \item \spxentry{node\_warp\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{30}
-  \item \spxentry{node\_weft\_edges()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{30}
+  \item \spxentry{node\_warp\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{31}
+  \item \spxentry{node\_weft\_edges()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{31}
   \item \spxentry{node\_weft\_edges()}\spxextra{cockatoo.KnitNetworkBase method}, \hyperpage{18}
   \item \spxentry{node\_weft\_edges\_in()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{31}
   \item \spxentry{node\_weft\_edges\_out()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{31}
@@ -189,7 +191,7 @@
 
   \indexspace
   \bigletter V
-  \item \spxentry{verify\_dual\_form()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{31}
+  \item \spxentry{verify\_dual\_form()}\spxextra{cockatoo.KnitDiNetwork method}, \hyperpage{32}
 
   \indexspace
   \bigletter W

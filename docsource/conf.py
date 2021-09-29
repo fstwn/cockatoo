@@ -22,7 +22,7 @@ copyright = '2020, Max Eschenbach'
 author = 'Max Eschenbach'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.0.0-alpha'
+release = '0.1.1.0-alpha'
 
 # -- General configuration ---------------------------------------------------
 

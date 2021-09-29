@@ -1,7 +1,7 @@
 This is makeindex, version 2.15 [MiKTeX 2.9.7440 64-bit] (kpathsea + Thai support).
 Scanning style file ./python.ist.......done (7 attributes redefined, 0 ignored).
-Scanning input file cockatoo.idx....done (111 entries accepted, 0 rejected).
-Sorting entries....done (766 comparisons).
-Generating output file cockatoo.ind....done (199 lines written, 0 warnings).
+Scanning input file cockatoo.idx....done (112 entries accepted, 0 rejected).
+Sorting entries....done (796 comparisons).
+Generating output file cockatoo.ind....done (201 lines written, 0 warnings).
 Output written in cockatoo.ind.
 Transcript written in cockatoo.ilg.

@@ -15,7 +15,7 @@ COCKATOO
 
 --------------
 
-.. _purpose-&-origins:
+.. _purpose--origins:
 
 Purpose & Origins
 -----------------
@@ -121,7 +121,7 @@ Partial Dependencies
 Installation
 ------------
 
-.. _1.-download-release-files:
+.. _1-download-release-files:
 
 1. Download release files
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -131,7 +131,7 @@ Installation
 -  Unzip the downloaded archive. You should get the folders: ``modules``
    and ``Cockatoo``.
 
-.. _2.-install-python-modules:
+.. _2-install-python-modules:
 
 2. Install python modules
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -147,7 +147,7 @@ Installation
 -  Move all the Content from inside the ``modules`` directory to this
    scripts folder.
 
-.. _3.-install-cockatoo-userobjects:
+.. _3-install-cockatoo-userobjects:
 
 3. Install Cockatoo UserObjects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -158,7 +158,7 @@ Installation
       ``C:\Users\%USERNAME%\AppData\Roaming\Grasshopper\UserObjects``
 
    -  On **Mac OSX**:
-      ``~/Library/Application Support/McNeel/Rhinoceros/6.0/scripts``
+      ``~/Library/Application Support/McNeel/Rhinoceros/MacPlugIns/Grasshopper/UserObjects``
 
    -  *Alternative:* Open Rhino & Grasshopper and in the Grasshopper
       Window click on ``File`` > ``Special Folders`` >
@@ -166,7 +166,7 @@ Installation
 
 -  Move the whole ``Cockatoo`` directory to the UserObjects folder.
 
-.. _4.-unblock-the-new-userobjects!:
+.. _4-unblock-the-new-userobjects:
 
 4. Unblock the new UserObjects!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -179,7 +179,7 @@ Installation
 -  **Unfortunately you have to do this for EVERY UserObject in the
    folder!**
 
-.. _5.-restart-rhino-&-grasshopper:
+.. _5-restart-rhino--grasshopper:
 
 5. Restart Rhino & Grasshopper
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -187,7 +187,7 @@ Installation
 -  If Rhino was running during the installation process, you'll have to
    restart it for the changes to take effect!
 
-.. _examples-&-usage:
+.. _examples--usage:
 
 Examples & Usage
 ----------------
@@ -200,12 +200,10 @@ For guidance on using the API provided through the python module
 directly, please have a look at the
 `documentation <https://fstwn.github.io/cockatoo/>`__
 
-.. _testing-&-contributing:
+.. _testing--contributing:
 
 Testing & Contributing
 ----------------------
-
-.. _you-are-invited-to-participate!:
 
 You are invited to participate!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -240,7 +238,7 @@ If you're willing to contribute to Cockatoo by writing new code or
 improving existing code, that's great! Please have a look at the
 contribution guidelines.
 
-.. _sources-&-references:
+.. _sources--references:
 
 Sources & References
 --------------------
@@ -310,4 +308,3 @@ Misc
    better.
 
 .. |Automatic knitting pattern generation using Cockatoo| image:: images/readme_img_01.jpg
-

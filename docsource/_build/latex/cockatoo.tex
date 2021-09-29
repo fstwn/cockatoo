@@ -73,8 +73,8 @@
 
 
 \title{Cockatoo}
-\date{Aug 14, 2020}
-\release{0.1.0.0-alpha}
+\date{Sep 29, 2021}
+\release{0.1.1.0-alpha}
 \author{Max Eschenbach}
 \newcommand{\sphinxlogo}{\sphinxincludegraphics{latex.jpg}\par}
 \renewcommand{\releasename}{Release}
@@ -279,7 +279,7 @@ On \sphinxstylestrong{Windows}:
 
 \item {} 
 On \sphinxstylestrong{Mac OSX}:
-\sphinxcode{\sphinxupquote{\textasciitilde{}/Library/Application Support/McNeel/Rhinoceros/6.0/scripts}}
+\sphinxcode{\sphinxupquote{\textasciitilde{}/Library/Application Support/McNeel/Rhinoceros/MacPlugIns/Grasshopper/UserObjects}}
 
 \item {} 
 \sphinxstyleemphasis{Alternative:} Open Rhino \& Grasshopper and in the Grasshopper
@@ -338,7 +338,7 @@ directly, please have a look at the
 \label{\detokenize{README:testing-contributing}}\label{\detokenize{README:id8}}
 
 \subsection{You are invited to participate!}
-\label{\detokenize{README:you-are-invited-to-participate}}\label{\detokenize{README:id9}}
+\label{\detokenize{README:you-are-invited-to-participate}}
 Contributing is easy as Pi (well…easier, actually). First off,
 Cockatoo needs software testing to find bugs and make it more robust. So
 just by trying out Cockatoo out of curiosity, you can actually help!
@@ -371,7 +371,7 @@ contribution guidelines.
 
 
 \section{Sources \& References}
-\label{\detokenize{README:sources-references}}\label{\detokenize{README:id10}}
+\label{\detokenize{README:sources-references}}\label{\detokenize{README:id9}}
 This section states the most important sources used in writing this
 software. The full and proper list of sources is \sphinxhyphen{} of course \sphinxhyphen{} available
 in the written version of the diploma thesis.
@@ -2954,6 +2954,36 @@ See: \sphinxhref{https://github.com/compas-dev/compas/blob/09153de6718fb3d49a465
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{cockatoo:cockatoo.KnitDiNetwork.make_pattern_data}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{make\_pattern\_data}}}{\emph{\DUrole{n}{consolidate}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
+Topological sort this network to represent it as 2d knitting pattern
+consisting of rows and columns.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{consolidate}} (\sphinxhref{https://docs.python.org/2/library/functions.html\#bool}{\sphinxstyleliteralemphasis{\sphinxupquote{bool}}}) \textendash{} If \sphinxcode{\sphinxupquote{True}}, will consolidate the final pattern data.
+Defaulst to \sphinxcode{\sphinxupquote{False}}.
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{pattern\_data} (\sphinxcode{\sphinxupquote{list}} of \sphinxcode{\sphinxupquote{list}}) \textendash{} List (rows) of lists (column values) where every value represents
+a node.
+
+\item[{Raises}] \leavevmode
+{\hyperref[\detokenize{cockatoo:cockatoo.exception.KnitNetworkTopologyError}]{\sphinxcrossref{\sphinxstyleliteralstrong{\sphinxupquote{KnitNetworkTopologyError}}}}} \textendash{} if the network does not satisfy the topology constraints needed for
+    this operation and the outcome would be unfeasible or
+    unpredictable.
+
+\end{description}\end{quote}
+\subsubsection*{Notes}
+
+Closely resembles the implementation described in \sphinxstyleemphasis{Automated Generation
+of Knit Patterns for Non\sphinxhyphen{}developable Surfaces} \sphinxfootnotemark[1]. Also see
+\sphinxstyleemphasis{KnitCrete \sphinxhyphen{} Stay\sphinxhyphen{}in\sphinxhyphen{}place knitted formworks for complex concrete
+structures} \sphinxfootnotemark[2].
+
+\end{fulllineitems}
+
+\index{make\_pattern\_data\_\_STOLL() (cockatoo.KnitDiNetwork method)@\spxentry{make\_pattern\_data\_\_STOLL()}\spxextra{cockatoo.KnitDiNetwork method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{cockatoo:cockatoo.KnitDiNetwork.make_pattern_data__STOLL}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{make\_pattern\_data\_\_STOLL}}}{\emph{\DUrole{n}{consolidate}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
 Topological sort this network to represent it as 2d knitting pattern
 consisting of rows and columns.
 \begin{quote}\begin{description}

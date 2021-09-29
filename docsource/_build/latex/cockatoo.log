@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.7)  14 AUG 2020 14:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.7)  29 SEP 2021 12:05
 entering extended mode
 **./cockatoo.tex
 (cockatoo.tex
@@ -834,28 +834,28 @@ Underfull \hbox (badness 10000) in paragraph at lines 2817--2818
 n/10 , \T1/pcr/m/n/10 cockatoo._knitnetworkbase.
  []
 
-[27] [28] [29] [30]
-Underfull \hbox (badness 10000) in paragraph at lines 3259--3260
+[27] [28] [29] [30] [31]
+Underfull \hbox (badness 10000) in paragraph at lines 3289--3290
 \T1/ptm/m/n/10 Bases: \T1/pcr/m/n/10 networkx.classes.multigraph.MultiGraph\T1/
 ptm/m/n/10 , \T1/pcr/m/n/10 cockatoo._knitnetworkbase.
  []
 
-[31]
-Underfull \hbox (badness 10000) in paragraph at lines 3268--3270
+
+Underfull \hbox (badness 10000) in paragraph at lines 3298--3300
 \T1/ptm/m/n/10 Not in-tended to be in-stan-ti-ated sep-a-rately. Should only be
  in-stan-ti-ated by the Knit-Net-
  []
 
-[32]
+[32] [33] [34
+
+]
 Chapter 3.
-[33
+[35] [36
 
-] [34
-
-] [35
+] [37
 
 
-] (cockatoo.ind [36
+] (cockatoo.ind [38
 
 
 ]
@@ -994,7 +994,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 87--88
 -
  []
 
-[37
+[39
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 89--90
@@ -1026,158 +1026,164 @@ Underfull \hbox (badness 10000) in paragraph at lines 112--113
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 113--114
+Underfull \hbox (badness 10000) in paragraph at lines 113--115
+[]\T1/pcr/m/n/10 make_pattern_data__STOLL() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 coc
+k-a-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--116
 []\T1/pcr/m/n/10 map_values_as_colors() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-
 ule cock-a-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 124--125
+Underfull \hbox (badness 10000) in paragraph at lines 126--127
 []\T1/pcr/m/n/10 networkx_version() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 in mod-ule 
 cock-a-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 128--129
+Underfull \hbox (badness 10000) in paragraph at lines 130--131
 []\T1/pcr/m/n/10 node_contour_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 129--131
+Underfull \hbox (badness 10000) in paragraph at lines 131--133
 []\T1/pcr/m/n/10 node_contour_edges_in() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a
 -
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 131--133
+Underfull \hbox (badness 10000) in paragraph at lines 133--135
 []\T1/pcr/m/n/10 node_contour_edges_out() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-
 a-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 133--134
+Underfull \hbox (badness 10000) in paragraph at lines 135--136
 []\T1/pcr/m/n/10 node_coordinates() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.
 KnitNetworkBase
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 135--136
+Underfull \hbox (badness 10000) in paragraph at lines 137--138
 []\T1/pcr/m/n/10 node_geometry() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.Kni
 tNetworkBase
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 136--137
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
 []\T1/pcr/m/n/10 node_warp_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.K
 nitDiNetwork
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 137--138
-[]\T1/pcr/m/n/10 node_warp_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.K
-nitNetworkBase
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 139--140
+[]\T1/pcr/m/n/10 node_warp_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.K
+nitNetworkBase
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--142
 []\T1/pcr/m/n/10 node_warp_edges_out() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 140--141
+Underfull \hbox (badness 10000) in paragraph at lines 142--143
 []\T1/pcr/m/n/10 node_weft_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.K
 nitDiNetwork
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--142
+Underfull \hbox (badness 10000) in paragraph at lines 143--144
 []\T1/pcr/m/n/10 node_weft_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.K
 nitNetworkBase
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--144
+Underfull \hbox (badness 10000) in paragraph at lines 145--146
 []\T1/pcr/m/n/10 node_weft_edges_out() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--146
+Underfull \hbox (badness 10000) in paragraph at lines 147--148
 []\T1/pcr/m/n/10 nodes_on_segment() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.
 KnitNetworkBase
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--157
+Underfull \hbox (badness 10000) in paragraph at lines 157--159
 []\T1/pcr/m/n/10 prepare_for_graphviz() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 168--170
+Underfull \hbox (badness 10000) in paragraph at lines 170--172
 []\T1/pcr/m/n/10 sample_segment_contours() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock
 -a-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 170--172
+Underfull \hbox (badness 10000) in paragraph at lines 172--174
 []\T1/pcr/m/n/10 segment_contour_edges() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a
 -
  []
 
-[38]
-Underfull \hbox (badness 10000) in paragraph at lines 177--178
+[40]
+Underfull \hbox (badness 10000) in paragraph at lines 179--180
 []\T1/pcr/m/n/10 to_KnitDiNetwork() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.
 KnitNetwork
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--184
+Underfull \hbox (badness 10000) in paragraph at lines 185--186
 []\T1/pcr/m/n/10 total_positions() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.K
 nitNetworkBase
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 184--186
+Underfull \hbox (badness 10000) in paragraph at lines 186--188
 []\T1/pcr/m/n/10 traverse_segments_until_warp() \T1/ptm/m/n/10 (\T1/ptm/m/it/10
  cock-a-
  []
 
 
-Overfull \hbox (10.1225pt too wide) in paragraph at lines 186--188
+Overfull \hbox (10.1225pt too wide) in paragraph at lines 188--190
 []\T1/pcr/m/n/10 traverse_weft_edges_and_set_attributes()
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 192--193
+Underfull \hbox (badness 10000) in paragraph at lines 194--195
 []\T1/pcr/m/n/10 verify_dual_form() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 cock-a-too.
 KnitDiNetwork
  []
 
-[39
+[41
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3394.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3394.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3424.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3424.
  (cockatoo.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3394.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3394.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3424.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3424.
 
 Package rerunfilecheck Info: File `cockatoo.out' has not changed.
-(rerunfilecheck)             Checksum: 125E82EB7DC9E51EBCAE2F127EFA7005;1959.
+(rerunfilecheck)             Checksum: 7F639917A3997890A0A424DD4F4CA53D;1959.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3394.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 3424.
  ) 
 Here is how much of TeX's memory you used:
- 13954 strings out of 480797
- 207147 string characters out of 2894169
- 488090 words of memory out of 3000000
+ 13957 strings out of 480797
+ 207232 string characters out of 2894169
+ 488056 words of memory out of 3000000
  29384 multiletter control sequences out of 15000+200000
  597596 words of font info for 108 fonts, out of 3000000 for 9000
  1142 hyphenation exceptions out of 8191
- 38i,12n,49p,945b,688s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,12n,49p,945b,686s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.
 enc}<C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/courie
 r/ucrb8a.pfb><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/u
@@ -1191,9 +1197,9 @@ ers/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb
 ><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utm
 r8a.pfb><C:/Users/EFESTWIN/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/ti
 mes/utmri8a.pfb>
-Output written on cockatoo.pdf (43 pages, 1633787 bytes).
+Output written on cockatoo.pdf (45 pages, 1636412 bytes).
 PDF statistics:
- 845 PDF objects out of 1000 (max. 8388607)
- 206 named destinations out of 1000 (max. 500000)
+ 857 PDF objects out of 1000 (max. 8388607)
+ 209 named destinations out of 1000 (max. 500000)
  159 words of extra memory for PDF output out of 10000 (max. 10000000)
 
