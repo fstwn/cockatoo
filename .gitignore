@@ -5,6 +5,7 @@ __pycache__/
 /dist/
 
 /Examples/*__DEV.gh
+/Examples/00_archive/*__DEV.gh
 
 /UserObjects_deprecated/
 /usrobj_src_deprecated/
