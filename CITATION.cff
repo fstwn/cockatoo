@@ -1,0 +1,42 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Cockatoo
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Max Benjamin
+    name-particle: Max
+    family-names: Eschenbach
+    email: eschenbach@dg.tu-darmstadt.de
+    affiliation: >-
+      Digital Design Unit (DDU), Technical University of
+      Darmstadt
+    orcid: 'https://orcid.org/0000-0002-8190-7047'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.8058685
+    description: The DOI for version 0.1.1.0-alpha of the software
+repository-code: 'https://github.com/fstwn/cockatoo'
+url: 'https://fstwn.github.io/cockatoo/index.html'
+abstract: >-
+  Cockatoo is a prototypical open-source software toolkit
+  for generating (3d-)knitting patterns from NURBS surface
+  and mesh geometry directly inside Grasshopper.
+keywords:
+  - python
+  - rhino
+  - cad
+  - textile
+  - grasshopper
+  - knitting
+  - grasshopper3d
+  - rhino3d
+  - knitting-patterns
+  - knitting-pattern
+  - machine-knitting
+  - computerized-knitting-machines
+license: MIT
